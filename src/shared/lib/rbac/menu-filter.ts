@@ -1,8 +1,8 @@
 import { MenuConfig, MenuItem } from '@/shared/config/types';
-import { hasAnyPermission, UserRole } from './roles';
+import { UserRole } from './roles';
 
 /**
- * Filter menu items based on user role and permissions
+ * Filter menu items based on user role
  */
 export function filterMenuByRole(
   menu: MenuConfig,
@@ -19,12 +19,6 @@ export function filterMenuByRole(
  * Filter a single menu item and its children
  */
 function filterMenuItem(item: MenuItem, role: UserRole): MenuItem | null {
-  // If item has required permissions, check if user has them
-  if (item.requiredPermissions && item.requiredPermissions.length > 0) {
-    const hasAccess = hasAnyPermission(role, item.requiredPermissions);
-    if (!hasAccess) return null;
-  }
-
   // If item has required roles, check if user has one of them
   if (item.requiredRoles && item.requiredRoles.length > 0) {
     const hasRole = item.requiredRoles.includes(role);
