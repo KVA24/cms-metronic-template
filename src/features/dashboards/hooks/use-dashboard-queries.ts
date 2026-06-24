@@ -1,6 +1,6 @@
 import { dashboardApi } from '@/features/dashboards/api/dashboardApi';
-import { useQuery } from '@tanstack/react-query';
 import { useExportWithTimestamp } from '@/shared/hooks/use-export';
+import { useQuery } from '@tanstack/react-query';
 
 // Query keys
 export const dashboardKeys = {
@@ -11,7 +11,7 @@ export const dashboardKeys = {
   campaignStatistics: () => ['dashboard', 'campaignStatistics'] as const,
   membershipTierStatistics: () =>
     ['dashboard', 'membershipTierStatistics'] as const,
-  pointStatistic: (currencyId?: string) => 
+  pointStatistic: (currencyId?: string) =>
     ['dashboard', 'pointStatistic', currencyId] as const,
   dailyPointChart: (fromDate: string, toDate: string, currencyId?: string) =>
     ['dashboard', 'dailyPointChart', fromDate, toDate, currencyId] as const,
@@ -19,7 +19,8 @@ export const dashboardKeys = {
     ['dashboard', 'monthlyPointChart', fromDate, toDate, currencyId] as const,
   currencies: () => ['dashboard', 'currencies'] as const,
   transactionUsers: () => ['dashboard', 'transactionUsers'] as const,
-  top100Users: (currencyId?: string) => ['dashboard', 'top100Users', currencyId] as const,
+  top100Users: (currencyId?: string) =>
+    ['dashboard', 'top100Users', currencyId] as const,
 };
 
 /**
@@ -93,10 +94,15 @@ export function usePointStatistic(currencyId?: string) {
  * Hook to fetch daily point chart data with date range and optional currencyId
  * Only fetches when currencyId is provided
  */
-export function useDailyPointChart(fromDate: string, toDate: string, currencyId?: string) {
+export function useDailyPointChart(
+  fromDate: string,
+  toDate: string,
+  currencyId?: string,
+) {
   return useQuery({
     queryKey: dashboardKeys.dailyPointChart(fromDate, toDate, currencyId),
-    queryFn: () => dashboardApi.getDailyPointChart(fromDate, toDate, currencyId),
+    queryFn: () =>
+      dashboardApi.getDailyPointChart(fromDate, toDate, currencyId),
     retry: false,
     enabled: !!currencyId,
     staleTime: 0,
@@ -108,10 +114,15 @@ export function useDailyPointChart(fromDate: string, toDate: string, currencyId?
  * Hook to fetch monthly point chart data with date range and optional currencyId
  * Only fetches when currencyId is provided
  */
-export function useMonthlyPointChart(fromDate: string, toDate: string, currencyId?: string) {
+export function useMonthlyPointChart(
+  fromDate: string,
+  toDate: string,
+  currencyId?: string,
+) {
   return useQuery({
     queryKey: dashboardKeys.monthlyPointChart(fromDate, toDate, currencyId),
-    queryFn: () => dashboardApi.getMonthlyPointChart(fromDate, toDate, currencyId),
+    queryFn: () =>
+      dashboardApi.getMonthlyPointChart(fromDate, toDate, currencyId),
     retry: false,
     enabled: !!currencyId, // Only fetch when currencyId is available
     staleTime: 0,
@@ -165,7 +176,8 @@ export function useTop100Users(currencyId?: string) {
  */
 export function useExportTop100Users() {
   return useExportWithTimestamp({
-    exportFn: (currencyId: string) => dashboardApi.exportTop100Users(currencyId),
+    exportFn: (currencyId: string) =>
+      dashboardApi.exportTop100Users(currencyId),
     filenamePrefix: 'top-100-users',
     extension: 'xlsx',
     successMessage: 'Top 100 users exported successfully',

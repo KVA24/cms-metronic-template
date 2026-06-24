@@ -63,9 +63,7 @@ export const authApi = {
   /**
    * Login user with email and password
    */
-  login: async (
-    credentials: LoginCredentials,
-  ): Promise<LoginResponse> => {
+  login: async (credentials: LoginCredentials): Promise<LoginResponse> => {
     try {
       const response = await axiosInstance.post<any>(
         `/api/auth/p/generate-token`,

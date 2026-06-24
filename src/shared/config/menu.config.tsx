@@ -1,4 +1,4 @@
-import {Permission, UserRole} from '@/shared/lib/rbac/roles';
+import { Permission, UserRole } from '@/shared/lib/rbac/roles';
 import {
   AlertCircle,
   Award,
@@ -8,18 +8,16 @@ import {
   Bitcoin,
   Book,
   Briefcase,
-  Briefcase as WorkIcon,
   Building,
   CalendarCheck,
   Captions,
   CheckCircle,
   ClipboardList,
-  Clock,
   Code,
   Coffee,
+  File as DocumentIcon,
   Euro,
   Eye,
-  File as DocumentIcon,
   File,
   FileQuestion,
   FileText,
@@ -37,7 +35,7 @@ import {
   MessageSquare,
   Monitor,
   Network,
-  Package,
+  Users as PeopleIcon,
   Plug,
   Settings,
   Share2,
@@ -50,11 +48,11 @@ import {
   TrendingUp,
   UserCheck,
   UserCircle,
-  Users as PeopleIcon,
   Users,
+  Briefcase as WorkIcon,
   Zap,
 } from 'lucide-react';
-import {type MenuConfig} from './types';
+import { type MenuConfig } from './types';
 
 export const MENU_SIDEBAR: MenuConfig = [
   {
@@ -64,173 +62,6 @@ export const MENU_SIDEBAR: MenuConfig = [
     path: '/dashboards',
     requiredPermissions: [Permission.VIEW_DASHBOARD],
     requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-  },
-  {
-    title: 'User',
-    translationKey: 'SIDEBAR.USER',
-    icon: UserCircle,
-    path: '/users',
-    requiredPermissions: [Permission.VIEW_USER],
-    requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR, UserRole.CS],
-  },
-  {
-    title: 'Campaigns',
-    translationKey: 'SIDEBAR.CAMPAIGNS',
-    icon: Flag,
-    requiredPermissions: [Permission.VIEW_CAMPAIGN],
-    requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-    children: [
-      {
-        title: 'Campaigns',
-        translationKey: 'SIDEBAR.CAMPAIGNS_CAMPAIGNS',
-        path: '/campaigns',
-        requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-      },
-      {
-        title: 'Metadata',
-        translationKey: 'SIDEBAR.CAMPAIGNS_METADATA',
-        path: '/metadata',
-        requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-      },
-      {
-        title: 'Event Schema',
-        translationKey: 'SIDEBAR.CAMPAIGNS_EVENT_SCHEMA',
-        path: '/event-schemas',
-        requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-      },
-      {
-        title: 'Validatation Rule',
-        translationKey: 'SIDEBAR.CAMPAIGNS_VALIDATE_RULE',
-        path: '/validation-rules',
-        requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-      },
-      {
-        title: 'Categories',
-        translationKey: 'SIDEBAR.CAMPAIGNS_CATEGORIES',
-        path: '/categories',
-        requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-      },
-    ],
-  },
-  {
-    title: 'Membership Tiers',
-    translationKey: 'SIDEBAR.MEMBERSHIP_TIERS',
-    icon: Award,
-    requiredPermissions: [Permission.VIEW_TIER],
-    requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-    children: [
-      {
-        title: 'Tier Definitions',
-        translationKey: 'SIDEBAR.MEMBERSHIP_TIERS_TIER_DEFINITIONS',
-        path: '/tiers',
-        requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-      },
-      {
-        title: 'Tier Configuration',
-        translationKey: 'SIDEBAR.MEMBERSHIP_TIERS_CONFIG_DOWNGRADE_RULES',
-        path: '/tier-downgrade-rules',
-        requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-      },
-      {
-        title: 'Metric Definitions',
-        translationKey: 'SIDEBAR.MEMBERSHIP_TIERS_METRIC_DEFINITIONS',
-        path: '/tier-metrics',
-        requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-      },
-    ],
-  },
-  {
-    title: 'Partners',
-    translationKey: 'SIDEBAR.PARTNERS',
-    icon: Briefcase,
-    path: '/partners',
-    requiredPermissions: [Permission.VIEW_PARTNER],
-    requiredRoles: [UserRole.ADMIN],
-  },
-  {
-    title: 'Currency',
-    translationKey: 'SIDEBAR.CURRENCY',
-    icon: Bitcoin,
-    requiredPermissions: [Permission.VIEW_CURRENCY],
-    requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-    children: [
-      {
-        title: 'Currency',
-        translationKey: 'SIDEBAR.CURRENCY',
-        icon: Bitcoin,
-        path: '/currencies',
-        requiredPermissions: [Permission.VIEW_CURRENCY],
-        requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-      },
-      {
-        title: 'Expiry Policies',
-        translationKey: 'SIDEBAR.EXPIRY_POLICIES',
-        icon: Clock,
-        path: '/expiry-policies',
-        requiredPermissions: [Permission.VIEW_EXPIRY_POLICY],
-        requiredRoles: [UserRole.ADMIN],
-      },
-    ],
-  },
-  {
-    title: 'Redemption',
-    translationKey: 'SIDEBAR.REDEMPTION',
-    icon: Package,
-    requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR, UserRole.CS],
-    children: [
-      {
-        title: 'Redemption Package',
-        translationKey: 'SIDEBAR.REDEMPTION_PACKAGE',
-        path: '/redemption-packages',
-        requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-      },
-      {
-        title: 'Transaction',
-        translationKey: 'SIDEBAR.REDEMPTION_TRANSACTION',
-        path: '/reward-transactions',
-        requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR, UserRole.CS],
-      },
-    ],
-  },
-  {
-    title: 'Game',
-    translationKey: 'SIDEBAR.GAME',
-    icon: Zap,
-    requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR, UserRole.CS],
-    children: [
-      {
-        title: 'Item',
-        translationKey: 'SIDEBAR.GAME_ITEM',
-        path: '/game-items',
-        requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-      },
-      {
-        title: 'Reward',
-        translationKey: 'SIDEBAR.GAME_REWARD',
-        path: '/game-rewards',
-        requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-      },
-      {
-        title: 'Pool',
-        translationKey: 'SIDEBAR.GAME_POOL',
-        path: '/game-pools',
-        requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
-      },
-      {
-        title: 'Game Transactions',
-        translationKey: 'SIDEBAR.GAME_TRANSACTION',
-        path: '/game-transactions',
-        requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR, UserRole.CS],
-      },
-    ],
-  },
-  {
-    title: 'Transaction Points',
-    translationKey: 'SIDEBAR.TRANSACTIONS',
-    icon: TrendingUp,
-    path: '/point-history',
-    requiredPermissions: [Permission.VIEW__POINT_TRANSACTION],
-    requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR, UserRole.CS],
   },
   {
     title: 'Configuration',

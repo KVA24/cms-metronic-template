@@ -36,9 +36,7 @@ const TwoFactorAuth = () => {
           <span className="text-sm text-secondary-foreground mb-1.5">
             Enter the verification code we sent to
           </span>
-          <span className="text-sm font-medium text-mono">
-            ****** 7859
-          </span>
+          <span className="text-sm font-medium text-mono">****** 7859</span>
         </div>
       </div>
 

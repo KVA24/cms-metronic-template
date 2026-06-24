@@ -6,13 +6,13 @@ import { BrowserRouter } from 'react-router-dom';
 import { LoadingBarContainer } from 'react-top-loading-bar';
 import { AppRouting } from '@/app/routing/app-routing';
 import { AuthInitializer } from './app/auth/auth-initializer';
-import { useApiLoading } from './shared/hooks/use-api-loading';
 import { I18nProvider } from './app/providers/i18n-provider';
 import { QueryProvider } from './app/providers/query-provider';
 import { RecaptchaInitializer } from './app/providers/recaptcha-initializer';
 import { SettingsProvider } from './app/providers/settings-provider';
 import { ThemeProvider } from './app/providers/theme-provider';
 import { TooltipsProvider } from './app/providers/tooltips-provider';
+import { useApiLoading } from './shared/hooks/use-api-loading';
 import './shared/i18n/i18n';
 import { generalConfig } from '@/shared/config/general.config';
 
@@ -25,7 +25,7 @@ const RECAPTCHA_SITE_KEY =
 
 function AppContent() {
   useApiLoading(); // Track API loading
-  
+
   return (
     <BrowserRouter basename={BASE_URL}>
       <GoogleReCaptchaProvider

@@ -95,7 +95,7 @@ export function TypingText({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  
+
   // Use ref to store callback to avoid re-running effect when callback changes
   const onCompleteRef = useRef(onComplete);
   useEffect(() => {
@@ -142,15 +142,7 @@ export function TypingText({
         return () => clearTimeout(timeout);
       }
     }
-  }, [
-    currentIndex,
-    currentText,
-    isTyping,
-    speed,
-    loop,
-    texts,
-    pauseDuration,
-  ]);
+  }, [currentIndex, currentText, isTyping, speed, loop, texts, pauseDuration]);
 
   // Animation variants for container (fadeIn by default, extendable)
   const finalVariants = {

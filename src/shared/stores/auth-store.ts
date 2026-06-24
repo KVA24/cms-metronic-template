@@ -104,9 +104,7 @@ export const useAuthStore = create<AuthState>()(
         /**
          * Login user
          */
-        login: async (
-          credentials: LoginCredentials,
-        ): Promise<void> => {
+        login: async (credentials: LoginCredentials): Promise<void> => {
           set({ isLoading: true, error: null });
 
           try {
@@ -221,7 +219,7 @@ const initPromises = new WeakMap<typeof useAuthStore, Promise<void>>();
 
 export const initializeAuth = async () => {
   const store = useAuthStore;
-  
+
   // Check if already initializing
   const existingPromise = initPromises.get(store);
   if (existingPromise) {

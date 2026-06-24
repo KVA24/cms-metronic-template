@@ -78,7 +78,7 @@ export enum Permission {
   // Currency permissions
   VIEW_EXPIRY_POLICY = 'view_expiry_policy',
   MANAGE_EXPIRY_POLICY = 'manage_expiry_policy',
-  
+
   VIEW__POINT_TRANSACTION = 'view_point_transaction',
 }
 

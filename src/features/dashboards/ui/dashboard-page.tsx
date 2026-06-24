@@ -1,27 +1,59 @@
-import {useMemo, useState} from 'react';
+import { useMemo, useState } from 'react';
 import {
   useCampaignStatistics,
   useCustomerDashboard,
   useCustomerStatistics,
   useDailyPointChart,
   useDashboardCurrencies,
+  useExportTop100Users,
   useMembershipTierStatistics,
   useMonthlyPointChart,
   usePointStatistic,
-  useTransactionUsers,
   useTop100Users,
-  useExportTop100Users,
+  useTransactionUsers,
 } from '@/features/dashboards/hooks/use-dashboard-queries';
-import {Alert, AlertDescription, AlertIcon, AlertTitle,} from '@/shared/ui/atoms/alert';
-import {Card, CardContent, CardHeader, CardTitle,} from '@/shared/ui/atoms/card';
+import { UserRole } from '@/shared/lib/rbac';
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+} from '@/shared/ui/atoms/alert';
+import { Button } from '@/shared/ui/atoms/button.tsx';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/shared/ui/atoms/card';
 import DateRangePicker from '@/shared/ui/atoms/date-range-picker';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/shared/ui/atoms/dialog';
 import MonthRangePicker from '@/shared/ui/atoms/month-range-picker';
-import {Dialog, DialogContent, DialogHeader, DialogTitle,} from '@/shared/ui/atoms/dialog';
-import {Tooltip, TooltipContent, TooltipTrigger,} from '@/shared/ui/atoms/tooltip';
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from '@/shared/ui/atoms/select';
-import {Toolbar, ToolbarHeading, ToolbarPageTitle,} from '@/shared/ui/molecules/common/toolbar';
-import {Container} from '@/shared/ui/molecules/container';
-import {format, startOfMonth} from 'date-fns';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/shared/ui/atoms/tooltip';
+import {
+  Toolbar,
+  ToolbarHeading,
+  ToolbarPageTitle,
+} from '@/shared/ui/molecules/common/toolbar';
+import { Container } from '@/shared/ui/molecules/container';
+import { PermissionGuard } from '@/shared/ui/molecules/permission-guard.tsx';
+import { format, startOfMonth } from 'date-fns';
 import {
   AlertCircle,
   Download,
@@ -33,48 +65,50 @@ import {
   Users,
 } from 'lucide-react';
 import Chart from 'react-apexcharts';
-import {DateRange} from 'react-day-picker';
-import {useTranslation} from 'react-i18next';
-import {UserRole} from "@/shared/lib/rbac";
-import {Button} from "@/shared/ui/atoms/button.tsx";
-import {PermissionGuard} from "@/shared/ui/molecules/permission-guard.tsx";
+import { DateRange } from 'react-day-picker';
+import { useTranslation } from 'react-i18next';
 
 const DashboardPage = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [isChartDialogOpen, setIsChartDialogOpen] = useState(false);
-  
+
   // Currency state
   const [selectedCurrencyId, setSelectedCurrencyId] = useState<string>('');
-  
+
   // Fetch currencies from dashboard API
-  const {data: currencies = [], isLoading: isLoadingCurrencies} = useDashboardCurrencies();
-  
+  const { data: currencies = [], isLoading: isLoadingCurrencies } =
+    useDashboardCurrencies();
+
   // Set default currency when currencies are loaded
   useMemo(() => {
     if (currencies.length > 0 && !selectedCurrencyId) {
       setSelectedCurrencyId(currencies[0].id);
     }
   }, [currencies, selectedCurrencyId]);
-  
+
   // Dialog states for point charts
   const [isDpeChartOpen, setIsDpeChartOpen] = useState(false);
   const [isMpeChartOpen, setIsMpeChartOpen] = useState(false);
   const [isDpdChartOpen, setIsDpdChartOpen] = useState(false);
   const [isMpdChartOpen, setIsMpdChartOpen] = useState(false);
-  
+
   // DateRange state for chart dialog only
   const [chartDateRange, setChartDateRange] = useState<DateRange | undefined>({
     from: startOfMonth(new Date()),
     to: new Date(),
   });
-  
+
   // DateRange states for point charts
-  const [dpeChartDateRange, setDpeChartDateRange] = useState<DateRange | undefined>({
+  const [dpeChartDateRange, setDpeChartDateRange] = useState<
+    DateRange | undefined
+  >({
     from: startOfMonth(new Date()),
     to: new Date(),
   });
-  
-  const [mpeChartDateRange, setMpeChartDateRange] = useState<DateRange | undefined>(() => {
+
+  const [mpeChartDateRange, setMpeChartDateRange] = useState<
+    DateRange | undefined
+  >(() => {
     const now = new Date();
     const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1);
     return {
@@ -82,13 +116,17 @@ const DashboardPage = () => {
       to: new Date(now.getFullYear(), now.getMonth(), 1),
     };
   });
-  
-  const [dpdChartDateRange, setDpdChartDateRange] = useState<DateRange | undefined>({
+
+  const [dpdChartDateRange, setDpdChartDateRange] = useState<
+    DateRange | undefined
+  >({
     from: startOfMonth(new Date()),
     to: new Date(),
   });
-  
-  const [mpdChartDateRange, setMpdChartDateRange] = useState<DateRange | undefined>(() => {
+
+  const [mpdChartDateRange, setMpdChartDateRange] = useState<
+    DateRange | undefined
+  >(() => {
     const now = new Date();
     const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1);
     return {
@@ -96,7 +134,7 @@ const DashboardPage = () => {
       to: new Date(now.getFullYear(), now.getMonth(), 1),
     };
   });
-  
+
   // Format dates for chart API
   const chartFromDate = useMemo(
     () =>
@@ -105,7 +143,7 @@ const DashboardPage = () => {
         : format(startOfMonth(new Date()), 'yyyy-MM-dd'),
     [chartDateRange?.from],
   );
-  
+
   const chartToDate = useMemo(
     () =>
       chartDateRange?.to
@@ -113,44 +151,68 @@ const DashboardPage = () => {
         : format(new Date(), 'yyyy-MM-dd'),
     [chartDateRange?.to],
   );
-  
+
   // Format dates for point charts
   const dpeFromDate = useMemo(
-    () => dpeChartDateRange?.from ? format(dpeChartDateRange.from, 'yyyy-MM-dd') : format(startOfMonth(new Date()), 'yyyy-MM-dd'),
+    () =>
+      dpeChartDateRange?.from
+        ? format(dpeChartDateRange.from, 'yyyy-MM-dd')
+        : format(startOfMonth(new Date()), 'yyyy-MM-dd'),
     [dpeChartDateRange?.from],
   );
   const dpeToDate = useMemo(
-    () => dpeChartDateRange?.to ? format(dpeChartDateRange.to, 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd'),
+    () =>
+      dpeChartDateRange?.to
+        ? format(dpeChartDateRange.to, 'yyyy-MM-dd')
+        : format(new Date(), 'yyyy-MM-dd'),
     [dpeChartDateRange?.to],
   );
-  
+
   const mpeFromDate = useMemo(
-    () => mpeChartDateRange?.from ? format(mpeChartDateRange.from, 'yyyy-MM-dd') : format(startOfMonth(new Date()), 'yyyy-MM-dd'),
+    () =>
+      mpeChartDateRange?.from
+        ? format(mpeChartDateRange.from, 'yyyy-MM-dd')
+        : format(startOfMonth(new Date()), 'yyyy-MM-dd'),
     [mpeChartDateRange?.from],
   );
   const mpeToDate = useMemo(
-    () => mpeChartDateRange?.to ? format(mpeChartDateRange.to, 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd'),
+    () =>
+      mpeChartDateRange?.to
+        ? format(mpeChartDateRange.to, 'yyyy-MM-dd')
+        : format(new Date(), 'yyyy-MM-dd'),
     [mpeChartDateRange?.to],
   );
-  
+
   const dpdFromDate = useMemo(
-    () => dpdChartDateRange?.from ? format(dpdChartDateRange.from, 'yyyy-MM-dd') : format(startOfMonth(new Date()), 'yyyy-MM-dd'),
+    () =>
+      dpdChartDateRange?.from
+        ? format(dpdChartDateRange.from, 'yyyy-MM-dd')
+        : format(startOfMonth(new Date()), 'yyyy-MM-dd'),
     [dpdChartDateRange?.from],
   );
   const dpdToDate = useMemo(
-    () => dpdChartDateRange?.to ? format(dpdChartDateRange.to, 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd'),
+    () =>
+      dpdChartDateRange?.to
+        ? format(dpdChartDateRange.to, 'yyyy-MM-dd')
+        : format(new Date(), 'yyyy-MM-dd'),
     [dpdChartDateRange?.to],
   );
-  
+
   const mpdFromDate = useMemo(
-    () => mpdChartDateRange?.from ? format(mpdChartDateRange.from, 'yyyy-MM-dd') : format(startOfMonth(new Date()), 'yyyy-MM-dd'),
+    () =>
+      mpdChartDateRange?.from
+        ? format(mpdChartDateRange.from, 'yyyy-MM-dd')
+        : format(startOfMonth(new Date()), 'yyyy-MM-dd'),
     [mpdChartDateRange?.from],
   );
   const mpdToDate = useMemo(
-    () => mpdChartDateRange?.to ? format(mpdChartDateRange.to, 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd'),
+    () =>
+      mpdChartDateRange?.to
+        ? format(mpdChartDateRange.to, 'yyyy-MM-dd')
+        : format(new Date(), 'yyyy-MM-dd'),
     [mpdChartDateRange?.to],
   );
-  
+
   // Fetch all dashboard data (without date params)
   // Fetch dashboard data separately with individual loading states
   const {
@@ -158,168 +220,63 @@ const DashboardPage = () => {
     isLoading: isLoadingCustomerStatistics,
     error: customerStatisticsError,
   } = useCustomerStatistics();
-  
+
   const {
     data: campaignStatistics,
     isLoading: isLoadingCampaignStatistics,
     error: campaignStatisticsError,
   } = useCampaignStatistics();
-  
+
   const {
     data: membershipTier,
     isLoading: isLoadingMembershipTier,
     error: membershipTierError,
   } = useMembershipTierStatistics();
-  
-  const {data: transactionUsers, isLoading: isLoadingTransactionUsers} =
+
+  const { data: transactionUsers, isLoading: isLoadingTransactionUsers } =
     useTransactionUsers();
-  
-  const {data: pointStatistic, isLoading: isLoadingPointStatistic} =
+
+  const { data: pointStatistic, isLoading: isLoadingPointStatistic } =
     usePointStatistic(selectedCurrencyId);
-  
+
   // Fetch customer dashboard data separately with date range
   const {
     data: customerDashboard = [],
     isLoading: isLoadingCustomerDashboard,
   } = useCustomerDashboard(chartFromDate, chartToDate);
-  
+
   // Fetch point chart data with currencyId
-  const {
-    data: dpeChartData = [],
-    isLoading: isLoadingDpeChart
-  } = useDailyPointChart(dpeFromDate, dpeToDate, selectedCurrencyId);
-  const {
-    data: mpeChartData = [],
-    isLoading: isLoadingMpeChart
-  } = useMonthlyPointChart(mpeFromDate, mpeToDate, selectedCurrencyId);
-  const {
-    data: dpdChartData = [],
-    isLoading: isLoadingDpdChart
-  } = useDailyPointChart(dpdFromDate, dpdToDate, selectedCurrencyId);
-  const {
-    data: mpdChartData = [],
-    isLoading: isLoadingMpdChart
-  } = useMonthlyPointChart(mpdFromDate, mpdToDate, selectedCurrencyId);
-  
+  const { data: dpeChartData = [], isLoading: isLoadingDpeChart } =
+    useDailyPointChart(dpeFromDate, dpeToDate, selectedCurrencyId);
+  const { data: mpeChartData = [], isLoading: isLoadingMpeChart } =
+    useMonthlyPointChart(mpeFromDate, mpeToDate, selectedCurrencyId);
+  const { data: dpdChartData = [], isLoading: isLoadingDpdChart } =
+    useDailyPointChart(dpdFromDate, dpdToDate, selectedCurrencyId);
+  const { data: mpdChartData = [], isLoading: isLoadingMpdChart } =
+    useMonthlyPointChart(mpdFromDate, mpdToDate, selectedCurrencyId);
+
   // Fetch top 100 users with currencyId
-  const {data: top100Users = [], isLoading: isLoadingTop100Users} = useTop100Users(selectedCurrencyId);
-  
+  const { data: top100Users = [], isLoading: isLoadingTop100Users } =
+    useTop100Users(selectedCurrencyId);
+
   // Export top 100 users mutation
   const exportTop100UsersMutation = useExportTop100Users();
-  
+
   // Handle export top 100 users
   const handleExportTop100Users = () => {
     if (selectedCurrencyId) {
       exportTop100UsersMutation.mutate(selectedCurrencyId);
     }
   };
-  
+
   // Chart data for customer dashboard line chart - MEMOIZED
-  const customerChartOptions = useMemo(() => ({
-    chart: {
-      type: 'line' as const,
-      toolbar: {
-        show: true,
-      },
-      zoom: {
-        enabled: false,
-      },
-      download: {
-        enabled: true,
-      },
-    },
-    stroke: {
-      curve: 'smooth' as const,
-      width: 3,
-    },
-    xaxis: {
-      categories: customerDashboard.map((item) => {
-        // Convert date string to dd/MM format (short format)
-        const date = new Date(item.date);
-        return `${date.getDate()}/${date.getMonth() + 1}`;
-      }),
-      type: 'category' as const,
-      tickAmount: Math.min(10, customerDashboard.length),
-      labels: {
-        rotate: -45,
-        rotateAlways: false,
-        style: {
-          fontSize: '11px',
-        },
-        trim: false,
-      },
-      tickPlacement: 'on',
-    },
-    yaxis: {
-      title: {
-        text: t('DASHBOARD.CUSTOMER_DASHBOARD.TOTAL_USERS'),
-      },
-      labels: {
-        style: {
-          fontSize: '11px',
-        },
-        formatter: (value: number) => {
-          if (value >= 1000000) {
-            return `${(value / 1000000).toFixed(1)}M`;
-          } else if (value >= 1000) {
-            return `${Math.floor(value / 1000)}k`;
-          }
-          return Math.round(value).toString();
-        },
-      },
-      forceNiceScale: true,
-      decimalsInFloat: 0,
-    },
-    tooltip: {
-      theme: 'light' as const,
-      x: {
-        formatter: (_val: number, opts: any) => {
-          const date = customerDashboard[opts.dataPointIndex]?.date;
-          return date ? format(new Date(date), 'dd/MM/yyyy') : '';
-        },
-      },
-      y: {
-        formatter: (value: number) => `${value.toLocaleString('vi-VN')} users`,
-      },
-    },
-    grid: {
-      borderColor: '#e7e7e7',
-      row: {
-        colors: ['#f3f3f3', 'transparent'],
-        opacity: 0.5,
-      },
-    },
-    markers: {
-      size: 4,
-      hover: {
-        size: 6,
-      },
-    },
-  }), [customerDashboard, t]);
-  
-  const customerChartSeries = useMemo(() => [
-    {
-      name: t('DASHBOARD.CUSTOMER_DASHBOARD.TOTAL_USERS'),
-      data: customerDashboard.map((item) => item.total),
-    },
-  ], [customerDashboard, t]);
-  
-  // Helper function to create point chart options - MEMOIZED with useCallback
-  const createPointChartOptions = useMemo(() => (data: any[], type: 'earn' | 'burn', title: string, chartType: 'daily' | 'monthly') => {
-    const categories = data.map((item) => {
-      if (chartType === 'daily') {
-        const date = new Date(item.label);
-        return format(date, 'dd/MM/yyyy');
-      }
-      return item.label;
-    });
-    
-    const color = type === 'earn' ? '#16a34a' : '#ea580c';
-    
-    return {
+  const customerChartOptions = useMemo(
+    () => ({
       chart: {
         type: 'line' as const,
-        toolbar: {show: true},
+        toolbar: {
+          show: true,
+        },
         zoom: {
           enabled: false,
         },
@@ -331,26 +288,38 @@ const DashboardPage = () => {
         curve: 'smooth' as const,
         width: 3,
       },
-      colors: [color],
       xaxis: {
-        categories,
+        categories: customerDashboard.map((item) => {
+          // Convert date string to dd/MM format (short format)
+          const date = new Date(item.date);
+          return `${date.getDate()}/${date.getMonth() + 1}`;
+        }),
         type: 'category' as const,
-        tickAmount: Math.min(10, categories.length),
+        tickAmount: Math.min(10, customerDashboard.length),
         labels: {
           rotate: -45,
           rotateAlways: false,
-          style: {fontSize: '11px'},
+          style: {
+            fontSize: '11px',
+          },
           trim: false,
         },
         tickPlacement: 'on',
       },
       yaxis: {
-        title: {text: title},
+        title: {
+          text: t('DASHBOARD.CUSTOMER_DASHBOARD.TOTAL_USERS'),
+        },
         labels: {
-          style: {fontSize: '11px'},
+          style: {
+            fontSize: '11px',
+          },
           formatter: (value: number) => {
-            if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`;
-            else if (value >= 1000) return `${Math.floor(value / 1000)}k`;
+            if (value >= 1000000) {
+              return `${(value / 1000000).toFixed(1)}M`;
+            } else if (value >= 1000) {
+              return `${Math.floor(value / 1000)}k`;
+            }
             return Math.round(value).toString();
           },
         },
@@ -360,10 +329,14 @@ const DashboardPage = () => {
       tooltip: {
         theme: 'light' as const,
         x: {
-          show: true,
+          formatter: (_val: number, opts: any) => {
+            const date = customerDashboard[opts.dataPointIndex]?.date;
+            return date ? format(new Date(date), 'dd/MM/yyyy') : '';
+          },
         },
         y: {
-          formatter: (value: number) => `${value.toLocaleString('vi-VN')} pts`,
+          formatter: (value: number) =>
+            `${value.toLocaleString('vi-VN')} users`,
         },
       },
       grid: {
@@ -375,51 +348,174 @@ const DashboardPage = () => {
       },
       markers: {
         size: 4,
-        hover: {size: 6},
+        hover: {
+          size: 6,
+        },
       },
-    };
-  }, []);
-  
+    }),
+    [customerDashboard, t],
+  );
+
+  const customerChartSeries = useMemo(
+    () => [
+      {
+        name: t('DASHBOARD.CUSTOMER_DASHBOARD.TOTAL_USERS'),
+        data: customerDashboard.map((item) => item.total),
+      },
+    ],
+    [customerDashboard, t],
+  );
+
+  // Helper function to create point chart options - MEMOIZED with useCallback
+  const createPointChartOptions = useMemo(
+    () =>
+      (
+        data: any[],
+        type: 'earn' | 'burn',
+        title: string,
+        chartType: 'daily' | 'monthly',
+      ) => {
+        const categories = data.map((item) => {
+          if (chartType === 'daily') {
+            const date = new Date(item.label);
+            return format(date, 'dd/MM/yyyy');
+          }
+          return item.label;
+        });
+
+        const color = type === 'earn' ? '#16a34a' : '#ea580c';
+
+        return {
+          chart: {
+            type: 'line' as const,
+            toolbar: { show: true },
+            zoom: {
+              enabled: false,
+            },
+            download: {
+              enabled: true,
+            },
+          },
+          stroke: {
+            curve: 'smooth' as const,
+            width: 3,
+          },
+          colors: [color],
+          xaxis: {
+            categories,
+            type: 'category' as const,
+            tickAmount: Math.min(10, categories.length),
+            labels: {
+              rotate: -45,
+              rotateAlways: false,
+              style: { fontSize: '11px' },
+              trim: false,
+            },
+            tickPlacement: 'on',
+          },
+          yaxis: {
+            title: { text: title },
+            labels: {
+              style: { fontSize: '11px' },
+              formatter: (value: number) => {
+                if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`;
+                else if (value >= 1000) return `${Math.floor(value / 1000)}k`;
+                return Math.round(value).toString();
+              },
+            },
+            forceNiceScale: true,
+            decimalsInFloat: 0,
+          },
+          tooltip: {
+            theme: 'light' as const,
+            x: {
+              show: true,
+            },
+            y: {
+              formatter: (value: number) =>
+                `${value.toLocaleString('vi-VN')} pts`,
+            },
+          },
+          grid: {
+            borderColor: '#e7e7e7',
+            row: {
+              colors: ['#f3f3f3', 'transparent'],
+              opacity: 0.5,
+            },
+          },
+          markers: {
+            size: 4,
+            hover: { size: 6 },
+          },
+        };
+      },
+    [],
+  );
+
   // DPE Chart - MEMOIZED
-  const dpeChartOptions = useMemo(() =>
-      createPointChartOptions(dpeChartData, 'earn', t('DASHBOARD.POINT_STATS.DAILY_EARNED'), 'daily'),
-    [dpeChartData, createPointChartOptions, t]
+  const dpeChartOptions = useMemo(
+    () =>
+      createPointChartOptions(
+        dpeChartData,
+        'earn',
+        t('DASHBOARD.POINT_STATS.DAILY_EARNED'),
+        'daily',
+      ),
+    [dpeChartData, createPointChartOptions, t],
   );
-  const dpeChartSeries = useMemo(() =>
-      [{name: 'DPE', data: dpeChartData.map((item) => item.earnTotal)}],
-    [dpeChartData]
+  const dpeChartSeries = useMemo(
+    () => [{ name: 'DPE', data: dpeChartData.map((item) => item.earnTotal) }],
+    [dpeChartData],
   );
-  
+
   // MPE Chart - MEMOIZED
-  const mpeChartOptions = useMemo(() =>
-      createPointChartOptions(mpeChartData, 'earn', t('DASHBOARD.POINT_STATS.MONTHLY_EARNED'), 'monthly'),
-    [mpeChartData, createPointChartOptions, t]
+  const mpeChartOptions = useMemo(
+    () =>
+      createPointChartOptions(
+        mpeChartData,
+        'earn',
+        t('DASHBOARD.POINT_STATS.MONTHLY_EARNED'),
+        'monthly',
+      ),
+    [mpeChartData, createPointChartOptions, t],
   );
-  const mpeChartSeries = useMemo(() =>
-      [{name: 'MPE', data: mpeChartData.map((item) => item.earnTotal)}],
-    [mpeChartData]
+  const mpeChartSeries = useMemo(
+    () => [{ name: 'MPE', data: mpeChartData.map((item) => item.earnTotal) }],
+    [mpeChartData],
   );
-  
+
   // DPD Chart - MEMOIZED
-  const dpdChartOptions = useMemo(() =>
-      createPointChartOptions(dpdChartData, 'burn', t('DASHBOARD.POINT_STATS.DAILY_DEDUCTED'), 'daily'),
-    [dpdChartData, createPointChartOptions, t]
+  const dpdChartOptions = useMemo(
+    () =>
+      createPointChartOptions(
+        dpdChartData,
+        'burn',
+        t('DASHBOARD.POINT_STATS.DAILY_DEDUCTED'),
+        'daily',
+      ),
+    [dpdChartData, createPointChartOptions, t],
   );
-  const dpdChartSeries = useMemo(() =>
-      [{name: 'DPD', data: dpdChartData.map((item) => item.burnTotal)}],
-    [dpdChartData]
+  const dpdChartSeries = useMemo(
+    () => [{ name: 'DPD', data: dpdChartData.map((item) => item.burnTotal) }],
+    [dpdChartData],
   );
-  
+
   // MPD Chart - MEMOIZED
-  const mpdChartOptions = useMemo(() =>
-      createPointChartOptions(mpdChartData, 'burn', t('DASHBOARD.POINT_STATS.MONTHLY_DEDUCTED'), 'monthly'),
-    [mpdChartData, createPointChartOptions, t]
+  const mpdChartOptions = useMemo(
+    () =>
+      createPointChartOptions(
+        mpdChartData,
+        'burn',
+        t('DASHBOARD.POINT_STATS.MONTHLY_DEDUCTED'),
+        'monthly',
+      ),
+    [mpdChartData, createPointChartOptions, t],
   );
-  const mpdChartSeries = useMemo(() =>
-      [{name: 'MPD', data: mpdChartData.map((item) => item.burnTotal)}],
-    [mpdChartData]
+  const mpdChartSeries = useMemo(
+    () => [{ name: 'MPD', data: mpdChartData.map((item) => item.burnTotal) }],
+    [mpdChartData],
   );
-  
+
   // Pie chart data for membership tiers
   const TIER_COLORS: Record<string, string> = {
     Silver: '#9CA3AF',
@@ -435,28 +531,29 @@ const DashboardPage = () => {
     '#3B82F6',
     '#10B981',
   ];
-  
+
   const tierEntries = useMemo(() => {
     if (!membershipTier?.items) return [];
-    
+
     const totalUsers = membershipTier.items.reduce(
       (sum, item) => sum + item.totalUser,
       0,
     );
-    
+
     return membershipTier.items.map((item, i) => ({
       name: item.tierName,
       count: item.totalUser,
-      percentage: totalUsers > 0 ? Math.round((item.totalUser / totalUsers) * 100) : 0,
+      percentage:
+        totalUsers > 0 ? Math.round((item.totalUser / totalUsers) * 100) : 0,
       color:
         TIER_COLORS[item.tierName] ??
         TIER_COLOR_FALLBACKS[i % TIER_COLOR_FALLBACKS.length],
     }));
   }, [membershipTier]);
-  
+
   const tierChartOptions = useMemo(
     () => ({
-      chart: {type: 'donut' as const, sparkline: {enabled: false}},
+      chart: { type: 'donut' as const, sparkline: { enabled: false } },
       labels: tierEntries.map((t) => t.name),
       colors: tierEntries.map((t) => t.color),
       plotOptions: {
@@ -472,7 +569,7 @@ const DashboardPage = () => {
                 color: '#6B7280',
                 fontWeight: 400,
                 formatter: () =>
-                  (membershipTier?.totalUser ?? 0).toLocaleString('vi-VN')
+                  (membershipTier?.totalUser ?? 0).toLocaleString('vi-VN'),
               },
               value: {
                 show: true,
@@ -484,9 +581,9 @@ const DashboardPage = () => {
           },
         },
       },
-      dataLabels: {enabled: false},
-      legend: {show: false},
-      stroke: {width: 0},
+      dataLabels: { enabled: false },
+      legend: { show: false },
+      stroke: { width: 0 },
       tooltip: {
         y: {
           formatter: (val: number) => `${val.toLocaleString('vi-VN')} users`,
@@ -495,46 +592,50 @@ const DashboardPage = () => {
     }),
     [tierEntries, customerStatistics],
   );
-  
+
   const tierChartSeries = useMemo(
     () => tierEntries.map((t) => t.count),
     [tierEntries],
   );
-  
+
   // Campaign table data
   const campaignTableData = campaignStatistics?.campaigns || [];
-  
+
   return (
     <>
       <Container>
         <Toolbar>
           <ToolbarHeading>
-            <ToolbarPageTitle/>
+            <ToolbarPageTitle />
           </ToolbarHeading>
         </Toolbar>
       </Container>
-      
+
       <Container>
         <div className="space-y-6">
           {/* Show errors if any */}
-          {(customerStatisticsError || campaignStatisticsError || membershipTierError) && (
+          {(customerStatisticsError ||
+            campaignStatisticsError ||
+            membershipTierError) && (
             <Alert variant="destructive" appearance="light">
               <AlertIcon>
-                <AlertCircle/>
+                <AlertCircle />
               </AlertIcon>
               <AlertTitle>Error</AlertTitle>
               <AlertDescription className="break-all">
-                {customerStatisticsError?.message || campaignStatisticsError?.message || membershipTierError?.message}
+                {customerStatisticsError?.message ||
+                  campaignStatisticsError?.message ||
+                  membershipTierError?.message}
               </AlertDescription>
             </Alert>
           )}
-          
+
           {/* Members Section */}
           <div className="space-y-4">
             <h2 className="text-xl font-bold text-foreground">
               {t('DASHBOARD.CUSTOMER_STATS.TITLE')}
             </h2>
-            
+
             {/* Customer Statistics Section */}
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
               {/* Main Customer Card - Blue */}
@@ -542,14 +643,14 @@ const DashboardPage = () => {
                 <>
                   <Card>
                     <CardContent className="flex items-center justify-center py-12">
-                      <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground"/>
+                      <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground" />
                     </CardContent>
                   </Card>
-                  
+
                   {/* Secondary Stats Card Loading */}
                   <Card className="border border-gray-200">
                     <CardContent className="flex items-center justify-center py-12">
-                      <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground"/>
+                      <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground" />
                     </CardContent>
                   </Card>
                 </>
@@ -561,7 +662,7 @@ const DashboardPage = () => {
                   >
                     <CardContent className="pt-6">
                       <div className="flex items-start justify-between mb-8">
-                        <Users className="size-6"/>
+                        <Users className="size-6" />
                       </div>
                       <div className="text-5xl font-bold mb-2">
                         {customerStatistics?.totalUsers.toLocaleString() || 0}
@@ -571,7 +672,7 @@ const DashboardPage = () => {
                       </div>
                     </CardContent>
                   </Card>
-                  
+
                   {/* Secondary Stats Card */}
                   <Card className="border border-gray-200">
                     <CardContent className="pt-6">
@@ -581,13 +682,17 @@ const DashboardPage = () => {
                           <div className="w-full">
                             <div className="flex items-center justify-between gap-2 mb-2">
                               <div className="bg-green-200 p-1.5 rounded-md">
-                                <Users className="w-5 h-5 text-green-500"/>
+                                <Users className="w-5 h-5 text-green-500" />
                               </div>
                               <Tooltip>
                                 <TooltipTrigger asChild>
                                   <div
-                                    className={`${customerStatistics?.newUsersGrowth && customerStatistics?.newUsersGrowth > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'} px-2 py-1 rounded-full text-xs font-semibold cursor-default`}>
-                                    {(customerStatistics?.newUsersGrowth || 0).toFixed(1)}%
+                                    className={`${customerStatistics?.newUsersGrowth && customerStatistics?.newUsersGrowth > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'} px-2 py-1 rounded-full text-xs font-semibold cursor-default`}
+                                  >
+                                    {(
+                                      customerStatistics?.newUsersGrowth || 0
+                                    ).toFixed(1)}
+                                    %
                                   </div>
                                 </TooltipTrigger>
                                 <TooltipContent>
@@ -604,7 +709,7 @@ const DashboardPage = () => {
                             </div>
                           </div>
                         </div>
-                        
+
                         {/* Monthly New Users */}
                         <div className="flex items-start justify-between">
                           <div>
@@ -622,12 +727,12 @@ const DashboardPage = () => {
                   </Card>
                 </>
               )}
-              
+
               {/* Membership Tier Pie Chart */}
               {isLoadingMembershipTier ? (
                 <Card className="lg:col-span-2">
                   <CardContent className="flex items-center justify-center py-12">
-                    <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground"/>
+                    <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground" />
                   </CardContent>
                 </Card>
               ) : (
@@ -652,8 +757,7 @@ const DashboardPage = () => {
                           </div>
                         </div>
                         {/* Custom legend */}
-                        <div
-                          className="w-full lg:flex-1 space-y-3 lg:space-y-4 overflow-hidden flex flex-col justify-center">
+                        <div className="w-full lg:flex-1 space-y-3 lg:space-y-4 overflow-hidden flex flex-col justify-center">
                           {tierEntries.map((tier) => (
                             <div
                               key={tier.name}
@@ -662,11 +766,11 @@ const DashboardPage = () => {
                               <div className="flex items-center gap-2 flex-1 min-w-0">
                                 <div
                                   className="w-3 h-3 rounded-full flex-shrink-0"
-                                  style={{backgroundColor: tier.color}}
+                                  style={{ backgroundColor: tier.color }}
                                 />
                                 <span className="text-sm text-gray-700 truncate">
-                                {tier.name}
-                              </span>
+                                  {tier.name}
+                                </span>
                               </div>
                               <div className="text-right flex-shrink-0 whitespace-nowrap">
                                 <p className="text-base lg:text-lg font-bold text-gray-900 leading-tight">
@@ -688,18 +792,18 @@ const DashboardPage = () => {
                   </CardContent>
                 </Card>
               )}
-              
+
               {/* Transaction Users Cards - DTU and MTU */}
               {isLoadingTransactionUsers ? (
                 <>
                   <Card>
                     <CardContent className="flex items-center justify-center py-12">
-                      <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground"/>
+                      <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground" />
                     </CardContent>
                   </Card>
                   <Card>
                     <CardContent className="flex items-center justify-center py-12">
-                      <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground"/>
+                      <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground" />
                     </CardContent>
                   </Card>
                 </>
@@ -709,11 +813,12 @@ const DashboardPage = () => {
                   <Card className="bg-gradient-to-br from-cyan-400 to-cyan-600 border-0 text-white col-span-2">
                     <CardContent className="pt-6">
                       <div className="flex items-start justify-between mb-2">
-                        <Users className="size-6"/>
+                        <Users className="size-6" />
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <div
-                              className={`${(transactionUsers?.dtuGrowth || 0) >= 0 ? 'bg-white/20 text-white' : 'bg-red-300/30 text-red-200'} px-2 py-1 rounded-full text-xs font-semibold cursor-default`}>
+                              className={`${(transactionUsers?.dtuGrowth || 0) >= 0 ? 'bg-white/20 text-white' : 'bg-red-300/30 text-red-200'} px-2 py-1 rounded-full text-xs font-semibold cursor-default`}
+                            >
                               {(transactionUsers?.dtuGrowth || 0) >= 0
                                 ? '+'
                                 : ''}
@@ -734,22 +839,26 @@ const DashboardPage = () => {
                       <div className="border-t border-white/20 pt-4 space-y-3">
                         <div className="flex items-center justify-between">
                           <div className="text-white font-semibold">
-                            {(transactionUsers?.dtuPercentage || 0).toFixed(2)} {t('DASHBOARD.TRANSACTION_USERS.PERCENTAGE_OF_TOTAL')}
+                            {(transactionUsers?.dtuPercentage || 0).toFixed(2)}{' '}
+                            {t(
+                              'DASHBOARD.TRANSACTION_USERS.PERCENTAGE_OF_TOTAL',
+                            )}
                           </div>
                         </div>
                       </div>
                     </CardContent>
                   </Card>
-                  
+
                   {/* MTU Card */}
                   <Card className="bg-gradient-to-br from-indigo-400 to-indigo-600 border-0 text-white col-span-2">
                     <CardContent className="pt-6">
                       <div className="flex items-start justify-between mb-2">
-                        <Users className="size-6"/>
+                        <Users className="size-6" />
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <div
-                              className={`${(transactionUsers?.mtuGrowth || 0) >= 0 ? 'bg-white/20 text-white' : 'bg-red-300/30 text-red-200'} px-2 py-1 rounded-full text-xs font-semibold cursor-default`}>
+                              className={`${(transactionUsers?.mtuGrowth || 0) >= 0 ? 'bg-white/20 text-white' : 'bg-red-300/30 text-red-200'} px-2 py-1 rounded-full text-xs font-semibold cursor-default`}
+                            >
                               {(transactionUsers?.mtuGrowth || 0) >= 0
                                 ? '+'
                                 : ''}
@@ -770,7 +879,10 @@ const DashboardPage = () => {
                       <div className="border-t border-white/20 pt-4 space-y-3">
                         <div className="flex items-center justify-between">
                           <div className="text-white font-semibold">
-                            {(transactionUsers?.mtuPercentage || 0).toFixed(2)} {t('DASHBOARD.TRANSACTION_USERS.PERCENTAGE_OF_TOTAL')}
+                            {(transactionUsers?.mtuPercentage || 0).toFixed(2)}{' '}
+                            {t(
+                              'DASHBOARD.TRANSACTION_USERS.PERCENTAGE_OF_TOTAL',
+                            )}
                           </div>
                         </div>
                       </div>
@@ -780,7 +892,7 @@ const DashboardPage = () => {
               )}
             </div>
           </div>
-          
+
           {/* Point Statistics Section */}
           <div className="space-y-4">
             {/* Section Header with Currency Selector */}
@@ -791,7 +903,7 @@ const DashboardPage = () => {
               <div className="w-64">
                 {isLoadingCurrencies ? (
                   <div className="flex items-center justify-center h-10">
-                    <LoaderCircleIcon className="h-5 w-5 animate-spin text-muted-foreground"/>
+                    <LoaderCircleIcon className="h-5 w-5 animate-spin text-muted-foreground" />
                   </div>
                 ) : (
                   <Select
@@ -800,7 +912,9 @@ const DashboardPage = () => {
                     disabled={isLoadingCurrencies}
                   >
                     <SelectTrigger clearable={false}>
-                      <SelectValue placeholder={t('DASHBOARD.SELECT_CURRENCY')}/>
+                      <SelectValue
+                        placeholder={t('DASHBOARD.SELECT_CURRENCY')}
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {currencies.map((currency) => (
@@ -813,7 +927,7 @@ const DashboardPage = () => {
                 )}
               </div>
             </div>
-            
+
             {/* Points Earned */}
             <div>
               <h3 className="text-base font-semibold text-foreground mb-3">
@@ -824,22 +938,21 @@ const DashboardPage = () => {
                 {isLoadingPointStatistic || !selectedCurrencyId ? (
                   <Card>
                     <CardContent className="flex items-center justify-center py-12">
-                      <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground"/>
+                      <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground" />
                     </CardContent>
                   </Card>
                 ) : (
                   <div
                     className="rounded-xl p-4 text-white cursor-pointer hover:shadow-lg transition-shadow"
                     style={{
-                      background:
-                        'linear-gradient(135deg, #4ade80, #16a34a)',
+                      background: 'linear-gradient(135deg, #4ade80, #16a34a)',
                     }}
                     onClick={() => setIsDpeChartOpen(true)}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <div className="bg-white/20 p-1.5 rounded-lg">
-                          <TrendingUp className="w-4 h-4"/>
+                          <TrendingUp className="w-4 h-4" />
                         </div>
                         <div>
                           <div className="font-bold text-sm leading-none">
@@ -852,15 +965,11 @@ const DashboardPage = () => {
                       </div>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <div
-                            className="bg-white/20 text-white text-xs font-semibold px-2 py-1 rounded-full cursor-default">
+                          <div className="bg-white/20 text-white text-xs font-semibold px-2 py-1 rounded-full cursor-default">
                             {(pointStatistic?.dpeCard?.growth ?? 0) >= 0
                               ? '+'
                               : ''}
-                            {(pointStatistic?.dpeCard?.growth ?? 0).toFixed(
-                              1,
-                            )}
-                            %
+                            {(pointStatistic?.dpeCard?.growth ?? 0).toFixed(1)}%
                           </div>
                         </TooltipTrigger>
                         <TooltipContent>
@@ -869,7 +978,8 @@ const DashboardPage = () => {
                       </Tooltip>
                     </div>
                     <span className="text-white text-xs bg-white/20 p-1 rounded-md">
-                      {currencies.find(c => c.id === selectedCurrencyId)?.name || ''}
+                      {currencies.find((c) => c.id === selectedCurrencyId)
+                        ?.name || ''}
                     </span>
                     <div className="text-4xl font-bold mt-2 mb-1">
                       {(pointStatistic?.dpeCard?.total ?? 0).toLocaleString(
@@ -888,27 +998,26 @@ const DashboardPage = () => {
                     </div>
                   </div>
                 )}
-                
+
                 {/* MPE Card */}
                 {isLoadingPointStatistic || !selectedCurrencyId ? (
                   <Card>
                     <CardContent className="flex items-center justify-center py-12">
-                      <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground"/>
+                      <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground" />
                     </CardContent>
                   </Card>
                 ) : (
                   <div
                     className="rounded-xl p-4 text-white cursor-pointer hover:shadow-lg transition-shadow"
                     style={{
-                      background:
-                        'linear-gradient(135deg, #4ade80, #15803d)',
+                      background: 'linear-gradient(135deg, #4ade80, #15803d)',
                     }}
                     onClick={() => setIsMpeChartOpen(true)}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <div className="bg-white/20 p-1.5 rounded-lg">
-                          <TrendingUp className="w-4 h-4"/>
+                          <TrendingUp className="w-4 h-4" />
                         </div>
                         <div>
                           <div className="font-bold text-sm leading-none">
@@ -921,15 +1030,11 @@ const DashboardPage = () => {
                       </div>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <div
-                            className="bg-white/20 text-white text-xs font-semibold px-2 py-1 rounded-full cursor-default">
+                          <div className="bg-white/20 text-white text-xs font-semibold px-2 py-1 rounded-full cursor-default">
                             {(pointStatistic?.mpeCard?.growth ?? 0) >= 0
                               ? '+'
                               : ''}
-                            {(pointStatistic?.mpeCard?.growth ?? 0).toFixed(
-                              1,
-                            )}
-                            %
+                            {(pointStatistic?.mpeCard?.growth ?? 0).toFixed(1)}%
                           </div>
                         </TooltipTrigger>
                         <TooltipContent>
@@ -938,7 +1043,8 @@ const DashboardPage = () => {
                       </Tooltip>
                     </div>
                     <span className="text-white text-xs bg-white/20 p-1 rounded-md">
-                      {currencies.find(c => c.id === selectedCurrencyId)?.name || ''}
+                      {currencies.find((c) => c.id === selectedCurrencyId)
+                        ?.name || ''}
                     </span>
                     <div className="text-4xl font-bold mt-2 mb-1">
                       {(pointStatistic?.mpeCard?.total ?? 0).toLocaleString(
@@ -959,7 +1065,7 @@ const DashboardPage = () => {
                 )}
               </div>
             </div>
-            
+
             {/* Points Deducted */}
             <div>
               <h3 className="text-base font-semibold text-foreground mb-3">
@@ -970,22 +1076,21 @@ const DashboardPage = () => {
                 {isLoadingPointStatistic || !selectedCurrencyId ? (
                   <Card>
                     <CardContent className="flex items-center justify-center py-12">
-                      <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground"/>
+                      <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground" />
                     </CardContent>
                   </Card>
                 ) : (
                   <div
                     className="rounded-xl p-4 text-white cursor-pointer hover:shadow-lg transition-shadow"
                     style={{
-                      background:
-                        'linear-gradient(135deg, #fb923c, #ea580c)',
+                      background: 'linear-gradient(135deg, #fb923c, #ea580c)',
                     }}
                     onClick={() => setIsDpdChartOpen(true)}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <div className="bg-white/20 p-1.5 rounded-lg">
-                          <TrendingDown className="w-4 h-4"/>
+                          <TrendingDown className="w-4 h-4" />
                         </div>
                         <div>
                           <div className="font-bold text-sm leading-none">
@@ -998,15 +1103,11 @@ const DashboardPage = () => {
                       </div>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <div
-                            className="bg-white/20 text-white text-xs font-semibold px-2 py-1 rounded-full cursor-default">
+                          <div className="bg-white/20 text-white text-xs font-semibold px-2 py-1 rounded-full cursor-default">
                             {(pointStatistic?.dpdCard?.growth ?? 0) >= 0
                               ? '+'
                               : ''}
-                            {(pointStatistic?.dpdCard?.growth ?? 0).toFixed(
-                              1,
-                            )}
-                            %
+                            {(pointStatistic?.dpdCard?.growth ?? 0).toFixed(1)}%
                           </div>
                         </TooltipTrigger>
                         <TooltipContent>
@@ -1015,7 +1116,8 @@ const DashboardPage = () => {
                       </Tooltip>
                     </div>
                     <span className="text-white text-xs bg-white/20 p-1 rounded-md">
-                      {currencies.find(c => c.id === selectedCurrencyId)?.name || ''}
+                      {currencies.find((c) => c.id === selectedCurrencyId)
+                        ?.name || ''}
                     </span>
                     <div className="text-4xl font-bold mb-1">
                       {(pointStatistic?.dpdCard?.total ?? 0).toLocaleString(
@@ -1027,34 +1129,31 @@ const DashboardPage = () => {
                     </div>
                     <div className="border-t border-white/20 pt-3 text-white/80 text-xs">
                       Earn vs Burn ratio:{' '}
-                      {(pointStatistic?.dpdCard?.earnBurnRatio ?? 0).toFixed(
-                        2,
-                      )}
+                      {(pointStatistic?.dpdCard?.earnBurnRatio ?? 0).toFixed(2)}
                       :1
                     </div>
                   </div>
                 )}
-                
+
                 {/* MPD Card */}
                 {isLoadingPointStatistic || !selectedCurrencyId ? (
                   <Card>
                     <CardContent className="flex items-center justify-center py-12">
-                      <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground"/>
+                      <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground" />
                     </CardContent>
                   </Card>
                 ) : (
                   <div
                     className="rounded-xl p-4 text-white cursor-pointer hover:shadow-lg transition-shadow"
                     style={{
-                      background:
-                        'linear-gradient(135deg, #f87171, #dc2626)',
+                      background: 'linear-gradient(135deg, #f87171, #dc2626)',
                     }}
                     onClick={() => setIsMpdChartOpen(true)}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <div className="bg-white/20 p-1.5 rounded-lg">
-                          <TrendingDown className="w-4 h-4"/>
+                          <TrendingDown className="w-4 h-4" />
                         </div>
                         <div>
                           <div className="font-bold text-sm leading-none">
@@ -1067,15 +1166,11 @@ const DashboardPage = () => {
                       </div>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <div
-                            className="bg-white/20 text-white text-xs font-semibold px-2 py-1 rounded-full cursor-default">
+                          <div className="bg-white/20 text-white text-xs font-semibold px-2 py-1 rounded-full cursor-default">
                             {(pointStatistic?.mpdCard?.growth ?? 0) >= 0
                               ? '+'
                               : ''}
-                            {(pointStatistic?.mpdCard?.growth ?? 0).toFixed(
-                              1,
-                            )}
-                            %
+                            {(pointStatistic?.mpdCard?.growth ?? 0).toFixed(1)}%
                           </div>
                         </TooltipTrigger>
                         <TooltipContent>
@@ -1084,7 +1179,8 @@ const DashboardPage = () => {
                       </Tooltip>
                     </div>
                     <span className="text-white text-xs bg-white/20 p-1 rounded-md">
-                      {currencies.find(c => c.id === selectedCurrencyId)?.name || ''}
+                      {currencies.find((c) => c.id === selectedCurrencyId)
+                        ?.name || ''}
                     </span>
                     <div className="text-4xl font-bold mt-2 mb-1">
                       {(pointStatistic?.mpdCard?.total ?? 0).toLocaleString(
@@ -1099,18 +1195,22 @@ const DashboardPage = () => {
               </div>
             </div>
           </div>
-          
+
           {/* Top 100 Users Section */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="text-base font-semibold text-foreground flex items-center gap-2">
-                <TrophyIcon/>
+                <TrophyIcon />
                 {t('DASHBOARD.TOP_100_USERS.TITLE')}
               </h2>
               <PermissionGuard requiredRoles={[UserRole.ADMIN]}>
                 <Button
                   onClick={handleExportTop100Users}
-                  disabled={exportTop100UsersMutation.isPending || isLoadingTop100Users || top100Users.length === 0}
+                  disabled={
+                    exportTop100UsersMutation.isPending ||
+                    isLoadingTop100Users ||
+                    top100Users.length === 0
+                  }
                   className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
                 >
                   <Download className="w-4 h-4" />
@@ -1120,17 +1220,20 @@ const DashboardPage = () => {
                 </Button>
               </PermissionGuard>
             </div>
-            
+
             {isLoadingTop100Users ? (
               <Card>
                 <CardContent className="flex items-center justify-center py-12">
-                  <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground"/>
+                  <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground" />
                 </CardContent>
               </Card>
             ) : top100Users.length > 0 ? (
               <Card>
                 <CardContent className="p-4">
-                  <div className="overflow-y-auto" style={{ maxHeight: '480px' }}>
+                  <div
+                    className="overflow-y-auto"
+                    style={{ maxHeight: '480px' }}
+                  >
                     <table className="w-full text-sm">
                       <thead className="sticky top-0 bg-white">
                         <tr className="border-b">
@@ -1160,13 +1263,21 @@ const DashboardPage = () => {
                             <td className="text-center p-4">
                               <div className="inline-flex items-center justify-center">
                                 {user.rank === 1 ? (
-                                  <span className="inline-flex items-center justify-center w-6 h-6 bg-yellow-400 text-white font-bold rounded-full text-xs">1</span>
+                                  <span className="inline-flex items-center justify-center w-6 h-6 bg-yellow-400 text-white font-bold rounded-full text-xs">
+                                    1
+                                  </span>
                                 ) : user.rank === 2 ? (
-                                  <span className="inline-flex items-center justify-center w-6 h-6 bg-gray-400 text-white font-bold rounded-full text-xs">2</span>
+                                  <span className="inline-flex items-center justify-center w-6 h-6 bg-gray-400 text-white font-bold rounded-full text-xs">
+                                    2
+                                  </span>
                                 ) : user.rank === 3 ? (
-                                  <span className="inline-flex items-center justify-center w-6 h-6 bg-orange-600 text-white font-bold rounded-full text-xs">3</span>
+                                  <span className="inline-flex items-center justify-center w-6 h-6 bg-orange-600 text-white font-bold rounded-full text-xs">
+                                    3
+                                  </span>
                                 ) : (
-                                  <span className="text-gray-600 font-medium">{user.rank}</span>
+                                  <span className="text-gray-600 font-medium">
+                                    {user.rank}
+                                  </span>
                                 )}
                               </div>
                             </td>
@@ -1193,7 +1304,7 @@ const DashboardPage = () => {
               <Card>
                 <CardContent className="flex flex-col items-center justify-center py-12 text-center">
                   <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
-                    <Users className="w-8 h-8 text-muted-foreground"/>
+                    <Users className="w-8 h-8 text-muted-foreground" />
                   </div>
                   <p className="text-lg font-medium text-foreground mb-2">
                     {t('DASHBOARD.TOP_100_USERS.NO_DATA_TITLE')}
@@ -1205,19 +1316,19 @@ const DashboardPage = () => {
               </Card>
             )}
           </div>
-          
+
           {/* Campaigns Section */}
           <div className="space-y-4">
             <h2 className="text-xl font-bold text-foreground">
               {t('DASHBOARD.CAMPAIGN_STATS.TITLE')}
             </h2>
-            
+
             {/* Charts Section - Campaign Statistics */}
             {isLoadingCampaignStatistics ? (
               <div className="grid grid-cols-1 gap-4">
                 <Card className="w-fit">
                   <CardContent className="flex items-center justify-center py-12 px-20">
-                    <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground"/>
+                    <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground" />
                   </CardContent>
                 </Card>
               </div>
@@ -1233,12 +1344,12 @@ const DashboardPage = () => {
                           size={36}
                           className="text-purple-600 dark:text-purple-400"
                         />
-                        
+
                         {/* Number */}
                         <p className="text-3xl font-bold text-foreground leading-none">
                           {campaignStatistics?.activeCampaigns || 0}
                         </p>
-                        
+
                         {/* Labels */}
                         <div className="space-y-1">
                           <p className="text-base text-muted-foreground">
@@ -1253,7 +1364,7 @@ const DashboardPage = () => {
                     </CardContent>
                   </Card>
                 </div>
-                
+
                 {/* Campaign Details Table */}
                 {campaignTableData.length > 0 ? (
                   <Card>
@@ -1262,88 +1373,104 @@ const DashboardPage = () => {
                         {t('DASHBOARD.CAMPAIGN_STATS.CAMPAIGN_DETAILS')}
                       </CardTitle>
                     </CardHeader>
-                    <CardContent className='p-4'>
+                    <CardContent className="p-4">
                       <div className="overflow-x-auto">
                         <table className="w-full text-sm">
                           <thead>
-                          <tr className="border-b">
-                            <th className="text-left py-3 px-4 font-medium text-muted-foreground uppercase text-xs">
-                              {t('DASHBOARD.CAMPAIGN_STATS.CAMPAIGN_NAME')}
-                            </th>
-                            <th className="text-center py-3 px-4 font-medium text-muted-foreground uppercase text-xs">
-                              {t('DASHBOARD.CAMPAIGN_STATS.USERS')}
-                            </th>
-                            <th className="text-center py-3 px-4 font-medium text-muted-foreground uppercase text-xs">
-                              {t('DASHBOARD.CAMPAIGN_STATS.EXECUTIONS')}
-                            </th>
-                            <th className="text-center py-3 px-4 font-medium text-muted-foreground uppercase text-xs">
-                              {t('DASHBOARD.CAMPAIGN_STATS.POINTS_EARNED')}
-                            </th>
-                            <th
-                              className="text-right py-3 px-4 font-medium text-muted-foreground uppercase text-xs w-[200px]">
-                              % {t('DASHBOARD.CAMPAIGN_STATS.BUDGET_USED')}
-                            </th>
-                          </tr>
+                            <tr className="border-b">
+                              <th className="text-left py-3 px-4 font-medium text-muted-foreground uppercase text-xs">
+                                {t('DASHBOARD.CAMPAIGN_STATS.CAMPAIGN_NAME')}
+                              </th>
+                              <th className="text-center py-3 px-4 font-medium text-muted-foreground uppercase text-xs">
+                                {t('DASHBOARD.CAMPAIGN_STATS.USERS')}
+                              </th>
+                              <th className="text-center py-3 px-4 font-medium text-muted-foreground uppercase text-xs">
+                                {t('DASHBOARD.CAMPAIGN_STATS.EXECUTIONS')}
+                              </th>
+                              <th className="text-center py-3 px-4 font-medium text-muted-foreground uppercase text-xs">
+                                {t('DASHBOARD.CAMPAIGN_STATS.POINTS_EARNED')}
+                              </th>
+                              <th className="text-right py-3 px-4 font-medium text-muted-foreground uppercase text-xs w-[200px]">
+                                % {t('DASHBOARD.CAMPAIGN_STATS.BUDGET_USED')}
+                              </th>
+                            </tr>
                           </thead>
                           <tbody>
-                          {campaignTableData.map((campaign) => {
-                            const budgetPercentage = campaign.budgetOrigin > 0
-                              ? (campaign.pointsEarned / campaign.budgetOrigin) * 100
-                              : 0;
-                            
-                            // Determine color based on remaining percentage
-                            let progressColor = 'bg-red-500';
-                            if (budgetPercentage <= 59) {
-                              progressColor = 'bg-green-500';
-                            } else if (budgetPercentage <= 79) {
-                              progressColor = 'bg-orange-500';
-                            } else if (budgetPercentage <= 100) {
-                              progressColor = 'bg-red-500';
-                            }
-                            
-                            return (
-                              <tr
-                                key={campaign.campaignId}
-                                className="border-b hover:bg-muted/50"
-                              >
-                                <td className="text-left p-4 font-medium">
-                                  {campaign.campaignName}
-                                </td>
-                                <td className="text-center p-4">
-                                  {campaign.userCount.toLocaleString('vi-VN')}
-                                </td>
-                                <td className="text-center p-4">
-                                  {campaign.executionCount.toLocaleString('vi-VN')}
-                                </td>
-                                <td className="text-center p-4 text-blue-600 font-medium">
-                                  {campaign.pointsEarned.toLocaleString('vi-VN')}
-                                </td>
-                                <td className="p-4">
-                                  <div className="flex flex-col items-end gap-1">
-                                    <div className="flex items-center gap-2 w-full">
-                                      <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                                        <div
-                                          className={`h-full ${progressColor} transition-all`}
-                                          style={{width: `${Math.min(budgetPercentage, 100)}%`}}
-                                        />
+                            {campaignTableData.map((campaign) => {
+                              const budgetPercentage =
+                                campaign.budgetOrigin > 0
+                                  ? (campaign.pointsEarned /
+                                      campaign.budgetOrigin) *
+                                    100
+                                  : 0;
+
+                              // Determine color based on remaining percentage
+                              let progressColor = 'bg-red-500';
+                              if (budgetPercentage <= 59) {
+                                progressColor = 'bg-green-500';
+                              } else if (budgetPercentage <= 79) {
+                                progressColor = 'bg-orange-500';
+                              } else if (budgetPercentage <= 100) {
+                                progressColor = 'bg-red-500';
+                              }
+
+                              return (
+                                <tr
+                                  key={campaign.campaignId}
+                                  className="border-b hover:bg-muted/50"
+                                >
+                                  <td className="text-left p-4 font-medium">
+                                    {campaign.campaignName}
+                                  </td>
+                                  <td className="text-center p-4">
+                                    {campaign.userCount.toLocaleString('vi-VN')}
+                                  </td>
+                                  <td className="text-center p-4">
+                                    {campaign.executionCount.toLocaleString(
+                                      'vi-VN',
+                                    )}
+                                  </td>
+                                  <td className="text-center p-4 text-blue-600 font-medium">
+                                    {campaign.pointsEarned.toLocaleString(
+                                      'vi-VN',
+                                    )}
+                                  </td>
+                                  <td className="p-4">
+                                    <div className="flex flex-col items-end gap-1">
+                                      <div className="flex items-center gap-2 w-full">
+                                        <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                          <div
+                                            className={`h-full ${progressColor} transition-all`}
+                                            style={{
+                                              width: `${Math.min(budgetPercentage, 100)}%`,
+                                            }}
+                                          />
+                                        </div>
+                                        <span
+                                          className={`text-sm font-semibold min-w-[45px] text-right ${
+                                            budgetPercentage <= 59
+                                              ? 'text-green-500'
+                                              : budgetPercentage <= 79
+                                                ? 'text-orange-500'
+                                                : budgetPercentage <= 100
+                                                  ? 'text-red-500'
+                                                  : 'text-red-500'
+                                          }`}
+                                        >
+                                          {budgetPercentage.toFixed(1)}%
+                                        </span>
                                       </div>
-                                      <span className={`text-sm font-semibold min-w-[45px] text-right ${
-                                        budgetPercentage <= 59 ? 'text-green-500' :
-                                          budgetPercentage <= 79 ? 'text-orange-500' :
-                                            budgetPercentage <= 100 ? 'text-red-500' :
-                                              'text-red-500'
-                                      }`}>
-                                      {budgetPercentage.toFixed(1)}%
-                                    </span>
+                                      <span className="text-xs text-muted-foreground">
+                                        Budget:{' '}
+                                        {campaign.budgetOrigin.toLocaleString(
+                                          'vi-VN',
+                                        )}
+                                      </span>
                                     </div>
-                                    <span className="text-xs text-muted-foreground">
-                                    Budget: {campaign.budgetOrigin.toLocaleString('vi-VN')}
-                                  </span>
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-                          })}
+                                  </td>
+                                </tr>
+                              );
+                            })}
                           </tbody>
                         </table>
                       </div>
@@ -1359,7 +1486,7 @@ const DashboardPage = () => {
                     <CardContent>
                       <div className="flex flex-col items-center justify-center py-12 text-center">
                         <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
-                          <Target className="w-8 h-8 text-muted-foreground"/>
+                          <Target className="w-8 h-8 text-muted-foreground" />
                         </div>
                         <p className="text-lg font-medium text-foreground mb-2">
                           {t('DASHBOARD.CAMPAIGN_STATS.NO_DATA_TITLE')}
@@ -1376,7 +1503,7 @@ const DashboardPage = () => {
           </div>
         </div>
       </Container>
-      
+
       {/* Customer Dashboard Chart Dialog */}
       <Dialog open={isChartDialogOpen} onOpenChange={setIsChartDialogOpen}>
         <DialogContent className="max-w-4xl">
@@ -1392,12 +1519,12 @@ const DashboardPage = () => {
                 onApply={(range) => setChartDateRange(range)}
               />
             </div>
-            
+
             {/* Chart */}
             <div>
               {isLoadingCustomerDashboard ? (
                 <div className="flex items-center justify-center h-100">
-                  <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground"/>
+                  <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground" />
                 </div>
               ) : customerDashboard.length > 0 ? (
                 <Chart
@@ -1415,7 +1542,7 @@ const DashboardPage = () => {
           </div>
         </DialogContent>
       </Dialog>
-      
+
       {/* DPE Chart Dialog */}
       <Dialog open={isDpeChartOpen} onOpenChange={setIsDpeChartOpen}>
         <DialogContent className="max-w-4xl">
@@ -1433,7 +1560,7 @@ const DashboardPage = () => {
             <div>
               {isLoadingDpeChart ? (
                 <div className="flex items-center justify-center h-100">
-                  <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground"/>
+                  <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground" />
                 </div>
               ) : dpeChartData.length > 0 ? (
                 <Chart
@@ -1451,7 +1578,7 @@ const DashboardPage = () => {
           </div>
         </DialogContent>
       </Dialog>
-      
+
       {/* MPE Chart Dialog */}
       <Dialog open={isMpeChartOpen} onOpenChange={setIsMpeChartOpen}>
         <DialogContent className="max-w-4xl">
@@ -1469,7 +1596,7 @@ const DashboardPage = () => {
             <div>
               {isLoadingMpeChart ? (
                 <div className="flex items-center justify-center h-100">
-                  <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground"/>
+                  <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground" />
                 </div>
               ) : mpeChartData.length > 0 ? (
                 <Chart
@@ -1487,7 +1614,7 @@ const DashboardPage = () => {
           </div>
         </DialogContent>
       </Dialog>
-      
+
       {/* DPD Chart Dialog */}
       <Dialog open={isDpdChartOpen} onOpenChange={setIsDpdChartOpen}>
         <DialogContent className="max-w-4xl">
@@ -1505,7 +1632,7 @@ const DashboardPage = () => {
             <div>
               {isLoadingDpdChart ? (
                 <div className="flex items-center justify-center h-100">
-                  <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground"/>
+                  <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground" />
                 </div>
               ) : dpdChartData.length > 0 ? (
                 <Chart
@@ -1523,7 +1650,7 @@ const DashboardPage = () => {
           </div>
         </DialogContent>
       </Dialog>
-      
+
       {/* MPD Chart Dialog */}
       <Dialog open={isMpdChartOpen} onOpenChange={setIsMpdChartOpen}>
         <DialogContent className="max-w-4xl">
@@ -1541,7 +1668,7 @@ const DashboardPage = () => {
             <div>
               {isLoadingMpdChart ? (
                 <div className="flex items-center justify-center h-100">
-                  <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground"/>
+                  <LoaderCircleIcon className="h-8 w-8 animate-spin text-muted-foreground" />
                 </div>
               ) : mpdChartData.length > 0 ? (
                 <Chart
@@ -1563,4 +1690,4 @@ const DashboardPage = () => {
   );
 };
 
-export {DashboardPage};
+export { DashboardPage };

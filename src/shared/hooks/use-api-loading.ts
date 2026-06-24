@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useLoadingBar } from 'react-top-loading-bar';
 import { axiosInstance } from '@/shared/lib/api';
+import { useLoadingBar } from 'react-top-loading-bar';
 
 /**
  * Hook to track all API requests and show loading bar
@@ -24,22 +24,22 @@ export function useApiLoading() {
     const requestInterceptor = axiosInstance.interceptors.request.use(
       (config) => {
         activeRequests++;
-        
+
         // Start loading bar on first request
         if (activeRequests === 1) {
           start();
         }
-        
+
         return config;
       },
       (error) => {
         activeRequests--;
-        
+
         // Complete loading bar if no more active requests
         if (activeRequests === 0) {
           complete();
         }
-        
+
         return Promise.reject(error);
       },
     );
@@ -48,22 +48,22 @@ export function useApiLoading() {
     const responseInterceptor = axiosInstance.interceptors.response.use(
       (response) => {
         activeRequests--;
-        
+
         // Complete loading bar when all requests finish
         if (activeRequests === 0) {
           complete();
         }
-        
+
         return response;
       },
       (error) => {
         activeRequests--;
-        
+
         // Complete loading bar when all requests finish (even on error)
         if (activeRequests === 0) {
           complete();
         }
-        
+
         return Promise.reject(error);
       },
     );

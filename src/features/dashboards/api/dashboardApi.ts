@@ -229,12 +229,14 @@ export const dashboardApi = {
       const response = await axiosInstance.get<CustomerStatisticsResponse>(
         '/api/ledger/b/customers/statistics',
       );
-      return response.data.data || {
-        totalUsers: 0,
-        dailyNewUsers: 0,
-        monthlyNewUsers: 0,
-        newUsersGrowth: 0,
-      };
+      return (
+        response.data.data || {
+          totalUsers: 0,
+          dailyNewUsers: 0,
+          monthlyNewUsers: 0,
+          newUsersGrowth: 0,
+        }
+      );
     } catch (error) {
       // Return default values instead of throwing error
       return {
@@ -272,11 +274,13 @@ export const dashboardApi = {
       const response = await axiosInstance.get<CampaignStatisticsResponse>(
         '/api/campaign/b/campaigns/statistics',
       );
-      return response.data.data || {
-        activeCampaigns: 0,
-        totalCampaigns: 0,
-        campaigns: [],
-      };
+      return (
+        response.data.data || {
+          activeCampaigns: 0,
+          totalCampaigns: 0,
+          campaigns: [],
+        }
+      );
     } catch (error) {
       // Return default values instead of throwing error
       return {
@@ -298,7 +302,9 @@ export const dashboardApi = {
     }
   },
 
-  getPointStatistic: async (currencyId?: string): Promise<PointStatisticData> => {
+  getPointStatistic: async (
+    currencyId?: string,
+  ): Promise<PointStatisticData> => {
     try {
       const response = await axiosInstance.get<PointStatisticResponse>(
         '/api/ledger/b/point/statistic',
@@ -306,12 +312,14 @@ export const dashboardApi = {
           params: currencyId ? { currencyId } : undefined,
         },
       );
-      return response.data.data || {
-        dpeCard: { total: 0, growth: 0, avgPerUser: 0, earnBurnRatio: 0 },
-        mpeCard: { total: 0, growth: 0, avgPerUser: 0, earnBurnRatio: 0 },
-        dpdCard: { total: 0, growth: 0, avgPerUser: 0, earnBurnRatio: 0 },
-        mpdCard: { total: 0, growth: 0, avgPerUser: 0, earnBurnRatio: 0 },
-      };
+      return (
+        response.data.data || {
+          dpeCard: { total: 0, growth: 0, avgPerUser: 0, earnBurnRatio: 0 },
+          mpeCard: { total: 0, growth: 0, avgPerUser: 0, earnBurnRatio: 0 },
+          dpdCard: { total: 0, growth: 0, avgPerUser: 0, earnBurnRatio: 0 },
+          mpdCard: { total: 0, growth: 0, avgPerUser: 0, earnBurnRatio: 0 },
+        }
+      );
     } catch (error) {
       // Return default values instead of throwing error
       return {
@@ -386,14 +394,16 @@ export const dashboardApi = {
       const response = await axiosInstance.get<TransactionUsersResponse>(
         '/api/ledger/b/transaction-users',
       );
-      return response.data.data || {
-        dtuCount: 0,
-        dtuGrowth: 0,
-        dtuPercentage: 0,
-        mtuCount: 0,
-        mtuGrowth: 0,
-        mtuPercentage: 0,
-      };
+      return (
+        response.data.data || {
+          dtuCount: 0,
+          dtuGrowth: 0,
+          dtuPercentage: 0,
+          mtuCount: 0,
+          mtuGrowth: 0,
+          mtuPercentage: 0,
+        }
+      );
     } catch (error) {
       // Return default values instead of throwing error
       return {

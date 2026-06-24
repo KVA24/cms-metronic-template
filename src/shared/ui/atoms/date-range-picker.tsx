@@ -41,18 +41,22 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const calculateMonthsDifference = (from: Date, to: Date): number => {
     let months = 0;
     const startDate = new Date(from);
-    
+
     while (true) {
       // Move forward by 1 month, add 1 day for inclusive comparison
-      const nextMonth = new Date(startDate.getFullYear(), startDate.getMonth() + months + 1, startDate.getDate() + 1);
-      
+      const nextMonth = new Date(
+        startDate.getFullYear(),
+        startDate.getMonth() + months + 1,
+        startDate.getDate() + 1,
+      );
+
       // If nextMonth exceeds to date, we've found the limit
       if (nextMonth > to) {
         break;
       }
       months++;
     }
-    
+
     return months;
   };
 
