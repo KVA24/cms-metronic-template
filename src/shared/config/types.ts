@@ -1,4 +1,4 @@
-import { Permission, UserRole } from '@/shared/lib/rbac/roles';
+import { UserRole } from '@/shared/lib/rbac/roles';
 import { type LucideIcon } from 'lucide-react';
 
 export interface MenuItem {
@@ -16,8 +16,7 @@ export interface MenuItem {
   expandTitle?: string;
   badge?: string;
   separator?: boolean;
-  // RBAC fields
-  requiredPermissions?: Permission[];
+  // RBAC field
   requiredRoles?: UserRole[];
 }
 

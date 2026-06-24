@@ -1,4 +1,4 @@
-import { Permission, UserRole } from '@/shared/lib/rbac/roles';
+import { UserRole } from '@/shared/lib/rbac/roles';
 import {
   AlertCircle,
   Award,
@@ -60,7 +60,6 @@ export const MENU_SIDEBAR: MenuConfig = [
     translationKey: 'SIDEBAR.DASHBOARDS',
     icon: LayoutGrid,
     path: '/dashboards',
-    requiredPermissions: [Permission.VIEW_DASHBOARD],
     requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
   },
   {
@@ -68,7 +67,6 @@ export const MENU_SIDEBAR: MenuConfig = [
     translationKey: 'SIDEBAR.CONFIGURATION',
     icon: Settings,
     path: '/config',
-    requiredPermissions: [Permission.VIEW_CONFIGURATION],
     requiredRoles: [UserRole.ADMIN],
   },
   {
@@ -76,7 +74,6 @@ export const MENU_SIDEBAR: MenuConfig = [
     translationKey: 'SIDEBAR.ACCOUNT',
     icon: Users,
     path: '/account',
-    requiredPermissions: [Permission.VIEW_ACCOUNT],
     requiredRoles: [UserRole.ADMIN, UserRole.OPERATOR],
   },
   {
@@ -84,7 +81,6 @@ export const MENU_SIDEBAR: MenuConfig = [
     translationKey: 'SIDEBAR.ACTIVITY_LOG',
     icon: ClipboardList,
     path: '/activity-log',
-    requiredPermissions: [Permission.VIEW_ACTIVITY_LOG],
     requiredRoles: [UserRole.ADMIN],
   },
 ];

@@ -1,26 +1,23 @@
 import { ReactNode } from 'react';
-import { useHasAnyPermission, useUserRole } from '@/shared/lib/rbac/hooks';
-import { Permission, UserRole } from '@/shared/lib/rbac/roles';
+import { useUserRole } from '@/shared/lib/rbac/hooks';
+import { UserRole } from '@/shared/lib/rbac/roles';
 
-interface PermissionGuardProps {
+interface RoleGuardProps {
   children: ReactNode;
-  requiredPermissions?: Permission[];
   requiredRoles?: UserRole[];
   fallback?: ReactNode;
 }
 
 /**
- * Component to conditionally render children based on permissions or roles
+ * Component to conditionally render children based on user roles
  * Use this to hide UI elements that user doesn't have access to
  */
-export function PermissionGuard({
+export function RoleGuard({
   children,
-  requiredPermissions = [],
   requiredRoles = [],
   fallback = null,
-}: PermissionGuardProps) {
+}: RoleGuardProps) {
   const userRole = useUserRole();
-  const hasPermission = useHasAnyPermission(requiredPermissions);
 
   // Check role requirement
   if (requiredRoles.length > 0 && userRole) {
@@ -30,10 +27,10 @@ export function PermissionGuard({
     }
   }
 
-  // Check permission requirement
-  if (requiredPermissions.length > 0 && !hasPermission) {
-    return <>{fallback}</>;
-  }
-
   return <>{children}</>;
 }
+
+/**
+ * @deprecated Use RoleGuard instead
+ */
+export const PermissionGuard = RoleGuard;
