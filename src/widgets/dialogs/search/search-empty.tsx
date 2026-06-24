@@ -8,12 +8,12 @@ export function SearchEmpty() {
         <img
           src={toAbsoluteUrl('/media/illustrations/33.svg')}
           className="dark:hidden max-h-[113px]"
-          alt="image"
+          alt=""
         />
         <img
           src={toAbsoluteUrl('/media/illustrations/33-dark.svg')}
           className="light:hidden max-h-[113px]"
-          alt="image"
+          alt=""
         />
       </div>
       <div className="flex flex-col gap-1.5">

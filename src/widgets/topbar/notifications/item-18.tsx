@@ -31,10 +31,10 @@ export default function Item18() {
     },
   ];
 
-  const renderItem = (item: IItem18Item, index: number) => {
+  const renderItem = (item: IItem18Item) => {
     return (
       <Card
-        key={index}
+        key={item.id}
         className="shadow-none flex flex-col gap-3.5 bg-muted/70 w-40 overflow-hidden"
       >
         <div
@@ -65,7 +65,7 @@ export default function Item18() {
   return (
     <div className="flex grow gap-2.5 px-5">
       <Avatar>
-        <AvatarImage src="/media/avatars/300-1.png" alt="avatar" />
+        <AvatarImage src="/media/avatars/300-1.png" alt="" />
         <AvatarFallback>CH</AvatarFallback>
         <AvatarIndicator className="-end-1.5 -bottom-1.5">
           <AvatarStatus variant="online" className="size-2.5" />
@@ -98,8 +98,8 @@ export default function Item18() {
         </div>
 
         <div className="flex items-center gap-2.5">
-          {items.map((item, index) => {
-            return renderItem(item, index);
+          {items.map((item) => {
+            return renderItem(item);
           })}
         </div>
       </div>

@@ -27,8 +27,8 @@ export function SearchUsers({
     >
       <AccordionMenuGroup>
         <div className="grid gap-2 m-2">
-          {items.map((item, index) => (
-            <AccordionMenuItem key={index} value={item.name} asChild>
+          {items.map((item) => (
+            <AccordionMenuItem key={item.name} value={item.name} asChild>
               <div className="flex justify-between items-center gap-2">
                 {/* User avatar and info */}
                 <div className="flex items-center gap-2.5">

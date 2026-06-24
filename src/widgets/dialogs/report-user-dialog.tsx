@@ -29,7 +29,7 @@ export function ReportUserDialog({
           <img
             src={toAbsoluteUrl('/media/avatars/300-1.png')}
             className="rounded-full max-h-[55px] max-w-full"
-            alt="image"
+            alt=""
           />
         </div>
 
@@ -93,13 +93,13 @@ export function ReportUserDialog({
         </div>
 
         <div className="flex flex-col gap-3.5">
-          {items.map((item, index) => (
+          {items.map((item) => (
             <RadioGroup
-              key={index}
+              key={item.name}
               value={selectedReason}
               onValueChange={setSelectedReason}
             >
-              <div key={index} className="flex items-center gap-2.5">
+              <div key={item.name} className="flex items-center gap-2.5">
                 <RadioGroupItem value={item.name} id={`${id}-${item.name}`} />
                 <Label htmlFor={`${id}-${item.name}`} variant="secondary">
                   {item.name}

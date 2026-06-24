@@ -26,7 +26,7 @@ const CardWork = ({
       <img
         src={toAbsoluteUrl(`/media/images/600x400/${image}`)}
         className="w-full h-auto rounded-t-xl"
-        alt="image"
+        alt=""
       />
       <div className="card-border card-rounded-b flex flex-col gap-2 px-5 py-4.5">
         <Link
@@ -40,7 +40,7 @@ const CardWork = ({
             <img
               src={toAbsoluteUrl(`/media/avatars/${authorAvatar}`)}
               className="rounded-full size-7 me-2"
-              alt="image"
+              alt=""
             />
             <Link
               to="/public-profile/profiles/nft"

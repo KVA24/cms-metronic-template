@@ -44,10 +44,10 @@ const CardConnection = ({
   statistics,
   connected,
 }: IConnectionProps) => {
-  const renderItem = (statistic: IConnectionItem, index: number) => {
+  const renderItem = (statistic: IConnectionItem) => {
     return (
       <div
-        key={index}
+        key={statistic.description}
         className="grid grid-cols-1 gap-1.5 border-[0.5px] border-dashed border-input rounded-md px-2.5 py-2 shrink-0 min-w-24 max-w-auto"
       >
         <span className="text-mono text-sm leading-none font-medium">
@@ -117,8 +117,8 @@ const CardConnection = ({
           <AvatarGroup group={team.group} more={team.more} size={team.size} />
         </div>
         <div className="flex items-center justify-center flex-wrap gap-2 lg:gap-5">
-          {statistics.map((statistic, index) => {
-            return renderItem(statistic, index);
+          {statistics.map((statistic) => {
+            return renderItem(statistic);
           })}
         </div>
       </CardContent>

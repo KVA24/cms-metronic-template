@@ -28,12 +28,12 @@ export function AccountDeactivatedDialog({
             <img
               src={toAbsoluteUrl('/media/illustrations/23.svg')}
               className="dark:hidden max-h-[150px]"
-              alt="image"
+              alt=""
             />
             <img
               src={toAbsoluteUrl('/media/illustrations/23-dark.svg')}
               className="light:hidden max-h-[150px]"
-              alt="image"
+              alt=""
             />
           </div>
 

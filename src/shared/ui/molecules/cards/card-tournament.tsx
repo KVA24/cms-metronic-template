@@ -26,9 +26,9 @@ const CardTournament = ({
   labels,
   progress,
 }: ITournamentProps) => {
-  const renderItem = (label: string, index: number) => {
+  const renderItem = (label: string) => {
     return (
-      <Badge key={index} size="sm" variant="outline">
+      <Badge key={label} size="sm" variant="outline">
         {label}
       </Badge>
     );
@@ -47,7 +47,7 @@ const CardTournament = ({
           <img
             src={toAbsoluteUrl(`/media/brand-logos/${logo}`)}
             className="size"
-            alt="image"
+            alt=""
           />
           <div className="grid grid-cols-1 gap-0.5">
             <Link
@@ -63,8 +63,8 @@ const CardTournament = ({
           </div>
         </div>
         <div className="flex flex-wrap gap-1.5">
-          {labels.map((label, index) => {
-            return renderItem(label, index);
+          {labels.map((label) => {
+            return renderItem(label);
           })}
         </div>
         <div className="grid gap-1.5 mb-0.5">

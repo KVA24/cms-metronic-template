@@ -34,12 +34,15 @@ type GridBackgroundProps = HTMLMotionProps<'div'> & {
   };
 };
 
+const DEFAULT_COLORS: GridBackgroundProps['colors'] = {};
+const DEFAULT_BEAMS: GridBackgroundProps['beams'] = {};
+
 function GridBackground({
   className,
   children,
   gridSize = '8:8',
-  colors = {},
-  beams = {},
+  colors = DEFAULT_COLORS,
+  beams = DEFAULT_BEAMS,
   ...props
 }: GridBackgroundProps) {
   const {

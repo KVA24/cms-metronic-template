@@ -22,7 +22,7 @@ const CardWorkRow = ({
           <img
             src={toAbsoluteUrl(`/media/images/600x400/${image}`)}
             className="rounded-md max-h-20 max-w-full shrink-0"
-            alt="image"
+            alt=""
           />
           <div className="grid grid-col gap-1">
             <Link
@@ -41,7 +41,7 @@ const CardWorkRow = ({
             <img
               src={toAbsoluteUrl(`/media/avatars/${authorAvatar}`)}
               className="rounded-full h-7"
-              alt="image"
+              alt=""
             />
             <Link
               to="#"

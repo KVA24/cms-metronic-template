@@ -36,10 +36,10 @@ const CardNFT2 = ({
   info,
   statistics,
 }: INFT2Props) => {
-  const renderItem = (statistic: INFT2Item, index: number) => {
+  const renderItem = (statistic: INFT2Item) => {
     return (
       <div
-        key={index}
+        key={statistic.description}
         className="grid grid-cols-1 gap-1.5 border-[0.5px] border-dashed border-input rounded-md px-2.5 py-2 shrink-0 max-w-auto"
       >
         <span className="text-mono text-sm leading-none font-medium">
@@ -114,8 +114,8 @@ const CardNFT2 = ({
           </div>
         </div>
         <div className="flex items-center justify-center flex-wrap gap-2 lg:gap-5 mb-3">
-          {statistics.map((statistic, index) => {
-            return renderItem(statistic, index);
+          {statistics.map((statistic) => {
+            return renderItem(statistic);
           })}
         </div>
       </CardContent>

@@ -28,12 +28,12 @@ export function WelcomeMessageDialog({
             <img
               src={toAbsoluteUrl('/media/illustrations/21.svg')}
               className="dark:hidden max-h-[140px]"
-              alt="image"
+              alt=""
             />
             <img
               src={toAbsoluteUrl('/media/illustrations/21-dark.svg')}
               className="light:hidden max-h-[140px]"
-              alt="image"
+              alt=""
             />
           </div>
 

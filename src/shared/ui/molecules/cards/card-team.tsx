@@ -36,9 +36,9 @@ const CardTeam = ({
   team,
   connected,
 }: ITeamProps) => {
-  const renderItem = (label: string, index: number) => {
+  const renderItem = (label: string) => {
     return (
-      <Badge key={index} size="md" variant="outline">
+      <Badge key={label} size="md" variant="outline">
         {label}
       </Badge>
     );
@@ -69,8 +69,8 @@ const CardTeam = ({
               skills
             </span>
             <div className="flex flex-wrap gap-1.5">
-              {labels.map((label, index) => {
-                return renderItem(label, index);
+              {labels.map((label) => {
+                return renderItem(label);
               })}
             </div>
           </div>

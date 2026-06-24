@@ -12,12 +12,12 @@ export function Help2() {
             <img
               src={toAbsoluteUrl('/media/illustrations/29.svg')}
               className="dark:hidden max-h-[150px]"
-              alt="image"
+              alt=""
             />
             <img
               src={toAbsoluteUrl('/media/illustrations/29-dark.svg')}
               className="light:hidden max-h-[150px]"
-              alt="image"
+              alt=""
             />
           </>
         }
@@ -31,12 +31,12 @@ export function Help2() {
             <img
               src={toAbsoluteUrl('/media/illustrations/31.svg')}
               className="dark:hidden max-h-[150px]"
-              alt="image"
+              alt=""
             />
             <img
               src={toAbsoluteUrl('/media/illustrations/31-dark.svg')}
               className="light:hidden max-h-[150px]"
-              alt="image"
+              alt=""
             />
           </>
         }

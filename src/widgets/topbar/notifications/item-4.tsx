@@ -13,7 +13,7 @@ export default function Item4() {
   return (
     <div className="flex grow gap-2.5 px-5">
       <Avatar>
-        <AvatarImage src="/media/avatars/300-10.png" alt="avatar" />
+        <AvatarImage src="/media/avatars/300-10.png" alt="" />
         <AvatarFallback>CH</AvatarFallback>
         <AvatarIndicator className="-end-1.5 -bottom-1.5">
           <AvatarStatus variant="offline" className="size-2.5" />
@@ -43,7 +43,7 @@ export default function Item4() {
           <img
             src={toAbsoluteUrl('/media/file-types/pdf.svg')}
             className="h-5"
-            alt="image"
+            alt=""
           />
           <Link
             to="#"

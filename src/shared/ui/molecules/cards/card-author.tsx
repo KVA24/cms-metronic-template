@@ -40,9 +40,9 @@ const CardAuthor = ({
   location,
   works,
 }: IAuthorProps) => {
-  const renderItem = (work: IWork, index: number) => {
+  const renderItem = (work: IWork) => {
     return (
-      <Card key={index} className="mb-5 last:me-5 overflow-hidden rounded-xl">
+      <Card key={work.title} className="mb-5 last:me-5 overflow-hidden rounded-xl">
         <div
           className="bg-cover bg-no-repeat card-rounded-t w-[240px] shrink-0 h-44"
           style={{
@@ -119,8 +119,8 @@ const CardAuthor = ({
         </div>
         <ScrollArea>
           <div className="flex gap-5 ms-7.5">
-            {works.map((work, index) => {
-              return renderItem(work, index);
+            {works.map((work) => {
+              return renderItem(work);
             })}
           </div>
           <ScrollBar orientation="horizontal" />

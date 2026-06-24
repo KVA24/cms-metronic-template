@@ -32,8 +32,8 @@ export function ShareProfileUsers() {
 
   return (
     <div className="flex flex-col px-5 gap-2.5">
-      {items.map((item, index) => (
-        <div key={index} className="flex items-center flex-wrap gap-2">
+      {items.map((item) => (
+        <div key={item.userName} className="flex items-center flex-wrap gap-2">
           <div className="flex items-center grow gap-2.5">
             <img
               src={toAbsoluteUrl(`/media/avatars/${item.avatar}`)}

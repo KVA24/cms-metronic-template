@@ -6,10 +6,10 @@ import { AvatarSingle } from '../common/avatar-single';
 import { INFT2Item, INFT2Props } from './card-ntf2';
 
 const CardNFT2Row = ({ avatar, name, email, info, statistics }: INFT2Props) => {
-  const renderItem = (statistic: INFT2Item, index: number) => {
+  const renderItem = (statistic: INFT2Item) => {
     return (
       <div
-        key={index}
+        key={statistic.description}
         className="grid grid-cols-1 gap-1.5 border border-dashed border-input shrink-0 rounded-md min-w-24 max-w-auto px-2.5 py-2"
       >
         <span className="text-mono text-sm leading-none font-medium">
@@ -74,8 +74,8 @@ const CardNFT2Row = ({ avatar, name, email, info, statistics }: INFT2Props) => {
         </div>
         <div className="flex items-center flex-wrap gap-5 lg:gap-12">
           <div className="flex items-center  flex-wrap gap-2 lg:gap-5">
-            {statistics.map((statistic, index) => {
-              return renderItem(statistic, index);
+            {statistics.map((statistic) => {
+              return renderItem(statistic);
             })}
           </div>
           <Button mode="link" underlined="dashed">

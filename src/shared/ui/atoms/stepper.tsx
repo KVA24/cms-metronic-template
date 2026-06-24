@@ -64,6 +64,8 @@ interface StepperProps extends React.HTMLAttributes<HTMLDivElement> {
   indicators?: StepIndicators;
 }
 
+const DEFAULT_INDICATORS: StepIndicators = {};
+
 function Stepper({
   defaultValue = 1,
   value,
@@ -71,7 +73,7 @@ function Stepper({
   orientation = 'horizontal',
   className,
   children,
-  indicators = {},
+  indicators = DEFAULT_INDICATORS,
   ...props
 }: StepperProps) {
   const [activeStep, setActiveStep] = React.useState(defaultValue);

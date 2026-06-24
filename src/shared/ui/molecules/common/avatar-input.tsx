@@ -49,7 +49,7 @@ export function AvatarInput() {
               backgroundImage: `url(${toAbsoluteUrl(`/media/avatars/blank.png`)})`,
             }}
           >
-            {avatar.length > 0 && <img src={avatar[0].dataURL} alt="avatar" />}
+            {avatar.length > 0 && <img src={avatar[0].dataURL} alt="" />}
             <div className="flex items-center justify-center cursor-pointer h-5 left-0 right-0 bottom-0 bg-black/25 absolute">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

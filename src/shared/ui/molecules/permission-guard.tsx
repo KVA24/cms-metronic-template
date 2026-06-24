@@ -2,6 +2,8 @@ import { ReactNode } from 'react';
 import { useUserRole } from '@/shared/lib/rbac/hooks';
 import { UserRole } from '@/shared/lib/rbac/roles';
 
+const EMPTY_ROLES: UserRole[] = [];
+
 interface RoleGuardProps {
   children: ReactNode;
   requiredRoles?: UserRole[];
@@ -14,7 +16,7 @@ interface RoleGuardProps {
  */
 export function RoleGuard({
   children,
-  requiredRoles = [],
+  requiredRoles = EMPTY_ROLES,
   fallback = null,
 }: RoleGuardProps) {
   const userRole = useUserRole();
