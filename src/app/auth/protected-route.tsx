@@ -4,6 +4,8 @@ import { useAuthStatus } from '@/shared/stores/auth-store';
 import { SuspenseLoading } from '@/shared/ui/molecules/suspense-loading';
 import { Navigate, Outlet } from 'react-router-dom';
 
+const EMPTY_ROLES: UserRole[] = [];
+
 interface ProtectedRouteProps {
   requiredRoles?: UserRole[];
   redirectTo?: string;
@@ -14,7 +16,7 @@ interface ProtectedRouteProps {
  * If user doesn't have required roles, redirects to 403 Forbidden page
  */
 export function ProtectedRoute({
-  requiredRoles = [],
+  requiredRoles = EMPTY_ROLES,
   redirectTo = '/error/403',
 }: ProtectedRouteProps) {
   const userRole = useUserRole();

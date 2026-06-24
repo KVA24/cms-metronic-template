@@ -54,7 +54,7 @@ const CardProjectRow = ({
             <img
               src={toAbsoluteUrl(`/media/brand-logos/${logo}`)}
               className=""
-              alt="image"
+              alt=""
             />
           </div>
           <div className="flex flex-col">

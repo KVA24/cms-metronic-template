@@ -149,20 +149,20 @@ function DataGridTableDnd<TData>({
           <DataGridTableHead>
             {table
               .getHeaderGroups()
-              .map((headerGroup: HeaderGroup<TData>, index) => {
+              .map((headerGroup: HeaderGroup<TData>) => {
                 logger.log(
                   'table.getState().columnOrder:',
                   table.getState().columnOrder,
                 );
 
                 return (
-                  <DataGridTableHeadRow headerGroup={headerGroup} key={index}>
+                  <DataGridTableHeadRow headerGroup={headerGroup} key={headerGroup.id}>
                     <SortableContext
                       items={table.getState().columnOrder}
                       strategy={horizontalListSortingStrategy}
                     >
-                      {headerGroup.headers.map((header, index) => (
-                        <DataGridTableDndHeader header={header} key={index} />
+                      {headerGroup.headers.map((header) => (
+                        <DataGridTableDndHeader header={header} key={header.id} />
                       ))}
                     </SortableContext>
                   </DataGridTableHeadRow>
@@ -193,10 +193,10 @@ function DataGridTableDnd<TData>({
                 </DataGridTableBodyRowSkeleton>
               ))
             ) : table.getRowModel().rows.length ? (
-              table.getRowModel().rows.map((row: Row<TData>, index) => {
+              table.getRowModel().rows.map((row: Row<TData>) => {
                 return (
                   <Fragment key={row.id}>
-                    <DataGridTableBodyRow row={row} key={index}>
+                    <DataGridTableBodyRow row={row}>
                       {row
                         .getVisibleCells()
                         .map((cell: Cell<TData, unknown>) => {

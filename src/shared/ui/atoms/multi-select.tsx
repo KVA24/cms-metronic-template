@@ -37,9 +37,11 @@ interface MultiSelectProps {
   error?: boolean;
 }
 
+const EMPTY_VALUE: string[] = [];
+
 export function MultiSelect({
   options,
-  value = [],
+  value = EMPTY_VALUE,
   onChange,
   placeholder = 'Select items...',
   emptyText = 'No items.',

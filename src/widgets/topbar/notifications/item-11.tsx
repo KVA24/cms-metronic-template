@@ -14,7 +14,7 @@ export default function Item11() {
   return (
     <div className="flex grow gap-2.5 px-5">
       <Avatar>
-        <AvatarImage src="/media/avatars/300-12.png" alt="avatar" />
+        <AvatarImage src="/media/avatars/300-12.png" alt="" />
         <AvatarFallback>CH</AvatarFallback>
         <AvatarIndicator className="-end-1.5 -bottom-1.5">
           <AvatarStatus variant="online" className="size-2.5" />
@@ -44,7 +44,7 @@ export default function Item11() {
             <img
               src={toAbsoluteUrl('/media/file-types/word.svg')}
               className="h-6"
-              alt="image"
+              alt=""
             />
 
             <div className="flex flex-col gap-0.5">
@@ -95,7 +95,7 @@ export default function Item11() {
             <img
               src={toAbsoluteUrl('/media/file-types/svg.svg')}
               className="h-6"
-              alt="image"
+              alt=""
             />
 
             <div className="flex flex-col gap-0.5">

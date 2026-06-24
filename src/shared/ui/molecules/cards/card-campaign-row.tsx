@@ -17,10 +17,10 @@ const CardCampaignRow = ({
   statistics,
   url,
 }: ICampaignProps) => {
-  const renderItem = (statistic: ICampaignItem, index: number) => {
+  const renderItem = (statistic: ICampaignItem) => {
     return (
       <div
-        key={index}
+        key={statistic.description}
         className="flex flex-col gap-1.5 border border-dashed border-input rounded-md px-2.5 py-2"
       >
         <span className="text-mono text-sm leading-none font-medium">
@@ -43,19 +43,19 @@ const CardCampaignRow = ({
                 <img
                   src={toAbsoluteUrl(`/media/brand-logos/${logo}`)}
                   className={`dark:hidden size-[${logoSize}] shrink-0`}
-                  alt="image"
+                  alt=""
                 />
                 <img
                   src={toAbsoluteUrl(`/media/brand-logos/${logoDark}`)}
                   className={`light:hidden size-[${logoSize}] shrink-0`}
-                  alt="image"
+                  alt=""
                 />
               </>
             ) : (
               <img
                 src={toAbsoluteUrl(`/media/brand-logos/${logo}`)}
                 className={`size-[${logoSize}] shrink-0`}
-                alt="image"
+                alt=""
               />
             )}
           </div>
@@ -73,8 +73,8 @@ const CardCampaignRow = ({
         </div>
         <div className="flex items-center flex-wrap justify-between gap-5 lg:gap-12">
           <div className="flex items-center flex-wrap gap-2 lg:gap-5">
-            {statistics.map((statistic, index) => {
-              return renderItem(statistic, index);
+            {statistics.map((statistic) => {
+              return renderItem(statistic);
             })}
           </div>
           <div className="flex justify-center w-20">

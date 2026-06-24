@@ -11,12 +11,12 @@ export function Error403() {
         <img
           src={toAbsoluteUrl('/media/illustrations/22.svg')}
           className="dark:hidden max-h-[160px]"
-          alt="image"
+          alt=""
         />
         <img
           src={toAbsoluteUrl('/media/illustrations/22-dark.svg')}
           className="hidden dark:block max-h-[160px]"
-          alt="image"
+          alt=""
         />
       </div>
 

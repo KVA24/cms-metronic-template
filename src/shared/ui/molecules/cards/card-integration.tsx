@@ -28,7 +28,7 @@ const CardIntegration = ({
             <img
               src={toAbsoluteUrl(`/media/brand-logos/${logo}`)}
               className="h-11 shrink-0"
-              alt="image"
+              alt=""
             />
           </div>
           <div className="btn btn-sm btn-icon btn-clear btn-light">

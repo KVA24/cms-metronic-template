@@ -8,8 +8,8 @@ export function SearchSettingsItems({
 }) {
   return (
     <>
-      {items.map((item, index) => (
-        <AccordionMenuItem key={index} value={item.info}>
+      {items.map((item) => (
+        <AccordionMenuItem key={item.info} value={item.info}>
           <item.icon size={16} />
           <span>{item.info}</span>
         </AccordionMenuItem>

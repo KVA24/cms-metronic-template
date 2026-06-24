@@ -53,10 +53,10 @@ const CardProjectExtended = ({
   progress,
   url,
 }: IProjectExtendedProps) => {
-  const renderItem = (statistic: IProjectExtendedItem, index: number) => {
+  const renderItem = (statistic: IProjectExtendedItem) => {
     return (
       <div
-        key={index}
+        key={statistic.description}
         className="grid grid-cols-1 content-between gap-1.5 border border-dashed border-input shrink-0 rounded-md px-2.5 py-2 min-w-24 max-w-auto"
       >
         <span className="text-mono text-sm leading-none font-medium">
@@ -88,7 +88,7 @@ const CardProjectExtended = ({
           <img
             src={toAbsoluteUrl(`/media/brand-logos/${logo}`)}
             className="min-w-12 shrink-0"
-            alt="image"
+            alt=""
           />
         </div>
         <div className="text-center mb-7">
@@ -107,8 +107,8 @@ const CardProjectExtended = ({
           <AvatarGroup group={team.group} size={team.size} />
         </div>
         <div className="flex items-center justify-center flex-wrap gap-2 lg:gap-5">
-          {statistics.map((statistic, index) => {
-            return renderItem(statistic, index);
+          {statistics.map((statistic) => {
+            return renderItem(statistic);
           })}
         </div>
       </div>

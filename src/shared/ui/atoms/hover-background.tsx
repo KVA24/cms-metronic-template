@@ -19,11 +19,13 @@ type HoverBackgroundProps = HTMLMotionProps<'div'> & {
   };
 };
 
+const DEFAULT_COLORS: HoverBackgroundProps['colors'] = {};
+
 function HoverBackground({
   className,
   objectCount = 12,
   children,
-  colors = {},
+  colors = DEFAULT_COLORS,
   ...props
 }: HoverBackgroundProps) {
   const {

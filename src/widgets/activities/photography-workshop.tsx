@@ -36,7 +36,7 @@ const ActivitiesPhotographyWorkshop = () => {
                 <img
                   src={toAbsoluteUrl('/media/images/600x400/8.jpg')}
                   className="rounded-lg max-h-20 max-w-full"
-                  alt="image"
+                  alt=""
                 />
               </div>
               <div className="flex flex-col items-start gap-2">

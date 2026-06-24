@@ -23,7 +23,7 @@ export default function Item7() {
   return (
     <div className="flex grow gap-2.5 px-5">
       <Avatar>
-        <AvatarImage src="/media/avatars/300-15.png" alt="avatar" />
+        <AvatarImage src="/media/avatars/300-15.png" alt="" />
         <AvatarFallback>CH</AvatarFallback>
         <AvatarIndicator className="-end-1.5 -bottom-1.5">
           <AvatarStatus variant="offline" className="size-2.5" />

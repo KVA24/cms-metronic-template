@@ -54,7 +54,7 @@ const CardProject = ({
           <img
             src={toAbsoluteUrl(`/media/brand-logos/${logo}`)}
             className=""
-            alt="image"
+            alt=""
           />
         </div>
         <Badge size="lg" variant={status.variant} appearance="light">

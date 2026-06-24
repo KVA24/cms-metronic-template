@@ -14,12 +14,12 @@ export function Error500() {
         <img
           src={toAbsoluteUrl('/media/illustrations/20.svg')}
           className="dark:hidden max-h-[160px]"
-          alt="image"
+          alt=""
         />
         <img
           src={toAbsoluteUrl('/media/illustrations/20-dark.svg')}
           className="light:hidden max-h-[160px]"
-          alt="image"
+          alt=""
         />
       </div>
 

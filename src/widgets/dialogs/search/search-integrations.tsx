@@ -26,8 +26,8 @@ export function SearchIntegrations({
     >
       <AccordionMenuGroup>
         <div className="grid gap-2 px-2">
-          {items.map((item, index) => (
-            <AccordionMenuItem key={index} value={item.name} asChild>
+          {items.map((item) => (
+            <AccordionMenuItem key={item.name} value={item.name} asChild>
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center grow gap-2">
                   {/* Logo */}

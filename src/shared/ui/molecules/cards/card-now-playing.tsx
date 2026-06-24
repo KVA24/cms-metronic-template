@@ -36,9 +36,9 @@ const CardNowPlaying = ({
   team,
   label,
 }: INowPlayingProps) => {
-  const renderItem = (statistic: INowPlayingItem, index: number) => {
+  const renderItem = (statistic: INowPlayingItem) => {
     return (
-      <div key={index} className="grid grid-cols-1 gap-1.5 text-center">
+      <div key={statistic.description} className="grid grid-cols-1 gap-1.5 text-center">
         <span className="text-mono text-sm leading-none font-semibold">
           {statistic.number}%
         </span>
@@ -54,14 +54,14 @@ const CardNowPlaying = ({
       <img
         src={toAbsoluteUrl(`/media/images/600x600/${image}`)}
         className="rounded-t-xl max-w-[280px] shrink-0"
-        alt="image"
+        alt=""
       />
       <div className="card-border card-rounded-b grid gap-6 px-5 py-3.5 mb-4.5">
         <div className="flex items-center gap-2.5">
           <img
             src={toAbsoluteUrl(`/media/images/600x600/${logo}`)}
             className="rounded-full size-10"
-            alt="image"
+            alt=""
           />
           <div className="grid grid-cols-1 gap-0.5">
             <Link
@@ -76,8 +76,8 @@ const CardNowPlaying = ({
           </div>
         </div>
         <div className="grid grid-cols-3 gap-2">
-          {statistics.map((statistic, index) => {
-            return renderItem(statistic, index);
+          {statistics.map((statistic) => {
+            return renderItem(statistic);
           })}
         </div>
         <div className="flex items-center place-content-between gap-2">

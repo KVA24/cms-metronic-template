@@ -50,7 +50,7 @@ export function Faq() {
     return (
       <Accordion type="single" collapsible>
         {items.map((item, index) => (
-          <AccordionItem key={index} value={`item-${index}`}>
+          <AccordionItem key={item.title} value={`item-${index}`}>
             <AccordionTrigger>{item.title}</AccordionTrigger>
             <AccordionContent>{item.text}</AccordionContent>
           </AccordionItem>

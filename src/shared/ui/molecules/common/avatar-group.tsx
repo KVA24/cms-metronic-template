@@ -21,13 +21,13 @@ interface AvatarGroupProp {
 function AvatarGroup({ size, group, more, className }: AvatarGroupProp) {
   const avatarSize = size ? size : 'size-7';
 
-  const renderItem = (each: Avatar, index: number) => {
+  const renderItem = (each: Avatar) => {
     return (
-      <Avatar key={index} className={cn(avatarSize)}>
+      <Avatar key={each.filename || each.path} className={cn(avatarSize)}>
         {each.filename || each.path ? (
           <AvatarImage
             src={toAbsoluteUrl(each.path || `/media/avatars/${each.filename}`)}
-            alt="image"
+            alt=""
             className={cn(
               ' border-1 border-background hover:z-10',
               each.variant,
@@ -51,7 +51,7 @@ function AvatarGroup({ size, group, more, className }: AvatarGroupProp) {
 
   return (
     <div className={cn('flex -space-x-2', className)}>
-      {group.map((each, index) => renderItem(each, index))}
+      {group.map((each) => renderItem(each))}
       {more && (
         <span
           className={cn(

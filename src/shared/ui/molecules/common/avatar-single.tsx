@@ -27,7 +27,7 @@ const AvatarSingle = ({
         <img
           src={toAbsoluteUrl(`/media/avatars/${image}`)}
           className={cn(imageClass && imageClass)}
-          alt="image"
+          alt=""
         />
       )}
       {!image && fallback && fallback}

@@ -14,7 +14,7 @@ const CardLocation = ({ image, title, description }: ILocationProps) => {
       <img
         src={toAbsoluteUrl(`/media/images/600x400/${image}`)}
         className="rounded-t-xl max-w-[280px] shrink-0"
-        alt="image"
+        alt=""
       />
       <div className="card-border card-rounded-b px-3.5 h-full pt-3 pb-3.5">
         <Link

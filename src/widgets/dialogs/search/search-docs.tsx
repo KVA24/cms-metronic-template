@@ -20,8 +20,8 @@ export function SearchDocs({ items }: { items: SearchDocsItem[] }) {
     >
       <AccordionMenuGroup>
         <div className="grid gap-2 px-2">
-          {items.map((item, index) => (
-            <AccordionMenuItem key={index} value={item.desc} asChild>
+          {items.map((item) => (
+            <AccordionMenuItem key={item.desc} value={item.desc} asChild>
               <div className="flex items-center justify-between">
                 <div className="flex items-center grow gap-2.5">
                   <img
