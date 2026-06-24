@@ -95,7 +95,7 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({
       ? { from: start ?? undefined, to: end ?? undefined }
       : undefined,
   );
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const [currentYear, setCurrentYear] = useState(() => new Date().getFullYear());
 
   useEffect(() => {
     setDateRange(
