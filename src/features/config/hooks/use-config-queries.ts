@@ -65,8 +65,7 @@ export function useCreateConfig() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ data }: { data: ConfigCreateDto }) =>
-      configApi.create(data),
+    mutationFn: ({ data }: { data: ConfigCreateDto }) => configApi.create(data),
     onSuccess: () => {
       // Invalidate all config lists to refetch
       queryClient.invalidateQueries({ queryKey: configKeys.lists() });
@@ -85,13 +84,8 @@ export function useUpdateConfig() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      id,
-      data,
-    }: {
-      id: string;
-      data: ConfigUpdateDto;
-    }) => configApi.update(id, data),
+    mutationFn: ({ id, data }: { id: string; data: ConfigUpdateDto }) =>
+      configApi.update(id, data),
     onSuccess: (_, variables) => {
       // Invalidate all config lists and the specific detail
       queryClient.invalidateQueries({ queryKey: configKeys.lists() });

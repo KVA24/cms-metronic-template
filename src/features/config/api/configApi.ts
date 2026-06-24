@@ -102,10 +102,7 @@ export const configApi = {
   /**
    * Update existing config
    */
-  update: async (
-    id: string,
-    data: ConfigUpdateDto,
-  ): Promise<Config> => {
+  update: async (id: string, data: ConfigUpdateDto): Promise<Config> => {
     try {
       logger.log('API update called:', { id, data });
 

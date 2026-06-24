@@ -1,7 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
-import { authApi, ChangePasswordRequest } from '@/app/auth/api/authApi';
-import { toast } from 'sonner';
 import { useTranslations } from '@/shared/hooks';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
+import { authApi, ChangePasswordRequest } from '@/app/auth/api/authApi';
 
 export function useChangePassword() {
   const { t } = useTranslations();

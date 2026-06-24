@@ -1,8 +1,10 @@
 import { ReactNode } from 'react';
+import { useTranslations } from '@/shared/hooks';
 import { I18N_LANGUAGES } from '@/shared/i18n/config';
 import { Language } from '@/shared/i18n/types';
 import { toAbsoluteUrl } from '@/shared/lib/helpers';
 import { useAuthActions, useAuthUser } from '@/shared/stores/auth-store';
+import { useChangePasswordDialog } from '@/shared/stores/ui-store';
 import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import {
@@ -18,12 +20,10 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/atoms/dropdown-menu';
 import UiserveSwitch from '@/shared/ui/molecules/uiverse-switch-mode';
-import { Globe, Moon, KeyRound } from 'lucide-react';
+import { Globe, KeyRound, Moon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/app/providers/i18n-provider';
-import { useChangePasswordDialog } from '@/shared/stores/ui-store';
-import { useTranslations } from '@/shared/hooks';
 
 export function UserDropdownMenu({ trigger }: { trigger: ReactNode }) {
   const user = useAuthUser();

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import { registerRecaptcha } from '@/shared/lib/recaptcha-manager';
 import logger from '@/shared/lib/logger';
+import { registerRecaptcha } from '@/shared/lib/recaptcha-manager';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 /**
  * Component to initialize reCAPTCHA globally

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useRouteLoading } from '@/shared/hooks/use-route-loading';
+import { useLocation } from 'react-router-dom';
 import { AppRoutingSetup } from './app-routing-setup';
 
 export function AppRouting() {
   // Track route loading
   useRouteLoading();
-  
+
   const [previousLocation, setPreviousLocation] = useState('');
   const location = useLocation();
   const path = location.pathname.trim();

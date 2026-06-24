@@ -234,7 +234,9 @@ export function AccountPage() {
     }
 
     if (statusOtp.length !== 6) {
-      setStatusOtpError(t('COMMON.OTP_MUST_BE_6_DIGITS') || 'OTP must be 6 digits');
+      setStatusOtpError(
+        t('COMMON.OTP_MUST_BE_6_DIGITS') || 'OTP must be 6 digits',
+      );
       return;
     }
 
@@ -642,7 +644,9 @@ export function AccountPage() {
                 disabled={updateStatusMutation.isPending}
               />
               {statusOtpError && (
-                <span className="text-xs text-destructive">{statusOtpError}</span>
+                <span className="text-xs text-destructive">
+                  {statusOtpError}
+                </span>
               )}
             </div>
           </div>

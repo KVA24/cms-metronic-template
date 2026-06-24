@@ -1,7 +1,7 @@
-import {useEffect, useState} from 'react';
-import {useChangePassword} from '@/features/auth/hooks/use-auth-mutations';
-import {useTranslations} from '@/shared/hooks';
-import {useChangePasswordDialog} from '@/shared/stores/ui-store';
+import { useEffect, useState } from 'react';
+import { useChangePassword } from '@/features/auth/hooks/use-auth-mutations';
+import { useTranslations } from '@/shared/hooks';
+import { useChangePasswordDialog } from '@/shared/stores/ui-store';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -11,16 +11,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/shared/ui/atoms/alert-dialog';
-import {Button} from '@/shared/ui/atoms/button';
-import {Input} from '@/shared/ui/atoms/input';
-import {Label} from '@/shared/ui/atoms/label';
-import {Eye, EyeOff} from 'lucide-react';
+import { Button } from '@/shared/ui/atoms/button';
+import { Input } from '@/shared/ui/atoms/input';
+import { Label } from '@/shared/ui/atoms/label';
+import { Eye, EyeOff } from 'lucide-react';
 
 export function ChangePasswordDialog() {
-  const {t} = useTranslations();
+  const { t } = useTranslations();
   const dialog = useChangePasswordDialog();
   const changePasswordMutation = useChangePassword();
-  
+
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -34,7 +34,7 @@ export function ChangePasswordDialog() {
     confirmPassword: '',
     otpCode: '',
   });
-  
+
   useEffect(() => {
     if (dialog.isOpen) {
       setOldPassword('');
@@ -52,7 +52,7 @@ export function ChangePasswordDialog() {
       setShowConfirmPassword(false);
     }
   }, [dialog.isOpen]);
-  
+
   const validatePasswords = (): boolean => {
     const newErrors = {
       oldPassword: '',
@@ -60,33 +60,43 @@ export function ChangePasswordDialog() {
       confirmPassword: '',
       otpCode: '',
     };
-    
+
     if (!oldPassword) {
-      newErrors.oldPassword = t('AUTH.CHANGE_PASSWORD.ERROR.OLD_PASSWORD_REQUIRED');
+      newErrors.oldPassword = t(
+        'AUTH.CHANGE_PASSWORD.ERROR.OLD_PASSWORD_REQUIRED',
+      );
     }
-    
+
     if (!newPassword) {
-      newErrors.newPassword = t('AUTH.CHANGE_PASSWORD.ERROR.NEW_PASSWORD_REQUIRED');
+      newErrors.newPassword = t(
+        'AUTH.CHANGE_PASSWORD.ERROR.NEW_PASSWORD_REQUIRED',
+      );
     } else if (newPassword.length < 6) {
-      newErrors.newPassword = t('AUTH.CHANGE_PASSWORD.ERROR.PASSWORD_TOO_SHORT');
+      newErrors.newPassword = t(
+        'AUTH.CHANGE_PASSWORD.ERROR.PASSWORD_TOO_SHORT',
+      );
     }
-    
+
     if (!confirmPassword) {
-      newErrors.confirmPassword = t('AUTH.CHANGE_PASSWORD.ERROR.CONFIRM_PASSWORD_REQUIRED');
+      newErrors.confirmPassword = t(
+        'AUTH.CHANGE_PASSWORD.ERROR.CONFIRM_PASSWORD_REQUIRED',
+      );
     } else if (newPassword !== confirmPassword) {
-      newErrors.confirmPassword = t('AUTH.CHANGE_PASSWORD.ERROR.PASSWORDS_DO_NOT_MATCH');
+      newErrors.confirmPassword = t(
+        'AUTH.CHANGE_PASSWORD.ERROR.PASSWORDS_DO_NOT_MATCH',
+      );
     }
-    
+
     setErrors(newErrors);
     return !Object.values(newErrors).some((error) => error !== '');
   };
-  
+
   const handleContinueClick = () => {
     if (validatePasswords()) {
       dialog.setStep('otp');
     }
   };
-  
+
   const handleChangePassword = async () => {
     // Validate OTP
     if (!otpCode || otpCode.trim().length !== 6) {
@@ -96,7 +106,7 @@ export function ChangePasswordDialog() {
       }));
       return;
     }
-    
+
     try {
       await changePasswordMutation.mutateAsync({
         oldPassword,
@@ -108,13 +118,13 @@ export function ChangePasswordDialog() {
       // Error handled by mutation
     }
   };
-  
+
   const handleOpenChange = (open: boolean) => {
     if (!open && !changePasswordMutation.isPending) {
       dialog.close();
     }
   };
-  
+
   return (
     <AlertDialog open={dialog.isOpen} onOpenChange={handleOpenChange}>
       <AlertDialogContent>
@@ -130,7 +140,7 @@ export function ChangePasswordDialog() {
               : t('COMMON.ENTER_OTP_CODE_TO_PROCEED')}
           </AlertDialogDescription>
         </AlertDialogHeader>
-        
+
         {dialog.step === 'input' && (
           <div className="space-y-4">
             <div className="space-y-2">
@@ -141,11 +151,13 @@ export function ChangePasswordDialog() {
                 <Input
                   id="old-password"
                   type={showOldPassword ? 'text' : 'password'}
-                  placeholder={t('AUTH.CHANGE_PASSWORD.OLD_PASSWORD_PLACEHOLDER')}
+                  placeholder={t(
+                    'AUTH.CHANGE_PASSWORD.OLD_PASSWORD_PLACEHOLDER',
+                  )}
                   value={oldPassword}
                   onChange={(e) => {
                     setOldPassword(e.target.value);
-                    setErrors((prev) => ({...prev, oldPassword: ''}));
+                    setErrors((prev) => ({ ...prev, oldPassword: '' }));
                   }}
                   disabled={changePasswordMutation.isPending}
                 />
@@ -154,14 +166,16 @@ export function ChangePasswordDialog() {
                   onClick={() => setShowOldPassword(!showOldPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
-                  {showOldPassword ? <EyeOff size={16}/> : <Eye size={16}/>}
+                  {showOldPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
               {errors.oldPassword && (
-                <span className="text-xs text-destructive">{errors.oldPassword}</span>
+                <span className="text-xs text-destructive">
+                  {errors.oldPassword}
+                </span>
               )}
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="new-password">
                 {t('AUTH.CHANGE_PASSWORD.NEW_PASSWORD')} *
@@ -170,11 +184,13 @@ export function ChangePasswordDialog() {
                 <Input
                   id="new-password"
                   type={showNewPassword ? 'text' : 'password'}
-                  placeholder={t('AUTH.CHANGE_PASSWORD.NEW_PASSWORD_PLACEHOLDER')}
+                  placeholder={t(
+                    'AUTH.CHANGE_PASSWORD.NEW_PASSWORD_PLACEHOLDER',
+                  )}
                   value={newPassword}
                   onChange={(e) => {
                     setNewPassword(e.target.value);
-                    setErrors((prev) => ({...prev, newPassword: ''}));
+                    setErrors((prev) => ({ ...prev, newPassword: '' }));
                   }}
                   disabled={changePasswordMutation.isPending}
                 />
@@ -183,14 +199,16 @@ export function ChangePasswordDialog() {
                   onClick={() => setShowNewPassword(!showNewPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
-                  {showNewPassword ? <EyeOff size={16}/> : <Eye size={16}/>}
+                  {showNewPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
               {errors.newPassword && (
-                <span className="text-xs text-destructive">{errors.newPassword}</span>
+                <span className="text-xs text-destructive">
+                  {errors.newPassword}
+                </span>
               )}
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="confirm-password">
                 {t('AUTH.CHANGE_PASSWORD.CONFIRM_PASSWORD')} *
@@ -199,11 +217,13 @@ export function ChangePasswordDialog() {
                 <Input
                   id="confirm-password"
                   type={showConfirmPassword ? 'text' : 'password'}
-                  placeholder={t('AUTH.CHANGE_PASSWORD.CONFIRM_PASSWORD_PLACEHOLDER')}
+                  placeholder={t(
+                    'AUTH.CHANGE_PASSWORD.CONFIRM_PASSWORD_PLACEHOLDER',
+                  )}
                   value={confirmPassword}
                   onChange={(e) => {
                     setConfirmPassword(e.target.value);
-                    setErrors((prev) => ({...prev, confirmPassword: ''}));
+                    setErrors((prev) => ({ ...prev, confirmPassword: '' }));
                   }}
                   disabled={changePasswordMutation.isPending}
                 />
@@ -212,16 +232,22 @@ export function ChangePasswordDialog() {
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
-                  {showConfirmPassword ? <EyeOff size={16}/> : <Eye size={16}/>}
+                  {showConfirmPassword ? (
+                    <EyeOff size={16} />
+                  ) : (
+                    <Eye size={16} />
+                  )}
                 </button>
               </div>
               {errors.confirmPassword && (
-                <span className="text-xs text-destructive">{errors.confirmPassword}</span>
+                <span className="text-xs text-destructive">
+                  {errors.confirmPassword}
+                </span>
               )}
             </div>
           </div>
         )}
-        
+
         {dialog.step === 'otp' && (
           <div className="space-y-4">
             <div className="flex flex-col gap-2">
@@ -233,18 +259,20 @@ export function ChangePasswordDialog() {
                 value={otpCode}
                 onChange={(e) => {
                   setOtpCode(e.target.value);
-                  setErrors((prev) => ({...prev, otpCode: ''}));
+                  setErrors((prev) => ({ ...prev, otpCode: '' }));
                 }}
                 maxLength={6}
                 disabled={changePasswordMutation.isPending}
               />
               {errors.otpCode && (
-                <span className="text-xs text-destructive">{errors.otpCode}</span>
+                <span className="text-xs text-destructive">
+                  {errors.otpCode}
+                </span>
               )}
             </div>
           </div>
         )}
-        
+
         <AlertDialogFooter>
           <AlertDialogCancel disabled={changePasswordMutation.isPending}>
             {t('COMMON.CANCEL')}

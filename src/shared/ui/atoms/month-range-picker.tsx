@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/atoms/button';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/shared/ui/atoms/popover';
-import { format, startOfMonth, endOfMonth } from 'date-fns';
+import { endOfMonth, format, startOfMonth } from 'date-fns';
 import { CalendarDays, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
-import { cn } from '@/shared/lib/utils';
 
 interface MonthRangePickerProps {
   start?: Date | null;
@@ -19,42 +19,67 @@ interface MonthRangePickerProps {
 }
 
 const MONTHS = [
-  'Jan', 'Feb', 'Mar', 'Apr',
-  'May', 'Jun', 'Jul', 'Aug',
-  'Sep', 'Oct', 'Nov', 'Dec'
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
 ];
 
 const QUICK_RANGES = [
-  { label: 'This year', getValue: () => {
-    const now = new Date();
-    return {
-      from: new Date(now.getFullYear(), 0, 1),
-      to: new Date(now.getFullYear(), now.getMonth(), 1)
-    };
-  }},
-  { label: 'Last year', getValue: () => {
-    const now = new Date();
-    return {
-      from: new Date(now.getFullYear() - 1, 0, 1),
-      to: new Date(now.getFullYear() - 1, 11, 1)
-    };
-  }},
-  { label: 'Last 6 months', getValue: () => {
-    const now = new Date();
-    const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 6, 1);
-    return {
-      from: sixMonthsAgo,
-      to: new Date(now.getFullYear(), now.getMonth(), 1)
-    };
-  }},
-  { label: 'Last 12 months', getValue: () => {
-    const now = new Date();
-    const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 12, 1);
-    return {
-      from: twelveMonthsAgo,
-      to: new Date(now.getFullYear(), now.getMonth(), 1)
-    };
-  }},
+  {
+    label: 'This year',
+    getValue: () => {
+      const now = new Date();
+      return {
+        from: new Date(now.getFullYear(), 0, 1),
+        to: new Date(now.getFullYear(), now.getMonth(), 1),
+      };
+    },
+  },
+  {
+    label: 'Last year',
+    getValue: () => {
+      const now = new Date();
+      return {
+        from: new Date(now.getFullYear() - 1, 0, 1),
+        to: new Date(now.getFullYear() - 1, 11, 1),
+      };
+    },
+  },
+  {
+    label: 'Last 6 months',
+    getValue: () => {
+      const now = new Date();
+      const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 6, 1);
+      return {
+        from: sixMonthsAgo,
+        to: new Date(now.getFullYear(), now.getMonth(), 1),
+      };
+    },
+  },
+  {
+    label: 'Last 12 months',
+    getValue: () => {
+      const now = new Date();
+      const twelveMonthsAgo = new Date(
+        now.getFullYear(),
+        now.getMonth() - 12,
+        1,
+      );
+      return {
+        from: twelveMonthsAgo,
+        to: new Date(now.getFullYear(), now.getMonth(), 1),
+      };
+    },
+  },
 ];
 
 const MonthRangePicker: React.FC<MonthRangePickerProps> = ({
@@ -82,7 +107,7 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({
 
   const handleMonthClick = (year: number, month: number) => {
     const selectedDate = new Date(year, month, 1);
-    
+
     if (!dateRange?.from || (dateRange?.from && dateRange?.to)) {
       // First selection or start new selection after complete range
       setDateRange({ from: selectedDate, to: undefined });
@@ -117,7 +142,9 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({
     setIsOpen(false);
     if (dateRange?.from) {
       const from = startOfMonth(dateRange.from);
-      const to = dateRange.to ? endOfMonth(dateRange.to) : endOfMonth(dateRange.from);
+      const to = dateRange.to
+        ? endOfMonth(dateRange.to)
+        : endOfMonth(dateRange.from);
       onApply?.({ from, to });
     } else {
       onApply?.(undefined);
@@ -151,7 +178,11 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({
     }
     const fromStr = format(dateRange.from, 'MMM yyyy');
     const toStr = dateRange.to ? format(dateRange.to, 'MMM yyyy') : fromStr;
-    return <span className="truncate">{fromStr} - {toStr}</span>;
+    return (
+      <span className="truncate">
+        {fromStr} - {toStr}
+      </span>
+    );
   };
 
   const renderMonthButton = (year: number, monthIndex: number) => {
@@ -162,12 +193,23 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({
         variant="ghost"
         className={cn(
           'size-8 w-10 text-xs font-medium rounded-sm px-0',
-          !isMonthInRange(year, monthIndex) && 'bg-muted hover:bg-muted/80 text-muted-foreground',
-          isMonthInRange(year, monthIndex) && 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground',
-          isMonthStart(year, monthIndex) && isMonthEnd(year, monthIndex) && 'rounded-md',
-          isMonthStart(year, monthIndex) && !isMonthEnd(year, monthIndex) && 'rounded-r-none',
-          isMonthEnd(year, monthIndex) && !isMonthStart(year, monthIndex) && 'rounded-l-none',
-          isMonthInRange(year, monthIndex) && !isMonthStart(year, monthIndex) && !isMonthEnd(year, monthIndex) && ''
+          !isMonthInRange(year, monthIndex) &&
+            'bg-muted hover:bg-muted/80 text-muted-foreground',
+          isMonthInRange(year, monthIndex) &&
+            'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground',
+          isMonthStart(year, monthIndex) &&
+            isMonthEnd(year, monthIndex) &&
+            'rounded-md',
+          isMonthStart(year, monthIndex) &&
+            !isMonthEnd(year, monthIndex) &&
+            'rounded-r-none',
+          isMonthEnd(year, monthIndex) &&
+            !isMonthStart(year, monthIndex) &&
+            'rounded-l-none',
+          isMonthInRange(year, monthIndex) &&
+            !isMonthStart(year, monthIndex) &&
+            !isMonthEnd(year, monthIndex) &&
+            '',
         )}
         onClick={() => handleMonthClick(year, monthIndex)}
       >
@@ -210,12 +252,16 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({
               >
                 <ChevronLeft className="h-3.5 w-3.5" />
               </Button>
-              
+
               <div className="flex gap-12 w-full justify-between">
-                <span className="font-semibold text-sm w-10 text-center">{currentYear}</span>
-                <span className="font-semibold text-sm w-10 text-center">{currentYear + 1}</span>
+                <span className="font-semibold text-sm w-10 text-center">
+                  {currentYear}
+                </span>
+                <span className="font-semibold text-sm w-10 text-center">
+                  {currentYear + 1}
+                </span>
               </div>
-              
+
               <Button
                 variant="ghost"
                 size="icon"
@@ -230,8 +276,12 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({
             <div className="space-y-1.5">
               {[0, 4, 8].map((startIdx) => (
                 <div key={startIdx} className="flex gap-1">
-                  {[...Array(4)].map((_, i) => renderMonthButton(currentYear, startIdx + i))}
-                  {[...Array(4)].map((_, i) => renderMonthButton(currentYear + 1, startIdx + i))}
+                  {[...Array(4)].map((_, i) =>
+                    renderMonthButton(currentYear, startIdx + i),
+                  )}
+                  {[...Array(4)].map((_, i) =>
+                    renderMonthButton(currentYear + 1, startIdx + i),
+                  )}
                 </div>
               ))}
             </div>
@@ -242,7 +292,9 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({
             {QUICK_RANGES.map((range) => (
               <Button
                 key={range.label}
-                variant={isQuickRangeActive(range.getValue) ? "primary" : "outline"}
+                variant={
+                  isQuickRangeActive(range.getValue) ? 'primary' : 'outline'
+                }
                 className="w-full justify-start text-xs font-normal h-8 px-2"
                 onClick={() => handleQuickRange(range.getValue())}
               >
@@ -263,7 +315,9 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({
           >
             Reset
           </Button>
-          <Button size="sm" onClick={handleApply} className="h-8">Apply</Button>
+          <Button size="sm" onClick={handleApply} className="h-8">
+            Apply
+          </Button>
         </div>
       </PopoverContent>
     </Popover>

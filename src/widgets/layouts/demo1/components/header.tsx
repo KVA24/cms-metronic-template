@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { ChangePasswordDialog } from '@/features/auth/ui/change-password-dialog';
 import { useIsMobile } from '@/shared/hooks/use-mobile';
 import { useScrollPosition } from '@/shared/hooks/use-scroll-position';
 import { toAbsoluteUrl } from '@/shared/lib/helpers';
@@ -17,7 +18,6 @@ import { Container } from '@/shared/ui/molecules/container';
 // import {ChatSheet} from '@/partials/topbar/chat-sheet';
 // import {NotificationsSheet} from '@/partials/topbar/notifications-sheet';
 import { UserDropdownMenu } from '@/widgets/topbar/user-dropdown-menu';
-import { ChangePasswordDialog } from '@/features/auth/ui/change-password-dialog';
 import { Menu } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { Breadcrumb } from './breadcrumb';

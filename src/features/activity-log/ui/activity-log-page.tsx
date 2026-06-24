@@ -543,9 +543,7 @@ export function ActivityLogPage() {
                           <SelectItem value="DELETE">
                             {t('COMMON.DELETE')}
                           </SelectItem>
-                          <SelectItem value="ADD">
-                            {t('COMMON.ADD')}
-                          </SelectItem>
+                          <SelectItem value="ADD">{t('COMMON.ADD')}</SelectItem>
                           <SelectItem value="SUBTRACT">
                             {t('COMMON.SUBTRACT')}
                           </SelectItem>

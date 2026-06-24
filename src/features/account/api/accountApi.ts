@@ -150,10 +150,7 @@ export const accountApi = {
   /**
    * Update existing account
    */
-  update: async (
-    id: string,
-    data: AccountUpdateDto,
-  ): Promise<Account> => {
+  update: async (id: string, data: AccountUpdateDto): Promise<Account> => {
     try {
       const response = await axiosInstance.put<Account>(
         `/api/auth/b/users/${id}`,
@@ -225,7 +222,7 @@ export const accountApi = {
     otpCode?: string,
   ): Promise<void> => {
     try {
-      await axiosInstance.put(`/api/auth/b/users/${id}/status`, { 
+      await axiosInstance.put(`/api/auth/b/users/${id}/status`, {
         status,
         ...(otpCode && { otpCode }),
       });

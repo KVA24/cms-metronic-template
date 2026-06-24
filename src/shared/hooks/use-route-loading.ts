@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useLoadingBar } from 'react-top-loading-bar';
 import { useLocation } from 'react-router-dom';
+import { useLoadingBar } from 'react-top-loading-bar';
 
 /**
  * Hook to show loading bar on route changes
@@ -12,7 +12,7 @@ export function useRouteLoading() {
 
   useEffect(() => {
     start();
-    
+
     const timer = setTimeout(() => {
       complete();
     }, 200);

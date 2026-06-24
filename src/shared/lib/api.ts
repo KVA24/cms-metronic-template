@@ -1,7 +1,7 @@
 import { generalConfig } from '@/shared/config/general.config';
 import logger from '@/shared/lib/logger';
-import { storage } from '@/shared/lib/storage';
 import { getRecaptchaToken } from '@/shared/lib/recaptcha-manager';
+import { storage } from '@/shared/lib/storage';
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { toast } from 'sonner';
 
@@ -77,16 +77,20 @@ axiosInstance.interceptors.request.use(
     // Can be disabled per request by setting skipRecaptchaSign: true
     const method = config.method?.toUpperCase();
     const shouldSkipRecaptchaSign = config.skipRecaptchaSign === true;
-    
+
     if (method !== 'GET' && !shouldSkipRecaptchaSign) {
       const recaptchaToken = await getRecaptchaToken();
       if (recaptchaToken) {
         const separator = config.url?.includes('?') ? '&' : '?';
         config.url = `${config.url}${separator}sign=${recaptchaToken}`;
-        logger.log(`📝 Added reCAPTCHA token to ${method} request: ${config.url}`);
+        logger.log(
+          `📝 Added reCAPTCHA token to ${method} request: ${config.url}`,
+        );
       }
     } else if (shouldSkipRecaptchaSign) {
-      logger.log(`⏭️ Skipped reCAPTCHA token for ${method} request (skipRecaptchaSign: true)`);
+      logger.log(
+        `⏭️ Skipped reCAPTCHA token for ${method} request (skipRecaptchaSign: true)`,
+      );
     }
 
     // Add request timestamp for debugging

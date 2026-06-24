@@ -93,10 +93,11 @@ const createInitialCampaignDialogState = (): CampaignDialogState => ({
   amount: 0,
 });
 
-const createInitialChangePasswordDialogState = (): ChangePasswordDialogState => ({
-  isOpen: false,
-  step: 'input',
-});
+const createInitialChangePasswordDialogState =
+  (): ChangePasswordDialogState => ({
+    isOpen: false,
+    step: 'input',
+  });
 
 const createInitialDrawerState = (): DrawerState => ({
   isOpen: false,
