@@ -105,15 +105,7 @@ export function SlidingNumber({
   const isInView = useInView(ref, { once: false }); // Always use false, manage once manually
   const [currentValue, setCurrentValue] = useState(from);
   const [hasAnimated, setHasAnimated] = useState(false);
-  const [animationKey, setAnimationKey] = useState(0);
-
-  // Reset animation state on component mount (route changes)
-  useEffect(() => {
-    setCurrentValue(from);
-    setHasAnimated(false);
-    setAnimationKey((prev) => prev + 1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Empty dependency array - runs on every mount
+  const [animationKey, setAnimationKey] = useState(1);
 
   // Reset animation state when from/to values change
   useEffect(() => {

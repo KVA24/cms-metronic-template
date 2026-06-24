@@ -5,7 +5,6 @@ import React, {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from 'react';
@@ -56,17 +55,11 @@ function getLeafFromStorage(path: string): any {
 export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [settings, setSettings] = useState<Settings>(
-    structuredClone(APP_SETTINGS),
-  );
-
-  // Load settings from storage after mount
-  useEffect(() => {
-    if (!isBrowser()) return;
-
+  const [settings, setSettings] = useState<Settings>(() => {
     const init = structuredClone(APP_SETTINGS);
 
-    // Get all keys from localStorage that start with prefix
+    if (!isBrowser()) return init;
+
     try {
       Object.keys(localStorage)
         .filter((key) => key.startsWith(LOCAL_STORAGE_PREFIX))
@@ -81,8 +74,8 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
       console.warn('Failed to load settings from storage:', err);
     }
 
-    setSettings(init);
-  }, []); // Empty dependency array to run once on mount
+    return init;
+  });
 
   const getOption = useCallback(
     <T,>(path: string): T => {

@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { toAbsoluteUrl } from '@/shared/lib/helpers';
 import { Link } from 'react-router-dom';
 import { useSettings } from '@/app/providers/settings-provider';
 
+const emptySubscribe = () => () => {};
+
 const ResetPasswordCheckEmail = () => {
   const { settings } = useSettings();
-  const [email, setEmail] = useState<string | null>(null);
-
-  useEffect(() => {
-    setEmail(new URLSearchParams(window.location.search).get('email'));
-  }, []);
+  const email = useSyncExternalStore(
+    emptySubscribe,
+    () => new URLSearchParams(window.location.search).get('email'),
+    () => null,
+  );
 
   return (
     <div className="card max-w-[440px] w-full">

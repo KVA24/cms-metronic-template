@@ -64,7 +64,6 @@ export function MultiSelect({
       setTriggerWidth(triggerRef.current?.offsetWidth);
     });
     ro.observe(triggerRef.current);
-    setTriggerWidth(triggerRef.current.offsetWidth);
     return () => ro.disconnect();
   }, []);
 

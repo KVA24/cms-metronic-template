@@ -6,7 +6,7 @@ import { MoveLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const TwoFactorAuth = () => {
-  const [codeInputs, setCodeInputs] = useState(Array(6).fill(''));
+  const [codeInputs, setCodeInputs] = useState(() => Array(6).fill(''));
 
   const handleInputChange = (index: number, value: string) => {
     if (value.length > 1) return;
