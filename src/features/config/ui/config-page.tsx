@@ -94,7 +94,7 @@ export function ConfigPage() {
       search: debouncedSearchKey || null,
       category: debouncedSearchCategory || null,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-doctor/exhaustive-deps
   }, [debouncedSearchKey, debouncedSearchCategory]);
 
   // Memoize query params to prevent unnecessary refetches
@@ -176,6 +176,7 @@ export function ConfigPage() {
     } finally {
       setEditingConfigId(null);
     }
+    // eslint-disable-next-line react-doctor/exhaustive-deps
   }, []);
 
   const handleDrawerSubmit = async (data: any) => {

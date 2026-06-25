@@ -60,7 +60,7 @@ export function MultiSelect<T extends BaseOption>({
     if (triggerRef.current) {
       setWidth(triggerRef.current.offsetWidth);
     }
-  }, [triggerRef.current]);
+  }, [triggerRef]);
 
   React.useEffect(() => {
     if (measureRef.current && width) {

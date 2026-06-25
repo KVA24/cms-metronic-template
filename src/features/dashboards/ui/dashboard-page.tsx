@@ -590,7 +590,7 @@ const DashboardPage = () => {
         },
       },
     }),
-    [tierEntries, customerStatistics],
+    [tierEntries, membershipTier?.totalUser],
   );
 
   const tierChartSeries = useMemo(
