@@ -133,19 +133,11 @@ export function ConfigPage() {
   const [deleteOtp, setDeleteOtp] = useState('');
 
   // DataGrid state
-  const [pagination, setPagination] = useState<PaginationState>({
+  const pagination: PaginationState = {
     pageIndex: page,
     pageSize: limit,
-  });
+  };
   const [sorting, setSorting] = useState<SortingState>([]);
-
-  // Sync pagination state with URL
-  useEffect(() => {
-    setPagination({
-      pageIndex: page,
-      pageSize: limit,
-    });
-  }, [page, limit]);
 
   // Handle pagination change from DataGrid
   const handlePaginationChange = (updater: any) => {
