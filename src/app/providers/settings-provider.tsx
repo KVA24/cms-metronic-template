@@ -61,15 +61,14 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!isBrowser()) return init;
 
     try {
-      Object.keys(localStorage)
-        .filter((key) => key.startsWith(LOCAL_STORAGE_PREFIX))
-        .forEach((key) => {
-          const path = key.replace(LOCAL_STORAGE_PREFIX, '');
-          const value = getLeafFromStorage(path);
-          if (value !== undefined) {
-            setToPath(init, path, value);
-          }
-        });
+      for (const key of Object.keys(localStorage)) {
+        if (!key.startsWith(LOCAL_STORAGE_PREFIX)) continue;
+        const path = key.replace(LOCAL_STORAGE_PREFIX, '');
+        const value = getLeafFromStorage(path);
+        if (value !== undefined) {
+          setToPath(init, path, value);
+        }
+      }
     } catch (err) {
       console.warn('Failed to load settings from storage:', err);
     }

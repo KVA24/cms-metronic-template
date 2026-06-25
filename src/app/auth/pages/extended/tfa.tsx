@@ -5,8 +5,10 @@ import { Input } from '@/shared/ui/atoms/input';
 import { MoveLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+const OTP_FIELDS = ['otp-0', 'otp-1', 'otp-2', 'otp-3', 'otp-4', 'otp-5'] as const;
+
 const TwoFactorAuth = () => {
-  const [codeInputs, setCodeInputs] = useState(() => Array(6).fill(''));
+  const [codeInputs, setCodeInputs] = useState(() => Array(OTP_FIELDS.length).fill(''));
 
   const handleInputChange = (index: number, value: string) => {
     if (value.length > 1) return;
@@ -41,13 +43,13 @@ const TwoFactorAuth = () => {
       </div>
 
       <div className="flex flex-wrap justify-center gap-1.5">
-        {codeInputs.map((value, index) => (
+        {OTP_FIELDS.map((fieldId, index) => (
           <Input
-            key={`otp-${index}`}
+            key={fieldId}
             type="text"
             maxLength={1}
             className="size-10 shrink-0 px-0 text-center"
-            value={value}
+            value={codeInputs[index]}
             onChange={(e) => handleInputChange(index, e.target.value)}
           />
         ))}
