@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { activityLogKeys } from '@/features/activity-log/hooks/use-activity-log-queries';
 import { useDebounce, useTranslations } from '@/shared/hooks';
 import { formatDate } from '@/shared/lib/date-utils';
@@ -97,7 +97,7 @@ export function ActivityLogPage() {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   // Cursor state for pagination - track history of cursors
-  const [cursorHistory, setCursorHistory] = useState<number[]>([]);
+  const cursorHistoryRef = useRef<number[]>([]);
   const [currentCursor, setCurrentCursor] = useState<number | undefined>(
     undefined,
   );
@@ -187,7 +187,7 @@ export function ActivityLogPage() {
 
   // Reset cursors when filters change
   useEffect(() => {
-    setCursorHistory([]);
+    cursorHistoryRef.current = [];
     setCurrentCursor(undefined);
     setDirection(undefined);
   }, [
@@ -222,7 +222,7 @@ export function ActivityLogPage() {
       dateFrom: null,
       dateTo: null,
     });
-    setCursorHistory([]);
+    cursorHistoryRef.current = [];
     setCurrentCursor(undefined);
     setDirection(undefined);
   };
@@ -233,10 +233,10 @@ export function ActivityLogPage() {
   };
 
   const handlePrevious = () => {
-    if (metadata.hasPrePage && cursorHistory.length > 0) {
-      const newHistory = [...cursorHistory];
+    if (metadata.hasPrePage && cursorHistoryRef.current.length > 0) {
+      const newHistory = [...cursorHistoryRef.current];
       const previousCursor = newHistory.pop();
-      setCursorHistory(newHistory);
+      cursorHistoryRef.current = newHistory;
       setCurrentCursor(previousCursor);
       setDirection(previousCursor ? 'next' : undefined);
     }
@@ -244,8 +244,8 @@ export function ActivityLogPage() {
 
   const handleNext = () => {
     if (metadata.next && metadata.hasNextPage) {
-      if (currentCursor !== undefined || cursorHistory.length === 0) {
-        setCursorHistory([...cursorHistory, currentCursor ?? 0]);
+      if (currentCursor !== undefined || cursorHistoryRef.current.length === 0) {
+        cursorHistoryRef.current = [...cursorHistoryRef.current, currentCursor ?? 0];
       }
       setCurrentCursor(metadata.next);
       setDirection('next');
@@ -254,7 +254,7 @@ export function ActivityLogPage() {
 
   const handlePageSizeChange = (value: string) => {
     updateParams({ limit: parseInt(value, 10) });
-    setCursorHistory([]);
+    cursorHistoryRef.current = [];
     setCurrentCursor(undefined);
     setDirection(undefined);
   };
