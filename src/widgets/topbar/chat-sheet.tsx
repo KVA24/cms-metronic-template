@@ -198,10 +198,10 @@ export function ChatSheet({ trigger }: { trigger: ReactNode }) {
           </div>
         </SheetHeader>
         <SheetBody className="scrollable-y-auto grow space-y-3.5">
-          {messages.map((message, index) =>
+          {messages.map((message) =>
             message.out ? (
               <div
-                key={index}
+                key={`out-${message.time}`}
                 className="flex items-end justify-end gap-3 px-5"
               >
                 <div className="flex flex-col gap-1">
@@ -237,7 +237,7 @@ export function ChatSheet({ trigger }: { trigger: ReactNode }) {
                 </div>
               </div>
             ) : message.in ? (
-              <div key={index} className="flex items-end gap-3 px-5">
+              <div key={`in-${message.time}`} className="flex items-end gap-3 px-5">
                 <Avatar className="size-9">
                   <AvatarImage src={toAbsoluteUrl(message.avatar)} alt="" />
                   <AvatarFallback>CH</AvatarFallback>

@@ -122,7 +122,7 @@ export function SidebarMenu() {
       const itemValue = item.path || `root-${index}`;
 
       return (
-        <AccordionMenuSub key={index} value={itemValue}>
+        <AccordionMenuSub key={itemValue} value={itemValue}>
           <AccordionMenuSubTrigger
             className="text-sm font-medium"
             showHoverPopup={true}
@@ -147,7 +147,7 @@ export function SidebarMenu() {
     } else {
       return (
         <AccordionMenuItem
-          key={index}
+          key={item.path || `item-${index}`}
           value={item.path || ''}
           className="text-sm font-medium"
         >
@@ -166,7 +166,7 @@ export function SidebarMenu() {
   ): JSX.Element => {
     return (
       <AccordionMenuItem
-        key={index}
+        key={`disabled-${item.path || index}`}
         value={`disabled-${index}`}
         className="text-sm font-medium"
       >
@@ -202,7 +202,7 @@ export function SidebarMenu() {
     if (item.children) {
       return (
         <AccordionMenuSub
-          key={index}
+          key={item.path || `child-${level}-${index}`}
           value={item.path || `child-${level}-${index}`}
         >
           <AccordionMenuSubTrigger className="text-[13px]">
@@ -241,7 +241,7 @@ export function SidebarMenu() {
     } else {
       return (
         <AccordionMenuItem
-          key={index}
+          key={item.path || `child-${level}-${index}`}
           value={item.path || ''}
           className="text-[13px]"
         >
@@ -258,7 +258,7 @@ export function SidebarMenu() {
   ): JSX.Element => {
     return (
       <AccordionMenuItem
-        key={index}
+        key={`disabled-child-${level}-${item.path || index}`}
         value={`disabled-child-${level}-${index}`}
         className="text-[13px]"
       >
@@ -273,7 +273,7 @@ export function SidebarMenu() {
   };
 
   const buildMenuHeading = (item: MenuItem, index: number): JSX.Element => {
-    return <AccordionMenuLabel key={index}>{item.heading}</AccordionMenuLabel>;
+    return <AccordionMenuLabel key={item.heading || `heading-${index}`}>{item.heading}</AccordionMenuLabel>;
   };
 
   return (

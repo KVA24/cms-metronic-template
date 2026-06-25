@@ -19,10 +19,10 @@ const NavbarMenu = ({ items }: { items: MenuConfig }) => {
   const { isActive, hasActiveChild } = useMenu(pathname);
 
   const buildMenu = (items: MenuConfig) => {
-    return items.map((item, index) => {
+    return items.map((item) => {
       if (item.children) {
         return (
-          <MenubarMenu key={index}>
+          <MenubarMenu key={item.path || item.title}>
             <MenubarTrigger
               className={cn(
                 'flex items-center gap-1.5 px-3 py-3.5 text-sm text-secondary-foreground',
@@ -45,7 +45,7 @@ const NavbarMenu = ({ items }: { items: MenuConfig }) => {
         );
       } else {
         return (
-          <MenubarMenu key={index}>
+          <MenubarMenu key={item.path || item.title}>
             <MenubarTrigger
               asChild
               className={cn(
@@ -71,10 +71,10 @@ const NavbarMenu = ({ items }: { items: MenuConfig }) => {
   };
 
   const buildSubMenu = (items: MenuConfig) => {
-    return items.map((item, index) => {
+    return items.map((item) => {
       if (item.children) {
         return (
-          <MenubarSub key={index}>
+          <MenubarSub key={item.path || item.title}>
             <MenubarSubTrigger
               data-active={isActive(item.path) || undefined}
               data-here={hasActiveChild(item.children) || undefined}
@@ -89,7 +89,7 @@ const NavbarMenu = ({ items }: { items: MenuConfig }) => {
       } else {
         return (
           <MenubarItem
-            key={index}
+            key={item.path || item.title}
             asChild
             data-active={isActive(item.path) || undefined}
             data-here={hasActiveChild(item.children) || undefined}

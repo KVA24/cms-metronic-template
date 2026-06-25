@@ -44,7 +44,7 @@ export function Breadcrumb() {
         const isHome = index === 0;
 
         return (
-          <Fragment key={`root-${index}`}>
+          <Fragment key={item.path || `root-${index}`}>
             {item.path && !last ? (
               <Link
                 to={item.path}
@@ -52,7 +52,7 @@ export function Breadcrumb() {
                   'hover:text-primary transition-colors',
                   active ? 'text-mono' : 'text-secondary-foreground',
                 )}
-                key={`item-${index}`}
+                key={`link-${item.path}`}
               >
                 {isHome ? <Home className="size-3.5" /> : item.title}
               </Link>
@@ -61,7 +61,7 @@ export function Breadcrumb() {
                 className={cn(
                   active ? 'text-mono' : 'text-secondary-foreground',
                 )}
-                key={`item-${index}`}
+                key={`span-${item.path || index}`}
               >
                 {isHome ? <Home className="size-3.5" /> : item.title}
               </span>
@@ -69,7 +69,7 @@ export function Breadcrumb() {
             {!last && (
               <ChevronRight
                 className="size-3.5 text-muted-foreground"
-                key={`separator-${index}`}
+                key={`separator-${item.path || index}`}
               />
             )}
           </Fragment>
