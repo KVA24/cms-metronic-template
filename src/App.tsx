@@ -1,5 +1,6 @@
 import { Toaster } from '@/shared/ui/atoms/sonner';
 import { ErrorBoundary } from '@/shared/ui/molecules/error-boundary.tsx';
+import { MotionConfig } from 'motion/react';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
@@ -56,15 +57,17 @@ export function App() {
         <AuthInitializer>
           <SettingsProvider>
             <ThemeProvider>
-              <I18nProvider>
-                <HelmetProvider>
-                  <TooltipsProvider>
-                    <LoadingBarContainer>
-                      <AppContent />
-                    </LoadingBarContainer>
-                  </TooltipsProvider>
-                </HelmetProvider>
-              </I18nProvider>
+              <MotionConfig reducedMotion="user">
+                <I18nProvider>
+                  <HelmetProvider>
+                    <TooltipsProvider>
+                      <LoadingBarContainer>
+                        <AppContent />
+                      </LoadingBarContainer>
+                    </TooltipsProvider>
+                  </HelmetProvider>
+                </I18nProvider>
+              </MotionConfig>
             </ThemeProvider>
           </SettingsProvider>
         </AuthInitializer>
