@@ -5,6 +5,7 @@ import {
   saveCredentials,
 } from '@/shared/lib/crypto';
 import logger from '@/shared/lib/logger';
+import { safeRedirect } from '@/shared/lib/safe-redirect';
 import {
   useAuthActions,
   useAuthStatus,
@@ -51,7 +52,7 @@ export function SignInPage() {
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated && user) {
-      const nextPath = searchParams.get('next') || '/';
+      const nextPath = safeRedirect(searchParams.get('next'));
       navigate(nextPath, { replace: true });
     }
   }, [isAuthenticated, user, navigate, searchParams]);
@@ -155,7 +156,7 @@ export function SignInPage() {
       }
 
       // Get the 'next' parameter from URL if it exists
-      const nextPath = searchParams.get('next') || '/';
+      const nextPath = safeRedirect(searchParams.get('next'));
 
       // Navigate to the next path
       navigate(nextPath, { replace: true });
