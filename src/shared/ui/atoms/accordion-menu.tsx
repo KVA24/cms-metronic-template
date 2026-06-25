@@ -110,7 +110,7 @@ function AccordionMenu({
       }
     }
     return mapping;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [children, selectedValue, props.type]);
 
   const [nestedStates, setNestedStates] =
