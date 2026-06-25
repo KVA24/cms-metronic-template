@@ -1,7 +1,9 @@
 import {
   createContext,
   use,
+  useCallback,
   useEffect,
+  useMemo,
   useState,
   type PropsWithChildren,
 } from 'react';
@@ -85,28 +87,31 @@ const I18nProvider = ({ children }: PropsWithChildren) => {
     // eslint-disable-next-line react-doctor/exhaustive-deps
   }, []);
 
-  const changeLanguage = (language: Language) => {
+  const changeLanguage = useCallback((language: Language) => {
     setData(I18N_CONFIG_KEY, language);
     setCurrenLanguage(language);
     i18n.changeLanguage(language.code);
-  };
+  }, []);
 
-  const isRTL = () => {
+  const isRTL = useCallback(() => {
     return currenLanguage.direction === 'rtl';
-  };
+  }, [currenLanguage.direction]);
 
   useEffect(() => {
     document.documentElement.setAttribute('dir', currenLanguage.direction);
   }, [currenLanguage]);
 
+  const value = useMemo(
+    () => ({
+      isRTL,
+      currenLanguage,
+      changeLanguage,
+    }),
+    [isRTL, currenLanguage, changeLanguage],
+  );
+
   return (
-    <TranslationsContext.Provider
-      value={{
-        isRTL,
-        currenLanguage,
-        changeLanguage,
-      }}
-    >
+    <TranslationsContext.Provider value={value}>
       <RadixDirectionProvider dir={currenLanguage.direction}>
         {children}
       </RadixDirectionProvider>

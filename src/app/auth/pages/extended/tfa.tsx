@@ -43,7 +43,7 @@ const TwoFactorAuth = () => {
       <div className="flex flex-wrap justify-center gap-1.5">
         {codeInputs.map((value, index) => (
           <Input
-            key={index}
+            key={`otp-${index}`}
             type="text"
             maxLength={1}
             className="size-10 shrink-0 px-0 text-center"
