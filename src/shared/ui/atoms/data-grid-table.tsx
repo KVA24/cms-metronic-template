@@ -490,32 +490,33 @@ function DataGridTable<TData>() {
   return (
     <DataGridTableBase>
       <DataGridTableHead>
-        {table
-          .getHeaderGroups()
-          .map((headerGroup: HeaderGroup<TData>) => {
-            return (
-              <DataGridTableHeadRow headerGroup={headerGroup} key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  const { column } = header;
+        {table.getHeaderGroups().map((headerGroup: HeaderGroup<TData>) => {
+          return (
+            <DataGridTableHeadRow
+              headerGroup={headerGroup}
+              key={headerGroup.id}
+            >
+              {headerGroup.headers.map((header) => {
+                const { column } = header;
 
-                  return (
-                    <DataGridTableHeadRowCell header={header} key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                      {props.tableLayout?.columnsResizable &&
-                        column.getCanResize() && (
-                          <DataGridTableHeadRowCellResize header={header} />
+                return (
+                  <DataGridTableHeadRowCell header={header} key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
                         )}
-                    </DataGridTableHeadRowCell>
-                  );
-                })}
-              </DataGridTableHeadRow>
-            );
-          })}
+                    {props.tableLayout?.columnsResizable &&
+                      column.getCanResize() && (
+                        <DataGridTableHeadRowCellResize header={header} />
+                      )}
+                  </DataGridTableHeadRowCell>
+                );
+              })}
+            </DataGridTableHeadRow>
+          );
+        })}
       </DataGridTableHead>
 
       {(props.tableLayout?.stripped || !props.tableLayout?.rowBorder) && (
@@ -545,18 +546,19 @@ function DataGridTable<TData>() {
             return (
               <Fragment key={row.id}>
                 <DataGridTableBodyRow row={row}>
-                  {row
-                    .getVisibleCells()
-                    .map((cell: Cell<TData, unknown>) => {
-                      return (
-                        <DataGridTableBodyRowCell cell={cell} key={cell.column.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
-                        </DataGridTableBodyRowCell>
-                      );
-                    })}
+                  {row.getVisibleCells().map((cell: Cell<TData, unknown>) => {
+                    return (
+                      <DataGridTableBodyRowCell
+                        cell={cell}
+                        key={cell.column.id}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </DataGridTableBodyRowCell>
+                    );
+                  })}
                 </DataGridTableBodyRow>
                 {row.getIsExpanded() && (
                   <DataGridTableBodyRowExpandded row={row} />

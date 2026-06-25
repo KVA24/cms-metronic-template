@@ -110,15 +110,29 @@ function Stepper({
   const currentStep = value ?? activeStep;
 
   // Keyboard navigation logic
-  const focusTrigger = React.useCallback((idx: number) => {
-    if (triggerNodes[idx]) triggerNodes[idx].focus();
-  }, [triggerNodes]);
-  const focusNext = React.useCallback((currentIdx: number) =>
-    focusTrigger((currentIdx + 1) % triggerNodes.length), [focusTrigger, triggerNodes.length]);
-  const focusPrev = React.useCallback((currentIdx: number) =>
-    focusTrigger((currentIdx - 1 + triggerNodes.length) % triggerNodes.length), [focusTrigger, triggerNodes.length]);
+  const focusTrigger = React.useCallback(
+    (idx: number) => {
+      if (triggerNodes[idx]) triggerNodes[idx].focus();
+    },
+    [triggerNodes],
+  );
+  const focusNext = React.useCallback(
+    (currentIdx: number) =>
+      focusTrigger((currentIdx + 1) % triggerNodes.length),
+    [focusTrigger, triggerNodes.length],
+  );
+  const focusPrev = React.useCallback(
+    (currentIdx: number) =>
+      focusTrigger(
+        (currentIdx - 1 + triggerNodes.length) % triggerNodes.length,
+      ),
+    [focusTrigger, triggerNodes.length],
+  );
   const focusFirst = React.useCallback(() => focusTrigger(0), [focusTrigger]);
-  const focusLast = React.useCallback(() => focusTrigger(triggerNodes.length - 1), [focusTrigger, triggerNodes.length]);
+  const focusLast = React.useCallback(
+    () => focusTrigger(triggerNodes.length - 1),
+    [focusTrigger, triggerNodes.length],
+  );
 
   // Context value
   const contextValue = React.useMemo<StepperContextValue>(

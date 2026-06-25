@@ -44,4 +44,3 @@ function filterMenuItem(item: MenuItem, role: UserRole): MenuItem | null {
 
   return item;
 }
-

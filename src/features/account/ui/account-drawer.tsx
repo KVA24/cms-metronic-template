@@ -1,18 +1,41 @@
-import {useState} from 'react';
-import {useTranslations} from '@/shared/hooks/use-translations';
-import {uploadApi} from '@/shared/lib/upload';
-import {createTranslatedZodResolver, useFormLanguageSync,} from '@/shared/lib/validation-utils';
-import {Button} from '@/shared/ui/atoms/button';
-import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,} from '@/shared/ui/atoms/form';
-import {Input} from '@/shared/ui/atoms/input';
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from '@/shared/ui/atoms/select';
-import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle,} from '@/shared/ui/atoms/sheet';
-import {Eye, EyeOff, LoaderCircleIcon, Upload, X} from 'lucide-react';
-import {useForm, type UseFormReturn} from 'react-hook-form';
-import {toast} from 'sonner';
+import { useState } from 'react';
+import { useTranslations } from '@/shared/hooks/use-translations';
+import { uploadApi } from '@/shared/lib/upload';
+import {
+  createTranslatedZodResolver,
+  useFormLanguageSync,
+} from '@/shared/lib/validation-utils';
+import { Button } from '@/shared/ui/atoms/button';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/shared/ui/atoms/form';
+import { Input } from '@/shared/ui/atoms/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from '@/shared/ui/atoms/sheet';
+import { Eye, EyeOff, LoaderCircleIcon, Upload, X } from 'lucide-react';
+import { useForm, type UseFormReturn } from 'react-hook-form';
+import { toast } from 'sonner';
 import * as z from 'zod';
-import {Account} from '../api/accountApi';
-import {useAccountRoles} from '../hooks/use-account-queries';
+import { Account } from '../api/accountApi';
+import { useAccountRoles } from '../hooks/use-account-queries';
 
 const accountSchema = z.object({
   username: z.string().min(3, 'VALIDATION.USERNAME_MIN_LENGTH'),
@@ -47,7 +70,7 @@ interface AccountDrawerHeaderProps {
   t: Translate;
 }
 
-function AccountDrawerHeader({isEdit, t}: AccountDrawerHeaderProps) {
+function AccountDrawerHeader({ isEdit, t }: AccountDrawerHeaderProps) {
   return (
     <SheetHeader>
       <SheetTitle>
@@ -74,19 +97,19 @@ interface AccountCredentialsFieldsProps {
 }
 
 function AccountCredentialsFields({
-                                    form,
-                                    isEdit,
-                                    isLoading,
-                                    showPassword,
-                                    onTogglePassword,
-                                    t,
-                                  }: AccountCredentialsFieldsProps) {
+  form,
+  isEdit,
+  isLoading,
+  showPassword,
+  onTogglePassword,
+  t,
+}: AccountCredentialsFieldsProps) {
   return (
     <>
       <FormField
         control={form.control}
         name="username"
-        render={({field}) => (
+        render={({ field }) => (
           <FormItem>
             <FormLabel>{t('COMMON.USERNAME')} *</FormLabel>
             <FormControl>
@@ -96,16 +119,16 @@ function AccountCredentialsFields({
                 disabled={isLoading || isEdit}
               />
             </FormControl>
-            <FormMessage/>
+            <FormMessage />
           </FormItem>
         )}
       />
-      
+
       {!isEdit && (
         <FormField
           control={form.control}
           name="password"
-          render={({field}) => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>{t('ACCOUNT.DRAWER.PASSWORD')} *</FormLabel>
               <FormControl>
@@ -126,14 +149,14 @@ function AccountCredentialsFields({
                     disabled={isLoading}
                   >
                     {showPassword ? (
-                      <EyeOff className="h-4 w-4 text-muted-foreground"/>
+                      <EyeOff className="h-4 w-4 text-muted-foreground" />
                     ) : (
-                      <Eye className="h-4 w-4 text-muted-foreground"/>
+                      <Eye className="h-4 w-4 text-muted-foreground" />
                     )}
                   </Button>
                 </div>
               </FormControl>
-              <FormMessage/>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -152,19 +175,19 @@ interface AccountAccessFieldsProps {
 }
 
 function AccountAccessFields({
-                               form,
-                               isEdit,
-                               isLoading,
-                               isLoadingRoles,
-                               rolesData,
-                               t,
-                             }: AccountAccessFieldsProps) {
+  form,
+  isEdit,
+  isLoading,
+  isLoadingRoles,
+  rolesData,
+  t,
+}: AccountAccessFieldsProps) {
   return (
     <>
       <FormField
         control={form.control}
         name="role"
-        render={({field}) => (
+        render={({ field }) => (
           <FormItem>
             <FormLabel>{t('COMMON.ROLE')} *</FormLabel>
             <Select
@@ -182,7 +205,7 @@ function AccountAccessFields({
               <SelectContent>
                 {isLoadingRoles ? (
                   <div className="flex items-center justify-center py-2">
-                    <LoaderCircleIcon className="h-4 w-4 animate-spin text-muted-foreground"/>
+                    <LoaderCircleIcon className="h-4 w-4 animate-spin text-muted-foreground" />
                   </div>
                 ) : (
                   rolesData?.map((role) => (
@@ -193,15 +216,15 @@ function AccountAccessFields({
                 )}
               </SelectContent>
             </Select>
-            <FormMessage/>
+            <FormMessage />
           </FormItem>
         )}
       />
-      
+
       <FormField
         control={form.control}
         name="status"
-        render={({field}) => (
+        render={({ field }) => (
           <FormItem>
             <FormLabel>{t('COMMON.STATUS_1')} *</FormLabel>
             <Select
@@ -224,7 +247,7 @@ function AccountAccessFields({
                 </SelectItem>
               </SelectContent>
             </Select>
-            <FormMessage/>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -243,14 +266,14 @@ interface AccountAvatarFieldProps {
 }
 
 function AccountAvatarField({
-                              form,
-                              avatarPreview,
-                              isLoading,
-                              isUploading,
-                              onAvatarChange,
-                              onRemoveAvatar,
-                              t,
-                            }: AccountAvatarFieldProps) {
+  form,
+  avatarPreview,
+  isLoading,
+  isUploading,
+  onAvatarChange,
+  onRemoveAvatar,
+  t,
+}: AccountAvatarFieldProps) {
   return (
     <FormField
       control={form.control}
@@ -275,11 +298,11 @@ function AccountAvatarField({
                     onClick={onRemoveAvatar}
                     disabled={isLoading || isUploading}
                   >
-                    <X className="h-3 w-3"/>
+                    <X className="h-3 w-3" />
                   </Button>
                 </div>
               )}
-              
+
               <div className="flex gap-2">
                 <Input
                   type="file"
@@ -298,7 +321,7 @@ function AccountAvatarField({
                   disabled={isLoading || isUploading}
                   className="flex-1"
                 >
-                  <Upload className="h-4 w-4 mr-2"/>
+                  <Upload className="h-4 w-4 mr-2" />
                   {avatarPreview
                     ? t('ACCOUNT.DRAWER.AVATAR_CHANGE')
                     : t('ACCOUNT.DRAWER.AVATAR_UPLOAD')}
@@ -309,7 +332,7 @@ function AccountAvatarField({
           <FormDescription>
             {t('ACCOUNT.DRAWER.AVATAR_DESCRIPTION')}
           </FormDescription>
-          <FormMessage/>
+          <FormMessage />
         </FormItem>
       )}
     />
@@ -322,12 +345,12 @@ interface AccountOtpFieldProps {
   t: Translate;
 }
 
-function AccountOtpField({form, isLoading, t}: AccountOtpFieldProps) {
+function AccountOtpField({ form, isLoading, t }: AccountOtpFieldProps) {
   return (
     <FormField
       control={form.control}
       name="otpCode"
-      render={({field}) => (
+      render={({ field }) => (
         <FormItem>
           <FormLabel>{t('COMMON.OTP_CODE')} *</FormLabel>
           <FormControl>
@@ -338,7 +361,7 @@ function AccountOtpField({form, isLoading, t}: AccountOtpFieldProps) {
               disabled={isLoading}
             />
           </FormControl>
-          <FormMessage/>
+          <FormMessage />
         </FormItem>
       )}
     />
@@ -354,12 +377,12 @@ interface AccountDrawerActionsProps {
 }
 
 function AccountDrawerActions({
-                                isEdit,
-                                isLoading,
-                                isUploading,
-                                onClose,
-                                t,
-                              }: AccountDrawerActionsProps) {
+  isEdit,
+  isLoading,
+  isUploading,
+  onClose,
+  t,
+}: AccountDrawerActionsProps) {
   return (
     <div className="flex gap-3 pt-4 mt-auto">
       <Button
@@ -378,7 +401,7 @@ function AccountDrawerActions({
       >
         {isLoading || isUploading ? (
           <span className="flex items-center gap-2">
-            <LoaderCircleIcon className="h-4 w-4 animate-spin"/>
+            <LoaderCircleIcon className="h-4 w-4 animate-spin" />
             {isUploading
               ? t('ACCOUNT.DRAWER.UPLOADING')
               : isEdit
@@ -398,20 +421,22 @@ function AccountDrawerActions({
 }
 
 export function AccountDrawer({
-                                open,
-                                onClose,
-                                onSubmit,
-                                account,
-                                isLoading = false,
-                              }: AccountDrawerProps) {
-  const {t, language} = useTranslations();
+  open,
+  onClose,
+  onSubmit,
+  account,
+  isLoading = false,
+}: AccountDrawerProps) {
+  const { t, language } = useTranslations();
   const isEdit = !!account;
   const [showPassword, setShowPassword] = useState(false);
-  const [avatarPreview, setAvatarPreview] = useState<string>(account?.avatarUrl || '');
+  const [avatarPreview, setAvatarPreview] = useState<string>(
+    account?.avatarUrl || '',
+  );
   const [isUploading, setIsUploading] = useState(false);
-  
-  const {data: rolesData, isLoading: isLoadingRoles} = useAccountRoles();
-  
+
+  const { data: rolesData, isLoading: isLoadingRoles } = useAccountRoles();
+
   const form = useForm<AccountFormData>({
     resolver: createTranslatedZodResolver(accountSchema, t),
     defaultValues: {
@@ -423,40 +448,40 @@ export function AccountDrawer({
       otpCode: '',
     },
   });
-  
+
   useFormLanguageSync(form, language);
-  
+
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    
+
     // Validate file type
     if (!file.type.startsWith('image/')) {
       toast.error(t('ACCOUNT.TOAST.UPLOAD_TYPE_ERROR'));
       return;
     }
-    
+
     // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
       toast.error(t('ACCOUNT.TOAST.UPLOAD_SIZE_ERROR'));
       return;
     }
-    
+
     // Create preview immediately
     const reader = new FileReader();
     reader.onloadend = () => {
       setAvatarPreview(reader.result as string);
     };
     reader.readAsDataURL(file);
-    
+
     // Upload file immediately
     setIsUploading(true);
     try {
       const uploadedUrl = await uploadApi.uploadFile(file);
-      
+
       // Set the uploaded URL to form
       form.setValue('avatarUrl', uploadedUrl);
-      
+
       toast.success(t('ACCOUNT.TOAST.UPLOAD_SUCCESS'));
     } catch (error) {
       const errorMessage =
@@ -464,56 +489,56 @@ export function AccountDrawer({
           ? error.message
           : t('ACCOUNT.TOAST.UPLOAD_ERROR');
       toast.error(errorMessage);
-      
+
       // Clear preview on error
       setAvatarPreview('');
     } finally {
       setIsUploading(false);
     }
   };
-  
+
   const handleRemoveAvatar = () => {
     setAvatarPreview('');
     form.setValue('avatarUrl', '');
   };
-  
+
   const handleSubmit = async (data: AccountFormData) => {
     const matchedRole = rolesData?.find((r) => r.code === data.role);
     const roleIds = matchedRole ? [String(matchedRole.id)] : undefined;
-    
+
     // Remove password if editing (password only for create)
     const submitData = isEdit
       ? {
-        username: data.username,
-        role: data.role,
-        status: data.status,
-        avatarUrl: data.avatarUrl || undefined,
-        otpCode: data.otpCode || undefined,
-        roleIds,
-      }
+          username: data.username,
+          role: data.role,
+          status: data.status,
+          avatarUrl: data.avatarUrl || undefined,
+          otpCode: data.otpCode || undefined,
+          roleIds,
+        }
       : {
-        username: data.username,
-        password: data.password,
-        role: data.role,
-        status: data.status,
-        avatarUrl: data.avatarUrl || undefined,
-        otpCode: data.otpCode || undefined,
-        roleIds,
-      };
-    
+          username: data.username,
+          password: data.password,
+          role: data.role,
+          status: data.status,
+          avatarUrl: data.avatarUrl || undefined,
+          otpCode: data.otpCode || undefined,
+          roleIds,
+        };
+
     await onSubmit(submitData);
   };
-  
+
   const handleClose = () => {
     form.reset();
     onClose();
   };
-  
+
   return (
     <Sheet open={open} onOpenChange={handleClose}>
       <SheetContent className="sm:max-w-[540px] overflow-y-auto">
-        <AccountDrawerHeader isEdit={isEdit} t={t}/>
-        
+        <AccountDrawerHeader isEdit={isEdit} t={t} />
+
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
@@ -527,7 +552,7 @@ export function AccountDrawer({
               onTogglePassword={() => setShowPassword(!showPassword)}
               t={t}
             />
-            
+
             <AccountAccessFields
               form={form}
               isEdit={isEdit}
@@ -536,7 +561,7 @@ export function AccountDrawer({
               rolesData={rolesData}
               t={t}
             />
-            
+
             <AccountAvatarField
               form={form}
               avatarPreview={avatarPreview}
@@ -546,13 +571,9 @@ export function AccountDrawer({
               onRemoveAvatar={handleRemoveAvatar}
               t={t}
             />
-            
-            <AccountOtpField
-              form={form}
-              isLoading={isLoading}
-              t={t}
-            />
-            
+
+            <AccountOtpField form={form} isLoading={isLoading} t={t} />
+
             <AccountDrawerActions
               isEdit={isEdit}
               isLoading={isLoading}

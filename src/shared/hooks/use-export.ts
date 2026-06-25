@@ -1,7 +1,4 @@
-import {
-  downloadFile,
-  generateFilename,
-} from '@/shared/lib/export-utils';
+import { downloadFile, generateFilename } from '@/shared/lib/export-utils';
 import { useMutation, UseMutationOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 

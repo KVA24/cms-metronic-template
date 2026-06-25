@@ -273,7 +273,11 @@ export function SidebarMenu() {
   };
 
   const buildMenuHeading = (item: MenuItem, index: number): JSX.Element => {
-    return <AccordionMenuLabel key={item.heading || `heading-${index}`}>{item.heading}</AccordionMenuLabel>;
+    return (
+      <AccordionMenuLabel key={item.heading || `heading-${index}`}>
+        {item.heading}
+      </AccordionMenuLabel>
+    );
   };
 
   return (

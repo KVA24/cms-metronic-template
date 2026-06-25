@@ -1,5 +1,5 @@
-import {useAuthUser} from '@/shared/stores/auth-store';
-import {UserRole} from './roles';
+import { useAuthUser } from '@/shared/stores/auth-store';
+import { UserRole } from './roles';
 
 /**
  * Hook to get current user's role

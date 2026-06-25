@@ -124,5 +124,3 @@ export function generateFilenameWithId(
 
   return `${prefix}-${id}-${date}.${extension}`;
 }
-
-

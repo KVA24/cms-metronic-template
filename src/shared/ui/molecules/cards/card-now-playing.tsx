@@ -38,7 +38,10 @@ const CardNowPlaying = ({
 }: INowPlayingProps) => {
   const renderItem = (statistic: INowPlayingItem) => {
     return (
-      <div key={statistic.description} className="grid grid-cols-1 gap-1.5 text-center">
+      <div
+        key={statistic.description}
+        className="grid grid-cols-1 gap-1.5 text-center"
+      >
         <span className="text-mono text-sm leading-none font-semibold">
           {statistic.number}%
         </span>
