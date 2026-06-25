@@ -490,6 +490,7 @@ export function AccountPage() {
       </Container>
 
       <AccountDrawer
+        key={drawer.account?.id || 'new'}
         open={drawer.isOpen}
         onClose={drawer.close}
         onSubmit={handleDrawerSubmit}

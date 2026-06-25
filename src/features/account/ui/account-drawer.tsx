@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslations } from '@/shared/hooks/use-translations';
 import logger from '@/shared/lib/logger';
 import { uploadApi } from '@/shared/lib/upload';
@@ -75,7 +75,7 @@ export function AccountDrawer({
   const { t, language } = useTranslations();
   const isEdit = !!account;
   const [showPassword, setShowPassword] = useState(false);
-  const [avatarPreview, setAvatarPreview] = useState<string>('');
+  const [avatarPreview, setAvatarPreview] = useState<string>(account?.avatarUrl || '');
   const [isUploading, setIsUploading] = useState(false);
 
   const { data: rolesData, isLoading: isLoadingRoles } = useAccountRoles();
@@ -83,47 +83,16 @@ export function AccountDrawer({
   const form = useForm<AccountFormData>({
     resolver: createTranslatedZodResolver(accountSchema, t),
     defaultValues: {
-      username: '',
+      username: account?.username || '',
       password: '',
-      role: '',
-      status: 'ACTIVE',
-      avatarUrl: '',
+      role: account?.role || account?.roles[0]?.roleCode || '',
+      status: account?.status || 'ACTIVE',
+      avatarUrl: account?.avatarUrl || '',
       otpCode: '',
     },
   });
 
   useFormLanguageSync(form, language);
-
-  // Reset form when account changes or drawer opens
-  useEffect(() => {
-    if (open) {
-      setShowPassword(false); // Reset password visibility
-      setAvatarPreview('');
-      if (account) {
-        form.reset({
-          username: account.username,
-          password: '', // Never populate password
-          role: account.role || account.roles[0]?.roleCode,
-          status: account.status,
-          avatarUrl: account.avatarUrl || '',
-          otpCode: '',
-        });
-        // Set preview from existing avatar
-        if (account.avatarUrl) {
-          setAvatarPreview(account.avatarUrl);
-        }
-      } else {
-        form.reset({
-          username: '',
-          password: '',
-          role: '',
-          status: 'ACTIVE',
-          avatarUrl: '',
-          otpCode: '',
-        });
-      }
-    }
-  }, [account, open, form]);
 
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
