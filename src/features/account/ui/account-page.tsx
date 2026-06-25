@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useReducer, useState } from 'react';
 import { useDebounce } from '@/shared/hooks';
 import { useTranslations } from '@/shared/hooks/use-translations';
 import { UserRole } from '@/shared/lib/rbac';
@@ -144,12 +144,38 @@ export function AccountPage() {
 
   // Local state
   const [deleteOtp, setDeleteOtp] = useState('');
-  const [statusConfirm, setStatusConfirm] = useState<{
-    account: Account;
-    targetStatus: 'ACTIVE' | 'INACTIVE';
-  } | null>(null);
-  const [statusOtp, setStatusOtp] = useState('');
-  const [statusOtpError, setStatusOtpError] = useState('');
+
+  interface StatusDialogState {
+    account: Account | null;
+    targetStatus: 'ACTIVE' | 'INACTIVE' | null;
+    otp: string;
+    error: string;
+  }
+  type StatusDialogAction =
+    | { type: 'open'; account: Account; targetStatus: 'ACTIVE' | 'INACTIVE' }
+    | { type: 'otpChanged'; value: string }
+    | { type: 'setError'; value: string }
+    | { type: 'close' };
+  const statusDialogReducer = (state: StatusDialogState, action: StatusDialogAction): StatusDialogState => {
+    switch (action.type) {
+      case 'open':
+        return { account: action.account, targetStatus: action.targetStatus, otp: '', error: '' };
+      case 'otpChanged':
+        return { ...state, otp: action.value, error: '' };
+      case 'setError':
+        return { ...state, error: action.value };
+      case 'close':
+        return { account: null, targetStatus: null, otp: '', error: '' };
+      default:
+        return state;
+    }
+  };
+  const [statusDialog, dispatchStatus] = useReducer(statusDialogReducer, {
+    account: null,
+    targetStatus: null,
+    otp: '',
+    error: '',
+  });
 
   // Fetch QR code when dialog opens
   const { data: qrCodeData, isLoading: isLoadingQR } = useAccountQRCode(
@@ -220,28 +246,24 @@ export function AccountPage() {
   };
 
   const handleConfirmStatusChange = async () => {
-    if (!statusOtp.trim()) {
-      setStatusOtpError(t('COMMON.OTP_REQUIRED') || 'OTP is required');
+    if (!statusDialog.otp.trim()) {
+      dispatchStatus({ type: 'setError', value: t('COMMON.OTP_REQUIRED') || 'OTP is required' });
       return;
     }
 
-    if (statusOtp.length !== 6) {
-      setStatusOtpError(
-        t('COMMON.OTP_MUST_BE_6_DIGITS') || 'OTP must be 6 digits',
-      );
+    if (statusDialog.otp.length !== 6) {
+      dispatchStatus({ type: 'setError', value: t('COMMON.OTP_MUST_BE_6_DIGITS') || 'OTP must be 6 digits' });
       return;
     }
 
-    if (statusConfirm) {
+    if (statusDialog.account) {
       try {
         await updateStatusMutation.mutateAsync({
-          id: statusConfirm.account.id,
-          status: statusConfirm.targetStatus,
-          otpCode: statusOtp,
+          id: statusDialog.account.id,
+          status: statusDialog.targetStatus!,
+          otpCode: statusDialog.otp,
         });
-        setStatusConfirm(null);
-        setStatusOtp('');
-        setStatusOtpError('');
+        dispatchStatus({ type: 'close' });
       } catch (error) {
         // Error handled by mutation
       }
@@ -346,10 +368,7 @@ export function AccountPage() {
                   size="sm"
                   onClick={() => {
                     const isActive = account.status === 'ACTIVE';
-                    setStatusConfirm({
-                      account,
-                      targetStatus: isActive ? 'INACTIVE' : 'ACTIVE',
-                    });
+                    dispatchStatus({ type: 'open', account, targetStatus: isActive ? 'INACTIVE' : 'ACTIVE' });
                   }}
                   aria-label={isActive ? 'Deactivate' : 'Activate'}
                   disabled={isToggling}
@@ -599,12 +618,10 @@ export function AccountPage() {
       </Dialog>
 
       <AlertDialog
-        open={statusConfirm !== null}
+        open={statusDialog.account !== null}
         onOpenChange={(open) => {
           if (!open && !updateStatusMutation.isPending) {
-            setStatusConfirm(null);
-            setStatusOtp('');
-            setStatusOtpError('');
+            dispatchStatus({ type: 'close' });
           }
         }}
       >
@@ -615,8 +632,8 @@ export function AccountPage() {
             </AlertDialogTitle>
             <AlertDialogDescription>
               {t('ACCOUNT.PAGE.CHANGE_STATUS_DESCRIPTION', {
-                username: statusConfirm?.account.username,
-                status: statusConfirm?.targetStatus,
+                username: statusDialog.account?.username,
+                status: statusDialog.targetStatus ?? undefined,
               })}
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -628,17 +645,16 @@ export function AccountPage() {
                 id="status-otp-input"
                 type="text"
                 placeholder={t('COMMON.ENTER_6_DIGIT_OTP')}
-                value={statusOtp}
+                value={statusDialog.otp}
                 onChange={(e) => {
-                  setStatusOtp(e.target.value);
-                  setStatusOtpError('');
+                  dispatchStatus({ type: 'otpChanged', value: e.target.value });
                 }}
                 maxLength={6}
                 disabled={updateStatusMutation.isPending}
               />
-              {statusOtpError && (
+              {statusDialog.error && (
                 <span className="text-xs text-destructive">
-                  {statusOtpError}
+                  {statusDialog.error}
                 </span>
               )}
             </div>
@@ -650,7 +666,7 @@ export function AccountPage() {
             </AlertDialogCancel>
             <Button
               onClick={handleConfirmStatusChange}
-              disabled={updateStatusMutation.isPending || !statusOtp.trim()}
+              disabled={updateStatusMutation.isPending || !statusDialog.otp.trim()}
             >
               {updateStatusMutation.isPending ? (
                 <span className="flex items-center gap-2">
