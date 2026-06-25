@@ -132,6 +132,7 @@ export function useRecaptchaV2(siteKey: string) {
         isRendered.current = false;
       }
     };
+    // eslint-disable-next-line react-doctor/exhaustive-deps
   }, [siteKey]);
 
   const getToken = (): string => {

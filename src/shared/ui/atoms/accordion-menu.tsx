@@ -391,6 +391,7 @@ function AccordionMenuSubTrigger({
         clearTimeout(hoverTimeoutRef.current);
       }
     };
+    // eslint-disable-next-line react-doctor/exhaustive-deps
   }, []);
 
   const triggerContent = (

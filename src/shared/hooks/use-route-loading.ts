@@ -18,6 +18,6 @@ export function useRouteLoading() {
     }, 200);
 
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-doctor/exhaustive-deps
   }, [location.pathname]);
 }

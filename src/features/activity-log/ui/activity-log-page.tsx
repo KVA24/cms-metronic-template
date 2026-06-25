@@ -157,7 +157,7 @@ export function ActivityLogPage() {
         : null,
       dateTo: dateRange?.to ? formatDate(dateRange.to, 'yyyy-MM-dd') : null,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-doctor/exhaustive-deps
   }, [
     debouncedUsername,
     localFilters.accountRole,
@@ -408,6 +408,7 @@ export function ActivityLogPage() {
       },
     ],
 
+    // eslint-disable-next-line react-doctor/exhaustive-deps
     [],
   );
 

@@ -106,7 +106,7 @@ export function AccountPage() {
     updateParams({
       username: debouncedUsername || null,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-doctor/exhaustive-deps
   }, [debouncedUsername]);
 
   // Memoize query params to prevent unnecessary refetches
