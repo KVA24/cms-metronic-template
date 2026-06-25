@@ -139,9 +139,6 @@ importers:
       react-i18next:
         specifier: ^16.5.4
         version: 16.6.6(i18next@25.10.10(typescript@5.9.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)
-      react-inlinesvg:
-        specifier: ^4.2.0
-        version: 4.4.1(react@19.2.7)
       react-leaflet:
         specifier: ^5.0.0
         version: 5.0.0(leaflet@1.9.4)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -5899,14 +5896,6 @@ packages:
       typescript:
         optional: true
 
-  react-inlinesvg@4.4.1:
-    resolution:
-      {
-        integrity: sha512-3acGn5o0xyWYpJrBm8qES/lBErVpqH3vhNywpw0frztdOmiAUdDMjvcsx9hrZ5wBaL7bRdsgexQ907urbvsARg==,
-      }
-    peerDependencies:
-      react: 16.8 - 19
-
   react-is@16.13.1:
     resolution:
       {
@@ -10282,11 +10271,6 @@ snapshots:
     optionalDependencies:
       react-dom: 19.2.7(react@19.2.7)
       typescript: 5.9.3
-
-  react-inlinesvg@4.4.1(react@19.2.7):
-    dependencies:
-      react: 19.2.7
-      react-from-dom: 0.7.5(react@19.2.7)
 
   react-is@16.13.1: {}
 
