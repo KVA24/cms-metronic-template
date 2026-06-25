@@ -37,9 +37,3 @@ export const getRecaptchaToken = async (): Promise<string | null> => {
   }
 };
 
-/**
- * Check if reCAPTCHA is initialized
- */
-export const isRecaptchaInitialized = (): boolean => {
-  return executeRecaptchaFn !== null;
-};

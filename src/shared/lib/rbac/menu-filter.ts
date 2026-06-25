@@ -45,27 +45,3 @@ function filterMenuItem(item: MenuItem, role: UserRole): MenuItem | null {
   return item;
 }
 
-/**
- * Check if a path is accessible by a role
- */
-export function isPathAccessible(
-  path: string,
-  menu: MenuConfig,
-  role: UserRole | null,
-): boolean {
-  if (!role) return false;
-
-  const filteredMenu = filterMenuByRole(menu, role);
-  return hasPathInMenu(path, filteredMenu);
-}
-
-/**
- * Recursively check if a path exists in menu
- */
-function hasPathInMenu(path: string, menu: MenuConfig): boolean {
-  for (const item of menu) {
-    if (item.path === path) return true;
-    if (item.children && hasPathInMenu(path, item.children)) return true;
-  }
-  return false;
-}

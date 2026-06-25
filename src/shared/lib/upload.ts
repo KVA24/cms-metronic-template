@@ -35,4 +35,3 @@ export const uploadApi = {
   },
 };
 
-export default uploadApi;

@@ -37,7 +37,7 @@ async function getEncryptionKey(): Promise<CryptoKey> {
 /**
  * Encrypt data
  */
-export async function encrypt(data: string): Promise<string> {
+async function encrypt(data: string): Promise<string> {
   try {
     const key = await getEncryptionKey();
     const encoder = new TextEncoder();
@@ -69,7 +69,7 @@ export async function encrypt(data: string): Promise<string> {
 /**
  * Decrypt data
  */
-export async function decrypt(encryptedData: string): Promise<string> {
+async function decrypt(encryptedData: string): Promise<string> {
   try {
     const key = await getEncryptionKey();
 
@@ -149,11 +149,4 @@ export async function loadCredentials(): Promise<SavedCredentials | null> {
  */
 export function clearCredentials(): void {
   storage.removeItem(STORAGE_KEY);
-}
-
-/**
- * Check if credentials are saved
- */
-export function hasCredentials(): boolean {
-  return storage.getItem(STORAGE_KEY) !== null;
 }

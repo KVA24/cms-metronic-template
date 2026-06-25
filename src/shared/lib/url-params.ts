@@ -202,16 +202,3 @@ export function usePaginationParams(
   };
 }
 
-/**
- * Utility to parse all common params at once
- */
-export function parseCommonParams(searchParams: URLSearchParams) {
-  return {
-    page: parseInt(searchParams.get('page') || '0', 10),
-    limit: parseInt(searchParams.get('limit') || '10', 10),
-    search: searchParams.get('search') || '',
-    category: searchParams.get('category') || '',
-    sort: searchParams.get('sort') || '',
-    order: searchParams.get('order') || 'asc',
-  };
-}
