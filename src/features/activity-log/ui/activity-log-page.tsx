@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { activityLogKeys } from '@/features/activity-log/hooks/use-activity-log-queries';
 import { useDebounce, useTranslations } from '@/shared/hooks';
 import { formatDate } from '@/shared/lib/date-utils';
@@ -63,6 +63,104 @@ import {
 } from '../api/activityLogApi';
 import { useActivityLogList } from '../hooks/use-activity-log-queries';
 
+interface ActivityLogViewState {
+  localFilters: {
+    username: string;
+    accountRole: string;
+    actionType: string;
+  };
+  dateRange: DateRange | undefined;
+  selectedLog: ActionLog | null;
+  isDetailOpen: boolean;
+  currentCursor: number | undefined;
+  direction: 'next' | 'pre' | undefined;
+}
+
+type ActivityLogViewAction =
+  | {
+      type: 'filtersChanged';
+      value: Partial<ActivityLogViewState['localFilters']>;
+    }
+  | { type: 'dateRangeChanged'; value: DateRange | undefined }
+  | { type: 'filtersCleared' }
+  | { type: 'detailOpened'; log: ActionLog }
+  | { type: 'detailOpenChanged'; open: boolean }
+  | {
+      type: 'cursorChanged';
+      cursor: number | undefined;
+      direction: 'next' | 'pre' | undefined;
+    }
+  | { type: 'cursorReset' };
+
+function activityLogViewReducer(
+  state: ActivityLogViewState,
+  action: ActivityLogViewAction,
+): ActivityLogViewState {
+  switch (action.type) {
+    case 'filtersChanged':
+      return {
+        ...state,
+        localFilters: { ...state.localFilters, ...action.value },
+      };
+    case 'dateRangeChanged':
+      return { ...state, dateRange: action.value };
+    case 'filtersCleared':
+      return {
+        ...state,
+        localFilters: { username: '', accountRole: '', actionType: '' },
+        dateRange: undefined,
+        currentCursor: undefined,
+        direction: undefined,
+      };
+    case 'detailOpened':
+      return { ...state, selectedLog: action.log, isDetailOpen: true };
+    case 'detailOpenChanged':
+      return {
+        ...state,
+        isDetailOpen: action.open,
+        selectedLog: action.open ? state.selectedLog : null,
+      };
+    case 'cursorChanged':
+      return {
+        ...state,
+        currentCursor: action.cursor,
+        direction: action.direction,
+      };
+    case 'cursorReset':
+      return { ...state, currentCursor: undefined, direction: undefined };
+    default:
+      return state;
+  }
+}
+
+function getActionTypeVariant(actionType: string) {
+  switch (actionType) {
+    case 'CREATE':
+      return 'success';
+    case 'UPDATE':
+      return 'warning';
+    case 'DELETE':
+      return 'destructive';
+    case 'ADD':
+      return 'success';
+    case 'SUBTRACT':
+      return 'destructive';
+    default:
+      return 'secondary';
+  }
+}
+
+function getRoleVariant(role: string) {
+  switch (role) {
+    case 'ADMIN':
+      return 'destructive';
+    case 'USER':
+      return 'secondary';
+    default:
+      return 'secondary';
+  }
+}
+
 export function ActivityLogPage() {
   const queryClient = useQueryClient();
   const { t } = useTranslations();
@@ -73,14 +171,7 @@ export function ActivityLogPage() {
 
   const limit = getNumberParam('limit', 10);
 
-  // Local state for filters
-  const [localFilters, setLocalFilters] = useState({
-    username: getParam('username') || '',
-    accountRole: getParam('accountRole') || '',
-    actionType: getParam('actionType') || '',
-  });
-
-  const [dateRange, setDateRange] = useState<DateRange | undefined>(() => {
+  const initialDateRange = (): DateRange | undefined => {
     const fromParam = getParam('dateFrom');
     const toParam = getParam('dateTo');
     if (fromParam && toParam) {
@@ -90,20 +181,33 @@ export function ActivityLogPage() {
       };
     }
     return undefined;
+  };
+
+  const [viewState, dispatchViewState] = useReducer(activityLogViewReducer, {
+    localFilters: {
+      username: getParam('username') || '',
+      accountRole: getParam('accountRole') || '',
+      actionType: getParam('actionType') || '',
+    },
+    dateRange: initialDateRange(),
+    selectedLog: null,
+    isDetailOpen: false,
+    currentCursor: undefined,
+    direction: undefined,
   });
+  const {
+    localFilters,
+    dateRange,
+    selectedLog,
+    isDetailOpen,
+    currentCursor,
+    direction,
+  } = viewState;
 
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [selectedLog, setSelectedLog] = useState<ActionLog | null>(null);
-  const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   // Cursor state for pagination - track history of cursors
   const cursorHistoryRef = useRef<number[]>([]);
-  const [currentCursor, setCurrentCursor] = useState<number | undefined>(
-    undefined,
-  );
-  const [direction, setDirection] = useState<'next' | 'pre' | undefined>(
-    undefined,
-  );
 
   const debouncedUsername = useDebounce(localFilters.username, 500);
 
@@ -188,8 +292,7 @@ export function ActivityLogPage() {
   // Reset cursors when filters change
   useEffect(() => {
     cursorHistoryRef.current = [];
-    setCurrentCursor(undefined);
-    setDirection(undefined);
+    dispatchViewState({ type: 'cursorReset' });
   }, [
     debouncedUsername,
     localFilters.accountRole,
@@ -209,12 +312,6 @@ export function ActivityLogPage() {
   const error = queryError?.message || null;
 
   const handleClearFilters = () => {
-    setLocalFilters({
-      username: '',
-      accountRole: '',
-      actionType: '',
-    });
-    setDateRange(undefined);
     updateParams({
       username: null,
       accountRole: null,
@@ -223,13 +320,11 @@ export function ActivityLogPage() {
       dateTo: null,
     });
     cursorHistoryRef.current = [];
-    setCurrentCursor(undefined);
-    setDirection(undefined);
+    dispatchViewState({ type: 'filtersCleared' });
   };
 
   const handleRowClick = (log: ActionLog) => {
-    setSelectedLog(log);
-    setIsDetailOpen(true);
+    dispatchViewState({ type: 'detailOpened', log });
   };
 
   const handlePrevious = () => {
@@ -237,8 +332,11 @@ export function ActivityLogPage() {
       const newHistory = [...cursorHistoryRef.current];
       const previousCursor = newHistory.pop();
       cursorHistoryRef.current = newHistory;
-      setCurrentCursor(previousCursor);
-      setDirection(previousCursor ? 'next' : undefined);
+      dispatchViewState({
+        type: 'cursorChanged',
+        cursor: previousCursor,
+        direction: previousCursor ? 'next' : undefined,
+      });
     }
   };
 
@@ -247,44 +345,18 @@ export function ActivityLogPage() {
       if (currentCursor !== undefined || cursorHistoryRef.current.length === 0) {
         cursorHistoryRef.current = [...cursorHistoryRef.current, currentCursor ?? 0];
       }
-      setCurrentCursor(metadata.next);
-      setDirection('next');
+      dispatchViewState({
+        type: 'cursorChanged',
+        cursor: metadata.next,
+        direction: 'next',
+      });
     }
   };
 
   const handlePageSizeChange = (value: string) => {
     updateParams({ limit: parseInt(value, 10) });
     cursorHistoryRef.current = [];
-    setCurrentCursor(undefined);
-    setDirection(undefined);
-  };
-
-  const getActionTypeVariant = (actionType: string) => {
-    switch (actionType) {
-      case 'CREATE':
-        return 'success';
-      case 'UPDATE':
-        return 'warning';
-      case 'DELETE':
-        return 'destructive';
-      case 'ADD':
-        return 'success';
-      case 'SUBTRACT':
-        return 'destructive';
-      default:
-        return 'secondary';
-    }
-  };
-
-  const getRoleVariant = (role: string) => {
-    switch (role) {
-      case 'ADMIN':
-        return 'destructive';
-      case 'USER':
-        return 'secondary';
-      default:
-        return 'secondary';
-    }
+    dispatchViewState({ type: 'cursorReset' });
   };
 
   // Define columns
@@ -479,9 +551,9 @@ export function ActivityLogPage() {
                           )}
                           value={localFilters.username}
                           onChange={(e) =>
-                            setLocalFilters({
-                              ...localFilters,
-                              username: e.target.value,
+                            dispatchViewState({
+                              type: 'filtersChanged',
+                              value: { username: e.target.value },
                             })
                           }
                           className="pl-10"
@@ -493,9 +565,9 @@ export function ActivityLogPage() {
                       <Select
                         value={localFilters.accountRole || ''}
                         onValueChange={(value) => {
-                          setLocalFilters({
-                            ...localFilters,
-                            accountRole: value,
+                          dispatchViewState({
+                            type: 'filtersChanged',
+                            value: { accountRole: value },
                           });
                         }}
                       >
@@ -521,9 +593,9 @@ export function ActivityLogPage() {
                       <Select
                         value={localFilters.actionType || ''}
                         onValueChange={(value) => {
-                          setLocalFilters({
-                            ...localFilters,
-                            actionType: value,
+                          dispatchViewState({
+                            type: 'filtersChanged',
+                            value: { actionType: value },
                           });
                         }}
                       >
@@ -558,7 +630,12 @@ export function ActivityLogPage() {
                           <DateRangePicker
                             start={dateRange?.from ?? null}
                             end={dateRange?.to ?? null}
-                            onApply={(range) => setDateRange(range)}
+                            onApply={(range) =>
+                              dispatchViewState({
+                                type: 'dateRangeChanged',
+                                value: range,
+                              })
+                            }
                             clearable={true}
                           />
                         </div>
@@ -636,7 +713,12 @@ export function ActivityLogPage() {
         </div>
       </Container>
 
-      <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
+      <Dialog
+        open={isDetailOpen}
+        onOpenChange={(open) =>
+          dispatchViewState({ type: 'detailOpenChanged', open })
+        }
+      >
         <DialogContent className="max-w-3xl max-h-[85vh] flex flex-col gap-0">
           <DialogHeader>
             <DialogTitle>{t('ACTIVITY_LOG.DETAIL.TITLE')}</DialogTitle>

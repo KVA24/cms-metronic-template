@@ -85,6 +85,49 @@ import {
 } from '../hooks/use-account-queries';
 import { AccountDrawer } from './account-drawer';
 
+interface StatusDialogState {
+  account: Account | null;
+  targetStatus: 'ACTIVE' | 'INACTIVE' | null;
+  otp: string;
+  error: string;
+}
+
+type StatusDialogAction =
+  | { type: 'open'; account: Account; targetStatus: 'ACTIVE' | 'INACTIVE' }
+  | { type: 'otpChanged'; value: string }
+  | { type: 'setError'; value: string }
+  | { type: 'close' };
+
+const initialStatusDialogState: StatusDialogState = {
+  account: null,
+  targetStatus: null,
+  otp: '',
+  error: '',
+};
+
+function statusDialogReducer(
+  state: StatusDialogState,
+  action: StatusDialogAction,
+): StatusDialogState {
+  switch (action.type) {
+    case 'open':
+      return {
+        account: action.account,
+        targetStatus: action.targetStatus,
+        otp: '',
+        error: '',
+      };
+    case 'otpChanged':
+      return { ...state, otp: action.value, error: '' };
+    case 'setError':
+      return { ...state, error: action.value };
+    case 'close':
+      return initialStatusDialogState;
+    default:
+      return state;
+  }
+}
+
 export function AccountPage() {
   const { t } = useTranslations();
 
@@ -145,37 +188,10 @@ export function AccountPage() {
   // Local state
   const [deleteOtp, setDeleteOtp] = useState('');
 
-  interface StatusDialogState {
-    account: Account | null;
-    targetStatus: 'ACTIVE' | 'INACTIVE' | null;
-    otp: string;
-    error: string;
-  }
-  type StatusDialogAction =
-    | { type: 'open'; account: Account; targetStatus: 'ACTIVE' | 'INACTIVE' }
-    | { type: 'otpChanged'; value: string }
-    | { type: 'setError'; value: string }
-    | { type: 'close' };
-  const statusDialogReducer = (state: StatusDialogState, action: StatusDialogAction): StatusDialogState => {
-    switch (action.type) {
-      case 'open':
-        return { account: action.account, targetStatus: action.targetStatus, otp: '', error: '' };
-      case 'otpChanged':
-        return { ...state, otp: action.value, error: '' };
-      case 'setError':
-        return { ...state, error: action.value };
-      case 'close':
-        return { account: null, targetStatus: null, otp: '', error: '' };
-      default:
-        return state;
-    }
-  };
-  const [statusDialog, dispatchStatus] = useReducer(statusDialogReducer, {
-    account: null,
-    targetStatus: null,
-    otp: '',
-    error: '',
-  });
+  const [statusDialog, dispatchStatus] = useReducer(
+    statusDialogReducer,
+    initialStatusDialogState,
+  );
 
   // Fetch QR code when dialog opens
   const { data: qrCodeData, isLoading: isLoadingQR } = useAccountQRCode(
