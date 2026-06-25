@@ -187,9 +187,6 @@ export const useAuthStore = create<AuthState>()(
 // Custom selectors for better performance
 export const useAuthUser = () => useAuthStore((state) => state.user);
 export const useAuthLoading = () => useAuthStore((state) => state.isLoading);
-export const useAuthError = () => useAuthStore((state) => state.error);
-export const useAuthInitialized = () =>
-  useAuthStore((state) => state.isInitialized);
 export const useAuthStatus = () =>
   useAuthStore(
     useShallow((state) => ({

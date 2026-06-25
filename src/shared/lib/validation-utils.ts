@@ -1,68 +1,7 @@
 import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UseFormReturn } from 'react-hook-form';
-import { ZodError, ZodSchema } from 'zod';
-
-/**
- * Translates Zod validation error messages using i18n translation function
- *
- * @example
- * ```typescript
- * const result = schema.safeParse(data);
- * if (!result.success) {
- *   const translatedErrors = translateZodErrors(result.error, t);
- *   console.log(translatedErrors);
- *   // [{ path: 'metricName', message: 'Tên chỉ số là bắt buộc' }]
- * }
- * ```
- *
- * @param error - ZodError object from validation
- * @param t - Translation function from useTranslations hook
- * @returns Array of translated error objects with path and message
- */
-export const translateZodErrors = (
-  error: ZodError,
-  t: (key: string) => string,
-) => {
-  return error.errors.map((err) => ({
-    path: err.path.join('.'),
-    message: t(err.message),
-  }));
-};
-
-/**
- * Gets the first translated error message from ZodError
- * @param error - ZodError object from validation
- * @param t - Translation function from useTranslations hook
- * @returns First translated error message or empty string
- */
-export const getFirstTranslatedError = (
-  error: ZodError,
-  t: (key: string) => string,
-): string => {
-  const errors = translateZodErrors(error, t);
-  return errors.length > 0 ? errors[0].message : '';
-};
-
-/**
- * Gets translated error messages grouped by field path
- * @param error - ZodError object from validation
- * @param t - Translation function from useTranslations hook
- * @returns Object with field paths as keys and translated messages as values
- */
-export const getTranslatedErrorsByField = (
-  error: ZodError,
-  t: (key: string) => string,
-): Record<string, string> => {
-  const errors = translateZodErrors(error, t);
-  return errors.reduce(
-    (acc, err) => {
-      acc[err.path] = err.message;
-      return acc;
-    },
-    {} as Record<string, string>,
-  );
-};
+import { ZodSchema } from 'zod';
 
 /**
  * Creates a Zod resolver with automatic i18n translation for error messages

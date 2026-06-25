@@ -14,7 +14,7 @@ interface RoleGuardProps {
  * Component to conditionally render children based on user roles
  * Use this to hide UI elements that user doesn't have access to
  */
-export function RoleGuard({
+function RoleGuard({
   children,
   requiredRoles = EMPTY_ROLES,
   fallback = null,
@@ -32,7 +32,4 @@ export function RoleGuard({
   return <>{children}</>;
 }
 
-/**
- * @deprecated Use RoleGuard instead
- */
 export const PermissionGuard = RoleGuard;

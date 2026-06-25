@@ -125,25 +125,4 @@ export function generateFilenameWithId(
   return `${prefix}-${id}-${date}.${extension}`;
 }
 
-/**
- * Common MIME types for exports
- */
-export const EXPORT_MIME_TYPES = {
-  EXCEL: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  CSV: 'text/csv',
-  PDF: 'application/pdf',
-  JSON: 'application/json',
-  XML: 'application/xml',
-  ZIP: 'application/zip',
-} as const;
 
-/**
- * Check if the browser supports file downloads
- */
-export function supportsDownload(): boolean {
-  return (
-    typeof window !== 'undefined' &&
-    'URL' in window &&
-    'createObjectURL' in window.URL
-  );
-}
