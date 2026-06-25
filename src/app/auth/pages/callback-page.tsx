@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import logger from '@/shared/lib/logger';
+import { safeRedirect } from '@/shared/lib/safe-redirect';
 import { useAuthActions } from '@/shared/stores/auth-store';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -48,7 +49,7 @@ export function CallbackPage() {
         logger.log('Session verified successfully');
 
         // Get the next URL - either from query param or default to root
-        const nextPath = searchParams.get('next') || '/';
+        const nextPath = safeRedirect(searchParams.get('next'));
 
         // Navigate to the target page
         logger.log('Redirecting to:', nextPath);
