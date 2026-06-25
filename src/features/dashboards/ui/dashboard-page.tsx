@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useReducer, useState } from 'react';
 import {
   useCampaignStatistics,
   useCustomerDashboard,
@@ -83,9 +83,85 @@ const TIER_COLOR_FALLBACKS = [
   '#10B981',
 ];
 
+type DashboardChartKey = 'customer' | 'dpe' | 'mpe' | 'dpd' | 'mpd';
+
+interface DashboardChartState {
+  openDialog: DashboardChartKey | null;
+  chartDateRange: DateRange | undefined;
+  dpeChartDateRange: DateRange | undefined;
+  mpeChartDateRange: DateRange | undefined;
+  dpdChartDateRange: DateRange | undefined;
+  mpdChartDateRange: DateRange | undefined;
+}
+
+type DashboardChartAction =
+  | { type: 'dialogChanged'; dialog: DashboardChartKey; open: boolean }
+  | {
+      type: 'dateRangeChanged';
+      field: Exclude<keyof DashboardChartState, 'openDialog'>;
+      value: DateRange | undefined;
+    };
+
+const defaultDailyRange = () => ({
+  from: startOfMonth(new Date()),
+  to: new Date(),
+});
+
+const defaultMonthlyRange = () => {
+  const now = new Date();
+  const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1);
+  return {
+    from: sixMonthsAgo,
+    to: new Date(now.getFullYear(), now.getMonth(), 1),
+  };
+};
+
+function createDashboardChartState(): DashboardChartState {
+  return {
+    openDialog: null,
+    chartDateRange: defaultDailyRange(),
+    dpeChartDateRange: defaultDailyRange(),
+    mpeChartDateRange: defaultMonthlyRange(),
+    dpdChartDateRange: defaultDailyRange(),
+    mpdChartDateRange: defaultMonthlyRange(),
+  };
+}
+
+function dashboardChartReducer(
+  state: DashboardChartState,
+  action: DashboardChartAction,
+): DashboardChartState {
+  switch (action.type) {
+    case 'dialogChanged':
+      return {
+        ...state,
+        openDialog: action.open ? action.dialog : null,
+      };
+    case 'dateRangeChanged':
+      return {
+        ...state,
+        [action.field]: action.value,
+      };
+    default:
+      return state;
+  }
+}
+
 const DashboardPage = () => {
   const { t } = useTranslation();
-  const [isChartDialogOpen, setIsChartDialogOpen] = useState(false);
+  const [chartState, dispatchChartState] = useReducer(
+    dashboardChartReducer,
+    undefined,
+    createDashboardChartState,
+  );
+  const {
+    openDialog,
+    chartDateRange,
+    dpeChartDateRange,
+    mpeChartDateRange,
+    dpdChartDateRange,
+    mpdChartDateRange,
+  } = chartState;
 
   // Currency state
   const [selectedCurrencyId, setSelectedCurrencyId] = useState<string>('');
@@ -100,55 +176,6 @@ const DashboardPage = () => {
       setSelectedCurrencyId(currencies[0].id);
     }
   }, [currencies, selectedCurrencyId]);
-
-  // Dialog states for point charts
-  const [isDpeChartOpen, setIsDpeChartOpen] = useState(false);
-  const [isMpeChartOpen, setIsMpeChartOpen] = useState(false);
-  const [isDpdChartOpen, setIsDpdChartOpen] = useState(false);
-  const [isMpdChartOpen, setIsMpdChartOpen] = useState(false);
-
-  // DateRange state for chart dialog only
-  const [chartDateRange, setChartDateRange] = useState<DateRange | undefined>({
-    from: startOfMonth(new Date()),
-    to: new Date(),
-  });
-
-  // DateRange states for point charts
-  const [dpeChartDateRange, setDpeChartDateRange] = useState<
-    DateRange | undefined
-  >({
-    from: startOfMonth(new Date()),
-    to: new Date(),
-  });
-
-  const [mpeChartDateRange, setMpeChartDateRange] = useState<
-    DateRange | undefined
-  >(() => {
-    const now = new Date();
-    const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1);
-    return {
-      from: sixMonthsAgo,
-      to: new Date(now.getFullYear(), now.getMonth(), 1),
-    };
-  });
-
-  const [dpdChartDateRange, setDpdChartDateRange] = useState<
-    DateRange | undefined
-  >({
-    from: startOfMonth(new Date()),
-    to: new Date(),
-  });
-
-  const [mpdChartDateRange, setMpdChartDateRange] = useState<
-    DateRange | undefined
-  >(() => {
-    const now = new Date();
-    const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1);
-    return {
-      from: sixMonthsAgo,
-      to: new Date(now.getFullYear(), now.getMonth(), 1),
-    };
-  });
 
   // Format dates for chart API
   const chartFromDate = useMemo(
@@ -658,7 +685,13 @@ const DashboardPage = () => {
                 <>
                   <Card
                     className="bg-gradient-to-br from-blue-400 to-blue-600 border-0 text-white cursor-pointer hover:shadow-lg transition-shadow"
-                    onClick={() => setIsChartDialogOpen(true)}
+                    onClick={() =>
+                      dispatchChartState({
+                        type: 'dialogChanged',
+                        dialog: 'customer',
+                        open: true,
+                      })
+                    }
                   >
                     <CardContent className="pt-6">
                       <div className="flex items-start justify-between mb-8">
@@ -947,7 +980,13 @@ const DashboardPage = () => {
                     style={{
                       background: 'linear-gradient(135deg, #4ade80, #16a34a)',
                     }}
-                    onClick={() => setIsDpeChartOpen(true)}
+                    onClick={() =>
+                      dispatchChartState({
+                        type: 'dialogChanged',
+                        dialog: 'dpe',
+                        open: true,
+                      })
+                    }
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
@@ -1012,7 +1051,13 @@ const DashboardPage = () => {
                     style={{
                       background: 'linear-gradient(135deg, #4ade80, #15803d)',
                     }}
-                    onClick={() => setIsMpeChartOpen(true)}
+                    onClick={() =>
+                      dispatchChartState({
+                        type: 'dialogChanged',
+                        dialog: 'mpe',
+                        open: true,
+                      })
+                    }
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
@@ -1085,7 +1130,13 @@ const DashboardPage = () => {
                     style={{
                       background: 'linear-gradient(135deg, #fb923c, #ea580c)',
                     }}
-                    onClick={() => setIsDpdChartOpen(true)}
+                    onClick={() =>
+                      dispatchChartState({
+                        type: 'dialogChanged',
+                        dialog: 'dpd',
+                        open: true,
+                      })
+                    }
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
@@ -1148,7 +1199,13 @@ const DashboardPage = () => {
                     style={{
                       background: 'linear-gradient(135deg, #f87171, #dc2626)',
                     }}
-                    onClick={() => setIsMpdChartOpen(true)}
+                    onClick={() =>
+                      dispatchChartState({
+                        type: 'dialogChanged',
+                        dialog: 'mpd',
+                        open: true,
+                      })
+                    }
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
@@ -1505,7 +1562,16 @@ const DashboardPage = () => {
       </Container>
 
       {/* Customer Dashboard Chart Dialog */}
-      <Dialog open={isChartDialogOpen} onOpenChange={setIsChartDialogOpen}>
+      <Dialog
+        open={openDialog === 'customer'}
+        onOpenChange={(open) =>
+          dispatchChartState({
+            type: 'dialogChanged',
+            dialog: 'customer',
+            open,
+          })
+        }
+      >
         <DialogContent className="max-w-4xl">
           <DialogHeader>
             <DialogTitle>{t('DASHBOARD.CUSTOMER_DASHBOARD.TITLE')}</DialogTitle>
@@ -1516,7 +1582,13 @@ const DashboardPage = () => {
               <DateRangePicker
                 start={chartDateRange?.from || null}
                 end={chartDateRange?.to || null}
-                onApply={(range) => setChartDateRange(range)}
+                onApply={(range) =>
+                  dispatchChartState({
+                    type: 'dateRangeChanged',
+                    field: 'chartDateRange',
+                    value: range,
+                  })
+                }
               />
             </div>
 
@@ -1544,7 +1616,16 @@ const DashboardPage = () => {
       </Dialog>
 
       {/* DPE Chart Dialog */}
-      <Dialog open={isDpeChartOpen} onOpenChange={setIsDpeChartOpen}>
+      <Dialog
+        open={openDialog === 'dpe'}
+        onOpenChange={(open) =>
+          dispatchChartState({
+            type: 'dialogChanged',
+            dialog: 'dpe',
+            open,
+          })
+        }
+      >
         <DialogContent className="max-w-4xl">
           <DialogHeader>
             <DialogTitle>DPE - Daily Points Earned</DialogTitle>
@@ -1554,7 +1635,13 @@ const DashboardPage = () => {
               <DateRangePicker
                 start={dpeChartDateRange?.from || null}
                 end={dpeChartDateRange?.to || null}
-                onApply={(range) => setDpeChartDateRange(range)}
+                onApply={(range) =>
+                  dispatchChartState({
+                    type: 'dateRangeChanged',
+                    field: 'dpeChartDateRange',
+                    value: range,
+                  })
+                }
               />
             </div>
             <div>
@@ -1580,7 +1667,16 @@ const DashboardPage = () => {
       </Dialog>
 
       {/* MPE Chart Dialog */}
-      <Dialog open={isMpeChartOpen} onOpenChange={setIsMpeChartOpen}>
+      <Dialog
+        open={openDialog === 'mpe'}
+        onOpenChange={(open) =>
+          dispatchChartState({
+            type: 'dialogChanged',
+            dialog: 'mpe',
+            open,
+          })
+        }
+      >
         <DialogContent className="max-w-4xl">
           <DialogHeader>
             <DialogTitle>MPE - Monthly Points Earned</DialogTitle>
@@ -1590,7 +1686,13 @@ const DashboardPage = () => {
               <MonthRangePicker
                 start={mpeChartDateRange?.from || null}
                 end={mpeChartDateRange?.to || null}
-                onApply={(range) => setMpeChartDateRange(range)}
+                onApply={(range) =>
+                  dispatchChartState({
+                    type: 'dateRangeChanged',
+                    field: 'mpeChartDateRange',
+                    value: range,
+                  })
+                }
               />
             </div>
             <div>
@@ -1616,7 +1718,16 @@ const DashboardPage = () => {
       </Dialog>
 
       {/* DPD Chart Dialog */}
-      <Dialog open={isDpdChartOpen} onOpenChange={setIsDpdChartOpen}>
+      <Dialog
+        open={openDialog === 'dpd'}
+        onOpenChange={(open) =>
+          dispatchChartState({
+            type: 'dialogChanged',
+            dialog: 'dpd',
+            open,
+          })
+        }
+      >
         <DialogContent className="max-w-4xl">
           <DialogHeader>
             <DialogTitle>DPD - Daily Points Deducted</DialogTitle>
@@ -1626,7 +1737,13 @@ const DashboardPage = () => {
               <DateRangePicker
                 start={dpdChartDateRange?.from || null}
                 end={dpdChartDateRange?.to || null}
-                onApply={(range) => setDpdChartDateRange(range)}
+                onApply={(range) =>
+                  dispatchChartState({
+                    type: 'dateRangeChanged',
+                    field: 'dpdChartDateRange',
+                    value: range,
+                  })
+                }
               />
             </div>
             <div>
@@ -1652,7 +1769,16 @@ const DashboardPage = () => {
       </Dialog>
 
       {/* MPD Chart Dialog */}
-      <Dialog open={isMpdChartOpen} onOpenChange={setIsMpdChartOpen}>
+      <Dialog
+        open={openDialog === 'mpd'}
+        onOpenChange={(open) =>
+          dispatchChartState({
+            type: 'dialogChanged',
+            dialog: 'mpd',
+            open,
+          })
+        }
+      >
         <DialogContent className="max-w-4xl">
           <DialogHeader>
             <DialogTitle>MPD - Monthly Points Deducted</DialogTitle>
@@ -1662,7 +1788,13 @@ const DashboardPage = () => {
               <MonthRangePicker
                 start={mpdChartDateRange?.from || null}
                 end={mpdChartDateRange?.to || null}
-                onApply={(range) => setMpdChartDateRange(range)}
+                onApply={(range) =>
+                  dispatchChartState({
+                    type: 'dateRangeChanged',
+                    field: 'mpdChartDateRange',
+                    value: range,
+                  })
+                }
               />
             </div>
             <div>
