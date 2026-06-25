@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import { Config, configApi } from '@/features/config/api/configApi';
 import {
   useConfigList,
@@ -165,7 +165,7 @@ export function ConfigPage() {
     drawer.open();
   };
 
-  const handleEdit = React.useCallback(async (config: Config) => {
+  const handleEdit = useCallback(async (config: Config) => {
     setEditingConfigId(config.id);
     try {
       // Fetch detail từ API
