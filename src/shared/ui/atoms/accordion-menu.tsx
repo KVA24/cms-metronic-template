@@ -66,6 +66,9 @@ function AccordionMenu({
     setInternalSelectedValue(selectedValue);
   }, [selectedValue]);
 
+  const matchPathRef = React.useRef(matchPath);
+  matchPathRef.current = matchPath;
+
   const initialNestedStates = React.useMemo(() => {
     const getActiveChain = (
       nodes: React.ReactNode,
@@ -79,7 +82,7 @@ function AccordionMenu({
             children?: React.ReactNode;
           };
           const newChain = value ? [...chain, value] : chain;
-          if (value && (value === selectedValue || matchPath(value))) {
+          if (value && (value === selectedValue || matchPathRef.current(value))) {
             result = newChain;
           } else if (children) {
             const childChain = getActiveChain(children, newChain);
@@ -107,17 +110,18 @@ function AccordionMenu({
       }
     }
     return mapping;
-  }, [children, matchPath, selectedValue, props.type]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [children, selectedValue, props.type]);
 
   const [nestedStates, setNestedStates] =
     React.useState<Record<string, string | string[]>>(initialNestedStates);
-  const multipleValue = (
+  const multipleValue = React.useMemo(() => (
     Array.isArray(nestedStates['root'])
       ? nestedStates['root']
       : typeof nestedStates['root'] === 'string'
         ? [nestedStates['root']]
         : []
-  ) as string[];
+  ) as string[], [nestedStates]);
   const singleValue = (nestedStates['root'] ?? '') as string;
 
   // Function to check if an item is expanded
@@ -182,7 +186,7 @@ function AccordionMenuGroup({
   className,
   ...props
 }: AccordionMenuGroupProps) {
-  const { classNames } = React.useContext(AccordionMenuContext);
+  const { classNames } = React.use(AccordionMenuContext);
   return (
     <div
       data-slot="accordion-menu-group"
@@ -202,7 +206,7 @@ function AccordionMenuLabel({
   className,
   ...props
 }: AccordionMenuLabelProps) {
-  const { classNames } = React.useContext(AccordionMenuContext);
+  const { classNames } = React.use(AccordionMenuContext);
 
   return (
     <div
@@ -226,7 +230,7 @@ function AccordionMenuSeparator({
   className,
   ...props
 }: AccordionMenuSeparatorProps) {
-  const { classNames } = React.useContext(AccordionMenuContext);
+  const { classNames } = React.use(AccordionMenuContext);
   return (
     <div
       data-slot="accordion-menu-separator"
@@ -265,7 +269,7 @@ function AccordionMenuItem({
     onClick?: React.MouseEventHandler<HTMLElement>;
   }) {
   const { classNames, selectedValue, matchPath, onItemClick } =
-    React.useContext(AccordionMenuContext);
+    React.use(AccordionMenuContext);
 
   // Check if children is a Link component by checking if it's a valid element
   const hasLinkChild =
@@ -322,7 +326,7 @@ function AccordionMenuSub({
   children,
   ...props
 }: React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>) {
-  const { classNames } = React.useContext(AccordionMenuContext);
+  const { classNames } = React.use(AccordionMenuContext);
   return (
     <AccordionPrimitive.Item
       data-slot="accordion-menu-sub"
@@ -345,7 +349,7 @@ function AccordionMenuSubTrigger({
   popupContent?: React.ReactNode;
   value?: string;
 }) {
-  const { classNames, isExpanded } = React.useContext(AccordionMenuContext);
+  const { classNames, isExpanded } = React.use(AccordionMenuContext);
   const [isHovered, setIsHovered] = React.useState(false);
   const hoverTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
@@ -461,7 +465,7 @@ function AccordionMenuSubContent({
   ...props
 }: AccordionMenuSubContentProps) {
   const { nestedStates, setNestedStates, classNames } =
-    React.useContext(AccordionMenuContext);
+    React.use(AccordionMenuContext);
   let currentValue;
   if (type === 'multiple') {
     const stateValue = nestedStates[parentValue];
@@ -530,7 +534,7 @@ function AccordionMenuIndicator({
   className,
   ...props
 }: AccordionMenuIndicatorProps) {
-  const { classNames } = React.useContext(AccordionMenuContext);
+  const { classNames } = React.use(AccordionMenuContext);
   return (
     <span
       aria-hidden="true"

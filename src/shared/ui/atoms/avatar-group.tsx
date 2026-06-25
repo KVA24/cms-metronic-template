@@ -106,7 +106,7 @@ export function AvatarGroupItem({
   tooltipClassName,
   animation: itemAnimation,
 }: AvatarGroupItemProps) {
-  const context = React.useContext(AvatarGroupContext);
+  const context = React.use(AvatarGroupContext);
   const [hoveredIndex, setHoveredIndex] = React.useState<boolean>(false);
   const springConfig = { stiffness: 100, damping: 5 };
   const x = useMotionValue(0);

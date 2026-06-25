@@ -3,7 +3,7 @@
 'use client';
 
 import * as React from 'react';
-import { createContext, useContext } from 'react';
+import { createContext, use } from 'react';
 import { cn } from '@/shared/lib/utils';
 
 // Types
@@ -45,13 +45,13 @@ const StepItemContext = createContext<StepItemContextValue | undefined>(
 );
 
 function useStepper() {
-  const ctx = useContext(StepperContext);
+  const ctx = use(StepperContext);
   if (!ctx) throw new Error('useStepper must be used within a Stepper');
   return ctx;
 }
 
 function useStepItem() {
-  const ctx = useContext(StepItemContext);
+  const ctx = use(StepItemContext);
   if (!ctx) throw new Error('useStepItem must be used within a StepperItem');
   return ctx;
 }
@@ -110,15 +110,15 @@ function Stepper({
   const currentStep = value ?? activeStep;
 
   // Keyboard navigation logic
-  const focusTrigger = (idx: number) => {
+  const focusTrigger = React.useCallback((idx: number) => {
     if (triggerNodes[idx]) triggerNodes[idx].focus();
-  };
-  const focusNext = (currentIdx: number) =>
-    focusTrigger((currentIdx + 1) % triggerNodes.length);
-  const focusPrev = (currentIdx: number) =>
-    focusTrigger((currentIdx - 1 + triggerNodes.length) % triggerNodes.length);
-  const focusFirst = () => focusTrigger(0);
-  const focusLast = () => focusTrigger(triggerNodes.length - 1);
+  }, [triggerNodes]);
+  const focusNext = React.useCallback((currentIdx: number) =>
+    focusTrigger((currentIdx + 1) % triggerNodes.length), [focusTrigger, triggerNodes.length]);
+  const focusPrev = React.useCallback((currentIdx: number) =>
+    focusTrigger((currentIdx - 1 + triggerNodes.length) % triggerNodes.length), [focusTrigger, triggerNodes.length]);
+  const focusFirst = React.useCallback(() => focusTrigger(0), [focusTrigger]);
+  const focusLast = React.useCallback(() => focusTrigger(triggerNodes.length - 1), [focusTrigger, triggerNodes.length]);
 
   // Context value
   const contextValue = React.useMemo<StepperContextValue>(

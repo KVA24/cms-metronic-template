@@ -116,7 +116,7 @@ function AccordionItem(
   props: React.ComponentProps<typeof AccordionPrimitive.Item>,
 ) {
   const { className, children, ...rest } = props;
-  const { variant } = React.useContext(AccordionContext);
+  const { variant } = React.use(AccordionContext);
 
   return (
     <AccordionPrimitive.Item
@@ -133,7 +133,7 @@ function AccordionTrigger(
   props: React.ComponentProps<typeof AccordionPrimitive.Trigger>,
 ) {
   const { className, children, ...rest } = props;
-  const { variant, indicator } = React.useContext(AccordionContext);
+  const { variant, indicator } = React.use(AccordionContext);
 
   return (
     <AccordionPrimitive.Header className="flex">
@@ -167,7 +167,7 @@ function AccordionContent(
   props: React.ComponentProps<typeof AccordionPrimitive.Content>,
 ) {
   const { className, children, ...rest } = props;
-  const { variant } = React.useContext(AccordionContext);
+  const { variant } = React.use(AccordionContext);
 
   return (
     <AccordionPrimitive.Content

@@ -178,40 +178,34 @@ export interface SelectTriggerProps
   clearable?: boolean;
 }
 
-const SelectTrigger = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Trigger>,
-  SelectTriggerProps
->(
-  (
-    {
-      className,
-      children,
-      size,
-      clearable = true,
-      disabled: disabledProp,
-      ...props
-    },
-    ref,
-  ) => {
-    const {
-      value: ctxValue,
-      onValueChange,
-      error,
-      disabled: disabledFromContext,
-    } = React.useContext(SelectContext);
+function SelectTrigger({
+  className,
+  children,
+  size,
+  clearable = true,
+  disabled: disabledProp,
+  ref,
+  ...props
+}: SelectTriggerProps & { ref?: React.Ref<React.ElementRef<typeof SelectPrimitive.Trigger>> }) {
+  const {
+    value: ctxValue,
+    onValueChange,
+    error,
+    disabled: disabledFromContext,
+  } = React.use(SelectContext);
 
-    // Use disabled from prop first, then fall back to context
-    const disabled = disabledProp ?? disabledFromContext;
+  // Use disabled from prop first, then fall back to context
+  const disabled = disabledProp ?? disabledFromContext;
 
-    const hasValue = !!ctxValue;
+  const hasValue = !!ctxValue;
 
-    return (
-      <div className="relative w-full">
-        <SelectPrimitive.Trigger
-          ref={ref}
-          disabled={disabled}
-          className={cn(
-            selectTriggerVariants({ size }),
+  return (
+    <div className="relative w-full">
+      <SelectPrimitive.Trigger
+        ref={ref}
+        disabled={disabled}
+        className={cn(
+          selectTriggerVariants({ size }),
             className,
             'w-full',
             error &&
@@ -247,8 +241,7 @@ const SelectTrigger = React.forwardRef<
         )}
       </div>
     );
-  },
-);
+}
 
 function SelectScrollUpButton({
   className,
@@ -372,7 +365,7 @@ function SelectItem({
   ...props
 }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>) {
   const { indicatorPosition, indicatorVisibility, indicator } =
-    React.useContext(SelectContext);
+    React.use(SelectContext);
 
   return (
     <SelectPrimitive.Item
@@ -409,7 +402,7 @@ function SelectIndicator({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.ItemIndicator>) {
-  const { indicatorPosition } = React.useContext(SelectContext);
+  const { indicatorPosition } = React.use(SelectContext);
 
   return (
     <span

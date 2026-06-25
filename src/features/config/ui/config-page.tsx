@@ -165,7 +165,7 @@ export function ConfigPage() {
     drawer.open();
   };
 
-  const handleEdit = async (config: Config) => {
+  const handleEdit = React.useCallback(async (config: Config) => {
     setEditingConfigId(config.id);
     try {
       // Fetch detail từ API
@@ -176,7 +176,7 @@ export function ConfigPage() {
     } finally {
       setEditingConfigId(null);
     }
-  };
+  }, []);
 
   const handleDrawerSubmit = async (data: any) => {
     try {

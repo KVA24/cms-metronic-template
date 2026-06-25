@@ -58,7 +58,7 @@ export function CountingNumber({
     }, delay);
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shouldStart, from, to, duration, delay]);
+  }, [shouldStart, from, to, duration, delay, onComplete]);
 
   return (
     <motion.span ref={ref} className={cn('inline-block', className)} {...props}>

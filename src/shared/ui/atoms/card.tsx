@@ -15,7 +15,7 @@ const CardContext = React.createContext<CardContextType>({
 
 // Hook to use CardContext
 const useCardContext = () => {
-  const context = React.useContext(CardContext);
+  const context = React.use(CardContext);
   if (!context) {
     throw new Error('useCardContext must be used within a Card component');
   }

@@ -68,6 +68,21 @@ import Chart from 'react-apexcharts';
 import { DateRange } from 'react-day-picker';
 import { useTranslation } from 'react-i18next';
 
+const TIER_COLORS: Record<string, string> = {
+  Silver: '#9CA3AF',
+  Gold: '#EAB308',
+  Diamond: '#8B5CF6',
+  Platinum: '#3B82F6',
+  Bronze: '#CD7F32',
+};
+const TIER_COLOR_FALLBACKS = [
+  '#9CA3AF',
+  '#EAB308',
+  '#8B5CF6',
+  '#3B82F6',
+  '#10B981',
+];
+
 const DashboardPage = () => {
   const { t } = useTranslation();
   const [isChartDialogOpen, setIsChartDialogOpen] = useState(false);
@@ -517,21 +532,6 @@ const DashboardPage = () => {
   );
 
   // Pie chart data for membership tiers
-  const TIER_COLORS: Record<string, string> = {
-    Silver: '#9CA3AF',
-    Gold: '#EAB308',
-    Diamond: '#8B5CF6',
-    Platinum: '#3B82F6',
-    Bronze: '#CD7F32',
-  };
-  const TIER_COLOR_FALLBACKS = [
-    '#9CA3AF',
-    '#EAB308',
-    '#8B5CF6',
-    '#3B82F6',
-    '#10B981',
-  ];
-
   const tierEntries = useMemo(() => {
     if (!membershipTier?.items) return [];
 

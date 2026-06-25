@@ -334,7 +334,7 @@ export interface KanbanBoardProps {
 }
 
 function KanbanBoard({ children, className }: KanbanBoardProps) {
-  const { columnIds } = React.useContext(KanbanContext);
+  const { columnIds } = React.use(KanbanContext);
 
   return (
     <SortableContext items={columnIds} strategy={rectSortingStrategy}>
@@ -373,7 +373,7 @@ function KanbanColumn({
     disabled,
   });
 
-  const { activeId, isColumn } = React.useContext(KanbanContext);
+  const { activeId, isColumn } = React.use(KanbanContext);
   const isColumnDragging = activeId ? isColumn(activeId) : false;
 
   const style = {
@@ -419,7 +419,7 @@ function KanbanColumnHandle({
   cursor = true,
 }: KanbanColumnHandleProps) {
   const { attributes, listeners, isDragging, disabled } =
-    React.useContext(ColumnContext);
+    React.use(ColumnContext);
 
   const Comp = asChild ? Slot : 'div';
 
@@ -468,7 +468,7 @@ function KanbanItem({
     disabled,
   });
 
-  const { activeId, isColumn } = React.useContext(KanbanContext);
+  const { activeId, isColumn } = React.use(KanbanContext);
   const isItemDragging = activeId ? !isColumn(activeId) : false;
 
   const style = {
@@ -515,7 +515,7 @@ function KanbanItemHandle({
   children,
   cursor = true,
 }: KanbanItemHandleProps) {
-  const { listeners, isDragging, disabled } = React.useContext(ItemContext);
+  const { listeners, isDragging, disabled } = React.use(ItemContext);
 
   const Comp = asChild ? Slot : 'div';
 
@@ -546,7 +546,7 @@ function KanbanColumnContent({
   className,
   children,
 }: KanbanColumnContentProps) {
-  const { columns, getItemId } = React.useContext(KanbanContext);
+  const { columns, getItemId } = React.use(KanbanContext);
 
   const itemIds = React.useMemo(
     () => columns[value].map(getItemId),
@@ -576,7 +576,7 @@ export interface KanbanOverlayProps {
 }
 
 function KanbanOverlay({ children, className }: KanbanOverlayProps) {
-  const { activeId, isColumn } = React.useContext(KanbanContext);
+  const { activeId, isColumn } = React.use(KanbanContext);
   const [dimensions, setDimensions] = React.useState<{
     width: number;
     height: number;

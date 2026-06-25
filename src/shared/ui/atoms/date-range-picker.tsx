@@ -61,7 +61,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   };
 
   // Validate date range doesn't exceed maxMonths
-  const validateDateRange = (range: DateRange | undefined): boolean => {
+  const validateDateRange = React.useCallback((range: DateRange | undefined): boolean => {
     if (!maxMonths || !range?.from || !range?.to) {
       setRangeError('');
       return true;
@@ -74,7 +74,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
     }
     setRangeError('');
     return true;
-  };
+  }, [maxMonths]);
 
   // Calculate default month (previous month if no date range selected)
   const getDefaultMonth = () => {
@@ -98,7 +98,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   // Validate range when it changes (real-time validation)
   useEffect(() => {
     validateDateRange(dateRange);
-  }, [dateRange, maxMonths]);
+  }, [dateRange, validateDateRange]);
 
   const handleApply = () => {
     if (validateDateRange(dateRange)) {

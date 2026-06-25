@@ -183,7 +183,7 @@ function TabsTrigger({
   className,
   ...props
 }: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
-  const { variant, size } = React.useContext(TabsContext);
+  const { variant, size } = React.use(TabsContext);
 
   return (
     <TabsPrimitive.Trigger

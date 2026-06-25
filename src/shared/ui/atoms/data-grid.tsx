@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, ReactNode, use } from 'react';
 import { cn } from '@/shared/lib/utils';
 import {
   ColumnFiltersState,
@@ -96,7 +96,7 @@ const DataGridContext = createContext<
 >(undefined);
 
 function useDataGrid() {
-  const context = useContext(DataGridContext);
+  const context = use(DataGridContext);
   if (!context) {
     throw new Error('useDataGrid must be used within a DataGridProvider');
   }
