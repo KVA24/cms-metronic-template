@@ -186,7 +186,9 @@ function SelectTrigger({
   disabled: disabledProp,
   ref,
   ...props
-}: SelectTriggerProps & { ref?: React.Ref<React.ElementRef<typeof SelectPrimitive.Trigger>> }) {
+}: SelectTriggerProps & {
+  ref?: React.Ref<React.ElementRef<typeof SelectPrimitive.Trigger>>;
+}) {
   const {
     value: ctxValue,
     onValueChange,
@@ -206,41 +208,41 @@ function SelectTrigger({
         disabled={disabled}
         className={cn(
           selectTriggerVariants({ size }),
-            className,
-            'w-full',
-            error &&
-              'border-destructive ring-destructive/20 focus-visible:border-destructive focus-visible:ring-destructive/30',
-          )}
-          {...props}
-        >
-          <div
-            className={cn(
-              'flex-1 text-left truncate',
-              clearable && hasValue && 'pr-4',
-            )}
-          >
-            {children}
-          </div>
-          <SelectPrimitive.Icon asChild>
-            <ChevronDown className="h-4 w-4 opacity-60 -me-0.5" />
-          </SelectPrimitive.Icon>
-        </SelectPrimitive.Trigger>
-
-        {clearable && hasValue && !disabled && (
-          <button
-            type="button"
-            className="absolute right-7 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-muted text-muted-foreground hover:text-destructive"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onValueChange?.(undefined as any);
-            }}
-          >
-            <XIcon className="h-4 w-4 opacity-60 -me-0.5" />
-          </button>
+          className,
+          'w-full',
+          error &&
+            'border-destructive ring-destructive/20 focus-visible:border-destructive focus-visible:ring-destructive/30',
         )}
-      </div>
-    );
+        {...props}
+      >
+        <div
+          className={cn(
+            'flex-1 text-left truncate',
+            clearable && hasValue && 'pr-4',
+          )}
+        >
+          {children}
+        </div>
+        <SelectPrimitive.Icon asChild>
+          <ChevronDown className="h-4 w-4 opacity-60 -me-0.5" />
+        </SelectPrimitive.Icon>
+      </SelectPrimitive.Trigger>
+
+      {clearable && hasValue && !disabled && (
+        <button
+          type="button"
+          className="absolute right-7 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-muted text-muted-foreground hover:text-destructive"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onValueChange?.(undefined as any);
+          }}
+        >
+          <XIcon className="h-4 w-4 opacity-60 -me-0.5" />
+        </button>
+      )}
+    </div>
+  );
 }
 
 function SelectScrollUpButton({

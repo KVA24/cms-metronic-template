@@ -42,7 +42,10 @@ const CardAuthor = ({
 }: IAuthorProps) => {
   const renderItem = (work: IWork) => {
     return (
-      <Card key={work.title} className="mb-5 last:me-5 overflow-hidden rounded-xl">
+      <Card
+        key={work.title}
+        className="mb-5 last:me-5 overflow-hidden rounded-xl"
+      >
         <div
           className="bg-cover bg-no-repeat card-rounded-t w-[240px] shrink-0 h-44"
           style={{

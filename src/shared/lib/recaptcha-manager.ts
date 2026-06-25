@@ -36,4 +36,3 @@ export const getRecaptchaToken = async (): Promise<string | null> => {
     return null;
   }
 };
-

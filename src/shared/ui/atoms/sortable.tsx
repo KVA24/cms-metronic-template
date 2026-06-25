@@ -847,8 +847,7 @@ function SortableItemHandle({
   children,
   cursor = true,
 }: SortableItemHandleProps) {
-  const { listeners, isDragging, disabled } =
-    React.use(SortableItemContext);
+  const { listeners, isDragging, disabled } = React.use(SortableItemContext);
 
   const Comp = asChild ? Slot : 'div';
 

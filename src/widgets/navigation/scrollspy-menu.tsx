@@ -14,10 +14,7 @@ export interface ScrollspyMenuProps {
 }
 
 const ScrollspyMenu = ({ items }: ScrollspyMenuProps) => {
-  const buildAnchor = (
-    item: ScrollspyMenuItem,
-    indent: boolean = false,
-  ) => {
+  const buildAnchor = (item: ScrollspyMenuItem, indent: boolean = false) => {
     return (
       <div
         key={item.target || item.title}

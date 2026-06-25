@@ -237,7 +237,10 @@ export function ChatSheet({ trigger }: { trigger: ReactNode }) {
                 </div>
               </div>
             ) : message.in ? (
-              <div key={`in-${message.time}`} className="flex items-end gap-3 px-5">
+              <div
+                key={`in-${message.time}`}
+                className="flex items-end gap-3 px-5"
+              >
                 <Avatar className="size-9">
                   <AvatarImage src={toAbsoluteUrl(message.avatar)} alt="" />
                   <AvatarFallback>CH</AvatarFallback>

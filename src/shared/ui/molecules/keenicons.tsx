@@ -1,7 +1,13 @@
 import { cn } from '@/shared/lib/utils';
 import { KeeniconsProps } from './keenicons-types.ts';
 
-export function KeenIcon({ icon, style = 'filled', className = '', ref, ...props }: KeeniconsProps & { ref?: React.Ref<HTMLElement> }) {
+export function KeenIcon({
+  icon,
+  style = 'filled',
+  className = '',
+  ref,
+  ...props
+}: KeeniconsProps & { ref?: React.Ref<HTMLElement> }) {
   return (
     <i
       ref={ref}

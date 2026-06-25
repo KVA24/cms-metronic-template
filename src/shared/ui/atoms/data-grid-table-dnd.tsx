@@ -147,27 +147,28 @@ function DataGridTableDnd<TData>({
       <div className="relative">
         <DataGridTableBase>
           <DataGridTableHead>
-            {table
-              .getHeaderGroups()
-              .map((headerGroup: HeaderGroup<TData>) => {
-                logger.log(
-                  'table.getState().columnOrder:',
-                  table.getState().columnOrder,
-                );
+            {table.getHeaderGroups().map((headerGroup: HeaderGroup<TData>) => {
+              logger.log(
+                'table.getState().columnOrder:',
+                table.getState().columnOrder,
+              );
 
-                return (
-                  <DataGridTableHeadRow headerGroup={headerGroup} key={headerGroup.id}>
-                    <SortableContext
-                      items={table.getState().columnOrder}
-                      strategy={horizontalListSortingStrategy}
-                    >
-                      {headerGroup.headers.map((header) => (
-                        <DataGridTableDndHeader header={header} key={header.id} />
-                      ))}
-                    </SortableContext>
-                  </DataGridTableHeadRow>
-                );
-              })}
+              return (
+                <DataGridTableHeadRow
+                  headerGroup={headerGroup}
+                  key={headerGroup.id}
+                >
+                  <SortableContext
+                    items={table.getState().columnOrder}
+                    strategy={horizontalListSortingStrategy}
+                  >
+                    {headerGroup.headers.map((header) => (
+                      <DataGridTableDndHeader header={header} key={header.id} />
+                    ))}
+                  </SortableContext>
+                </DataGridTableHeadRow>
+              );
+            })}
           </DataGridTableHead>
 
           {(props.tableLayout?.stripped || !props.tableLayout?.rowBorder) && (

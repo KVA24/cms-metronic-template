@@ -82,7 +82,10 @@ function AccordionMenu({
             children?: React.ReactNode;
           };
           const newChain = value ? [...chain, value] : chain;
-          if (value && (value === selectedValue || matchPathRef.current(value))) {
+          if (
+            value &&
+            (value === selectedValue || matchPathRef.current(value))
+          ) {
             result = newChain;
           } else if (children) {
             const childChain = getActiveChain(children, newChain);
@@ -110,18 +113,19 @@ function AccordionMenu({
       }
     }
     return mapping;
-     
   }, [children, selectedValue, props.type]);
 
   const [nestedStates, setNestedStates] =
     React.useState<Record<string, string | string[]>>(initialNestedStates);
-  const multipleValue = React.useMemo(() => (
-    Array.isArray(nestedStates['root'])
-      ? nestedStates['root']
-      : typeof nestedStates['root'] === 'string'
-        ? [nestedStates['root']]
-        : []
-  ) as string[], [nestedStates]);
+  const multipleValue = React.useMemo(
+    () =>
+      (Array.isArray(nestedStates['root'])
+        ? nestedStates['root']
+        : typeof nestedStates['root'] === 'string'
+          ? [nestedStates['root']]
+          : []) as string[],
+    [nestedStates],
+  );
   const singleValue = (nestedStates['root'] ?? '') as string;
 
   // Function to check if an item is expanded

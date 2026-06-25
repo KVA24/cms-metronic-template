@@ -1,7 +1,7 @@
-import {useReducer} from 'react';
-import {useChangePassword} from '@/features/auth/hooks/use-auth-mutations';
-import {useTranslations} from '@/shared/hooks';
-import {useChangePasswordDialog} from '@/shared/stores/ui-store';
+import { useReducer } from 'react';
+import { useChangePassword } from '@/features/auth/hooks/use-auth-mutations';
+import { useTranslations } from '@/shared/hooks';
+import { useChangePasswordDialog } from '@/shared/stores/ui-store';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -11,10 +11,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/shared/ui/atoms/alert-dialog';
-import {Button} from '@/shared/ui/atoms/button';
-import {Input} from '@/shared/ui/atoms/input';
-import {Label} from '@/shared/ui/atoms/label';
-import {Eye, EyeOff} from 'lucide-react';
+import { Button } from '@/shared/ui/atoms/button';
+import { Input } from '@/shared/ui/atoms/input';
+import { Label } from '@/shared/ui/atoms/label';
+import { Eye, EyeOff } from 'lucide-react';
 
 interface FormState {
   oldPassword: string;
@@ -59,16 +59,16 @@ function formReducer(state: FormState, action: FormAction): FormState {
     case 'reset':
       return initialFormState;
     case 'field':
-      return {...state, [action.field]: action.value};
+      return { ...state, [action.field]: action.value };
     case 'error':
       return {
         ...state,
-        errors: {...state.errors, [action.field]: action.value},
+        errors: { ...state.errors, [action.field]: action.value },
       };
     case 'clearError':
       return {
         ...state,
-        errors: {...state.errors, [action.field]: ''},
+        errors: { ...state.errors, [action.field]: '' },
       };
     default:
       return state;
@@ -76,10 +76,10 @@ function formReducer(state: FormState, action: FormAction): FormState {
 }
 
 export function ChangePasswordDialog() {
-  const {t} = useTranslations();
+  const { t } = useTranslations();
   const dialog = useChangePasswordDialog();
   const changePasswordMutation = useChangePassword();
-  
+
   const [formState, dispatch] = useReducer(formReducer, initialFormState);
   const {
     oldPassword,
@@ -91,7 +91,7 @@ export function ChangePasswordDialog() {
     showConfirmPassword,
     errors,
   } = formState;
-  
+
   const validatePasswords = (): boolean => {
     const newErrors = {
       oldPassword: '',
@@ -99,13 +99,13 @@ export function ChangePasswordDialog() {
       confirmPassword: '',
       otpCode: '',
     };
-    
+
     if (!oldPassword) {
       newErrors.oldPassword = t(
         'AUTH.CHANGE_PASSWORD.ERROR.OLD_PASSWORD_REQUIRED',
       );
     }
-    
+
     if (!newPassword) {
       newErrors.newPassword = t(
         'AUTH.CHANGE_PASSWORD.ERROR.NEW_PASSWORD_REQUIRED',
@@ -115,7 +115,7 @@ export function ChangePasswordDialog() {
         'AUTH.CHANGE_PASSWORD.ERROR.PASSWORD_TOO_SHORT',
       );
     }
-    
+
     if (!confirmPassword) {
       newErrors.confirmPassword = t(
         'AUTH.CHANGE_PASSWORD.ERROR.CONFIRM_PASSWORD_REQUIRED',
@@ -125,24 +125,28 @@ export function ChangePasswordDialog() {
         'AUTH.CHANGE_PASSWORD.ERROR.PASSWORDS_DO_NOT_MATCH',
       );
     }
-    
-    dispatch({type: 'field', field: 'errors', value: newErrors});
+
+    dispatch({ type: 'field', field: 'errors', value: newErrors });
     return !Object.values(newErrors).some((error) => error !== '');
   };
-  
+
   const handleContinueClick = () => {
     if (validatePasswords()) {
       dialog.setStep('otp');
     }
   };
-  
+
   const handleChangePassword = async () => {
     // Validate OTP
     if (!otpCode || otpCode.trim().length !== 6) {
-      dispatch({type: 'error', field: 'otpCode', value: t('AUTH.CHANGE_PASSWORD.ERROR.OTP_REQUIRED')});
+      dispatch({
+        type: 'error',
+        field: 'otpCode',
+        value: t('AUTH.CHANGE_PASSWORD.ERROR.OTP_REQUIRED'),
+      });
       return;
     }
-    
+
     try {
       await changePasswordMutation.mutateAsync({
         oldPassword,
@@ -154,14 +158,14 @@ export function ChangePasswordDialog() {
       // Error handled by mutation
     }
   };
-  
+
   const handleOpenChange = (open: boolean) => {
     if (!open && !changePasswordMutation.isPending) {
-      dispatch({type: 'reset'});
+      dispatch({ type: 'reset' });
       dialog.close();
     }
   };
-  
+
   return (
     <AlertDialog open={dialog.isOpen} onOpenChange={handleOpenChange}>
       <AlertDialogContent>
@@ -177,7 +181,7 @@ export function ChangePasswordDialog() {
               : t('COMMON.ENTER_OTP_CODE_TO_PROCEED')}
           </AlertDialogDescription>
         </AlertDialogHeader>
-        
+
         {dialog.step === 'input' && (
           <div className="space-y-4">
             <div className="space-y-2">
@@ -193,17 +197,27 @@ export function ChangePasswordDialog() {
                   )}
                   value={oldPassword}
                   onChange={(e) => {
-                    dispatch({type: 'field', field: 'oldPassword', value: e.target.value});
-                    dispatch({type: 'clearError', field: 'oldPassword'});
+                    dispatch({
+                      type: 'field',
+                      field: 'oldPassword',
+                      value: e.target.value,
+                    });
+                    dispatch({ type: 'clearError', field: 'oldPassword' });
                   }}
                   disabled={changePasswordMutation.isPending}
                 />
                 <button
                   type="button"
-                  onClick={() => dispatch({type: 'field', field: 'showOldPassword', value: !showOldPassword})}
+                  onClick={() =>
+                    dispatch({
+                      type: 'field',
+                      field: 'showOldPassword',
+                      value: !showOldPassword,
+                    })
+                  }
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
-                  {showOldPassword ? <EyeOff size={16}/> : <Eye size={16}/>}
+                  {showOldPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
               {errors.oldPassword && (
@@ -212,7 +226,7 @@ export function ChangePasswordDialog() {
                 </span>
               )}
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="new-password">
                 {t('AUTH.CHANGE_PASSWORD.NEW_PASSWORD')} *
@@ -226,17 +240,27 @@ export function ChangePasswordDialog() {
                   )}
                   value={newPassword}
                   onChange={(e) => {
-                    dispatch({type: 'field', field: 'newPassword', value: e.target.value});
-                    dispatch({type: 'clearError', field: 'newPassword'});
+                    dispatch({
+                      type: 'field',
+                      field: 'newPassword',
+                      value: e.target.value,
+                    });
+                    dispatch({ type: 'clearError', field: 'newPassword' });
                   }}
                   disabled={changePasswordMutation.isPending}
                 />
                 <button
                   type="button"
-                  onClick={() => dispatch({type: 'field', field: 'showNewPassword', value: !showNewPassword})}
+                  onClick={() =>
+                    dispatch({
+                      type: 'field',
+                      field: 'showNewPassword',
+                      value: !showNewPassword,
+                    })
+                  }
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
-                  {showNewPassword ? <EyeOff size={16}/> : <Eye size={16}/>}
+                  {showNewPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
               {errors.newPassword && (
@@ -245,7 +269,7 @@ export function ChangePasswordDialog() {
                 </span>
               )}
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="confirm-password">
                 {t('AUTH.CHANGE_PASSWORD.CONFIRM_PASSWORD')} *
@@ -259,20 +283,30 @@ export function ChangePasswordDialog() {
                   )}
                   value={confirmPassword}
                   onChange={(e) => {
-                    dispatch({type: 'field', field: 'confirmPassword', value: e.target.value});
-                    dispatch({type: 'clearError', field: 'confirmPassword'});
+                    dispatch({
+                      type: 'field',
+                      field: 'confirmPassword',
+                      value: e.target.value,
+                    });
+                    dispatch({ type: 'clearError', field: 'confirmPassword' });
                   }}
                   disabled={changePasswordMutation.isPending}
                 />
                 <button
                   type="button"
-                  onClick={() => dispatch({type: 'field', field: 'showConfirmPassword', value: !showConfirmPassword})}
+                  onClick={() =>
+                    dispatch({
+                      type: 'field',
+                      field: 'showConfirmPassword',
+                      value: !showConfirmPassword,
+                    })
+                  }
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
                   {showConfirmPassword ? (
-                    <EyeOff size={16}/>
+                    <EyeOff size={16} />
                   ) : (
-                    <Eye size={16}/>
+                    <Eye size={16} />
                   )}
                 </button>
               </div>
@@ -284,7 +318,7 @@ export function ChangePasswordDialog() {
             </div>
           </div>
         )}
-        
+
         {dialog.step === 'otp' && (
           <div className="space-y-4">
             <div className="flex flex-col gap-2">
@@ -295,8 +329,12 @@ export function ChangePasswordDialog() {
                 placeholder={t('COMMON.ENTER_6_DIGIT_OTP')}
                 value={otpCode}
                 onChange={(e) => {
-                  dispatch({type: 'field', field: 'otpCode', value: e.target.value});
-                  dispatch({type: 'clearError', field: 'otpCode'});
+                  dispatch({
+                    type: 'field',
+                    field: 'otpCode',
+                    value: e.target.value,
+                  });
+                  dispatch({ type: 'clearError', field: 'otpCode' });
                 }}
                 maxLength={6}
                 disabled={changePasswordMutation.isPending}
@@ -309,7 +347,7 @@ export function ChangePasswordDialog() {
             </div>
           </div>
         )}
-        
+
         <AlertDialogFooter>
           <AlertDialogCancel disabled={changePasswordMutation.isPending}>
             {t('COMMON.CANCEL')}

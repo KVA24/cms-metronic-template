@@ -1,10 +1,5 @@
 import { UserRole } from '@/shared/lib/rbac/roles';
-import {
-  ClipboardList,
-  LayoutGrid,
-  Settings,
-  Users,
-} from 'lucide-react';
+import { ClipboardList, LayoutGrid, Settings, Users } from 'lucide-react';
 import { type MenuConfig } from './types';
 
 export const MENU_SIDEBAR: MenuConfig = [
