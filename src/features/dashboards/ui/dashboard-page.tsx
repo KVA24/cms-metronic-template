@@ -147,7 +147,7 @@ function dashboardChartReducer(
   }
 }
 
-const DashboardPage = () => {
+function useDashboardPageModel() {
   const { t } = useTranslation();
   const [chartState, dispatchChartState] = useReducer(
     dashboardChartReducer,
@@ -628,6 +628,166 @@ const DashboardPage = () => {
   // Campaign table data
   const campaignTableData = campaignStatistics?.campaigns || [];
 
+  return {
+    campaignStatistics,
+    campaignStatisticsError,
+    campaignTableData,
+    chartDateRange,
+    currencies,
+    customerChartOptions,
+    customerChartSeries,
+    customerDashboard,
+    customerStatistics,
+    customerStatisticsError,
+    dispatchChartState,
+    dpdChartData,
+    dpdChartDateRange,
+    dpdChartOptions,
+    dpdChartSeries,
+    dpeChartData,
+    dpeChartDateRange,
+    dpeChartOptions,
+    dpeChartSeries,
+    exportTop100UsersMutation,
+    handleExportTop100Users,
+    isLoadingCampaignStatistics,
+    isLoadingCurrencies,
+    isLoadingCustomerDashboard,
+    isLoadingCustomerStatistics,
+    isLoadingDpdChart,
+    isLoadingDpeChart,
+    isLoadingMembershipTier,
+    isLoadingMpdChart,
+    isLoadingMpeChart,
+    isLoadingPointStatistic,
+    isLoadingTop100Users,
+    isLoadingTransactionUsers,
+    membershipTierError,
+    mpeChartData,
+    mpeChartDateRange,
+    mpeChartOptions,
+    mpeChartSeries,
+    mpdChartData,
+    mpdChartDateRange,
+    mpdChartOptions,
+    mpdChartSeries,
+    openDialog,
+    pointStatistic,
+    selectedCurrencyId,
+    setSelectedCurrencyId,
+    t,
+    tierChartOptions,
+    tierChartSeries,
+    tierEntries,
+    top100Users,
+    transactionUsers,
+  };
+}
+
+type CampaignTableRow = ReturnType<
+  typeof useDashboardPageModel
+>['campaignTableData'][number];
+
+function CampaignBudgetCell({ campaign }: { campaign: CampaignTableRow }) {
+  const budgetPercentage =
+    campaign.budgetOrigin > 0
+      ? (campaign.pointsEarned / campaign.budgetOrigin) * 100
+      : 0;
+
+  let progressColor = 'bg-red-500';
+  if (budgetPercentage <= 59) {
+    progressColor = 'bg-green-500';
+  } else if (budgetPercentage <= 79) {
+    progressColor = 'bg-orange-500';
+  }
+
+  const progressTextColor =
+    budgetPercentage <= 59
+      ? 'text-green-500'
+      : budgetPercentage <= 79
+        ? 'text-orange-500'
+        : 'text-red-500';
+
+  return (
+    <td className="p-4">
+      <div className="flex flex-col items-end gap-1">
+        <div className="flex items-center gap-2 w-full">
+          <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div
+              className={`h-full ${progressColor} transition-all`}
+              style={{
+                width: `${Math.min(budgetPercentage, 100)}%`,
+              }}
+            />
+          </div>
+          <span
+            className={`text-sm font-semibold min-w-[45px] text-right ${progressTextColor}`}
+          >
+            {budgetPercentage.toFixed(1)}%
+          </span>
+        </div>
+        <span className="text-xs text-muted-foreground">
+          Budget: {campaign.budgetOrigin.toLocaleString('vi-VN')}
+        </span>
+      </div>
+    </td>
+  );
+}
+
+function renderDashboardPage({
+  campaignStatistics,
+  campaignStatisticsError,
+  campaignTableData,
+  chartDateRange,
+  currencies,
+  customerChartOptions,
+  customerChartSeries,
+  customerDashboard,
+  customerStatistics,
+  customerStatisticsError,
+  dispatchChartState,
+  dpdChartData,
+  dpdChartDateRange,
+  dpdChartOptions,
+  dpdChartSeries,
+  dpeChartData,
+  dpeChartDateRange,
+  dpeChartOptions,
+  dpeChartSeries,
+  exportTop100UsersMutation,
+  handleExportTop100Users,
+  isLoadingCampaignStatistics,
+  isLoadingCurrencies,
+  isLoadingCustomerDashboard,
+  isLoadingCustomerStatistics,
+  isLoadingDpdChart,
+  isLoadingDpeChart,
+  isLoadingMembershipTier,
+  isLoadingMpdChart,
+  isLoadingMpeChart,
+  isLoadingPointStatistic,
+  isLoadingTop100Users,
+  isLoadingTransactionUsers,
+  membershipTierError,
+  mpeChartData,
+  mpeChartDateRange,
+  mpeChartOptions,
+  mpeChartSeries,
+  mpdChartData,
+  mpdChartDateRange,
+  mpdChartOptions,
+  mpdChartSeries,
+  openDialog,
+  pointStatistic,
+  selectedCurrencyId,
+  setSelectedCurrencyId,
+  t,
+  tierChartOptions,
+  tierChartSeries,
+  tierEntries,
+  top100Users,
+  transactionUsers,
+}: ReturnType<typeof useDashboardPageModel>) {
   return (
     <>
       <Container>
@@ -975,8 +1135,9 @@ const DashboardPage = () => {
                     </CardContent>
                   </Card>
                 ) : (
-                  <div
-                    className="rounded-xl p-4 text-white cursor-pointer hover:shadow-lg transition-shadow"
+                  <button
+                    type="button"
+                    className="w-full rounded-xl p-4 text-left text-white cursor-pointer hover:shadow-lg transition-shadow"
                     style={{
                       background: 'linear-gradient(135deg, #4ade80, #16a34a)',
                     }}
@@ -1035,7 +1196,7 @@ const DashboardPage = () => {
                       ).toLocaleString()}{' '}
                       {t('DASHBOARD.POINT_STATS.POINTS_PER_USER_TODAY')}
                     </div>
-                  </div>
+                  </button>
                 )}
 
                 {/* MPE Card */}
@@ -1046,8 +1207,9 @@ const DashboardPage = () => {
                     </CardContent>
                   </Card>
                 ) : (
-                  <div
-                    className="rounded-xl p-4 text-white cursor-pointer hover:shadow-lg transition-shadow"
+                  <button
+                    type="button"
+                    className="w-full rounded-xl p-4 text-left text-white cursor-pointer hover:shadow-lg transition-shadow"
                     style={{
                       background: 'linear-gradient(135deg, #4ade80, #15803d)',
                     }}
@@ -1106,7 +1268,7 @@ const DashboardPage = () => {
                       ).toLocaleString()}{' '}
                       {t('DASHBOARD.POINT_STATS.POINTS_PER_USER_MONTH')}
                     </div>
-                  </div>
+                  </button>
                 )}
               </div>
             </div>
@@ -1125,8 +1287,9 @@ const DashboardPage = () => {
                     </CardContent>
                   </Card>
                 ) : (
-                  <div
-                    className="rounded-xl p-4 text-white cursor-pointer hover:shadow-lg transition-shadow"
+                  <button
+                    type="button"
+                    className="w-full rounded-xl p-4 text-left text-white cursor-pointer hover:shadow-lg transition-shadow"
                     style={{
                       background: 'linear-gradient(135deg, #fb923c, #ea580c)',
                     }}
@@ -1183,7 +1346,7 @@ const DashboardPage = () => {
                       {(pointStatistic?.dpdCard?.earnBurnRatio ?? 0).toFixed(2)}
                       :1
                     </div>
-                  </div>
+                  </button>
                 )}
 
                 {/* MPD Card */}
@@ -1194,8 +1357,9 @@ const DashboardPage = () => {
                     </CardContent>
                   </Card>
                 ) : (
-                  <div
-                    className="rounded-xl p-4 text-white cursor-pointer hover:shadow-lg transition-shadow"
+                  <button
+                    type="button"
+                    className="w-full rounded-xl p-4 text-left text-white cursor-pointer hover:shadow-lg transition-shadow"
                     style={{
                       background: 'linear-gradient(135deg, #f87171, #dc2626)',
                     }}
@@ -1247,7 +1411,7 @@ const DashboardPage = () => {
                     <div className="text-white/80 text-sm mb-4">
                       {t('DASHBOARD.POINT_STATS.MONTHLY_DEDUCTED')}
                     </div>
-                  </div>
+                  </button>
                 )}
               </div>
             </div>
@@ -1453,81 +1617,30 @@ const DashboardPage = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {campaignTableData.map((campaign) => {
-                              const budgetPercentage =
-                                campaign.budgetOrigin > 0
-                                  ? (campaign.pointsEarned /
-                                      campaign.budgetOrigin) *
-                                    100
-                                  : 0;
-
-                              // Determine color based on remaining percentage
-                              let progressColor = 'bg-red-500';
-                              if (budgetPercentage <= 59) {
-                                progressColor = 'bg-green-500';
-                              } else if (budgetPercentage <= 79) {
-                                progressColor = 'bg-orange-500';
-                              } else if (budgetPercentage <= 100) {
-                                progressColor = 'bg-red-500';
-                              }
-
-                              return (
-                                <tr
-                                  key={campaign.campaignId}
-                                  className="border-b hover:bg-muted/50"
-                                >
-                                  <td className="text-left p-4 font-medium">
-                                    {campaign.campaignName}
-                                  </td>
-                                  <td className="text-center p-4">
-                                    {campaign.userCount.toLocaleString('vi-VN')}
-                                  </td>
-                                  <td className="text-center p-4">
-                                    {campaign.executionCount.toLocaleString(
-                                      'vi-VN',
-                                    )}
-                                  </td>
-                                  <td className="text-center p-4 text-blue-600 font-medium">
-                                    {campaign.pointsEarned.toLocaleString(
-                                      'vi-VN',
-                                    )}
-                                  </td>
-                                  <td className="p-4">
-                                    <div className="flex flex-col items-end gap-1">
-                                      <div className="flex items-center gap-2 w-full">
-                                        <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                                          <div
-                                            className={`h-full ${progressColor} transition-all`}
-                                            style={{
-                                              width: `${Math.min(budgetPercentage, 100)}%`,
-                                            }}
-                                          />
-                                        </div>
-                                        <span
-                                          className={`text-sm font-semibold min-w-[45px] text-right ${
-                                            budgetPercentage <= 59
-                                              ? 'text-green-500'
-                                              : budgetPercentage <= 79
-                                                ? 'text-orange-500'
-                                                : budgetPercentage <= 100
-                                                  ? 'text-red-500'
-                                                  : 'text-red-500'
-                                          }`}
-                                        >
-                                          {budgetPercentage.toFixed(1)}%
-                                        </span>
-                                      </div>
-                                      <span className="text-xs text-muted-foreground">
-                                        Budget:{' '}
-                                        {campaign.budgetOrigin.toLocaleString(
-                                          'vi-VN',
-                                        )}
-                                      </span>
-                                    </div>
-                                  </td>
-                                </tr>
-                              );
-                            })}
+                            {campaignTableData.map((campaign) => (
+                              <tr
+                                key={campaign.campaignId}
+                                className="border-b hover:bg-muted/50"
+                              >
+                                <td className="text-left p-4 font-medium">
+                                  {campaign.campaignName}
+                                </td>
+                                <td className="text-center p-4">
+                                  {campaign.userCount.toLocaleString('vi-VN')}
+                                </td>
+                                <td className="text-center p-4">
+                                  {campaign.executionCount.toLocaleString(
+                                    'vi-VN',
+                                  )}
+                                </td>
+                                <td className="text-center p-4 text-blue-600 font-medium">
+                                  {campaign.pointsEarned.toLocaleString(
+                                    'vi-VN',
+                                  )}
+                                </td>
+                                <CampaignBudgetCell campaign={campaign} />
+                              </tr>
+                            ))}
                           </tbody>
                         </table>
                       </div>
@@ -1820,6 +1933,11 @@ const DashboardPage = () => {
       </Dialog>
     </>
   );
+}
+
+const DashboardPage = () => {
+  const model = useDashboardPageModel();
+  return renderDashboardPage(model);
 };
 
 export { DashboardPage };
