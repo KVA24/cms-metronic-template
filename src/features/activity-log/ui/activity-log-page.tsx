@@ -1,4 +1,11 @@
-import { Fragment, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import {
+  Fragment,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 import { activityLogKeys } from '@/features/activity-log/hooks/use-activity-log-queries';
 import { useDebounce, useTranslations } from '@/shared/hooks';
 import { formatDate } from '@/shared/lib/date-utils';
@@ -161,7 +168,7 @@ function getRoleVariant(role: string) {
   }
 }
 
-export function ActivityLogPage() {
+function useActivityLogPageModel() {
   const queryClient = useQueryClient();
   const { t } = useTranslations();
   // URL params management
@@ -342,8 +349,14 @@ export function ActivityLogPage() {
 
   const handleNext = () => {
     if (metadata.next && metadata.hasNextPage) {
-      if (currentCursor !== undefined || cursorHistoryRef.current.length === 0) {
-        cursorHistoryRef.current = [...cursorHistoryRef.current, currentCursor ?? 0];
+      if (
+        currentCursor !== undefined ||
+        cursorHistoryRef.current.length === 0
+      ) {
+        cursorHistoryRef.current = [
+          ...cursorHistoryRef.current,
+          currentCursor ?? 0,
+        ];
       }
       dispatchViewState({
         type: 'cursorChanged',
@@ -501,6 +514,44 @@ export function ActivityLogPage() {
     },
   });
 
+  return {
+    dateRange,
+    dispatchViewState,
+    error,
+    handleClearFilters,
+    handleNext,
+    handlePageSizeChange,
+    handlePrevious,
+    isDetailOpen,
+    isLoading,
+    limit,
+    localFilters,
+    logs,
+    metadata,
+    selectedLog,
+    table,
+    t,
+  };
+}
+
+function ActivityLogPageContent({
+  dateRange,
+  dispatchViewState,
+  error,
+  handleClearFilters,
+  handleNext,
+  handlePageSizeChange,
+  handlePrevious,
+  isDetailOpen,
+  isLoading,
+  limit,
+  localFilters,
+  logs,
+  metadata,
+  selectedLog,
+  table,
+  t,
+}: ReturnType<typeof useActivityLogPageModel>) {
   return (
     <Fragment>
       <Container>
@@ -751,4 +802,9 @@ export function ActivityLogPage() {
       </Dialog>
     </Fragment>
   );
+}
+
+export function ActivityLogPage() {
+  const model = useActivityLogPageModel();
+  return <ActivityLogPageContent {...model} />;
 }

@@ -128,7 +128,7 @@ function statusDialogReducer(
   }
 }
 
-export function AccountPage() {
+function useAccountPageModel() {
   const { t } = useTranslations();
 
   // URL params management
@@ -263,12 +263,18 @@ export function AccountPage() {
 
   const handleConfirmStatusChange = async () => {
     if (!statusDialog.otp.trim()) {
-      dispatchStatus({ type: 'setError', value: t('COMMON.OTP_REQUIRED') || 'OTP is required' });
+      dispatchStatus({
+        type: 'setError',
+        value: t('COMMON.OTP_REQUIRED') || 'OTP is required',
+      });
       return;
     }
 
     if (statusDialog.otp.length !== 6) {
-      dispatchStatus({ type: 'setError', value: t('COMMON.OTP_MUST_BE_6_DIGITS') || 'OTP must be 6 digits' });
+      dispatchStatus({
+        type: 'setError',
+        value: t('COMMON.OTP_MUST_BE_6_DIGITS') || 'OTP must be 6 digits',
+      });
       return;
     }
 
@@ -384,7 +390,11 @@ export function AccountPage() {
                   size="sm"
                   onClick={() => {
                     const isActive = account.status === 'ACTIVE';
-                    dispatchStatus({ type: 'open', account, targetStatus: isActive ? 'INACTIVE' : 'ACTIVE' });
+                    dispatchStatus({
+                      type: 'open',
+                      account,
+                      targetStatus: isActive ? 'INACTIVE' : 'ACTIVE',
+                    });
                   }}
                   aria-label={isActive ? 'Deactivate' : 'Activate'}
                   disabled={isToggling}
@@ -436,6 +446,64 @@ export function AccountPage() {
     manualPagination: true,
   });
 
+  return {
+    createMutation,
+    deleteDialog,
+    deleteMutation,
+    deleteOtp,
+    drawer,
+    error,
+    handleAdd,
+    handleConfirmStatusChange,
+    handleDeleteConfirm,
+    handleDrawerSubmit,
+    handleResetSalt,
+    isLoading,
+    isLoadingQR,
+    localSearch,
+    qrCodeData,
+    qrDialog,
+    resetSaltMutation,
+    setDeleteOtp,
+    setLocalSearch,
+    statusDialog,
+    dispatchStatus,
+    table,
+    t,
+    total,
+    updateMutation,
+    updateStatusMutation,
+  };
+}
+
+function AccountPageContent({
+  createMutation,
+  deleteDialog,
+  deleteMutation,
+  deleteOtp,
+  drawer,
+  error,
+  handleAdd,
+  handleConfirmStatusChange,
+  handleDeleteConfirm,
+  handleDrawerSubmit,
+  handleResetSalt,
+  isLoading,
+  isLoadingQR,
+  localSearch,
+  qrCodeData,
+  qrDialog,
+  resetSaltMutation,
+  setDeleteOtp,
+  setLocalSearch,
+  statusDialog,
+  dispatchStatus,
+  table,
+  t,
+  total,
+  updateMutation,
+  updateStatusMutation,
+}: ReturnType<typeof useAccountPageModel>) {
   return (
     <Fragment>
       <Container>
@@ -682,7 +750,9 @@ export function AccountPage() {
             </AlertDialogCancel>
             <Button
               onClick={handleConfirmStatusChange}
-              disabled={updateStatusMutation.isPending || !statusDialog.otp.trim()}
+              disabled={
+                updateStatusMutation.isPending || !statusDialog.otp.trim()
+              }
             >
               {updateStatusMutation.isPending ? (
                 <span className="flex items-center gap-2">
@@ -698,4 +768,9 @@ export function AccountPage() {
       </AlertDialog>
     </Fragment>
   );
+}
+
+export function AccountPage() {
+  const model = useAccountPageModel();
+  return <AccountPageContent {...model} />;
 }

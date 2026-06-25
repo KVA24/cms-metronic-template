@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Config } from '@/features/config/api/configApi';
 import { useTranslations } from '@/shared/hooks/use-translations';
 import {
@@ -64,35 +63,14 @@ export function ConfigDrawer({
   const form = useForm<ConfigFormValues>({
     resolver: createTranslatedZodResolver(configSchema, t),
     defaultValues: {
-      keyConfig: '',
-      valueConfig: '',
+      keyConfig: config?.keyConfig ?? '',
+      valueConfig: config?.valueConfig ?? '',
       otpCode: '',
-      isActive: true,
+      isActive: config?.isActive ?? true,
     },
   });
 
   useFormLanguageSync(form, language);
-
-  // Reset form when config changes or drawer opens
-  useEffect(() => {
-    if (open) {
-      if (config) {
-        form.reset({
-          keyConfig: config.keyConfig,
-          valueConfig: config.valueConfig,
-          otpCode: '',
-          isActive: config.isActive ?? true,
-        });
-      } else {
-        form.reset({
-          keyConfig: '',
-          valueConfig: '',
-          otpCode: '',
-          isActive: true,
-        });
-      }
-    }
-  }, [config, open, form]);
 
   const handleSubmit = async (data: ConfigFormValues) => {
     await onSubmit(data);
@@ -104,7 +82,7 @@ export function ConfigDrawer({
   };
 
   return (
-    <Sheet open={open} onOpenChange={handleClose}>
+    <Sheet open={open} onOpenChange={(nextOpen) => !nextOpen && handleClose()}>
       <SheetContent className="sm:max-w-[540px] overflow-y-auto">
         <SheetHeader>
           <SheetTitle>

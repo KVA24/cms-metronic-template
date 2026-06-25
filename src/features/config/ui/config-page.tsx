@@ -70,7 +70,7 @@ import {
 import { toast } from 'sonner';
 import { ConfigDrawer } from './config-drawer';
 
-export function ConfigPage() {
+function useConfigPageModel() {
   const { t } = useTranslations();
 
   // URL params management
@@ -316,6 +316,46 @@ export function ConfigPage() {
     manualPagination: true, // Server-side pagination
   });
 
+  return {
+    createMutation,
+    deleteDialog,
+    deleteMutation,
+    deleteOtp,
+    drawer,
+    error,
+    handleAdd,
+    handleDeleteConfirm,
+    handleDrawerSubmit,
+    isLoading,
+    localSearch,
+    setDeleteOtp,
+    setLocalSearch,
+    table,
+    t,
+    total,
+    updateMutation,
+  };
+}
+
+function ConfigPageContent({
+  createMutation,
+  deleteDialog,
+  deleteMutation,
+  deleteOtp,
+  drawer,
+  error,
+  handleAdd,
+  handleDeleteConfirm,
+  handleDrawerSubmit,
+  isLoading,
+  localSearch,
+  setDeleteOtp,
+  setLocalSearch,
+  table,
+  t,
+  total,
+  updateMutation,
+}: ReturnType<typeof useConfigPageModel>) {
   return (
     <Fragment>
       <Container>
@@ -400,6 +440,7 @@ export function ConfigPage() {
       </Container>
 
       <ConfigDrawer
+        key={drawer.config?.id || 'new'}
         open={drawer.isOpen}
         onClose={drawer.close}
         onSubmit={handleDrawerSubmit}
@@ -466,4 +507,9 @@ export function ConfigPage() {
       </AlertDialog>
     </Fragment>
   );
+}
+
+export function ConfigPage() {
+  const model = useConfigPageModel();
+  return <ConfigPageContent {...model} />;
 }
