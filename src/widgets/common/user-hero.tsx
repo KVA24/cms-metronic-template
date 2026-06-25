@@ -20,9 +20,9 @@ export interface UserHeroProps {
 export function UserHero({ image, name, info }: UserHeroProps) {
   const { theme } = useTheme();
   const buildInfo = (info: UserHeroInfo[]) => {
-    return info.map((item, index) => {
+    return info.map((item) => {
       return (
-        <div className="flex gap-1.25 items-center" key={`info-${index}`}>
+        <div className="flex gap-1.25 items-center" key={item.email || item.label}>
           {item.icon && (
             <item.icon size={16} className="text-muted-foreground text-sm" />
           )}

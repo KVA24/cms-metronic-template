@@ -59,9 +59,9 @@ export function AppsDropdownMenu({ trigger }: { trigger: ReactNode }) {
           <span>Enabled</span>
         </div>
         <div className="flex flex-col scrollable-y-auto max-h-[400px] divide-y divide-border">
-          {items.map((item, index) => (
+          {items.map((item) => (
             <div
-              key={index}
+              key={item.title}
               className="flex items-center justify-between flex-wrap gap-2 px-5 py-3.5"
             >
               <div className="flex items-center flex-wrap gap-2">

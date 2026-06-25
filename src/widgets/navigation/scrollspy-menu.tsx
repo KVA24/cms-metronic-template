@@ -16,12 +16,11 @@ export interface ScrollspyMenuProps {
 const ScrollspyMenu = ({ items }: ScrollspyMenuProps) => {
   const buildAnchor = (
     item: ScrollspyMenuItem,
-    index: number,
     indent: boolean = false,
   ) => {
     return (
       <div
-        key={index}
+        key={item.target || item.title}
         data-scrollspy-anchor={item.target}
         className={cn(
           'cursor-pointer flex items-center rounded-lg ps-2.5 pe-2.5 py-1.5 border border-transparent text-accent-foreground hover:text-primary data-[active=true]:bg-accent data-[active=true]:text-primary data-[active=true]:font-medium',
@@ -35,16 +34,16 @@ const ScrollspyMenu = ({ items }: ScrollspyMenuProps) => {
   };
 
   const buildSubAnchors = (items: ScrollspyMenuItems) => {
-    return items.map((item, index) => {
-      return buildAnchor(item, index, true);
+    return items.map((item) => {
+      return buildAnchor(item, true);
     });
   };
 
   const renderChildren = (items: ScrollspyMenuItems) => {
-    return items.map((item, index) => {
+    return items.map((item) => {
       if (item.children) {
         return (
-          <div key={index} className="flex flex-col">
+          <div key={item.target || item.title} className="flex flex-col">
             <div className="ps-6 pe-2.5 py-2.5 text-sm font-semibold text-mono">
               {item.title}
             </div>
@@ -54,7 +53,7 @@ const ScrollspyMenu = ({ items }: ScrollspyMenuProps) => {
           </div>
         );
       } else {
-        return buildAnchor(item, index);
+        return buildAnchor(item);
       }
     });
   };
