@@ -84,7 +84,7 @@ function RadioGroupItem({
 }: React.ComponentProps<typeof RadioGroupPrimitive.Item> &
   VariantProps<typeof radioItemVariants>) {
   // Use the variant and size from context if not provided at the item level.
-  const { size: contextSize } = React.useContext(RadioGroupContext);
+  const { size: contextSize } = React.use(RadioGroupContext);
   const effectiveSize = size ?? contextSize;
 
   return (

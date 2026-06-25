@@ -1,6 +1,6 @@
 import {
   createContext,
-  useContext,
+  use,
   useEffect,
   useState,
   type PropsWithChildren,
@@ -72,7 +72,7 @@ const initialProps: I18nProviderProps = {
 };
 
 const TranslationsContext = createContext<I18nProviderProps>(initialProps);
-const useLanguage = () => useContext(TranslationsContext);
+const useLanguage = () => use(TranslationsContext);
 
 const I18nProvider = ({ children }: PropsWithChildren) => {
   const [currenLanguage, setCurrenLanguage] = useState(

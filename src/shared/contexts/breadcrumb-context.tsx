@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, use, useState } from 'react';
 import { MenuItem } from '@/shared/config/types';
 
 interface BreadcrumbContextType {
@@ -25,7 +25,7 @@ export function BreadcrumbProvider({ children }: { children: ReactNode }) {
 }
 
 export function useBreadcrumb() {
-  const context = useContext(BreadcrumbContext);
+  const context = use(BreadcrumbContext);
   if (!context) {
     throw new Error('useBreadcrumb must be used within BreadcrumbProvider');
   }

@@ -145,7 +145,7 @@ export function useApiGet<T = any>(
   useEffect(() => {
     api.execute();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [url]);
+  }, [url, api.execute]);
 
   return api;
 }

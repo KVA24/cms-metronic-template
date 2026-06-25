@@ -11,7 +11,7 @@ const SwitchContext = React.createContext<{ permanent: boolean }>({
 });
 
 const useSwitchContext = () => {
-  const context = React.useContext(SwitchContext);
+  const context = React.use(SwitchContext);
   if (!context) {
     throw new Error('SwitchIndicator must be used within a Switch component');
   }

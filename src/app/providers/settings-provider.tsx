@@ -4,7 +4,7 @@
 import React, {
   createContext,
   useCallback,
-  useContext,
+  use,
   useMemo,
   useState,
 } from 'react';
@@ -110,7 +110,7 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
 };
 
 export const useSettings = () => {
-  const ctx = useContext(SettingsContext);
+  const ctx = use(SettingsContext);
   if (!ctx) {
     throw new Error('useSettings must be used within a SettingsProvider');
   }
