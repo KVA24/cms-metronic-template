@@ -5,9 +5,23 @@
  */
 export function safeRedirect(path: string | null): string {
   if (!path) return '/';
-  // Only allow paths that start with / and don't contain :// or start with //
-  if (path.startsWith('/') && !path.startsWith('//') && !path.includes('://')) {
-    return path;
+
+  try {
+    const applicationOrigin = 'https://application.invalid';
+    const target = new URL(path, applicationOrigin);
+    const containsUnsafeCharacters = /[\\\u0000-\u001f\u007f]/.test(path);
+
+    if (
+      path.startsWith('/') &&
+      !path.startsWith('//') &&
+      !containsUnsafeCharacters &&
+      target.origin === applicationOrigin
+    ) {
+      return path;
+    }
+  } catch {
+    return '/';
   }
+
   return '/';
 }

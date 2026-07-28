@@ -76,9 +76,9 @@ const Select = ({
   const valueForContext =
     controlledValue !== undefined ? controlledValue : internalValue;
 
-  const handleValueChange = (val: any) => {
+  const handleValueChange = (val: string) => {
     // call parent's onValueChange first
-    onValueChangeProp?.(val as any);
+    onValueChangeProp?.(val);
     // update internal state only when uncontrolled
     if (controlledValue === undefined) {
       setInternalValue(val);
@@ -235,7 +235,7 @@ function SelectTrigger({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            onValueChange?.(undefined as any);
+            onValueChange?.('');
           }}
         >
           <XIcon className="h-4 w-4 opacity-60 -me-0.5" />

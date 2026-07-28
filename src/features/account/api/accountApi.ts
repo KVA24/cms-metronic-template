@@ -15,7 +15,7 @@ export interface AccountRoleOption {
 export interface Account {
   id: string;
   username: string;
-  role: 'ADMIN' | 'AGENCY' | 'SUPPORT';
+  role: string;
   roles: AccountRole[];
   status: 'ACTIVE' | 'INACTIVE' | 'SUSPENDED';
   avatarUrl?: string;
@@ -37,7 +37,7 @@ export interface AccountListResponse {
 export interface AccountCreateDto {
   username: string;
   password: string;
-  role: 'ADMIN' | 'AGENCY' | 'SUPPORT';
+  role: string;
   roles?: AccountRole[];
   roleIds?: string[];
   status: 'ACTIVE' | 'INACTIVE' | 'SUSPENDED';
@@ -47,7 +47,7 @@ export interface AccountCreateDto {
 
 export interface AccountUpdateDto {
   username?: string;
-  role?: 'ADMIN' | 'AGENCY' | 'SUPPORT';
+  role?: string;
   roles?: AccountRole[];
   roleIds?: string[];
   status?: 'ACTIVE' | 'INACTIVE' | 'SUSPENDED';

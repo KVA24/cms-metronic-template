@@ -70,6 +70,8 @@ import {
 } from '../api/activityLogApi';
 import { useActivityLogList } from '../hooks/use-activity-log-queries';
 
+const ACTIVITY_LOG_URL_DEFAULTS = { limit: 10 };
+
 interface ActivityLogViewState {
   localFilters: {
     username: string;
@@ -173,7 +175,7 @@ function useActivityLogPageModel() {
   const { t } = useTranslations();
   // URL params management
   const { getParam, getNumberParam, updateParams } = useUrlParams({
-    defaults: { limit: 10 },
+    defaults: ACTIVITY_LOG_URL_DEFAULTS,
   });
 
   const limit = getNumberParam('limit', 10);
@@ -268,12 +270,12 @@ function useActivityLogPageModel() {
         : null,
       dateTo: dateRange?.to ? formatDate(dateRange.to, 'yyyy-MM-dd') : null,
     });
-    // eslint-disable-next-line react-doctor/exhaustive-deps
   }, [
     debouncedUsername,
     localFilters.accountRole,
     localFilters.actionType,
     dateRange,
+    updateParams,
   ]);
 
   // Preload next page data
@@ -493,8 +495,7 @@ function useActivityLogPageModel() {
       },
     ],
 
-    // eslint-disable-next-line react-doctor/exhaustive-deps
-    [],
+    [t],
   );
 
   // Create table instance

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { useUserRole } from '@/shared/lib/rbac/hooks';
-import { UserRole } from '@/shared/lib/rbac/roles';
+import { useUserRoles } from '@/shared/lib/rbac/hooks';
+import { hasRequiredRole, UserRole } from '@/shared/lib/rbac/roles';
 
 const EMPTY_ROLES: UserRole[] = [];
 
@@ -19,14 +19,10 @@ function RoleGuard({
   requiredRoles = EMPTY_ROLES,
   fallback = null,
 }: RoleGuardProps) {
-  const userRole = useUserRole();
+  const userRoles = useUserRoles();
 
-  // Check role requirement
-  if (requiredRoles.length > 0 && userRole) {
-    const hasRole = requiredRoles.includes(userRole);
-    if (!hasRole) {
-      return <>{fallback}</>;
-    }
+  if (!hasRequiredRole(userRoles, requiredRoles)) {
+    return <>{fallback}</>;
   }
 
   return <>{children}</>;

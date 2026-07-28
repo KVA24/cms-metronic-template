@@ -1,4 +1,4 @@
-import { Config } from '@/features/config/api/configApi';
+import { Config, ConfigCreateDto } from '@/features/config/api/configApi';
 import { useTranslations } from '@/shared/hooks/use-translations';
 import {
   createTranslatedZodResolver,
@@ -45,7 +45,7 @@ type ConfigFormValues = z.infer<typeof configSchema>;
 interface ConfigDrawerProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (data: ConfigFormValues) => Promise<void>;
+  onSubmit: (data: ConfigCreateDto) => Promise<void>;
   config?: Config | null;
   isLoading?: boolean;
 }

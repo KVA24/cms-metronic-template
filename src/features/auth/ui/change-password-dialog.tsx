@@ -34,7 +34,11 @@ interface FormState {
 
 type FormAction =
   | { type: 'reset' }
-  | { type: 'field'; field: keyof FormState; value: any }
+  | {
+      type: 'field';
+      field: keyof Omit<FormState, 'errors'>;
+      value: string | boolean;
+    }
   | { type: 'error'; field: keyof FormState['errors']; value: string }
   | { type: 'clearError'; field: keyof FormState['errors'] };
 
@@ -208,6 +212,11 @@ export function ChangePasswordDialog() {
                 />
                 <button
                   type="button"
+                  aria-label={t(
+                    showOldPassword
+                      ? 'AUTH.CHANGE_PASSWORD.HIDE_PASSWORD'
+                      : 'AUTH.CHANGE_PASSWORD.SHOW_PASSWORD',
+                  )}
                   onClick={() =>
                     dispatch({
                       type: 'field',
@@ -251,6 +260,11 @@ export function ChangePasswordDialog() {
                 />
                 <button
                   type="button"
+                  aria-label={t(
+                    showNewPassword
+                      ? 'AUTH.CHANGE_PASSWORD.HIDE_PASSWORD'
+                      : 'AUTH.CHANGE_PASSWORD.SHOW_PASSWORD',
+                  )}
                   onClick={() =>
                     dispatch({
                       type: 'field',
@@ -294,6 +308,11 @@ export function ChangePasswordDialog() {
                 />
                 <button
                   type="button"
+                  aria-label={t(
+                    showConfirmPassword
+                      ? 'AUTH.CHANGE_PASSWORD.HIDE_PASSWORD'
+                      : 'AUTH.CHANGE_PASSWORD.SHOW_PASSWORD',
+                  )}
                   onClick={() =>
                     dispatch({
                       type: 'field',

@@ -280,7 +280,9 @@ function AccordionMenuItem({
     React.isValidElement(children) &&
     (children.type === 'a' ||
       (typeof children.type === 'function' &&
-        (children.type as any).displayName?.includes('Link')));
+        'displayName' in children.type &&
+        typeof children.type.displayName === 'string' &&
+        children.type.displayName.includes('Link')));
 
   return (
     <AccordionPrimitive.Item className="flex" {...props}>
@@ -390,12 +392,13 @@ function AccordionMenuSubTrigger({
   };
 
   React.useEffect(() => {
+    const hoverTimeout = hoverTimeoutRef.current;
+
     return () => {
-      if (hoverTimeoutRef.current) {
-        clearTimeout(hoverTimeoutRef.current);
+      if (hoverTimeout) {
+        clearTimeout(hoverTimeout);
       }
     };
-    // eslint-disable-next-line react-doctor/exhaustive-deps
   }, []);
 
   const triggerContent = (

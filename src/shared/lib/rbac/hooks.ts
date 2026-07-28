@@ -1,12 +1,12 @@
+import { useMemo } from 'react';
 import { useAuthUser } from '@/shared/stores/auth-store';
-import { UserRole } from './roles';
+import { getUserRoles, UserRole } from './roles';
 
 /**
- * Hook to get current user's role
+ * Hook to get all recognized roles assigned to the current user.
  */
-export function useUserRole(): UserRole | null {
+export function useUserRoles(): UserRole[] {
   const user = useAuthUser();
-  if (!user?.roles) return null;
-  const role = Array.isArray(user.roles) ? user.roles[0] : user.roles;
-  return (role?.roleCode as UserRole) ?? null;
+
+  return useMemo(() => getUserRoles(user?.roles), [user?.roles]);
 }

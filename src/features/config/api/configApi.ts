@@ -28,7 +28,7 @@ export interface ConfigCreateDto {
   isActive: boolean;
 }
 
-export interface ConfigUpdateDto extends Partial<ConfigCreateDto> {}
+export type ConfigUpdateDto = Partial<ConfigCreateDto>;
 
 export interface ConfigSearchParams {
   page?: number;

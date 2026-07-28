@@ -238,13 +238,7 @@ export const dashboardApi = {
         }
       );
     } catch (error) {
-      // Return default values instead of throwing error
-      return {
-        totalUsers: 0,
-        dailyNewUsers: 0,
-        monthlyNewUsers: 0,
-        newUsersGrowth: 0,
-      };
+      throw new Error(getErrorMessage(error));
     }
   },
 
@@ -264,8 +258,7 @@ export const dashboardApi = {
       );
       return response.data.data?.data || [];
     } catch (error) {
-      // Return empty array instead of throwing error
-      return [];
+      throw new Error(getErrorMessage(error));
     }
   },
 
@@ -282,12 +275,7 @@ export const dashboardApi = {
         }
       );
     } catch (error) {
-      // Return default values instead of throwing error
-      return {
-        activeCampaigns: 0,
-        totalCampaigns: 0,
-        campaigns: [],
-      };
+      throw new Error(getErrorMessage(error));
     }
   },
 
@@ -321,13 +309,7 @@ export const dashboardApi = {
         }
       );
     } catch (error) {
-      // Return default values instead of throwing error
-      return {
-        dpeCard: { total: 0, growth: 0, avgPerUser: 0, earnBurnRatio: 0 },
-        mpeCard: { total: 0, growth: 0, avgPerUser: 0, earnBurnRatio: 0 },
-        dpdCard: { total: 0, growth: 0, avgPerUser: 0, earnBurnRatio: 0 },
-        mpdCard: { total: 0, growth: 0, avgPerUser: 0, earnBurnRatio: 0 },
-      };
+      throw new Error(getErrorMessage(error));
     }
   },
 
@@ -349,8 +331,7 @@ export const dashboardApi = {
       );
       return response.data.data?.data || [];
     } catch (error) {
-      // Return empty array instead of throwing error
-      return [];
+      throw new Error(getErrorMessage(error));
     }
   },
 
@@ -372,8 +353,7 @@ export const dashboardApi = {
       );
       return response.data.data?.data || [];
     } catch (error) {
-      // Return empty array instead of throwing error
-      return [];
+      throw new Error(getErrorMessage(error));
     }
   },
 
@@ -384,8 +364,7 @@ export const dashboardApi = {
       );
       return response.data.data || [];
     } catch (error) {
-      // Return empty array instead of throwing error
-      return [];
+      throw new Error(getErrorMessage(error));
     }
   },
 
@@ -405,15 +384,7 @@ export const dashboardApi = {
         }
       );
     } catch (error) {
-      // Return default values instead of throwing error
-      return {
-        dtuCount: 0,
-        dtuGrowth: 0,
-        dtuPercentage: 0,
-        mtuCount: 0,
-        mtuGrowth: 0,
-        mtuPercentage: 0,
-      };
+      throw new Error(getErrorMessage(error));
     }
   },
 
@@ -429,8 +400,7 @@ export const dashboardApi = {
       );
       return response.data.data || [];
     } catch (error) {
-      // Return empty array instead of throwing error
-      return [];
+      throw new Error(getErrorMessage(error));
     }
   },
 

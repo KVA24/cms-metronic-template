@@ -17,7 +17,7 @@ export interface UpdateParamsOptions {
    * Values that should be considered as "default" and removed from URL
    * Example: { page: 0, limit: 10 }
    */
-  defaults?: Record<string, any>;
+  defaults?: Record<string, string | number | boolean>;
 
   /**
    * Whether to replace current history entry (default: true)

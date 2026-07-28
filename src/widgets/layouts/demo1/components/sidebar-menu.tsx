@@ -4,7 +4,7 @@ import { JSX, useCallback, useMemo } from 'react';
 import { MENU_SIDEBAR } from '@/shared/config/menu.config';
 import { MenuConfig, MenuItem } from '@/shared/config/types';
 import { useTranslations } from '@/shared/hooks/use-translations';
-import { filterMenuByRole, useUserRole } from '@/shared/lib/rbac';
+import { filterMenuByRoles, useUserRoles } from '@/shared/lib/rbac';
 import { cn } from '@/shared/lib/utils';
 import {
   AccordionMenu,
@@ -23,7 +23,7 @@ import { useSettings } from '@/app/providers/settings-provider';
 
 export function SidebarMenu() {
   const { pathname } = useLocation();
-  const userRole = useUserRole();
+  const userRoles = useUserRoles();
   const { t } = useTranslations();
   const { settings } = useSettings();
 
@@ -34,8 +34,8 @@ export function SidebarMenu() {
 
   // Filter menu based on user role
   const filteredMenu = useMemo(() => {
-    return filterMenuByRole(MENU_SIDEBAR, userRole);
-  }, [userRole]);
+    return filterMenuByRoles(MENU_SIDEBAR, userRoles);
+  }, [userRoles]);
 
   // Memoize matchPath to prevent unnecessary re-renders
   const matchPath = useCallback(

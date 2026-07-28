@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import {
-  clearCredentials,
-  loadCredentials,
-  saveCredentials,
-} from '@/shared/lib/crypto';
 import logger from '@/shared/lib/logger';
+import {
+  clearRememberedUsername,
+  loadRememberedUsername,
+  saveRememberedUsername,
+} from '@/shared/lib/remember-me';
 import { safeRedirect } from '@/shared/lib/safe-redirect';
 import {
   useAuthActions,
@@ -107,25 +107,14 @@ export function SignInPage() {
     },
   });
 
-  // Load saved credentials on mount
+  // Load the remembered username on mount. Passwords are never persisted.
   useEffect(() => {
-    const loadSavedCredentials = async () => {
-      try {
-        const saved = await loadCredentials();
-        if (saved) {
-          form.setValue('username', saved.username);
-          form.setValue('password', saved.password);
-          form.setValue('rememberMe', true);
-          logger.log('✅ Loaded saved credentials for:', saved.username);
-        }
-      } catch (error) {
-        logger.error('Failed to load saved credentials:', error);
-      } finally {
-        setIsLoadingCredentials(false);
-      }
-    };
-
-    loadSavedCredentials().then();
+    const rememberedUsername = loadRememberedUsername();
+    if (rememberedUsername) {
+      form.setValue('username', rememberedUsername);
+      form.setValue('rememberMe', true);
+    }
+    setIsLoadingCredentials(false);
   }, [form]);
 
   async function onSubmit(values: SigninSchemaType) {
@@ -143,16 +132,9 @@ export function SignInPage() {
 
       // Handle Remember Me
       if (values.rememberMe) {
-        // Save credentials (encrypted)
-        await saveCredentials({
-          username: values.username,
-          password: values.password,
-        });
-        logger.log('💾 Saved credentials for next login');
+        saveRememberedUsername(values.username);
       } else {
-        // Clear saved credentials if remember me is unchecked
-        clearCredentials();
-        logger.log('🗑️ Cleared saved credentials');
+        clearRememberedUsername();
       }
 
       // Get the 'next' parameter from URL if it exists
@@ -236,17 +218,22 @@ export function SignInPage() {
                 <FormLabel>Password</FormLabel>
               </div>
               <div className="relative">
-                <Input
-                  placeholder="Enter your password"
-                  type={passwordVisible ? 'text' : 'password'}
-                  autoComplete="current-password"
-                  disabled={isLoadingCredentials}
-                  {...field}
-                />
+                <FormControl>
+                  <Input
+                    placeholder="Enter your password"
+                    type={passwordVisible ? 'text' : 'password'}
+                    autoComplete="current-password"
+                    disabled={isLoadingCredentials}
+                    {...field}
+                  />
+                </FormControl>
                 <Button
                   type="button"
                   variant="ghost"
                   mode="icon"
+                  aria-label={
+                    passwordVisible ? 'Hide password' : 'Show password'
+                  }
                   onClick={() => setPasswordVisible(!passwordVisible)}
                   className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                 >
@@ -272,7 +259,7 @@ export function SignInPage() {
                 <Input
                   placeholder="Enter OTP"
                   type="text"
-                  autoComplete="otpCode"
+                  autoComplete="one-time-code"
                   {...field}
                 />
               </FormControl>

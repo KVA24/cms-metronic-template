@@ -10,7 +10,7 @@ export interface ActionLog {
   ipClient: string;
   createdAt: number;
   description: string;
-  detail: Record<string, any>;
+  detail: Record<string, unknown>;
 }
 
 export interface ActivityLogListParams {

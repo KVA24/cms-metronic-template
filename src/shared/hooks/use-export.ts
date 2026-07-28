@@ -2,7 +2,7 @@ import { downloadFile, generateFilename } from '@/shared/lib/export-utils';
 import { useMutation, UseMutationOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-export interface UseExportOptions<TParams = any> {
+export interface UseExportOptions<TParams = void> {
   exportFn: (params: TParams) => Promise<Blob>;
   filename: string | ((params: TParams) => string);
   successMessage?: string;
@@ -13,7 +13,7 @@ export interface UseExportOptions<TParams = any> {
   >;
 }
 
-function useExport<TParams = any>(options: UseExportOptions<TParams>) {
+function useExport<TParams = void>(options: UseExportOptions<TParams>) {
   const {
     exportFn,
     filename,
@@ -46,7 +46,7 @@ function useExport<TParams = any>(options: UseExportOptions<TParams>) {
   });
 }
 
-export function useExportWithTimestamp<TParams = any>(
+export function useExportWithTimestamp<TParams = void>(
   options: Omit<UseExportOptions<TParams>, 'filename'> & {
     filenamePrefix: string;
     extension: string;

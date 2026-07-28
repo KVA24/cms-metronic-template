@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import logger from '@/shared/lib/logger';
 import { Alert, AlertIcon, AlertTitle } from '@/shared/ui/atoms/alert';
 import { Button } from '@/shared/ui/atoms/button';
 import {
@@ -37,8 +36,6 @@ export function ResetPasswordPage() {
     try {
       setIsProcessing(true);
       setError(null);
-
-      logger.log('Submitting password reset for:', values.email);
 
       // Request password reset
       await authApi.requestPasswordReset({ email: values.email });

@@ -186,7 +186,9 @@ export function MultiSelect({
                     {selectedOptions.map((option, index) => (
                       <Badge
                         key={option.value}
-                        ref={(el: any) => (badgeRefs.current[index] = el)}
+                        ref={(element) => {
+                          badgeRefs.current[index] = element;
+                        }}
                         variant="secondary"
                         className="flex items-center gap-1 whitespace-nowrap"
                       >

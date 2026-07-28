@@ -34,7 +34,7 @@ import { Eye, EyeOff, LoaderCircleIcon, Upload, X } from 'lucide-react';
 import { useForm, type UseFormReturn } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
-import { Account } from '../api/accountApi';
+import { Account, AccountCreateDto, AccountUpdateDto } from '../api/accountApi';
 import { useAccountRoles } from '../hooks/use-account-queries';
 
 const accountSchema = z.object({
@@ -60,7 +60,7 @@ type Translate = ReturnType<typeof useTranslations>['t'];
 interface AccountDrawerProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (data: any) => Promise<void>;
+  onSubmit: (data: AccountCreateDto | AccountUpdateDto) => Promise<void>;
   account?: Account | null;
   isLoading?: boolean;
 }

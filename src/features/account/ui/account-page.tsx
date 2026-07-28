@@ -60,6 +60,7 @@ import {
   getSortedRowModel,
   PaginationState,
   SortingState,
+  Updater,
   useReactTable,
 } from '@tanstack/react-table';
 import {
@@ -73,7 +74,7 @@ import {
   ToggleRight,
   Trash2,
 } from 'lucide-react';
-import { Account } from '../api/accountApi';
+import { Account, AccountCreateDto, AccountUpdateDto } from '../api/accountApi';
 import {
   useAccountList,
   useAccountQRCode,
@@ -84,6 +85,8 @@ import {
   useUpdateAccountStatus,
 } from '../hooks/use-account-queries';
 import { AccountDrawer } from './account-drawer';
+
+const ACCOUNT_URL_DEFAULTS = { page: 0, limit: 10 };
 
 interface StatusDialogState {
   account: Account | null;
@@ -134,7 +137,7 @@ function useAccountPageModel() {
   // URL params management
   const { page, limit, setPage, setLimit } = usePaginationParams();
   const { getParam, updateParams } = useUrlParams({
-    defaults: { page: 0, limit: 10 },
+    defaults: ACCOUNT_URL_DEFAULTS,
   });
 
   // Local state for search
@@ -149,8 +152,7 @@ function useAccountPageModel() {
     updateParams({
       username: debouncedUsername || null,
     });
-    // eslint-disable-next-line react-doctor/exhaustive-deps
-  }, [debouncedUsername]);
+  }, [debouncedUsername, updateParams]);
 
   // Memoize query params to prevent unnecessary refetches
   const queryParams = useMemo(
@@ -181,9 +183,9 @@ function useAccountPageModel() {
   const resetSaltMutation = useResetAccountSalt();
 
   // UI state from Zustand
-  const drawer = useAccountDrawer();
-  const deleteDialog = useAccountDeleteDialog();
-  const qrDialog = useAccountQRDialog();
+  const drawer = useAccountDrawer<Account>();
+  const deleteDialog = useAccountDeleteDialog<Account>();
+  const qrDialog = useAccountQRDialog<Account>();
 
   // Local state
   const [deleteOtp, setDeleteOtp] = useState('');
@@ -209,7 +211,7 @@ function useAccountPageModel() {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   // Handle pagination change from DataGrid
-  const handlePaginationChange = (updater: any) => {
+  const handlePaginationChange = (updater: Updater<PaginationState>) => {
     const newPagination =
       typeof updater === 'function' ? updater(pagination) : updater;
 
@@ -225,7 +227,9 @@ function useAccountPageModel() {
     drawer.open();
   };
 
-  const handleDrawerSubmit = async (data: any) => {
+  const handleDrawerSubmit = async (
+    data: AccountCreateDto | AccountUpdateDto,
+  ) => {
     try {
       if (drawer.account) {
         await updateMutation.mutateAsync({
@@ -234,10 +238,13 @@ function useAccountPageModel() {
         });
         drawer.close();
       } else {
+        if (!('password' in data) || !data.password) {
+          throw new Error('Password is required when creating an account');
+        }
         await createMutation.mutateAsync({ data });
         drawer.close();
       }
-    } catch (error) {
+    } catch {
       // Error handled by mutation
     }
   };
@@ -255,7 +262,7 @@ function useAccountPageModel() {
         });
         setDeleteOtp('');
         deleteDialog.close();
-      } catch (error) {
+      } catch {
         // Error handled by mutation
       }
     }
@@ -286,7 +293,7 @@ function useAccountPageModel() {
           otpCode: statusDialog.otp,
         });
         dispatchStatus({ type: 'close' });
-      } catch (error) {
+      } catch {
         // Error handled by mutation
       }
     }
@@ -298,7 +305,7 @@ function useAccountPageModel() {
         await resetSaltMutation.mutateAsync({
           username: qrDialog.account.username,
         });
-      } catch (error) {
+      } catch {
         // Error handled by mutation
       }
     }

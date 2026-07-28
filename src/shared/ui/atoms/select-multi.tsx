@@ -24,6 +24,12 @@ interface OptionGroup<T extends BaseOption> {
 
 type Options<T extends BaseOption> = T[] | OptionGroup<T>[];
 
+function hasOptionGroups<T extends BaseOption>(
+  options: Options<T>,
+): options is OptionGroup<T>[] {
+  return options.length > 0 && 'groupName' in options[0];
+}
+
 interface MultiSelectProps<T extends BaseOption> {
   label?: string;
   options: Options<T>;
@@ -72,8 +78,8 @@ export function MultiSelect<T extends BaseOption>({
 
   const renderOptions = () => {
     // check nếu có groupName thì xử lý theo group
-    if (options.length > 0 && 'groupName' in (options[0] as any)) {
-      return (options as OptionGroup<T>[]).map((group, gi) => (
+    if (hasOptionGroups(options)) {
+      return options.map((group, gi) => (
         <React.Fragment key={gi}>
           <DropdownMenuLabel>{group.groupName}</DropdownMenuLabel>
           {group.options.map((option) => (

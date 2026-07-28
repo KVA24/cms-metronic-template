@@ -6,6 +6,8 @@ type EntityType =
   | 'tier'
   | 'event'
   | 'partner'
+  | 'task'
+  | 'taskCategory'
   | 'account'
   | 'currency'
   | 'currencyRate'
@@ -20,12 +22,12 @@ type EntityType =
   | 'expiryPolicy'
   | 'redemptionPackage';
 
-interface DialogState<T = any> {
+interface DialogState<T = unknown> {
   isOpen: boolean;
   entity: T | null;
 }
 
-interface CampaignDialogState<T = any> {
+interface CampaignDialogState<T = unknown> {
   isOpen: boolean;
   entity: T | null;
   step?: 'input' | 'confirm' | 'otp';
@@ -37,7 +39,7 @@ interface ChangePasswordDialogState {
   step?: 'input' | 'otp';
 }
 
-interface DrawerState<T = any> {
+interface DrawerState<T = unknown> {
   isOpen: boolean;
   entity: T | null;
 }
@@ -284,88 +286,90 @@ export const useUIStore = create<UIState>()(
   ),
 );
 
-export const useAccountDeleteDialog = () => {
+export const useAccountDeleteDialog = <T = unknown>() => {
   const isOpen = useUIStore(
     useShallow((state) => state.deleteDialogs.account.isOpen),
   );
   const account = useUIStore(
     useShallow((state) => state.deleteDialogs.account.entity),
-  );
+  ) as T | null;
   const openDeleteDialog = useUIStore((state) => state.openDeleteDialog);
   const closeDeleteDialog = useUIStore((state) => state.closeDeleteDialog);
 
   return {
     isOpen,
     account,
-    open: (account: any) => openDeleteDialog('account', account),
+    open: (account: T) => openDeleteDialog('account', account),
     close: () => closeDeleteDialog('account'),
   };
 };
 
-export const useConfigDeleteDialog = () => {
+export const useConfigDeleteDialog = <T = unknown>() => {
   const isOpen = useUIStore(
     useShallow((state) => state.deleteDialogs.config.isOpen),
   );
   const config = useUIStore(
     useShallow((state) => state.deleteDialogs.config.entity),
-  );
+  ) as T | null;
   const openDeleteDialog = useUIStore((state) => state.openDeleteDialog);
   const closeDeleteDialog = useUIStore((state) => state.closeDeleteDialog);
 
   return {
     isOpen,
     config,
-    open: (config: any) => openDeleteDialog('config', config),
+    open: (config: T) => openDeleteDialog('config', config),
     close: () => closeDeleteDialog('config'),
   };
 };
 
-export const useAccountDrawer = () => {
+export const useAccountDrawer = <T = unknown>() => {
   const isOpen = useUIStore(
     useShallow((state) => state.drawers.account.isOpen),
   );
   const account = useUIStore(
     useShallow((state) => state.drawers.account.entity),
-  );
+  ) as T | null;
   const openDrawer = useUIStore((state) => state.openDrawer);
   const closeDrawer = useUIStore((state) => state.closeDrawer);
 
   return {
     isOpen,
     account,
-    open: (account?: any) => openDrawer('account', account),
+    open: (account?: T) => openDrawer('account', account),
     close: () => closeDrawer('account'),
   };
 };
 
-export const useConfigDrawer = () => {
+export const useConfigDrawer = <T = unknown>() => {
   const isOpen = useUIStore(useShallow((state) => state.drawers.config.isOpen));
-  const config = useUIStore(useShallow((state) => state.drawers.config.entity));
+  const config = useUIStore(
+    useShallow((state) => state.drawers.config.entity),
+  ) as T | null;
   const openDrawer = useUIStore((state) => state.openDrawer);
   const closeDrawer = useUIStore((state) => state.closeDrawer);
 
   return {
     isOpen,
     config,
-    open: (config?: any) => openDrawer('config', config),
+    open: (config?: T) => openDrawer('config', config),
     close: () => closeDrawer('config'),
   };
 };
 
-export const useAccountQRDialog = () => {
+export const useAccountQRDialog = <T = unknown>() => {
   const isOpen = useUIStore(
     useShallow((state) => state.qrDialogs.account.isOpen),
   );
   const account = useUIStore(
     useShallow((state) => state.qrDialogs.account.entity),
-  );
+  ) as T | null;
   const openQRDialog = useUIStore((state) => state.openQRDialog);
   const closeQRDialog = useUIStore((state) => state.closeQRDialog);
 
   return {
     isOpen,
     account,
-    open: (account: any) => openQRDialog('account', account),
+    open: (account: T) => openQRDialog('account', account),
     close: () => closeQRDialog('account'),
   };
 };

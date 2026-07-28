@@ -189,6 +189,8 @@
       "NEW_PASSWORD_PLACEHOLDER": "Nhập mật khẩu mới",
       "CONFIRM_PASSWORD": "Xác Nhận Mật Khẩu Mới",
       "CONFIRM_PASSWORD_PLACEHOLDER": "Nhập lại mật khẩu mới",
+      "SHOW_PASSWORD": "Hiện mật khẩu",
+      "HIDE_PASSWORD": "Ẩn mật khẩu",
       "CHANGING": "Đang đổi...",
       "SUCCESS": "Đổi mật khẩu thành công",
       "ERROR": {

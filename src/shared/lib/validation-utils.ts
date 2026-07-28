@@ -31,8 +31,8 @@ export const createTranslatedZodResolver = <T extends ZodSchema>(
   // Recursively translate error messages in nested error objects
 
   const translateErrors = (
-    errors: Record<string, any>,
-  ): Record<string, any> => {
+    errors: Record<string, unknown>,
+  ): Record<string, unknown> => {
     return Object.entries(errors).reduce(
       (acc, [key, error]) => {
         if (error && typeof error === 'object') {
@@ -41,19 +41,19 @@ export const createTranslatedZodResolver = <T extends ZodSchema>(
             acc[key] = { ...error, message: t(error.message) };
           } else {
             // Nested object (array index or nested field) — recurse
-            acc[key] = translateErrors(error as Record<string, any>);
+            acc[key] = translateErrors(error as Record<string, unknown>);
           }
         }
         return acc;
       },
-      {} as Record<string, any>,
+      {} as Record<string, unknown>,
     );
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return async (data: any, context: any, options: any) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result = await zodResolver(schema as any)(data, context, options);
+  const resolver = zodResolver(schema);
+
+  return async (...args: Parameters<typeof resolver>) => {
+    const result = await resolver(...args);
 
     if (result.errors && Object.keys(result.errors).length > 0) {
       return {

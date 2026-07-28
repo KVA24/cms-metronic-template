@@ -56,6 +56,24 @@ export interface ChangePasswordRequest {
   otpCode: string;
 }
 
+interface TokenPayload {
+  accessToken?: string;
+  access_token?: string;
+  token?: string;
+  refreshToken?: string;
+  refresh_token?: string;
+}
+
+interface LoginApiResponse {
+  data: TokenPayload;
+}
+
+interface RefreshTokenApiResponse extends TokenPayload {
+  data?: TokenPayload;
+}
+
+type ProfileApiResponse = User | { data: User };
+
 /**
  * Auth API Service with enhanced error handling
  */
@@ -65,15 +83,13 @@ export const authApi = {
    */
   login: async (credentials: LoginCredentials): Promise<LoginResponse> => {
     try {
-      const response = await axiosInstance.post<any>(
+      const response = await axiosInstance.post<LoginApiResponse>(
         `/api/auth/p/generate-token`,
         {
           ...credentials,
           code: credentials.otpCode,
         },
       );
-
-      logger.log('🔍 Raw Login API Response:', response.data);
 
       // Store tokens first
       const accessToken =
@@ -97,7 +113,7 @@ export const authApi = {
       logger.log('🔍 Fetching user profile...');
       const user = await authApi.getProfile();
 
-      logger.log('✅ User profile fetched:', user);
+      logger.log('User profile fetched');
 
       const mappedResponse: LoginResponse = {
         accessToken,
@@ -161,9 +177,11 @@ export const authApi = {
    */
   getProfile: async (): Promise<User> => {
     try {
-      const response = await axiosInstance.get<any>('/api/auth/b/userinfo');
+      const response = await axiosInstance.get<ProfileApiResponse>(
+        '/api/auth/b/userinfo',
+      );
       // Handle wrapped response format: { code, message, data: User }
-      return response.data.data || response.data;
+      return 'data' in response.data ? response.data.data : response.data;
     } catch (error) {
       throw new Error(getErrorMessage(error));
     }
@@ -191,11 +209,9 @@ export const authApi = {
    */
   refreshToken: async (refreshToken: string): Promise<LoginResponse> => {
     try {
-      const response = await axiosInstance.post<any>(
-        `/api/auth/p/refresh-token?refreshToken=${refreshToken}`,
-        {
-          refreshToken: refreshToken,
-        },
+      const response = await axiosInstance.post<RefreshTokenApiResponse>(
+        '/api/auth/p/refresh-token',
+        { refreshToken },
       );
 
       // Handle different response formats

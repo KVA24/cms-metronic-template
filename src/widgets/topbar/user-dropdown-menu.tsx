@@ -45,8 +45,8 @@ export function UserDropdownMenu({ trigger }: { trigger: ReactNode }) {
     changeLanguage(lang);
   };
 
-  const handleThemeToggle = (checked: any) => {
-    setTheme(checked.target?.checked ? 'dark' : 'light');
+  const handleThemeToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTheme(event.target.checked ? 'dark' : 'light');
   };
 
   return (

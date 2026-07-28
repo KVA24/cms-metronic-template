@@ -16,7 +16,7 @@ export class ApiError extends Error {
     public status: number,
     public code: string,
     message: string,
-    public data?: any,
+    public data?: unknown,
   ) {
     super(message);
     this.name = 'ApiError';
@@ -50,8 +50,8 @@ export const axiosInstance = axios.create({
 // Track refresh token promise to avoid multiple refresh calls
 let isRefreshing = false;
 let failedQueue: Array<{
-  resolve: (value?: any) => void;
-  reject: (reason?: any) => void;
+  resolve: (value: string) => void;
+  reject: (reason?: unknown) => void;
 }> = [];
 
 const processQueue = (error: Error | null, token: string | null = null) => {
@@ -59,7 +59,11 @@ const processQueue = (error: Error | null, token: string | null = null) => {
     if (error) {
       prom.reject(error);
     } else {
-      prom.resolve(token);
+      if (token) {
+        prom.resolve(token);
+      } else {
+        prom.reject(new Error('Token refresh completed without a token'));
+      }
     }
   });
   failedQueue = [];
@@ -83,9 +87,7 @@ axiosInstance.interceptors.request.use(
       if (recaptchaToken) {
         const separator = config.url?.includes('?') ? '&' : '?';
         config.url = `${config.url}${separator}sign=${recaptchaToken}`;
-        logger.log(
-          `📝 Added reCAPTCHA token to ${method} request: ${config.url}`,
-        );
+        logger.log(`Added reCAPTCHA token to ${method} request`);
       }
     } else if (shouldSkipRecaptchaSign) {
       logger.log(
@@ -111,7 +113,7 @@ axiosInstance.interceptors.response.use(
       const duration =
         new Date().getTime() - response.config.metadata.startTime.getTime();
       logger.log(
-        `[API] ${response.config.method?.toUpperCase()} ${response.config.url} - ${duration}ms`,
+        `[API] ${response.config.method?.toUpperCase()} completed in ${duration}ms`,
       );
     }
     return response;
@@ -187,18 +189,12 @@ axiosInstance.interceptors.response.use(
 
       // If already refreshing, queue this request and wait
       if (isRefreshing) {
-        logger.log(
-          '⏳ Token refresh in progress, queueing request:',
-          originalRequest.url,
-        );
-        return new Promise((resolve, reject) => {
+        logger.log('Token refresh in progress; queueing request');
+        return new Promise<string>((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
-            logger.log(
-              '✅ Queued request will retry with new token:',
-              originalRequest.url,
-            );
+            logger.log('Queued request will retry with new token');
             if (originalRequest.headers) {
               originalRequest.headers.Authorization = `Bearer ${token}`;
             }
@@ -208,20 +204,13 @@ axiosInstance.interceptors.response.use(
             return axiosInstance(originalRequest);
           })
           .catch((err) => {
-            logger.error(
-              '❌ Queued request rejected:',
-              originalRequest.url,
-              err,
-            );
+            logger.error('Queued request rejected');
             return Promise.reject(err);
           });
       }
 
       // Start refresh process - block all other requests
-      logger.log(
-        '🔒 First 401 detected, starting token refresh for:',
-        originalRequest.url,
-      );
+      logger.log('First 401 detected; starting token refresh');
       logger.log('📊 Blocking all requests until refresh completes');
       isRefreshing = true;
 
@@ -229,14 +218,9 @@ axiosInstance.interceptors.response.use(
         // Attempt to refresh the token
         logger.log('🔄 Calling refresh token API...');
         const response = await axios.post(
-          `${API_BASE_URL}/api/auth/p/refresh-token?refreshToken=${refreshToken}`,
-          {
-            refreshToken: refreshToken,
-          },
+          `${API_BASE_URL}/api/auth/p/refresh-token`,
+          { refreshToken },
         );
-
-        logger.log('📦 Refresh token response:', response);
-        logger.log('📦 Response data:', response.data);
 
         // Handle refresh token response format:
         // API returns: { token: "hash", refreshToken: "JWT", role: "ADMIN" }
@@ -250,7 +234,7 @@ axiosInstance.interceptors.response.use(
           response.data.data?.refreshToken || response.data.token; // hash used as new refresh token
 
         if (!access_token) {
-          logger.error('❌ No access token in response:', response.data);
+          logger.error('Refresh response did not contain an access token');
           throw new Error('Invalid refresh response: missing access token');
         }
 
@@ -275,7 +259,7 @@ axiosInstance.interceptors.response.use(
         // Reset refresh flag
         isRefreshing = false;
 
-        logger.log('🔁 Retrying original request:', originalRequest.url);
+        logger.log('Retrying original request');
 
         // Update authorization header for original request
         if (originalRequest.headers) {
@@ -311,10 +295,9 @@ axiosInstance.interceptors.response.use(
     }
 
     // Handle other HTTP errors
-    const errorData = data as any;
-    const errorMessage =
-      errorData?.message || errorData?.error || error.message;
-    const errorCode = errorData?.code || `HTTP_${status}`;
+    const errorData = getErrorPayload(data);
+    const errorMessage = errorData.message || errorData.error || error.message;
+    const errorCode = errorData.code || `HTTP_${status}`;
 
     return Promise.reject(
       new ApiError(status, errorCode, errorMessage, errorData),
@@ -328,7 +311,7 @@ export const createCancelToken = () => {
 };
 
 // Check if error is a cancel error
-export const isCancelError = (error: any): boolean => {
+export const isCancelError = (error: unknown): boolean => {
   return axios.isCancel(error);
 };
 
@@ -338,10 +321,12 @@ export const getErrorMessage = (error: unknown): string => {
     if (error.message) {
       return error.message;
     }
-    return error.data.errorDesc;
+    return (
+      getErrorPayload(error.data).errorDesc || 'An unexpected error occurred'
+    );
   }
   if (error instanceof AxiosError) {
-    const data = error.response?.data as any;
+    const data = getErrorPayload(error.response?.data);
     if (data?.errorDesc) {
       return data.errorDesc;
     }
@@ -352,6 +337,17 @@ export const getErrorMessage = (error: unknown): string => {
   }
   return 'An unexpected error occurred';
 };
+
+interface ErrorPayload {
+  code?: string;
+  error?: string;
+  errorDesc?: string;
+  message?: string;
+}
+
+function getErrorPayload(value: unknown): ErrorPayload {
+  return value && typeof value === 'object' ? (value as ErrorPayload) : {};
+}
 
 // Type augmentation for request metadata and reCAPTCHA config
 declare module 'axios' {

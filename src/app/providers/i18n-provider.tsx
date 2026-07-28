@@ -84,8 +84,7 @@ const I18nProvider = ({ children }: PropsWithChildren) => {
   // Initialize i18next with saved language (mount-only)
   useEffect(() => {
     i18n.changeLanguage(currenLanguage.code);
-    // eslint-disable-next-line react-doctor/exhaustive-deps
-  }, []);
+  }, [currenLanguage.code]);
 
   const changeLanguage = useCallback((language: Language) => {
     setData(I18N_CONFIG_KEY, language);

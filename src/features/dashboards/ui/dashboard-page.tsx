@@ -1,4 +1,5 @@
 import { useMemo, useReducer, useState } from 'react';
+import type { PointChartDataPoint } from '@/features/dashboards/api/dashboardApi';
 import {
   useCampaignStatistics,
   useCustomerDashboard,
@@ -167,8 +168,11 @@ function useDashboardPageModel() {
   const [selectedCurrencyId, setSelectedCurrencyId] = useState<string>('');
 
   // Fetch currencies from dashboard API
-  const { data: currencies = [], isLoading: isLoadingCurrencies } =
-    useDashboardCurrencies();
+  const {
+    data: currencies = [],
+    isLoading: isLoadingCurrencies,
+    error: currenciesError,
+  } = useDashboardCurrencies();
 
   // Set default currency when currencies are loaded
   useMemo(() => {
@@ -275,31 +279,53 @@ function useDashboardPageModel() {
     error: membershipTierError,
   } = useMembershipTierStatistics();
 
-  const { data: transactionUsers, isLoading: isLoadingTransactionUsers } =
-    useTransactionUsers();
+  const {
+    data: transactionUsers,
+    isLoading: isLoadingTransactionUsers,
+    error: transactionUsersError,
+  } = useTransactionUsers();
 
-  const { data: pointStatistic, isLoading: isLoadingPointStatistic } =
-    usePointStatistic(selectedCurrencyId);
+  const {
+    data: pointStatistic,
+    isLoading: isLoadingPointStatistic,
+    error: pointStatisticError,
+  } = usePointStatistic(selectedCurrencyId);
 
   // Fetch customer dashboard data separately with date range
   const {
     data: customerDashboard = [],
     isLoading: isLoadingCustomerDashboard,
+    error: customerDashboardError,
   } = useCustomerDashboard(chartFromDate, chartToDate);
 
   // Fetch point chart data with currencyId
-  const { data: dpeChartData = [], isLoading: isLoadingDpeChart } =
-    useDailyPointChart(dpeFromDate, dpeToDate, selectedCurrencyId);
-  const { data: mpeChartData = [], isLoading: isLoadingMpeChart } =
-    useMonthlyPointChart(mpeFromDate, mpeToDate, selectedCurrencyId);
-  const { data: dpdChartData = [], isLoading: isLoadingDpdChart } =
-    useDailyPointChart(dpdFromDate, dpdToDate, selectedCurrencyId);
-  const { data: mpdChartData = [], isLoading: isLoadingMpdChart } =
-    useMonthlyPointChart(mpdFromDate, mpdToDate, selectedCurrencyId);
+  const {
+    data: dpeChartData = [],
+    isLoading: isLoadingDpeChart,
+    error: dpeChartError,
+  } = useDailyPointChart(dpeFromDate, dpeToDate, selectedCurrencyId);
+  const {
+    data: mpeChartData = [],
+    isLoading: isLoadingMpeChart,
+    error: mpeChartError,
+  } = useMonthlyPointChart(mpeFromDate, mpeToDate, selectedCurrencyId);
+  const {
+    data: dpdChartData = [],
+    isLoading: isLoadingDpdChart,
+    error: dpdChartError,
+  } = useDailyPointChart(dpdFromDate, dpdToDate, selectedCurrencyId);
+  const {
+    data: mpdChartData = [],
+    isLoading: isLoadingMpdChart,
+    error: mpdChartError,
+  } = useMonthlyPointChart(mpdFromDate, mpdToDate, selectedCurrencyId);
 
   // Fetch top 100 users with currencyId
-  const { data: top100Users = [], isLoading: isLoadingTop100Users } =
-    useTop100Users(selectedCurrencyId);
+  const {
+    data: top100Users = [],
+    isLoading: isLoadingTop100Users,
+    error: top100UsersError,
+  } = useTop100Users(selectedCurrencyId);
 
   // Export top 100 users mutation
   const exportTop100UsersMutation = useExportTop100Users();
@@ -371,8 +397,8 @@ function useDashboardPageModel() {
       tooltip: {
         theme: 'light' as const,
         x: {
-          formatter: (_val: number, opts: any) => {
-            const date = customerDashboard[opts.dataPointIndex]?.date;
+          formatter: (_value: number, options: { dataPointIndex: number }) => {
+            const date = customerDashboard[options.dataPointIndex]?.date;
             return date ? format(new Date(date), 'dd/MM/yyyy') : '';
           },
         },
@@ -412,7 +438,7 @@ function useDashboardPageModel() {
   const createPointChartOptions = useMemo(
     () =>
       (
-        data: any[],
+        data: PointChartDataPoint[],
         type: 'earn' | 'burn',
         title: string,
         chartType: 'daily' | 'monthly',
@@ -627,10 +653,22 @@ function useDashboardPageModel() {
 
   // Campaign table data
   const campaignTableData = campaignStatistics?.campaigns || [];
+  const dashboardError =
+    customerStatisticsError ??
+    campaignStatisticsError ??
+    membershipTierError ??
+    transactionUsersError ??
+    pointStatisticError ??
+    customerDashboardError ??
+    dpeChartError ??
+    mpeChartError ??
+    dpdChartError ??
+    mpdChartError ??
+    top100UsersError ??
+    currenciesError;
 
   return {
     campaignStatistics,
-    campaignStatisticsError,
     campaignTableData,
     chartDateRange,
     currencies,
@@ -638,7 +676,7 @@ function useDashboardPageModel() {
     customerChartSeries,
     customerDashboard,
     customerStatistics,
-    customerStatisticsError,
+    dashboardError,
     dispatchChartState,
     dpdChartData,
     dpdChartDateRange,
@@ -662,7 +700,6 @@ function useDashboardPageModel() {
     isLoadingPointStatistic,
     isLoadingTop100Users,
     isLoadingTransactionUsers,
-    membershipTierError,
     mpeChartData,
     mpeChartDateRange,
     mpeChartOptions,
@@ -736,7 +773,6 @@ function CampaignBudgetCell({ campaign }: { campaign: CampaignTableRow }) {
 
 function renderDashboardPage({
   campaignStatistics,
-  campaignStatisticsError,
   campaignTableData,
   chartDateRange,
   currencies,
@@ -744,7 +780,7 @@ function renderDashboardPage({
   customerChartSeries,
   customerDashboard,
   customerStatistics,
-  customerStatisticsError,
+  dashboardError,
   dispatchChartState,
   dpdChartData,
   dpdChartDateRange,
@@ -768,7 +804,6 @@ function renderDashboardPage({
   isLoadingPointStatistic,
   isLoadingTop100Users,
   isLoadingTransactionUsers,
-  membershipTierError,
   mpeChartData,
   mpeChartDateRange,
   mpeChartOptions,
@@ -801,18 +836,14 @@ function renderDashboardPage({
       <Container>
         <div className="space-y-6">
           {/* Show errors if any */}
-          {(customerStatisticsError ||
-            campaignStatisticsError ||
-            membershipTierError) && (
+          {dashboardError && (
             <Alert variant="destructive" appearance="light">
               <AlertIcon>
                 <AlertCircle />
               </AlertIcon>
               <AlertTitle>Error</AlertTitle>
               <AlertDescription className="break-all">
-                {customerStatisticsError?.message ||
-                  campaignStatisticsError?.message ||
-                  membershipTierError?.message}
+                {dashboardError.message}
               </AlertDescription>
             </Alert>
           )}

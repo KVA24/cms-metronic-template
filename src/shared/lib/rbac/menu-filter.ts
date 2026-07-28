@@ -1,34 +1,33 @@
 import { MenuConfig, MenuItem } from '@/shared/config/types';
-import { UserRole } from './roles';
+import { hasRequiredRole, UserRole } from './roles';
 
 /**
  * Filter menu items based on user role
  */
-export function filterMenuByRole(
+export function filterMenuByRoles(
   menu: MenuConfig,
-  role: UserRole | null,
+  roles: UserRole[],
 ): MenuConfig {
-  if (!role) return [];
+  if (roles.length === 0) return [];
 
   return menu
-    .map((item) => filterMenuItem(item, role))
+    .map((item) => filterMenuItem(item, roles))
     .filter((item): item is MenuItem => item !== null);
 }
 
 /**
  * Filter a single menu item and its children
  */
-function filterMenuItem(item: MenuItem, role: UserRole): MenuItem | null {
+function filterMenuItem(item: MenuItem, roles: UserRole[]): MenuItem | null {
   // If item has required roles, check if user has one of them
   if (item.requiredRoles && item.requiredRoles.length > 0) {
-    const hasRole = item.requiredRoles.includes(role);
-    if (!hasRole) return null;
+    if (!hasRequiredRole(roles, item.requiredRoles)) return null;
   }
 
   // If item has children, filter them recursively
   if (item.children && item.children.length > 0) {
     const filteredChildren = item.children
-      .map((child) => filterMenuItem(child, role))
+      .map((child) => filterMenuItem(child, roles))
       .filter((child): child is MenuItem => child !== null);
 
     // If all children are filtered out, hide the parent too

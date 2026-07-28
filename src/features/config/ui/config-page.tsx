@@ -1,5 +1,9 @@
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
-import { Config, configApi } from '@/features/config/api/configApi';
+import {
+  Config,
+  configApi,
+  ConfigCreateDto,
+} from '@/features/config/api/configApi';
 import {
   useConfigList,
   useCreateConfig,
@@ -57,6 +61,7 @@ import {
   getSortedRowModel,
   PaginationState,
   SortingState,
+  Updater,
   useReactTable,
 } from '@tanstack/react-table';
 import {
@@ -70,13 +75,15 @@ import {
 import { toast } from 'sonner';
 import { ConfigDrawer } from './config-drawer';
 
+const CONFIG_URL_DEFAULTS = { page: 0, limit: 10 };
+
 function useConfigPageModel() {
   const { t } = useTranslations();
 
   // URL params management
   const { page, limit, setPage, setLimit } = usePaginationParams();
   const { getParam, updateParams } = useUrlParams({
-    defaults: { page: 0, limit: 10 },
+    defaults: CONFIG_URL_DEFAULTS,
   });
 
   // Local state for search filters
@@ -94,8 +101,7 @@ function useConfigPageModel() {
       search: debouncedSearchKey || null,
       category: debouncedSearchCategory || null,
     });
-    // eslint-disable-next-line react-doctor/exhaustive-deps
-  }, [debouncedSearchKey, debouncedSearchCategory]);
+  }, [debouncedSearchKey, debouncedSearchCategory, updateParams]);
 
   // Memoize query params to prevent unnecessary refetches
   const queryParams = useMemo(
@@ -125,8 +131,8 @@ function useConfigPageModel() {
   const deleteMutation = useDeleteConfig();
 
   // UI state from Zustand
-  const drawer = useConfigDrawer();
-  const deleteDialog = useConfigDeleteDialog();
+  const drawer = useConfigDrawer<Config>();
+  const deleteDialog = useConfigDeleteDialog<Config>();
 
   // Local state
   const [editingConfigId, setEditingConfigId] = useState<string | null>(null);
@@ -140,7 +146,7 @@ function useConfigPageModel() {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   // Handle pagination change from DataGrid
-  const handlePaginationChange = (updater: any) => {
+  const handlePaginationChange = (updater: Updater<PaginationState>) => {
     const newPagination =
       typeof updater === 'function' ? updater(pagination) : updater;
 
@@ -157,21 +163,23 @@ function useConfigPageModel() {
     drawer.open();
   };
 
-  const handleEdit = useCallback(async (config: Config) => {
-    setEditingConfigId(config.id);
-    try {
-      // Fetch detail từ API
-      const detail = await configApi.getDetail(config.id);
-      drawer.open(detail);
-    } catch (error) {
-      toast.error('Failed to load config details');
-    } finally {
-      setEditingConfigId(null);
-    }
-    // eslint-disable-next-line react-doctor/exhaustive-deps
-  }, []);
+  const handleEdit = useCallback(
+    async (config: Config) => {
+      setEditingConfigId(config.id);
+      try {
+        // Fetch detail từ API
+        const detail = await configApi.getDetail(config.id);
+        drawer.open(detail);
+      } catch {
+        toast.error('Failed to load config details');
+      } finally {
+        setEditingConfigId(null);
+      }
+    },
+    [drawer],
+  );
 
-  const handleDrawerSubmit = async (data: any) => {
+  const handleDrawerSubmit = async (data: ConfigCreateDto) => {
     try {
       if (drawer.config) {
         logger.log('Updating config', data);
@@ -184,7 +192,7 @@ function useConfigPageModel() {
         await createMutation.mutateAsync({ data });
         drawer.close();
       }
-    } catch (error) {
+    } catch {
       // Error handled by mutation
     }
   };
@@ -202,7 +210,7 @@ function useConfigPageModel() {
         });
         setDeleteOtp('');
         deleteDialog.close();
-      } catch (error) {
+      } catch {
         // Error handled by mutation
       }
     }

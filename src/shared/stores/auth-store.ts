@@ -81,12 +81,10 @@ export const useAuthStore = create<AuthState>()(
             logger.log('🔍 Verifying token with API...');
             const response = await authApi.getProfile();
 
-            logger.log('Verifying profile...', response);
-
             get()._setUser(response);
             storage.setJSON('user', response);
-          } catch (error) {
-            logger.error('❌ Token verification failed:', error);
+          } catch {
+            logger.error('Token verification failed');
             // Don't clear tokens here - let the interceptor handle refresh
             // Only clear if there's no refresh token
             const refreshToken = storage.getItem('refresh_token');
@@ -108,10 +106,7 @@ export const useAuthStore = create<AuthState>()(
           set({ isLoading: true, error: null });
 
           try {
-            logger.log('🔐 Logging in with credentials:', credentials);
             const response = await authApi.login(credentials);
-
-            logger.log('📦 Login response:', response);
 
             // Validate response
             if (!response.user || !response.user.id) {
@@ -132,9 +127,9 @@ export const useAuthStore = create<AuthState>()(
             // Update state
             get()._setUser(response.user);
             get()._setInitialized(true); // Đánh dấu đã initialized sau khi login
-            logger.log('✅ Login successful:', response.user);
+            logger.log('Login successful');
           } catch (error) {
-            logger.error('❌ Login failed:', error);
+            logger.error('Login failed');
             const errorMessage =
               error instanceof Error
                 ? error.message
@@ -153,8 +148,8 @@ export const useAuthStore = create<AuthState>()(
           try {
             logger.log('👋 Logging out...');
             await authApi.logout();
-          } catch (error) {
-            logger.error('⚠️ Logout API error:', error);
+          } catch {
+            logger.error('Logout API failed');
           } finally {
             // Always clear local data even if API call fails
             get()._setUser(null);
@@ -162,9 +157,6 @@ export const useAuthStore = create<AuthState>()(
             storage.removeItem('access_token');
             storage.removeItem('refresh_token');
             storage.removeItem('user');
-
-            // Clear saved credentials on logout
-            // storage.removeItem('rm_creds');
 
             logger.log('✅ Logged out successfully');
           }
@@ -242,12 +234,12 @@ export const initializeAuth = async () => {
         try {
           // Parse và restore user state ngay lập tức để tránh flash
           storeState._setUser(savedUser as User);
-          logger.log('📦 Restored user from storage:', savedUser);
+          logger.log('Restored user session from storage');
 
           // Sau đó verify token với API để đảm bảo vẫn còn valid
           await storeState.verify();
-        } catch (error) {
-          logger.error('💥 Initial auth verification failed:', error);
+        } catch {
+          logger.error('Initial auth verification failed');
           // Nếu verify thất bại, clear state
           storeState._setUser(null);
           storage.removeItem('access_token');
