@@ -5,6 +5,7 @@ export * from './use-menu';
 export * from './use-recaptcha-v2';
 export * from './use-scroll-position';
 export * from './use-translations';
+export * from './use-error-handler';
 
 // Feature query hooks (convenience re-exports)
 export * from '@/features/dashboards/hooks/use-dashboard-queries';
