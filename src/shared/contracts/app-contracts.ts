@@ -72,6 +72,17 @@ export interface Tenant {
   code: string;
   name: string;
   status: EntityStatus;
+  accountOwner: string;
+  notes: string;
+  contactName: string;
+  contactTitle: string;
+  contactEmail: string;
+  contactPhone: string;
+  createdBy: string;
+  createdAt: string;
+  updatedBy: string;
+  updatedAt: string;
+  version: number;
 }
 
 export interface Brand {
