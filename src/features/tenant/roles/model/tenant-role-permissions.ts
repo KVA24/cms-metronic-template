@@ -12,7 +12,8 @@ export const TENANT_PERMISSION_MODULES = [
 ] as const satisfies ReadonlyArray<{ code: string; label: string; actions: readonly PermissionCode[] }>;
 
 export function getModuleSelection(actions: readonly PermissionCode[], selected: readonly PermissionCode[]) {
-  const selectedCount = actions.filter((action) => selected.includes(action)).length;
+  const selectedSet = new Set(selected);
+  const selectedCount = actions.filter((action) => selectedSet.has(action)).length;
   return { selectedCount, full: selectedCount === actions.length, indeterminate: selectedCount > 0 && selectedCount < actions.length };
 }
 
@@ -36,6 +37,8 @@ export function wouldRemoveLastTenantAdministrator(role: TenantRole, nextPermiss
   return !accounts.some((account) => {
     if (account.portalType !== 'TENANT' || account.tenantId !== role.tenantId || account.status !== 'ACTIVE' || !account.tenantRoleId) return false;
     const assignedRole = roles.find(({ id, tenantId, status }) => id === account.tenantRoleId && tenantId === role.tenantId && status === 'ACTIVE');
-    return Boolean(assignedRole && managementPermissions.every((permission) => effectivePermissions(assignedRole).includes(permission)));
+    if (!assignedRole) return false;
+    const permissionSet = new Set(effectivePermissions(assignedRole));
+    return managementPermissions.every((permission) => permissionSet.has(permission));
   });
 }

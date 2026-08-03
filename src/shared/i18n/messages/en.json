@@ -264,6 +264,31 @@
       "ALL_TENANT_DEFAULT": "All Tenant Default"
     }
   },
+  "TENANT_ROLES": {
+    "TITLE": "Roles",
+    "DESCRIPTION": "Manage Tenant roles and review their permission coverage.",
+    "ADD": "Add role",
+    "KEYWORD": "Keyword",
+    "KEYWORD_PLACEHOLDER": "Role ID, name or remark",
+    "ALL_STATUSES": "All statuses",
+    "CODE": "Role ID",
+    "NAME": "Role Name",
+    "REMARK": "Remark",
+    "TYPE": "Type",
+    "USERS": "Assigned users",
+    "PERMISSIONS": "Permissions",
+    "ERROR": "Roles could not be loaded.",
+    "NOT_FOUND": "Role was not found in this Tenant.",
+    "EMPTY": "No roles found",
+    "PAGE": "Page {{page}} of {{total}} · {{count}} roles",
+    "SYSTEM_READ_ONLY": "System Roles are read-only. Their code, status and permissions cannot be changed.",
+    "INFORMATION": "Role information",
+    "PERMISSION_SUMMARY": "Permission summary",
+    "COVERAGE": "modules with full permission coverage",
+    "CREATED": "Created",
+    "UPDATED": "Updated",
+    "TYPES": { "SYSTEM": "System", "CUSTOM": "Custom" }
+  },
   "ADMIN_DASHBOARD": {
     "TITLE": "Reporting Dashboard",
     "DESCRIPTION": "Monitor clicks, conversions, tracked GMV and estimated or confirmed commission across the platform.",

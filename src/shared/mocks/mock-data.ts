@@ -587,11 +587,17 @@ function createAuthAccount(
 
 function createSystemTenantRoles(tenantId: string): MockData['tenantRoles'] {
   const roles: TenantRoleCode[] = ['TENANT_ADMIN', 'TENANT_MARKETING_OPS', 'TENANT_VIEWER', 'TENANT_FINANCE'];
+  const names: Record<TenantRoleCode, string> = {
+    TENANT_ADMIN: 'Admin Tenant',
+    TENANT_MARKETING_OPS: 'Marketing/Ops Tenant',
+    TENANT_VIEWER: 'Viewer Tenant',
+    TENANT_FINANCE: 'Finance Tenant',
+  };
   return roles.map((code) => ({
     id: systemTenantRoleId(tenantId, code),
     tenantId,
     code,
-    name: code.replace('TENANT_', '').replaceAll('_', ' '),
+    name: names[code],
     description: `System role ${code}`,
     type: 'SYSTEM',
     status: 'ACTIVE',

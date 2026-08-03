@@ -264,6 +264,31 @@
       "ALL_TENANT_DEFAULT": "Mặc định mọi Tenant"
     }
   },
+  "TENANT_ROLES": {
+    "TITLE": "Vai trò",
+    "DESCRIPTION": "Quản lý vai trò Tenant và xem mức bao phủ quyền.",
+    "ADD": "Thêm vai trò",
+    "KEYWORD": "Từ khóa",
+    "KEYWORD_PLACEHOLDER": "Mã, tên hoặc mô tả vai trò",
+    "ALL_STATUSES": "Tất cả trạng thái",
+    "CODE": "Mã vai trò",
+    "NAME": "Tên vai trò",
+    "REMARK": "Mô tả",
+    "TYPE": "Loại",
+    "USERS": "Tài khoản được gán",
+    "PERMISSIONS": "Phân quyền",
+    "ERROR": "Không thể tải danh sách vai trò.",
+    "NOT_FOUND": "Không tìm thấy vai trò trong Tenant này.",
+    "EMPTY": "Không tìm thấy vai trò",
+    "PAGE": "Trang {{page}}/{{total}} · {{count}} vai trò",
+    "SYSTEM_READ_ONLY": "Vai trò hệ thống chỉ đọc; không thể đổi mã, trạng thái hoặc quyền.",
+    "INFORMATION": "Thông tin vai trò",
+    "PERMISSION_SUMMARY": "Tóm tắt quyền",
+    "COVERAGE": "module có đầy đủ quyền",
+    "CREATED": "Ngày tạo",
+    "UPDATED": "Cập nhật",
+    "TYPES": { "SYSTEM": "Hệ thống", "CUSTOM": "Tùy chỉnh" }
+  },
   "ADMIN_DASHBOARD": {
     "TITLE": "Dashboard báo cáo",
     "DESCRIPTION": "Theo dõi click, conversion, GMV và hoa hồng tạm tính hoặc chính thức trên toàn hệ thống.",
