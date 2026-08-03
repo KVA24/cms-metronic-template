@@ -1059,6 +1059,7 @@
     "VALIDATION": { "EMAIL_INVALID": "Vui lòng nhập địa chỉ email hợp lệ.", "OTP_INVALID": "Nhập OTP hợp lệ gồm 6 chữ số.", "PASSWORD_POLICY": "Mật khẩu chưa đáp ứng chính sách bắt buộc.", "CONFIRM_PASSWORD_REQUIRED": "Vui lòng xác nhận mật khẩu mới.", "PASSWORD_MISMATCH": "Mật khẩu không khớp." },
     "ERRORS": { "EMAIL_NOT_FOUND": "Không có tài khoản Tenant Portal dùng email này.", "OTP_INVALID": "OTP không hợp lệ.", "OTP_EXPIRED": "OTP đã hết hạn. Vui lòng yêu cầu mã mới.", "OTP_NOT_VERIFIED": "Hãy xác thực OTP trước khi tạo mật khẩu mới.", "RESET_REQUEST_INVALID": "Yêu cầu đặt lại mật khẩu không hợp lệ hoặc đã được dùng.", "RESET_ERROR": "Không thể hoàn tất khôi phục mật khẩu." }
   },
+  "TENANT_ACCESS": { "ROUTE_READY": "Route Tenant Portal đã sẵn sàng" },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Bảng Điều Khiển",

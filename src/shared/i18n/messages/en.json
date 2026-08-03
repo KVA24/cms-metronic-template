@@ -1059,6 +1059,7 @@
     "VALIDATION": { "EMAIL_INVALID": "Please enter a valid email address.", "OTP_INVALID": "Enter a valid 6-digit OTP.", "PASSWORD_POLICY": "Password does not meet the required policy.", "CONFIRM_PASSWORD_REQUIRED": "Confirm new password is required.", "PASSWORD_MISMATCH": "Passwords do not match." },
     "ERRORS": { "EMAIL_NOT_FOUND": "No Tenant Portal account uses this email.", "OTP_INVALID": "Invalid OTP.", "OTP_EXPIRED": "OTP has expired. Please request a new code.", "OTP_NOT_VERIFIED": "Verify the OTP before creating a new password.", "RESET_REQUEST_INVALID": "This password reset request is invalid or already used.", "RESET_ERROR": "Password recovery could not be completed." }
   },
+  "TENANT_ACCESS": { "ROUTE_READY": "Tenant Portal Route Ready" },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Dashboard",

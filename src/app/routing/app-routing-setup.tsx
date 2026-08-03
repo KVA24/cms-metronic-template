@@ -155,6 +155,9 @@ const AdminExceptionDetailPage = lazy(() =>
     default: m.AdminExceptionDetailPage,
   })),
 );
+const TenantRoutePlaceholderPage = lazy(() =>
+  import('@/features/tenant/access/ui/tenant-route-placeholder-page').then((m) => ({ default: m.TenantRoutePlaceholderPage })),
+);
 const AccountManagementPage = lazy(() =>
   import('@/features/account').then((m) => ({ default: m.AccountPage })),
 );
@@ -217,6 +220,22 @@ export function AppRoutingSetup() {
             <Route path="/admin/transactions/:transactionId" element={<AdminTransactionDetailPage />} />
             <Route path="/admin/exceptions" element={<AdminExceptionListPage />} />
             <Route path="/admin/exceptions/:exceptionId" element={<AdminExceptionDetailPage />} />
+            <Route path="/tenant/dashboard" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/assigned-brands" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/earn-display" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/earn-display/:brandId" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/transactions" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/transactions/:transactionId" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/account/roles" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/account/roles/new" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/account/roles/:roleId" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/account/roles/:roleId/edit" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/account/roles/:roleId/permissions" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/account/users" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/account/users/new" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/account/users/:userId" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/account/users/:userId/edit" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/account/profile" element={<TenantRoutePlaceholderPage />} />
             <Route
               path="/auth/welcome-message"
               element={<AuthWelcomeMessagePage />}
