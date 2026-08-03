@@ -85,6 +85,16 @@ const AdminOfferDetailPage = lazy(() =>
     default: m.AdminOfferDetailPage,
   })),
 );
+const AdminOfferCreatePage = lazy(() =>
+  import('@/features/admin/brands/ui/admin-offer-form-page').then((m) => ({
+    default: m.AdminOfferCreatePage,
+  })),
+);
+const AdminOfferEditPage = lazy(() =>
+  import('@/features/admin/brands/ui/admin-offer-form-page').then((m) => ({
+    default: m.AdminOfferEditPage,
+  })),
+);
 const AccountManagementPage = lazy(() =>
   import('@/features/account').then((m) => ({ default: m.AccountPage })),
 );
@@ -130,6 +140,8 @@ export function AppRoutingSetup() {
             <Route path="/admin/brands" element={<AdminBrandListPage />} />
             <Route path="/admin/brands/new" element={<AdminBrandCreatePage />} />
             <Route path="/admin/brands/:brandId/offers" element={<AdminOfferListPage />} />
+            <Route path="/admin/brands/:brandId/offers/new" element={<AdminOfferCreatePage />} />
+            <Route path="/admin/brands/:brandId/offers/:offerId/edit" element={<AdminOfferEditPage />} />
             <Route path="/admin/brands/:brandId/offers/:offerId" element={<AdminOfferDetailPage />} />
             <Route path="/admin/brands/:brandId/categories" element={<AdminBrandMappingPage />} />
             <Route path="/admin/brands/:brandId" element={<AdminBrandDetailPage />} />

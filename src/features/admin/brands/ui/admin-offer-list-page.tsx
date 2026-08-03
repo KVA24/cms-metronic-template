@@ -30,6 +30,10 @@ import {
 
 const selectClassName =
   'h-10 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+const vndFormatter = new Intl.NumberFormat('vi-VN', {
+  style: 'currency',
+  currency: 'VND',
+});
 
 function formatCommission(
   type: 'PERCENTAGE' | 'FIXED_AMOUNT' | null,
@@ -38,10 +42,7 @@ function formatCommission(
   if (!type || !value) return null;
   return type === 'PERCENTAGE'
     ? `${value}%`
-    : new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND',
-      }).format(value);
+    : vndFormatter.format(value);
 }
 
 export function AdminOfferListPage() {

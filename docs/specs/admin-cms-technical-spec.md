@@ -435,7 +435,7 @@ Shared contracts, auth and routing are sequential prerequisites. After the Found
 
 - [ ] A1–A5: shared contracts, permissions, auth, routing and menus
 - [x] A6–A9: ADMIN Dashboard, RBAC and Categories
-- [ ] A10–A14: Brands, Category Mapping and Offers
+- [x] A10–A14: Brands, Category Mapping and Offers
 - [ ] A15–A19: Tenant administration, accounts, assignments and Revenue Share
 - [ ] A20–A24: Configuration, Transactions and Exceptions
 - [ ] A25–A27: traceability, legacy cleanup and final regression
@@ -480,13 +480,13 @@ Shared contracts, auth and routing are sequential prerequisites. After the Found
 | A11 ✅ | Implement Brand detail/edit/deactivate with immutable/dependency constraints and dirty-form confirmation.                                                    | A10          | Brand schema/form/detail/service files       | CMS-BRAND-003/004 flow        | M    |
 | A12 ✅ | Implement Brand Category Mapping & Commission list/batch editor, conditional commission rules and atomic mock save result.                                   | A11          | Mapping model/service/schema/page files      | CMS-BRAND-005 AC tests/manual | M    |
 | A13 ✅ | Implement Brand-scoped Offer list/view with filters, pagination and status badges.                                                                           | A10          | Offer model/service/hooks/list/detail files  | CMS-OFFER-001 flow            | M    |
-| A14  | Implement Offer create/edit/activate/deactivate, localized content, mapping and commission validation. Used codes are immutable; no calculation engine runs. | A12–A13      | Offer schema/form/page/service files         | CMS-OFFER-002..004 flow       | M    |
+| A14 ✅ | Implement Offer create/edit/activate/deactivate, localized content, mapping and commission validation. Used codes are immutable; no calculation engine runs. | A12–A13      | Offer schema/form/page/service files         | CMS-OFFER-002..004 flow       | M    |
 
 #### Checkpoint B — Brand domain
 
-- [ ] Brand → category mapping → Offer vertical flows work with shared typed arrays.
-- [ ] Permission and financial-rule scopes are enforced in UI and services.
-- [ ] Lint, tests and build pass.
+- [x] Brand → category mapping → Offer vertical flows work with shared typed arrays.
+- [x] Permission and financial-rule scopes are enforced in UI and services.
+- [x] Lint, tests and build pass.
 
 ### 18.6 Phase D — Tenant administration
 

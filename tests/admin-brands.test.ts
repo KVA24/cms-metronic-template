@@ -1,17 +1,21 @@
 import assert from 'node:assert/strict';
 import { beforeEach, describe, it } from 'node:test';
-import { adminBrandService } from '../src/features/admin/brands/api/admin-brand-service';
 import { adminBrandMappingService } from '../src/features/admin/brands/api/admin-brand-mapping-service';
+import { adminBrandService } from '../src/features/admin/brands/api/admin-brand-service';
 import { adminOfferService } from '../src/features/admin/brands/api/admin-offer-service';
 import {
-  adminBrandSchema,
   ADMIN_BRAND_DEFAULT_QUERY,
+  adminBrandSchema,
 } from '../src/features/admin/brands/model/admin-brand';
 import {
-  adminBrandMappingRowSchema,
   ADMIN_BRAND_MAPPING_DEFAULT_QUERY,
+  adminBrandMappingRowSchema,
 } from '../src/features/admin/brands/model/admin-brand-mapping';
-import { ADMIN_OFFER_DEFAULT_QUERY } from '../src/features/admin/brands/model/admin-offer';
+import {
+  ADMIN_OFFER_DEFAULT_QUERY,
+  adminOfferSchema,
+  isOfferMarketplaceEligible,
+} from '../src/features/admin/brands/model/admin-offer';
 import { mockData, resetMockData } from '../src/shared/mocks/mock-data';
 
 const validBrandInput = {
@@ -48,7 +52,10 @@ describe('ADMIN brand list service', () => {
 
     assert.equal(result.page, 1);
     assert.equal(result.items.length, 3);
-    assert.equal(result.items.every(({ canEdit }) => canEdit), true);
+    assert.equal(
+      result.items.every(({ canEdit }) => canEdit),
+      true,
+    );
     assert.deepEqual(
       result.items.map(({ updatedAt }) => updatedAt),
       [...result.items.map(({ updatedAt }) => updatedAt)].sort().reverse(),
@@ -56,13 +63,21 @@ describe('ADMIN brand list service', () => {
   });
 
   it('searches code, localized name, website and contact email', async () => {
-    for (const keyword of ['FOODNEST', 'FoodNest', 'foodnest.test', 'merchant@foodnest.test']) {
+    for (const keyword of [
+      'FOODNEST',
+      'FoodNest',
+      'foodnest.test',
+      'merchant@foodnest.test',
+    ]) {
       const result = await adminBrandService.listBrands(
         { ...ADMIN_BRAND_DEFAULT_QUERY, keyword },
         'CMS_ADMIN',
         'en-US',
       );
-      assert.deepEqual(result.items.map(({ code }) => code), ['FOODNEST']);
+      assert.deepEqual(
+        result.items.map(({ code }) => code),
+        ['FOODNEST'],
+      );
     }
   });
 
@@ -76,7 +91,10 @@ describe('ADMIN brand list service', () => {
       'CMS_ADMIN',
       'vi-VN',
     );
-    assert.deepEqual(result.items.map(({ code }) => code), ['TRAVELGO']);
+    assert.deepEqual(
+      result.items.map(({ code }) => code),
+      ['TRAVELGO'],
+    );
   });
 
   it('rejects roles without brands.view', async () => {
@@ -98,15 +116,20 @@ describe('ADMIN brand create service', () => {
   it('validates required URL, pending days and default-locale display name', () => {
     assert.equal(adminBrandSchema.safeParse(validBrandInput).success, true);
     assert.equal(
-      adminBrandSchema.safeParse({ ...validBrandInput, websiteUrl: 'healthmart.test' }).success,
+      adminBrandSchema.safeParse({
+        ...validBrandInput,
+        websiteUrl: 'healthmart.test',
+      }).success,
       false,
     );
     assert.equal(
-      adminBrandSchema.safeParse({ ...validBrandInput, pendingDays: -1 }).success,
+      adminBrandSchema.safeParse({ ...validBrandInput, pendingDays: -1 })
+        .success,
       false,
     );
     assert.equal(
-      adminBrandSchema.safeParse({ ...validBrandInput, viDisplayName: ' ' }).success,
+      adminBrandSchema.safeParse({ ...validBrandInput, viDisplayName: ' ' })
+        .success,
       false,
     );
   });
@@ -119,7 +142,12 @@ describe('ADMIN brand create service', () => {
     );
 
     assert.equal(created.code, 'HEALTHMART');
-    assert.equal(mockData.brandCategoryMappings.some(({ brandId }) => brandId === created.id), false);
+    assert.equal(
+      mockData.brandCategoryMappings.some(
+        ({ brandId }) => brandId === created.id,
+      ),
+      false,
+    );
     assert.equal(mockData.auditRecords.at(-1)?.action, 'CREATE_BRAND');
   });
 
@@ -263,8 +291,14 @@ describe('ADMIN brand detail, edit and deactivate service', () => {
 
     assert.equal(result.brand.status, 'INACTIVE');
     assert.equal(result.dependencies.canHardDelete, false);
-    assert.equal(mockData.brands.some(({ id }) => id === 'brand-foodnest'), true);
-    assert.equal(mockData.offers.some(({ brandId }) => brandId === 'brand-foodnest'), true);
+    assert.equal(
+      mockData.brands.some(({ id }) => id === 'brand-foodnest'),
+      true,
+    );
+    assert.equal(
+      mockData.offers.some(({ brandId }) => brandId === 'brand-foodnest'),
+      true,
+    );
     assert.equal(mockData.auditRecords.at(-1)?.action, 'DEACTIVATE_BRAND');
   });
 
@@ -297,17 +331,49 @@ describe('ADMIN Brand Category Mapping & Commission service', () => {
   beforeEach(() => resetMockData());
 
   it('validates code, conditional commission and effective period fields', () => {
-    assert.equal(adminBrandMappingRowSchema.safeParse(validMappingInput).success, true);
-    assert.equal(adminBrandMappingRowSchema.safeParse({ ...validMappingInput, brandCategoryCode: 'bad code' }).success, false);
-    assert.equal(adminBrandMappingRowSchema.safeParse({ ...validMappingInput, commissionValue: 100.001 }).success, false);
-    assert.equal(adminBrandMappingRowSchema.safeParse({ ...validMappingInput, commissionType: 'FIXED_AMOUNT', commissionValue: 0 }).success, false);
-    assert.equal(adminBrandMappingRowSchema.safeParse({ ...validMappingInput, effectiveTo: '2026-08-02' }).success, false);
+    assert.equal(
+      adminBrandMappingRowSchema.safeParse(validMappingInput).success,
+      true,
+    );
+    assert.equal(
+      adminBrandMappingRowSchema.safeParse({
+        ...validMappingInput,
+        brandCategoryCode: 'bad code',
+      }).success,
+      false,
+    );
+    assert.equal(
+      adminBrandMappingRowSchema.safeParse({
+        ...validMappingInput,
+        commissionValue: 100.001,
+      }).success,
+      false,
+    );
+    assert.equal(
+      adminBrandMappingRowSchema.safeParse({
+        ...validMappingInput,
+        commissionType: 'FIXED_AMOUNT',
+        commissionValue: 0,
+      }).success,
+      false,
+    );
+    assert.equal(
+      adminBrandMappingRowSchema.safeParse({
+        ...validMappingInput,
+        effectiveTo: '2026-08-02',
+      }).success,
+      false,
+    );
   });
 
   it('lists mappings with filters and a computed effective state', async () => {
     const result = await adminBrandMappingService.listMappings(
       'brand-foodnest',
-      { ...ADMIN_BRAND_MAPPING_DEFAULT_QUERY, keyword: 'food', status: 'ACTIVE' },
+      {
+        ...ADMIN_BRAND_MAPPING_DEFAULT_QUERY,
+        keyword: 'food',
+        status: 'ACTIVE',
+      },
       'CMS_OPERATION',
     );
 
@@ -322,26 +388,44 @@ describe('ADMIN Brand Category Mapping & Commission service', () => {
       'brand-stylehub',
       [
         validMappingInput,
-        { ...validMappingInput, categoryId: 'category-food-dining', brandCategoryCode: 'FOOD_NEW', commissionType: 'FIXED_AMOUNT', commissionValue: 25000 },
+        {
+          ...validMappingInput,
+          categoryId: 'category-food-dining',
+          brandCategoryCode: 'FOOD_NEW',
+          commissionType: 'FIXED_AMOUNT',
+          commissionValue: 25000,
+        },
       ],
       'CMS_ADMIN',
       'cms-admin',
     );
 
     assert.equal(saved.length, 2);
-    assert.equal(mockData.brandCategoryMappings.filter(({ brandId }) => brandId === 'brand-stylehub').length, 3);
-    assert.equal(mockData.auditRecords.at(-1)?.action, 'SAVE_BRAND_CATEGORY_MAPPINGS');
+    assert.equal(
+      mockData.brandCategoryMappings.filter(
+        ({ brandId }) => brandId === 'brand-stylehub',
+      ).length,
+      3,
+    );
+    assert.equal(
+      mockData.auditRecords.at(-1)?.action,
+      'SAVE_BRAND_CATEGORY_MAPPINGS',
+    );
   });
 
   it('rolls back the complete batch when one row is invalid', async () => {
     const before = structuredClone(mockData.brandCategoryMappings);
     await assert.rejects(
-      () => adminBrandMappingService.saveBatch(
-        'brand-stylehub',
-        [validMappingInput, { ...validMappingInput, brandCategoryCode: 'invalid code' }],
-        'CMS_ADMIN',
-        'cms-admin',
-      ),
+      () =>
+        adminBrandMappingService.saveBatch(
+          'brand-stylehub',
+          [
+            validMappingInput,
+            { ...validMappingInput, brandCategoryCode: 'invalid code' },
+          ],
+          'CMS_ADMIN',
+          'cms-admin',
+        ),
       /MAPPING_BATCH_INVALID/,
     );
     assert.deepEqual(mockData.brandCategoryMappings, before);
@@ -350,12 +434,20 @@ describe('ADMIN Brand Category Mapping & Commission service', () => {
   it('rejects overlapping Active codes and leaves stored mappings unchanged', async () => {
     const before = structuredClone(mockData.brandCategoryMappings);
     await assert.rejects(
-      () => adminBrandMappingService.saveBatch(
-        'brand-foodnest',
-        [{ ...validMappingInput, categoryId: 'category-food-dining', brandCategoryCode: 'food', status: 'ACTIVE' }],
-        'CMS_ADMIN',
-        'cms-admin',
-      ),
+      () =>
+        adminBrandMappingService.saveBatch(
+          'brand-foodnest',
+          [
+            {
+              ...validMappingInput,
+              categoryId: 'category-food-dining',
+              brandCategoryCode: 'food',
+              status: 'ACTIVE',
+            },
+          ],
+          'CMS_ADMIN',
+          'cms-admin',
+        ),
       /BRAND_CATEGORY_CODE_DUPLICATE/,
     );
     assert.deepEqual(mockData.brandCategoryMappings, before);
@@ -369,22 +461,38 @@ describe('ADMIN Brand Category Mapping & Commission service', () => {
       'cms-operation',
     );
     const activeDefaults = mockData.brandCategoryMappings.filter(
-      ({ brandId, status, isDefault }) => brandId === 'brand-foodnest' && status === 'ACTIVE' && isDefault,
+      ({ brandId, status, isDefault }) =>
+        brandId === 'brand-foodnest' && status === 'ACTIVE' && isDefault,
     );
 
     assert.equal(saved[0]?.isDefault, true);
-    assert.deepEqual(activeDefaults.map(({ brandCategoryCode }) => brandCategoryCode), ['TRAVEL_NEW']);
+    assert.deepEqual(
+      activeDefaults.map(({ brandCategoryCode }) => brandCategoryCode),
+      ['TRAVEL_NEW'],
+    );
   });
 
   it('does not allow the only default of an Active Brand to become inactive', async () => {
-    const current = mockData.brandCategoryMappings.find(({ id }) => id === 'mapping-foodnest-food')!;
+    const current = mockData.brandCategoryMappings.find(
+      ({ id }) => id === 'mapping-foodnest-food',
+    )!;
     await assert.rejects(
-      () => adminBrandMappingService.saveBatch(
-        'brand-foodnest',
-        [{ ...validMappingInput, id: current.id, categoryId: current.categoryId, brandCategoryCode: current.brandCategoryCode, isDefault: true, status: 'INACTIVE' }],
-        'CMS_ADMIN',
-        'cms-admin',
-      ),
+      () =>
+        adminBrandMappingService.saveBatch(
+          'brand-foodnest',
+          [
+            {
+              ...validMappingInput,
+              id: current.id,
+              categoryId: current.categoryId,
+              brandCategoryCode: current.brandCategoryCode,
+              isDefault: true,
+              status: 'INACTIVE',
+            },
+          ],
+          'CMS_ADMIN',
+          'cms-admin',
+        ),
       /BRAND_DEFAULT_CATEGORY_REQUIRED/,
     );
     assert.equal(current.status, 'ACTIVE');
@@ -392,11 +500,22 @@ describe('ADMIN Brand Category Mapping & Commission service', () => {
 
   it('enforces view and edit permissions in the service', async () => {
     await assert.rejects(
-      () => adminBrandMappingService.listMappings('brand-foodnest', ADMIN_BRAND_MAPPING_DEFAULT_QUERY, 'CMS_CSKH'),
+      () =>
+        adminBrandMappingService.listMappings(
+          'brand-foodnest',
+          ADMIN_BRAND_MAPPING_DEFAULT_QUERY,
+          'CMS_CSKH',
+        ),
       /FORBIDDEN/,
     );
     await assert.rejects(
-      () => adminBrandMappingService.saveBatch('brand-foodnest', [validMappingInput], 'CMS_FINANCE', 'cms-finance'),
+      () =>
+        adminBrandMappingService.saveBatch(
+          'brand-foodnest',
+          [validMappingInput],
+          'CMS_FINANCE',
+          'cms-finance',
+        ),
       /FORBIDDEN/,
     );
   });
@@ -413,7 +532,10 @@ describe('ADMIN Brand-scoped Offer list and detail service', () => {
       'en-US',
     );
 
-    assert.deepEqual(result.items.map(({ id }) => id), ['offer-foodnest-new-user']);
+    assert.deepEqual(
+      result.items.map(({ id }) => id),
+      ['offer-foodnest-new-user'],
+    );
     assert.equal(result.items[0]?.mappingId, 'OFM-NEWUSER');
     assert.equal(result.items[0]?.commissionConfigured, true);
     assert.equal(result.items[0]?.canEdit, true);
@@ -421,7 +543,12 @@ describe('ADMIN Brand-scoped Offer list and detail service', () => {
   });
 
   it('searches every specified mapping and title field case-insensitively', async () => {
-    for (const keyword of ['ofm-newuser', 'new user offer', 'newuser', '(brand)']) {
+    for (const keyword of [
+      'ofm-newuser',
+      'new user offer',
+      'newuser',
+      '(brand)',
+    ]) {
       const result = await adminOfferService.listOffers(
         'brand-foodnest',
         { ...ADMIN_OFFER_DEFAULT_QUERY, keyword },
@@ -435,13 +562,21 @@ describe('ADMIN Brand-scoped Offer list and detail service', () => {
   it('filters Offer status and commission configuration with AND semantics', async () => {
     const configured = await adminOfferService.listOffers(
       'brand-travelgo',
-      { ...ADMIN_OFFER_DEFAULT_QUERY, status: 'ACTIVE', commissionStatus: 'CONFIGURED' },
+      {
+        ...ADMIN_OFFER_DEFAULT_QUERY,
+        status: 'ACTIVE',
+        commissionStatus: 'CONFIGURED',
+      },
       'CMS_ADMIN',
       'vi-VN',
     );
     const missing = await adminOfferService.listOffers(
       'brand-stylehub',
-      { ...ADMIN_OFFER_DEFAULT_QUERY, status: 'DRAFT', commissionStatus: 'NOT_CONFIGURED' },
+      {
+        ...ADMIN_OFFER_DEFAULT_QUERY,
+        status: 'DRAFT',
+        commissionStatus: 'NOT_CONFIGURED',
+      },
       'CMS_ADMIN',
       'vi-VN',
     );
@@ -461,7 +596,12 @@ describe('ADMIN Brand-scoped Offer list and detail service', () => {
     assert.equal(detail.mappingInUse, true);
     assert.equal(detail.canEdit, true);
     await assert.rejects(
-      () => adminOfferService.getOffer('brand-travelgo', 'offer-foodnest-new-user', 'CMS_ADMIN'),
+      () =>
+        adminOfferService.getOffer(
+          'brand-travelgo',
+          'offer-foodnest-new-user',
+          'CMS_ADMIN',
+        ),
       /OFFER_NOT_FOUND/,
     );
   });
@@ -475,11 +615,255 @@ describe('ADMIN Brand-scoped Offer list and detail service', () => {
     );
     assert.equal(empty.totalItems, 0);
     await assert.rejects(
-      () => adminOfferService.listOffers('missing-brand', ADMIN_OFFER_DEFAULT_QUERY, 'CMS_ADMIN', 'vi-VN'),
+      () =>
+        adminOfferService.listOffers(
+          'missing-brand',
+          ADMIN_OFFER_DEFAULT_QUERY,
+          'CMS_ADMIN',
+          'vi-VN',
+        ),
       /BRAND_NOT_FOUND/,
     );
     await assert.rejects(
-      () => adminOfferService.listOffers('brand-foodnest', ADMIN_OFFER_DEFAULT_QUERY, 'CMS_CSKH', 'vi-VN'),
+      () =>
+        adminOfferService.listOffers(
+          'brand-foodnest',
+          ADMIN_OFFER_DEFAULT_QUERY,
+          'CMS_CSKH',
+          'vi-VN',
+        ),
+      /FORBIDDEN/,
+    );
+  });
+});
+
+const validOfferInput = {
+  status: 'ACTIVE' as const,
+  startAt: '2026-08-03T08:00',
+  endAt: '2026-09-03T08:00',
+  destinationUrl: 'https://foodnest.test/offers/member-day',
+  defaultLocale: 'vi-VN' as const,
+  viTitle: 'Ưu đãi ngày thành viên',
+  viBadge: 'Mới',
+  viDescription: 'Ưu đãi dành cho thành viên.',
+  viTerms: 'Áp dụng điều kiện.',
+  enTitle: 'Member day offer',
+  enBadge: 'New',
+  enDescription: 'An offer for members.',
+  enTerms: 'Terms apply.',
+  brandOfferCode: 'MEMBER_DAY',
+  brandOfferTitle: 'Member Day (Brand)',
+  commissionType: 'PERCENTAGE' as const,
+  commissionValue: 9.5,
+};
+
+describe('ADMIN Offer create, edit and status service', () => {
+  beforeEach(() => resetMockData());
+
+  it('validates Active requirements while allowing an incomplete Draft', () => {
+    assert.equal(adminOfferSchema.safeParse(validOfferInput).success, true);
+    assert.equal(
+      adminOfferSchema.safeParse({
+        ...validOfferInput,
+        status: 'DRAFT',
+        destinationUrl: '',
+        viTitle: '',
+        commissionType: 'NONE',
+        commissionValue: null,
+        brandOfferCode: '',
+      }).success,
+      true,
+    );
+    assert.equal(
+      adminOfferSchema.safeParse({ ...validOfferInput, destinationUrl: '' })
+        .success,
+      false,
+    );
+    assert.equal(
+      adminOfferSchema.safeParse({
+        ...validOfferInput,
+        endAt: '2026-08-02T08:00',
+      }).success,
+      false,
+    );
+    assert.equal(
+      adminOfferSchema.safeParse({
+        ...validOfferInput,
+        viDescription: '<script>alert(1)</script>',
+      }).success,
+      false,
+    );
+    assert.equal(
+      adminOfferSchema.safeParse({
+        ...validOfferInput,
+        commissionValue: 100.01,
+      }).success,
+      false,
+    );
+  });
+
+  it('creates an Active Offer with mapping and commission atomically', async () => {
+    const created = await adminOfferService.createOffer(
+      'brand-foodnest',
+      validOfferInput,
+      'CMS_OPERATION',
+      'cms-operation',
+    );
+    assert.equal(created.mappingId?.startsWith('OFM-'), true);
+    assert.equal(created.brandOfferCode, 'MEMBER_DAY');
+    assert.equal(created.commissionValue, 9.5);
+    assert.equal(mockData.auditRecords.at(-1)?.action, 'CREATE_OFFER');
+  });
+
+  it('creates a Draft without mapping, URL or localized title', async () => {
+    const created = await adminOfferService.createOffer(
+      'brand-stylehub',
+      {
+        ...validOfferInput,
+        status: 'DRAFT',
+        destinationUrl: '',
+        viTitle: '',
+        enTitle: '',
+        brandOfferCode: '',
+        brandOfferTitle: '',
+        commissionType: 'NONE',
+        commissionValue: null,
+      },
+      'CMS_ADMIN',
+      'cms-admin',
+    );
+    assert.equal(created.status, 'DRAFT');
+    assert.equal(created.mappingId, null);
+  });
+
+  it('rejects a duplicate Brand Offer code without creating partial data', async () => {
+    const before = structuredClone(mockData.offers);
+    await assert.rejects(
+      () =>
+        adminOfferService.createOffer(
+          'brand-foodnest',
+          { ...validOfferInput, brandOfferCode: 'newuser' },
+          'CMS_ADMIN',
+          'cms-admin',
+        ),
+      /BRAND_OFFER_CODE_DUPLICATE/,
+    );
+    assert.deepEqual(mockData.offers, before);
+  });
+
+  it('uses optimistic locking and blocks a used mapping code change', async () => {
+    const current = await adminOfferService.getOffer(
+      'brand-foodnest',
+      'offer-foodnest-new-user',
+      'CMS_ADMIN',
+    );
+    await assert.rejects(
+      () =>
+        adminOfferService.updateOffer(
+          'brand-foodnest',
+          current.offer.id,
+          { ...validOfferInput, brandOfferCode: 'CHANGED' },
+          current.offer.version,
+          'CMS_ADMIN',
+          'cms-admin',
+        ),
+      /BRAND_OFFER_CODE_IN_USE/,
+    );
+    await assert.rejects(
+      () =>
+        adminOfferService.updateOffer(
+          'brand-foodnest',
+          current.offer.id,
+          { ...validOfferInput, brandOfferCode: current.offer.brandOfferCode! },
+          current.offer.version - 1,
+          'CMS_ADMIN',
+          'cms-admin',
+        ),
+      /VERSION_CONFLICT/,
+    );
+  });
+
+  it('updates editable data, can remove commission and records audit', async () => {
+    const current = await adminOfferService.getOffer(
+      'brand-stylehub',
+      'offer-stylehub-draft',
+      'CMS_OPERATION',
+    );
+    const updated = await adminOfferService.updateOffer(
+      'brand-stylehub',
+      current.offer.id,
+      {
+        ...validOfferInput,
+        status: 'DRAFT',
+        brandOfferCode: '',
+        brandOfferTitle: '',
+        commissionType: 'NONE',
+        commissionValue: 99,
+      },
+      current.offer.version,
+      'CMS_OPERATION',
+      'cms-operation',
+    );
+    assert.equal(updated.commissionType, null);
+    assert.equal(updated.commissionValue, null);
+    assert.equal(updated.version, 2);
+    assert.equal(mockData.auditRecords.at(-1)?.action, 'UPDATE_OFFER');
+  });
+
+  it('blocks activation when the Brand is inactive and derives marketplace eligibility', async () => {
+    const stylehub = mockData.brands.find(({ id }) => id === 'brand-stylehub')!;
+    stylehub.status = 'INACTIVE';
+    const current = await adminOfferService.getOffer(
+      'brand-stylehub',
+      'offer-stylehub-draft',
+      'CMS_ADMIN',
+    );
+    await assert.rejects(
+      () =>
+        adminOfferService.updateOffer(
+          'brand-stylehub',
+          current.offer.id,
+          validOfferInput,
+          current.offer.version,
+          'CMS_ADMIN',
+          'cms-admin',
+        ),
+      /BRAND_NOT_ACTIVE/,
+    );
+    assert.equal(
+      isOfferMarketplaceEligible(current.offer, stylehub.status),
+      false,
+    );
+    assert.equal(
+      isOfferMarketplaceEligible(
+        { ...current.offer, status: 'ACTIVE', startAt: null, endAt: null },
+        'ACTIVE',
+      ),
+      true,
+    );
+  });
+
+  it('enforces create and edit permissions', async () => {
+    await assert.rejects(
+      () =>
+        adminOfferService.createOffer(
+          'brand-foodnest',
+          validOfferInput,
+          'CMS_FINANCE',
+          'cms-finance',
+        ),
+      /FORBIDDEN/,
+    );
+    await assert.rejects(
+      () =>
+        adminOfferService.updateOffer(
+          'brand-foodnest',
+          'offer-foodnest-new-user',
+          validOfferInput,
+          1,
+          'CMS_FINANCE',
+          'cms-finance',
+        ),
       /FORBIDDEN/,
     );
   });

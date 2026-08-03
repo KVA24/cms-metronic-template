@@ -11,6 +11,11 @@ import { AlertCircle, ArrowLeft, LockKeyhole, Pencil } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { useAdminOffer } from '../hooks/use-admin-offers';
 
+const vndFormatter = new Intl.NumberFormat('vi-VN', {
+  style: 'currency',
+  currency: 'VND',
+});
+
 function Field({ label, value }: { label: string; value: string | number }) {
   return (
     <div>
@@ -55,10 +60,7 @@ export function AdminOfferDetailPage() {
     ? t('ADMIN_OFFERS.NOT_CONFIGURED')
     : offer.commissionType === 'PERCENTAGE'
       ? `${offer.commissionValue}%`
-      : new Intl.NumberFormat('vi-VN', {
-          style: 'currency',
-          currency: 'VND',
-        }).format(offer.commissionValue ?? 0);
+      : vndFormatter.format(offer.commissionValue ?? 0);
 
   return (
     <Container className="space-y-5 py-6 lg:py-8">

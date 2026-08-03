@@ -1,8 +1,8 @@
 import type { ContentLocale } from '@/shared/contracts';
 import type { AdminRoleCode } from '@/shared/permissions';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { adminOfferService } from '../api/admin-offer-service';
-import type { AdminOfferQuery } from '../model/admin-offer';
+import type { AdminOfferInput, AdminOfferQuery } from '../model/admin-offer';
 import { adminBrandKeys } from './use-admin-brands';
 
 export const adminOfferKeys = {
@@ -44,5 +44,49 @@ export function useAdminOffer(
     queryFn: () => adminOfferService.getOffer(brandId!, offerId!, roleCode),
     enabled: Boolean(brandId && offerId),
     retry: false,
+  });
+}
+
+export function useCreateAdminOffer(brandId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      input,
+      roleCode,
+      actorId,
+    }: {
+      input: AdminOfferInput;
+      roleCode: AdminRoleCode;
+      actorId: string;
+    }) => adminOfferService.createOffer(brandId, input, roleCode, actorId),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: adminOfferKeys.all(brandId) }),
+  });
+}
+
+export function useUpdateAdminOffer(brandId: string, offerId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      input,
+      expectedVersion,
+      roleCode,
+      actorId,
+    }: {
+      input: AdminOfferInput;
+      expectedVersion: number;
+      roleCode: AdminRoleCode;
+      actorId: string;
+    }) =>
+      adminOfferService.updateOffer(
+        brandId,
+        offerId,
+        input,
+        expectedVersion,
+        roleCode,
+        actorId,
+      ),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: adminOfferKeys.all(brandId) }),
   });
 }
