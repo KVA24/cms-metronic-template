@@ -264,6 +264,38 @@
       "ALL_TENANT_DEFAULT": "All Tenant Default"
     }
   },
+  "TENANT_PROFILE": {
+    "TITLE": "My Profile",
+    "DESCRIPTION": "Update your own Tenant profile and security credentials.",
+    "INFORMATION": "Profile information",
+    "USERNAME": "Username",
+    "ROLE": "Role",
+    "FULL_NAME": "Full Name",
+    "EMAIL": "Email",
+    "PHONE": "Phone",
+    "NO_AVATAR": "No avatar selected",
+    "UPLOAD_AVATAR": "Upload avatar",
+    "AVATAR_HELP": "PNG, JPG or WebP up to 2 MB. The mock stores file metadata only.",
+    "CHANGE_PASSWORD": "Change password",
+    "PASSWORD_HELP": "Changing your password revokes the current session and requires sign-in again.",
+    "NEW_PASSWORD": "New password",
+    "CONFIRM_PASSWORD": "Confirm password",
+    "UPDATE_PASSWORD": "Update password",
+    "UPDATE_SUCCESS": "Profile updated successfully.",
+    "PASSWORD_SUCCESS": "Password changed. Sign in again with your new password.",
+    "ERROR": "Profile could not be loaded or updated.",
+    "ERRORS": {
+      "FULL_NAME_REQUIRED": "Full Name is required.",
+      "FULL_NAME_LENGTH": "Full Name must not exceed 150 characters.",
+      "EMAIL_INVALID": "Please enter a valid email address.",
+      "PHONE_INVALID": "Please enter a valid phone number.",
+      "PASSWORD_POLICY": "Password does not meet the requirements.",
+      "CONFIRM_PASSWORD_REQUIRED": "Confirm password is required.",
+      "PASSWORD_MISMATCH": "Passwords do not match.",
+      "AVATAR_INVALID": "Use a PNG, JPG or WebP image no larger than 2 MB.",
+      "PROFILE_VERSION_CONFLICT": "This profile changed. Reload and try again."
+    }
+  },
   "TENANT_ACCOUNTS": {
     "TITLE": "Accounts",
     "DESCRIPTION": "Manage staff accounts and their assigned Tenant roles.",

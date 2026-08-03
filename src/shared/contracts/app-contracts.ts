@@ -52,6 +52,7 @@ export interface MockAuthAccount extends AuthUser {
   roleCode: SystemRoleCode;
   tenantRoleId?: string;
   phone: string;
+  avatarFileName?: string;
   failedLoginCount: number;
   lockedAt: string | null;
   sessionRevokedAt: string | null;
@@ -288,7 +289,11 @@ export interface TransactionItem {
   brandMappingReference: string;
   brandCommissionRuleVersion: string;
   grossCommission: number;
-  tenantShareSource: 'OFFER' | 'CATEGORY' | 'TENANT_BRAND_DEFAULT' | 'ALL_TENANT_DEFAULT';
+  tenantShareSource:
+    | 'OFFER'
+    | 'CATEGORY'
+    | 'TENANT_BRAND_DEFAULT'
+    | 'ALL_TENANT_DEFAULT';
   tenantShareValue: number;
   tenantShareReference: string;
   tenantShareRuleVersion: string;
@@ -306,7 +311,11 @@ export interface TransactionHistory {
   transactionId: string;
   transactionItemId: string | null;
   requestId: string | null;
-  eventType: 'ORDER_RECORDED' | 'ITEM_CONFIRMED' | 'ITEM_REFUNDED' | 'RETRY_APPLIED';
+  eventType:
+    | 'ORDER_RECORDED'
+    | 'ITEM_CONFIRMED'
+    | 'ITEM_REFUNDED'
+    | 'RETRY_APPLIED';
   eventAt: string;
   processingResult: 'APPLIED' | 'REJECTED' | 'FAILED';
   createdBy: string;
@@ -372,11 +381,47 @@ interface PlatformExceptionBase {
 }
 
 export type PlatformException =
-  | (PlatformExceptionBase & { group: 'REQUEST_AUTHENTICATION'; details: { endpoint: string; authenticationMethod: string; failureMessage: string; checks: ExceptionCheck[] } })
-  | (PlatformExceptionBase & { group: 'CLICK_ELIGIBILITY'; details: { clickAt: string | null; checks: ExceptionCheck[] } })
-  | (PlatformExceptionBase & { group: 'BRAND_COMMISSION' | 'TENANT_SHARE'; details: { orderSuccessAt: string; items: ExceptionResolutionItem[] } })
-  | (PlatformExceptionBase & { group: 'CANCEL_REFUND'; details: { eventType: 'ORDER_CANCELLED' | 'ITEM_CANCELLED' | 'ITEM_REFUNDED'; eventAt: string; reason: string; itemCodes: string[]; checks: ExceptionCheck[]; transactionStatus: TransactionStatus | null; finalAmount: number | null; grossCommission: number | null; tenantShare: number | null } })
-  | (PlatformExceptionBase & { group: 'TRANSACTION_PERSISTENCE'; details: { itemCount: number; failureCode: string; failedOperation: string; rollbackResult: string; checks: ExceptionCheck[] } });
+  | (PlatformExceptionBase & {
+      group: 'REQUEST_AUTHENTICATION';
+      details: {
+        endpoint: string;
+        authenticationMethod: string;
+        failureMessage: string;
+        checks: ExceptionCheck[];
+      };
+    })
+  | (PlatformExceptionBase & {
+      group: 'CLICK_ELIGIBILITY';
+      details: { clickAt: string | null; checks: ExceptionCheck[] };
+    })
+  | (PlatformExceptionBase & {
+      group: 'BRAND_COMMISSION' | 'TENANT_SHARE';
+      details: { orderSuccessAt: string; items: ExceptionResolutionItem[] };
+    })
+  | (PlatformExceptionBase & {
+      group: 'CANCEL_REFUND';
+      details: {
+        eventType: 'ORDER_CANCELLED' | 'ITEM_CANCELLED' | 'ITEM_REFUNDED';
+        eventAt: string;
+        reason: string;
+        itemCodes: string[];
+        checks: ExceptionCheck[];
+        transactionStatus: TransactionStatus | null;
+        finalAmount: number | null;
+        grossCommission: number | null;
+        tenantShare: number | null;
+      };
+    })
+  | (PlatformExceptionBase & {
+      group: 'TRANSACTION_PERSISTENCE';
+      details: {
+        itemCount: number;
+        failureCode: string;
+        failedOperation: string;
+        rollbackResult: string;
+        checks: ExceptionCheck[];
+      };
+    });
 
 export interface AuditRecord {
   id: string;

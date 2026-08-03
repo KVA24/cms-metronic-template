@@ -264,6 +264,38 @@
       "ALL_TENANT_DEFAULT": "Mặc định mọi Tenant"
     }
   },
+  "TENANT_PROFILE": {
+    "TITLE": "Hồ sơ của tôi",
+    "DESCRIPTION": "Cập nhật hồ sơ và thông tin bảo mật của chính bạn trong Tenant.",
+    "INFORMATION": "Thông tin hồ sơ",
+    "USERNAME": "Tên đăng nhập",
+    "ROLE": "Vai trò",
+    "FULL_NAME": "Họ và tên",
+    "EMAIL": "Email",
+    "PHONE": "Số điện thoại",
+    "NO_AVATAR": "Chưa chọn ảnh đại diện",
+    "UPLOAD_AVATAR": "Tải ảnh đại diện",
+    "AVATAR_HELP": "PNG, JPG hoặc WebP tối đa 2 MB. Mock chỉ lưu metadata của file.",
+    "CHANGE_PASSWORD": "Đổi mật khẩu",
+    "PASSWORD_HELP": "Đổi mật khẩu sẽ thu hồi session hiện tại và yêu cầu đăng nhập lại.",
+    "NEW_PASSWORD": "Mật khẩu mới",
+    "CONFIRM_PASSWORD": "Xác nhận mật khẩu",
+    "UPDATE_PASSWORD": "Cập nhật mật khẩu",
+    "UPDATE_SUCCESS": "Cập nhật hồ sơ thành công.",
+    "PASSWORD_SUCCESS": "Đã đổi mật khẩu. Hãy đăng nhập lại bằng mật khẩu mới.",
+    "ERROR": "Không thể tải hoặc cập nhật hồ sơ.",
+    "ERRORS": {
+      "FULL_NAME_REQUIRED": "Họ và tên là bắt buộc.",
+      "FULL_NAME_LENGTH": "Họ và tên không được vượt quá 150 ký tự.",
+      "EMAIL_INVALID": "Vui lòng nhập địa chỉ email hợp lệ.",
+      "PHONE_INVALID": "Vui lòng nhập số điện thoại hợp lệ.",
+      "PASSWORD_POLICY": "Mật khẩu không đáp ứng yêu cầu.",
+      "CONFIRM_PASSWORD_REQUIRED": "Xác nhận mật khẩu là bắt buộc.",
+      "PASSWORD_MISMATCH": "Mật khẩu không khớp.",
+      "AVATAR_INVALID": "Chỉ dùng ảnh PNG, JPG hoặc WebP không vượt quá 2 MB.",
+      "PROFILE_VERSION_CONFLICT": "Hồ sơ đã thay đổi. Hãy tải lại và thử lại."
+    }
+  },
   "TENANT_ACCOUNTS": {
     "TITLE": "Tài khoản",
     "DESCRIPTION": "Quản lý tài khoản nhân viên và vai trò được gán trong Tenant.",

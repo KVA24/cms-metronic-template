@@ -14,6 +14,7 @@ interface AuthState {
   login: (input: AuthLoginInput) => Promise<AuthSession>;
   logout: () => Promise<void>;
   verify: () => Promise<void>;
+  syncUserProfile: (profile: { displayName: string; email: string }) => void;
   setError: (error: string | null) => void;
   clearError: () => void;
 }
@@ -74,6 +75,13 @@ export const useAuthStore = create<AuthState>()(
         }));
       },
 
+      syncUserProfile: (profile) =>
+        set((state) => {
+          if (!state.user || !state.session) return state;
+          const user = { ...state.user, ...profile };
+          return { user, session: { ...state.session, user } };
+        }),
+
       setError: (error) => set({ error }),
       clearError: () => set({ error: null }),
     }),
@@ -99,6 +107,7 @@ export const useAuthActions = () =>
       login: state.login,
       logout: state.logout,
       verify: state.verify,
+      syncUserProfile: state.syncUserProfile,
       setError: state.setError,
       clearError: state.clearError,
     })),

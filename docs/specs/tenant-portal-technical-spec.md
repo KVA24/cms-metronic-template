@@ -361,13 +361,13 @@ The ADMIN Foundation checkpoint is mandatory. Role/Account tasks and Assigned Br
 | T8 ✅ | Implement custom Role permission matrix with `—`, Full/indeterminate/coverage, dirty confirmation and atomic mock replacement.                   | T7           | Role permission model/service/page/tests         | Permission matrix unit/manual  | M    |
 | T9 ✅ | Implement Account list/view with filters, pagination and current-Tenant scoping. Cross-Tenant IDs reveal no data.                                | T3           | `features/tenant/accounts/{model,api,hooks,ui}`  | TP-USER-001 list/view/scope    | M    |
 | T10 ✅ | Implement Account create/edit/status/delete-or-disable/unlock using Active role options and all SRS form rules.                                  | T8–T9        | Account schema/form/service/pages                | Account CRUD/persona checks    | M    |
-| T11  | Implement current-user Profile edit, avatar mock upload and separate change-password form. No arbitrary user ID is accepted.                     | T1           | `features/tenant/profile/{model,api,hooks,ui}`   | TP-PROFILE-001 flow            | M    |
+| T11 ✅ | Implement current-user Profile edit, avatar mock upload and separate change-password form. No arbitrary user ID is accepted.                     | T1           | `features/tenant/profile/{model,api,hooks,ui}`   | TP-PROFILE-001 flow            | M    |
 
 #### Checkpoint TB — Tenant account settings
 
-- [ ] Dashboard, Role/Permission, Account and Profile flows pass their AC mapping.
-- [ ] System roles remain immutable and every service enforces Tenant scope/action permission.
-- [ ] Lint, tests and build pass.
+- [x] Dashboard, Role/Permission, Account and Profile flows pass their AC mapping.
+- [x] System roles remain immutable and every service enforces Tenant scope/action permission.
+- [x] Lint, tests and build pass.
 
 ### 18.5 Phase T3 — Assigned Brands and Earn Display
 
