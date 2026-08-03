@@ -35,6 +35,8 @@ const seedData: MockData = {
   tenantRoles: [
     ...createSystemTenantRoles('tenant-lotus'),
     ...createSystemTenantRoles('tenant-bamboo'),
+    createCustomTenantRole('tenant-lotus', 'CONTENT_EDITOR', 'Content Editor', ['brands.view', 'earn_display.view', 'earn_display.create', 'earn_display.edit', 'profile.view', 'profile.edit']),
+    createCustomTenantRole('tenant-bamboo', 'REPORT_VIEWER', 'Report Viewer', ['dashboard.view', 'transactions.view', 'profile.view']),
   ],
   passwordResetRequests: [],
   tenants: [
@@ -567,6 +569,7 @@ function createAuthAccount(
     portalType,
     password: tenantId ? 'Tenant123!' : 'Admin123!',
     roleCode,
+    tenantRoleId: tenantId ? systemTenantRoleId(tenantId, roleCode as TenantRoleCode) : undefined,
     tenantId,
     roles: [{ roleCode, roleName: roleCode }],
     phone: '',
@@ -585,7 +588,7 @@ function createAuthAccount(
 function createSystemTenantRoles(tenantId: string): MockData['tenantRoles'] {
   const roles: TenantRoleCode[] = ['TENANT_ADMIN', 'TENANT_MARKETING_OPS', 'TENANT_VIEWER', 'TENANT_FINANCE'];
   return roles.map((code) => ({
-    id: `role-${tenantId.replace('tenant-', '')}-${code.toLowerCase().replace('tenant_', '').replaceAll('_', '-')}`,
+    id: systemTenantRoleId(tenantId, code),
     tenantId,
     code,
     name: code.replace('TENANT_', '').replaceAll('_', ' '),
@@ -599,6 +602,14 @@ function createSystemTenantRoles(tenantId: string): MockData['tenantRoles'] {
     updatedAt: '2026-07-01T08:00:00.000Z',
     version: 1,
   }));
+}
+
+function systemTenantRoleId(tenantId: string, code: TenantRoleCode) {
+  return `role-${tenantId.replace('tenant-', '')}-${code.toLowerCase().replace('tenant_', '').replaceAll('_', '-')}`;
+}
+
+function createCustomTenantRole(tenantId: string, code: string, name: string, permissions: MockData['tenantRoles'][number]['permissions']): MockData['tenantRoles'][number] {
+  return { id: `role-${tenantId.replace('tenant-', '')}-${code.toLowerCase().replaceAll('_', '-')}`, tenantId, code, name, description: `${name} custom role`, type: 'CUSTOM', status: 'ACTIVE', permissions, createdBy: 'tenant-admin', createdAt: '2026-07-15T08:00:00.000Z', updatedBy: 'tenant-admin', updatedAt: '2026-07-15T08:00:00.000Z', version: 1 };
 }
 
 function createTransactionItem(

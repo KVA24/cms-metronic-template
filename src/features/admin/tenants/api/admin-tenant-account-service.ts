@@ -164,6 +164,7 @@ export const adminTenantAccountService = {
       status: 'ACTIVE',
       password: parsed.password,
       roleCode: parsed.roleCode,
+      tenantRoleId: mockData.tenantRoles.find(({ tenantId: roleTenantId, code }) => roleTenantId === tenantId && code === parsed.roleCode)?.id,
       roles: [{ roleCode: parsed.roleCode, roleName: parsed.roleCode }],
       failedLoginCount: 0,
       lockedAt: null,
@@ -207,6 +208,7 @@ export const adminTenantAccountService = {
     account.email = parsed.email;
     account.phone = parsed.phone;
     account.roleCode = parsed.roleCode;
+    account.tenantRoleId = mockData.tenantRoles.find(({ tenantId: roleTenantId, code }) => roleTenantId === tenantId && code === parsed.roleCode)?.id;
     account.roles = [{ roleCode: parsed.roleCode, roleName: parsed.roleCode }];
     account.status = parsed.status;
     if (parsed.status === 'ACTIVE') account.failedLoginCount = 0;

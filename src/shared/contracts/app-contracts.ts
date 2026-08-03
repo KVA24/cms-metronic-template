@@ -50,6 +50,7 @@ export interface MockAuthAccount extends AuthUser {
   portalType: PortalType;
   password: string;
   roleCode: SystemRoleCode;
+  tenantRoleId?: string;
   phone: string;
   failedLoginCount: number;
   lockedAt: string | null;
