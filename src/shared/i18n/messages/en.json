@@ -890,6 +890,47 @@
       "DELETE_ERROR": "Configuration could not be deleted."
     }
   },
+  "ADMIN_TRANSACTIONS": {
+    "TITLE": "Transactions",
+    "DESCRIPTION": "Review Platform orders and current item-level commission projections.",
+    "KEYWORD": "Order ID or Brand Order ID",
+    "TENANT": "Tenant",
+    "BRAND": "Brand",
+    "ORDER_STATUS": "Order Status",
+    "DATE_FROM": "Transaction Date From",
+    "DATE_TO": "Transaction Date To",
+    "SORT": "Sort",
+    "LATEST_UPDATED": "Latest updated",
+    "NEWEST_CREATED": "Newest created",
+    "ORDER_ID_ASC": "Order ID A–Z",
+    "EXPORT": "Export CSV",
+    "EXPORTING": "Preparing export…",
+    "EXPORT_SUCCESS": "{{file}} is ready with {{rows}} rows.",
+    "ORDER_ID": "Order ID",
+    "CLICK_ID": "Click ID",
+    "BRAND_ORDER": "Brand Order",
+    "FINAL_AMOUNT": "Final amount",
+    "ESTIMATED_COMMISSION": "Estimated commission",
+    "ESTIMATED_TENANT_SHARE": "Estimated Tenant share",
+    "ACTUAL_COMMISSION": "Actual commission",
+    "ACTUAL_TENANT_SHARE": "Actual Tenant share",
+    "CONFIRMED_AT": "Commission confirmed",
+    "UPDATED_AT": "Latest Updated",
+    "VIEW_NAMED": "View Transaction {{id}}",
+    "EMPTY": "No Transactions match the current filters.",
+    "RANGE": "{{from}}–{{to}} of {{total}}",
+    "PREVIOUS": "Previous page",
+    "NEXT": "Next page",
+    "STATUS": {
+      "CONFIRMED": "Confirmed",
+      "CANCELLED": "Cancelled"
+    },
+    "ERRORS": {
+      "LOAD_ERROR": "Transactions could not be loaded.",
+      "DATE_RANGE_INVALID": "Transaction Date To cannot be earlier than Transaction Date From.",
+      "EXPORT_ERROR": "The export request could not be completed."
+    }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Dashboard",

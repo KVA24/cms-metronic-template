@@ -195,7 +195,7 @@ describe('ADMIN Tenant detail, edit and deactivate service', () => {
     assert.deepEqual(detail.dependencies, {
       accountCount: 3,
       assignmentCount: 1,
-      transactionCount: 1,
+      transactionCount: 2,
       canHardDelete: false,
     });
     assert.equal(detail.codeLocked, true);

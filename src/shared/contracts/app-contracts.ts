@@ -218,13 +218,76 @@ export type TransactionStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED';
 
 export interface Transaction {
   id: string;
+  requestId: string;
   tenantId: string;
   brandId: string;
+  clickId: string;
+  brandOrderId: string;
+  userId: string | null;
+  memberRef: string | null;
+  customerRef: string | null;
   status: TransactionStatus;
-  orderAmount: number;
+  finalAmount: number;
+  currency: 'VND';
+  estimatedGrossCommission: number;
   estimatedTenantShare: number;
+  actualGrossCommission: number;
   actualTenantShare: number;
+  commissionConfirmedAt: string | null;
   createdAt: string;
+  updatedAt: string;
+}
+
+export type TransactionItemStatus = 'PENDING' | 'CONFIRMED' | 'REFUNDED';
+
+export interface TransactionItem {
+  id: string;
+  transactionId: string;
+  code: string;
+  name: string;
+  sku: string | null;
+  quantity: number;
+  originalAmount: number;
+  finalAmount: number;
+  offerCode: string | null;
+  categoryCode: string | null;
+  brandCommissionSource: 'OFFER' | 'CATEGORY' | 'CATEGORY_DEFAULT';
+  brandCommissionValue: number;
+  brandMappingReference: string;
+  brandCommissionRuleVersion: string;
+  grossCommission: number;
+  tenantShareSource: 'OFFER' | 'CATEGORY' | 'TENANT_BRAND_DEFAULT' | 'ALL_TENANT_DEFAULT';
+  tenantShareValue: number;
+  tenantShareReference: string;
+  tenantShareRuleVersion: string;
+  tenantShare: number;
+  affiliateKeep: number;
+  status: TransactionItemStatus;
+  confirmedAt: string | null;
+  refundedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface TransactionHistory {
+  id: string;
+  transactionId: string;
+  transactionItemId: string | null;
+  requestId: string | null;
+  eventType: 'ORDER_RECORDED' | 'ITEM_CONFIRMED' | 'ITEM_REFUNDED' | 'RETRY_APPLIED';
+  eventAt: string;
+  processingResult: 'APPLIED' | 'REJECTED' | 'FAILED';
+  createdBy: string;
+}
+
+export interface MockExportRequest {
+  id: string;
+  type: 'TRANSACTION' | 'EXCEPTION';
+  status: 'PROCESSING' | 'COMPLETED' | 'FAILED';
+  fileName: string;
+  rowCount: number;
+  requestedBy: string;
+  requestedAt: string;
 }
 
 export interface AuditRecord {
@@ -287,6 +350,9 @@ export interface MockData {
   tenantRevenueShares: TenantRevenueShare[];
   configurations: Configuration[];
   transactions: Transaction[];
+  transactionItems: TransactionItem[];
+  transactionHistories: TransactionHistory[];
+  exportRequests: MockExportRequest[];
   categories: Category[];
   categoryDependencies: CategoryDependencySummary[];
   auditRecords: AuditRecord[];

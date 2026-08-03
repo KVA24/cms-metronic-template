@@ -215,25 +215,82 @@ const seedData: MockData = {
   transactions: [
     {
       id: 'transaction-lotus-pending',
+      requestId: 'request-lotus-001',
       tenantId: 'tenant-lotus',
       brandId: 'brand-foodnest',
+      clickId: 'click-lotus-001',
+      brandOrderId: 'FN-2026-001',
+      userId: 'user-1001',
+      memberRef: 'LM-1001',
+      customerRef: 'food-customer-1',
       status: 'PENDING',
-      orderAmount: 500_000,
-      estimatedTenantShare: 25_000,
-      actualTenantShare: 0,
+      finalAmount: 500_000,
+      currency: 'VND',
+      estimatedGrossCommission: 50_000,
+      estimatedTenantShare: 35_000,
+      actualGrossCommission: 30_000,
+      actualTenantShare: 21_000,
+      commissionConfirmedAt: null,
       createdAt: '2026-07-15T03:00:00.000Z',
+      updatedAt: '2026-07-20T03:00:00.000Z',
     },
     {
       id: 'transaction-bamboo-confirmed',
+      requestId: 'request-bamboo-001',
       tenantId: 'tenant-bamboo',
       brandId: 'brand-travelgo',
+      clickId: 'click-bamboo-001',
+      brandOrderId: 'TG-2026-001',
+      userId: 'user-2001',
+      memberRef: 'BC-2001',
+      customerRef: null,
       status: 'CONFIRMED',
-      orderAmount: 2_000_000,
+      finalAmount: 2_000_000,
+      currency: 'VND',
+      estimatedGrossCommission: 200_000,
       estimatedTenantShare: 0,
+      actualGrossCommission: 200_000,
       actualTenantShare: 120_000,
+      commissionConfirmedAt: '2026-07-25T04:00:00.000Z',
       createdAt: '2026-07-16T04:00:00.000Z',
+      updatedAt: '2026-07-25T04:00:00.000Z',
+    },
+    {
+      id: 'transaction-lotus-cancelled',
+      requestId: 'request-lotus-002',
+      tenantId: 'tenant-lotus',
+      brandId: 'brand-foodnest',
+      clickId: 'click-lotus-002',
+      brandOrderId: 'FN-2026-002',
+      userId: null,
+      memberRef: null,
+      customerRef: null,
+      status: 'CANCELLED',
+      finalAmount: 0,
+      currency: 'VND',
+      estimatedGrossCommission: 0,
+      estimatedTenantShare: 0,
+      actualGrossCommission: 0,
+      actualTenantShare: 0,
+      commissionConfirmedAt: null,
+      createdAt: '2026-07-18T03:00:00.000Z',
+      updatedAt: '2026-07-19T03:00:00.000Z',
     },
   ],
+  transactionItems: [
+    createTransactionItem('lotus-pending-1', 'transaction-lotus-pending', 'FN-ITEM-1', 'Meal combo', 300_000, 30_000, 21_000, 'CONFIRMED'),
+    createTransactionItem('lotus-pending-2', 'transaction-lotus-pending', 'FN-ITEM-2', 'Dinner voucher', 200_000, 20_000, 14_000, 'PENDING'),
+    createTransactionItem('bamboo-confirmed-1', 'transaction-bamboo-confirmed', 'TG-ITEM-1', 'Flight package', 2_000_000, 200_000, 120_000, 'CONFIRMED'),
+    createTransactionItem('lotus-cancelled-1', 'transaction-lotus-cancelled', 'FN-ITEM-3', 'Refunded voucher', 100_000, 0, 0, 'REFUNDED'),
+  ],
+  transactionHistories: [
+    { id: 'history-lotus-order', transactionId: 'transaction-lotus-pending', transactionItemId: null, requestId: 'request-lotus-001', eventType: 'ORDER_RECORDED', eventAt: '2026-07-15T03:00:00.000Z', processingResult: 'APPLIED', createdBy: 'brand-system' },
+    { id: 'history-lotus-confirmed', transactionId: 'transaction-lotus-pending', transactionItemId: 'item-lotus-pending-1', requestId: null, eventType: 'ITEM_CONFIRMED', eventAt: '2026-07-20T03:00:00.000Z', processingResult: 'APPLIED', createdBy: 'platform-job' },
+    { id: 'history-bamboo-order', transactionId: 'transaction-bamboo-confirmed', transactionItemId: null, requestId: 'request-bamboo-001', eventType: 'ORDER_RECORDED', eventAt: '2026-07-16T04:00:00.000Z', processingResult: 'APPLIED', createdBy: 'brand-system' },
+    { id: 'history-bamboo-confirmed', transactionId: 'transaction-bamboo-confirmed', transactionItemId: 'item-bamboo-confirmed-1', requestId: null, eventType: 'ITEM_CONFIRMED', eventAt: '2026-07-25T04:00:00.000Z', processingResult: 'APPLIED', createdBy: 'platform-job' },
+    { id: 'history-lotus-refund', transactionId: 'transaction-lotus-cancelled', transactionItemId: 'item-lotus-cancelled-1', requestId: 'request-refund-001', eventType: 'ITEM_REFUNDED', eventAt: '2026-07-19T03:00:00.000Z', processingResult: 'APPLIED', createdBy: 'brand-system' },
+  ],
+  exportRequests: [],
   categories: [
     createCategory('travel', 'TRAVEL', 10, 'ACTIVE', 'Du lịch', 'Travel'),
     createCategory('food-dining', 'FOOD_DINING', 20, 'ACTIVE', 'Ẩm thực'),
@@ -491,6 +548,48 @@ function createAuthAccount(
   };
 }
 
+function createTransactionItem(
+  suffix: string,
+  transactionId: string,
+  code: string,
+  name: string,
+  originalAmount: number,
+  grossCommission: number,
+  tenantShare: number,
+  status: MockData['transactionItems'][number]['status'],
+): MockData['transactionItems'][number] {
+  const refunded = status === 'REFUNDED';
+  const confirmed = status === 'CONFIRMED';
+  return {
+    id: `item-${suffix}`,
+    transactionId,
+    code,
+    name,
+    sku: null,
+    quantity: refunded ? 0 : 1,
+    originalAmount,
+    finalAmount: refunded ? 0 : originalAmount,
+    offerCode: code.startsWith('FN') ? 'NEWUSER' : null,
+    categoryCode: code.startsWith('TG') ? 'TRAVEL' : 'FOOD',
+    brandCommissionSource: code.startsWith('FN') ? 'OFFER' : 'CATEGORY',
+    brandCommissionValue: 10,
+    brandMappingReference: code.startsWith('FN') ? 'offer-foodnest-new-user' : 'mapping-travelgo-travel',
+    brandCommissionRuleVersion: 'v1',
+    grossCommission,
+    tenantShareSource: code.startsWith('FN') ? 'OFFER' : 'TENANT_BRAND_DEFAULT',
+    tenantShareValue: code.startsWith('FN') ? 70 : 60,
+    tenantShareReference: code.startsWith('FN') ? 'revenue-override-lotus-new-user' : 'revenue-bamboo-travelgo',
+    tenantShareRuleVersion: 'v1',
+    tenantShare,
+    affiliateKeep: grossCommission - tenantShare,
+    status,
+    confirmedAt: confirmed ? '2026-07-25T04:00:00.000Z' : null,
+    refundedAt: refunded ? '2026-07-19T03:00:00.000Z' : null,
+    createdAt: '2026-07-15T03:00:00.000Z',
+    updatedAt: refunded ? '2026-07-19T03:00:00.000Z' : confirmed ? '2026-07-25T04:00:00.000Z' : '2026-07-15T03:00:00.000Z',
+  };
+}
+
 function cloneSeed(): MockData {
   return structuredClone(seedData);
 }
@@ -532,6 +631,21 @@ export function resetMockData(): void {
     0,
     mockData.transactions.length,
     ...freshData.transactions,
+  );
+  mockData.transactionItems.splice(
+    0,
+    mockData.transactionItems.length,
+    ...freshData.transactionItems,
+  );
+  mockData.transactionHistories.splice(
+    0,
+    mockData.transactionHistories.length,
+    ...freshData.transactionHistories,
+  );
+  mockData.exportRequests.splice(
+    0,
+    mockData.exportRequests.length,
+    ...freshData.exportRequests,
   );
   mockData.categories.splice(
     0,

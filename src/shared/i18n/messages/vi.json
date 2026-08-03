@@ -890,6 +890,47 @@
       "DELETE_ERROR": "Không thể xóa Configuration."
     }
   },
+  "ADMIN_TRANSACTIONS": {
+    "TITLE": "Giao dịch",
+    "DESCRIPTION": "Theo dõi Order toàn Platform và số liệu commission hiện tại theo từng item.",
+    "KEYWORD": "Order ID hoặc Brand Order ID",
+    "TENANT": "Tenant",
+    "BRAND": "Brand",
+    "ORDER_STATUS": "Trạng thái Order",
+    "DATE_FROM": "Ngày giao dịch từ",
+    "DATE_TO": "Ngày giao dịch đến",
+    "SORT": "Sắp xếp",
+    "LATEST_UPDATED": "Cập nhật gần nhất",
+    "NEWEST_CREATED": "Tạo mới nhất",
+    "ORDER_ID_ASC": "Order ID A–Z",
+    "EXPORT": "Export CSV",
+    "EXPORTING": "Đang chuẩn bị export…",
+    "EXPORT_SUCCESS": "{{file}} đã sẵn sàng với {{rows}} dòng.",
+    "ORDER_ID": "Order ID",
+    "CLICK_ID": "Click ID",
+    "BRAND_ORDER": "Brand Order",
+    "FINAL_AMOUNT": "Final amount",
+    "ESTIMATED_COMMISSION": "Commission dự tính",
+    "ESTIMATED_TENANT_SHARE": "Tenant share dự tính",
+    "ACTUAL_COMMISSION": "Commission thực nhận",
+    "ACTUAL_TENANT_SHARE": "Tenant share thực nhận",
+    "CONFIRMED_AT": "Ngày chốt Commission",
+    "UPDATED_AT": "Cập nhật gần nhất",
+    "VIEW_NAMED": "Xem Transaction {{id}}",
+    "EMPTY": "Không có Transaction phù hợp bộ lọc.",
+    "RANGE": "{{from}}–{{to}} trên {{total}}",
+    "PREVIOUS": "Trang trước",
+    "NEXT": "Trang sau",
+    "STATUS": {
+      "CONFIRMED": "Đã xác nhận",
+      "CANCELLED": "Đã hủy"
+    },
+    "ERRORS": {
+      "LOAD_ERROR": "Không thể tải Transaction.",
+      "DATE_RANGE_INVALID": "Ngày giao dịch đến không được trước ngày giao dịch từ.",
+      "EXPORT_ERROR": "Không thể hoàn tất yêu cầu export."
+    }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Bảng Điều Khiển",
