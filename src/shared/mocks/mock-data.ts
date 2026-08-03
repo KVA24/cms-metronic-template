@@ -177,6 +177,41 @@ const seedData: MockData = {
       version: 1,
     },
   ],
+  configurations: [
+    {
+      id: 1,
+      key: 'TENANT_SHARE_DEFAULT_RATE',
+      value: '40',
+      status: 'ACTIVE',
+      createdBy: 'cms-admin',
+      createdAt: '2026-05-01T08:00:00.000Z',
+      updatedBy: 'cms-admin',
+      updatedAt: '2026-05-01T08:00:00.000Z',
+      version: 1,
+    },
+    {
+      id: 2,
+      key: 'SESSION_TIMEOUT_MINUTES',
+      value: '30',
+      status: 'ACTIVE',
+      createdBy: 'cms-admin',
+      createdAt: '2026-05-02T08:00:00.000Z',
+      updatedBy: 'cms-admin',
+      updatedAt: '2026-05-02T08:00:00.000Z',
+      version: 1,
+    },
+    {
+      id: 3,
+      key: 'PARTNER_API_SECRET',
+      value: 'mock-secret-value',
+      status: 'INACTIVE',
+      createdBy: 'cms-admin',
+      createdAt: '2026-06-01T08:00:00.000Z',
+      updatedBy: 'cms-admin',
+      updatedAt: '2026-06-01T08:00:00.000Z',
+      version: 1,
+    },
+  ],
   transactions: [
     {
       id: 'transaction-lotus-pending',
@@ -482,6 +517,16 @@ export function resetMockData(): void {
     0,
     mockData.tenantBrandAssignments.length,
     ...freshData.tenantBrandAssignments,
+  );
+  mockData.tenantRevenueShares.splice(
+    0,
+    mockData.tenantRevenueShares.length,
+    ...freshData.tenantRevenueShares,
+  );
+  mockData.configurations.splice(
+    0,
+    mockData.configurations.length,
+    ...freshData.configurations,
   );
   mockData.transactions.splice(
     0,

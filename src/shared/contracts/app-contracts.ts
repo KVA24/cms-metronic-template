@@ -202,6 +202,18 @@ export interface TenantRevenueShare {
   version: number;
 }
 
+export interface Configuration {
+  id: number;
+  key: string;
+  value: string;
+  status: 'ACTIVE' | 'INACTIVE';
+  createdBy: string;
+  createdAt: string;
+  updatedBy: string;
+  updatedAt: string;
+  version: number;
+}
+
 export type TransactionStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED';
 
 export interface Transaction {
@@ -222,6 +234,8 @@ export interface AuditRecord {
   entityType: string;
   entityId: string;
   occurredAt: string;
+  before?: Record<string, unknown>;
+  after?: Record<string, unknown>;
 }
 
 export type ContentLocale = 'vi-VN' | 'en-US';
@@ -271,6 +285,7 @@ export interface MockData {
   offers: Offer[];
   tenantBrandAssignments: TenantBrandAssignment[];
   tenantRevenueShares: TenantRevenueShare[];
+  configurations: Configuration[];
   transactions: Transaction[];
   categories: Category[];
   categoryDependencies: CategoryDependencySummary[];

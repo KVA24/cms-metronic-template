@@ -848,6 +848,48 @@
       "SAVE_ERROR": "Revenue Share configuration could not be saved."
     }
   },
+  "ADMIN_CONFIGURATION": {
+    "TITLE": "All Configurations",
+    "DESCRIPTION": "Manage shared Platform key-value settings used by runtime services.",
+    "ADD": "Add configuration",
+    "ADD_TITLE": "Add configuration",
+    "ADD_DESCRIPTION": "Create a unique Configuration Key, string Value and runtime Status.",
+    "EDIT_TITLE": "Edit configuration",
+    "EDIT_DESCRIPTION": "The Configuration Key is immutable. Update only its Value or Status.",
+    "SEARCH": "Search ID, Key",
+    "SEARCH_BUTTON": "Search",
+    "CREATED_FROM": "Created Date From",
+    "CREATED_TO": "Created Date To",
+    "ID": "ID",
+    "KEY": "Key",
+    "VALUE": "Value",
+    "CREATED_AT": "Created Date",
+    "SAVE": "Save changes",
+    "CREATE_SUCCESS": "Configuration created.",
+    "UPDATE_SUCCESS": "Configuration updated.",
+    "DELETE_SUCCESS": "Configuration deleted.",
+    "EDIT_NAMED": "Edit Configuration {{key}}",
+    "DELETE_NAMED": "Delete Configuration {{key}}",
+    "DELETE_TITLE": "Delete configuration?",
+    "DELETE_DESCRIPTION": "Configuration ID {{id}} will be permanently removed from this runtime mock.",
+    "EMPTY": "No Configurations match the current filters.",
+    "RANGE": "{{from}}–{{to}} of {{total}}",
+    "PREVIOUS": "Previous page",
+    "NEXT": "Next page",
+    "ERRORS": {
+      "LOAD_ERROR": "Configurations could not be loaded.",
+      "KEY_REQUIRED": "Key is required.",
+      "KEY_TOO_LONG": "Key cannot exceed 150 characters.",
+      "KEY_DUPLICATE": "Key already exists.",
+      "VALUE_REQUIRED": "Value is required.",
+      "DATE_RANGE_INVALID": "Created Date To cannot be earlier than Created Date From.",
+      "KEY_IMMUTABLE": "Configuration Key cannot be changed.",
+      "VERSION_CONFLICT": "Configuration has changed. Please try again.",
+      "NOT_FOUND": "Configuration not found.",
+      "SAVE_ERROR": "Configuration could not be saved.",
+      "DELETE_ERROR": "Configuration could not be deleted."
+    }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Dashboard",

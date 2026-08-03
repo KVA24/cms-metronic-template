@@ -848,6 +848,48 @@
       "SAVE_ERROR": "Không thể lưu cấu hình Revenue Share."
     }
   },
+  "ADMIN_CONFIGURATION": {
+    "TITLE": "Tất cả Configuration",
+    "DESCRIPTION": "Quản lý các thiết lập key-value dùng chung cho runtime của Platform.",
+    "ADD": "Thêm configuration",
+    "ADD_TITLE": "Thêm configuration",
+    "ADD_DESCRIPTION": "Tạo Configuration Key duy nhất, Value dạng chuỗi và trạng thái runtime.",
+    "EDIT_TITLE": "Sửa configuration",
+    "EDIT_DESCRIPTION": "Configuration Key là bất biến. Chỉ cập nhật Value hoặc Status.",
+    "SEARCH": "Tìm ID, Key",
+    "SEARCH_BUTTON": "Tìm kiếm",
+    "CREATED_FROM": "Ngày tạo từ",
+    "CREATED_TO": "Ngày tạo đến",
+    "ID": "ID",
+    "KEY": "Key",
+    "VALUE": "Value",
+    "CREATED_AT": "Ngày tạo",
+    "SAVE": "Lưu thay đổi",
+    "CREATE_SUCCESS": "Đã tạo Configuration.",
+    "UPDATE_SUCCESS": "Đã cập nhật Configuration.",
+    "DELETE_SUCCESS": "Đã xóa Configuration.",
+    "EDIT_NAMED": "Sửa Configuration {{key}}",
+    "DELETE_NAMED": "Xóa Configuration {{key}}",
+    "DELETE_TITLE": "Xóa configuration?",
+    "DELETE_DESCRIPTION": "Configuration ID {{id}} sẽ bị xóa vĩnh viễn khỏi mock runtime này.",
+    "EMPTY": "Không có Configuration phù hợp bộ lọc.",
+    "RANGE": "{{from}}–{{to}} trên {{total}}",
+    "PREVIOUS": "Trang trước",
+    "NEXT": "Trang sau",
+    "ERRORS": {
+      "LOAD_ERROR": "Không thể tải Configuration.",
+      "KEY_REQUIRED": "Vui lòng nhập Key.",
+      "KEY_TOO_LONG": "Key không được vượt quá 150 ký tự.",
+      "KEY_DUPLICATE": "Key đã tồn tại.",
+      "VALUE_REQUIRED": "Vui lòng nhập Value.",
+      "DATE_RANGE_INVALID": "Ngày tạo đến không được trước ngày tạo từ.",
+      "KEY_IMMUTABLE": "Không thể thay đổi Configuration Key.",
+      "VERSION_CONFLICT": "Configuration đã thay đổi. Vui lòng thử lại.",
+      "NOT_FOUND": "Không tìm thấy Configuration.",
+      "SAVE_ERROR": "Không thể lưu Configuration.",
+      "DELETE_ERROR": "Không thể xóa Configuration."
+    }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Bảng Điều Khiển",
