@@ -125,9 +125,9 @@ export function SignInPage() {
       // Sign in using Zustand store (which calls the API)
       // reCAPTCHA token is now automatically added by the axios interceptor
       await login({
+        portalType: 'ADMIN',
         username: values.username,
         password: values.password,
-        otpCode: values.otpCode,
       });
 
       // Handle Remember Me

@@ -1,4 +1,3 @@
-import { storage } from '@/shared/lib/storage';
 import { useAuthStatus, useAuthUser } from '@/shared/stores/auth-store';
 import { ScreenLoader } from '@/shared/ui/molecules/screen-loader';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
@@ -10,7 +9,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
  */
 export const RequireAuth = () => {
   const user = useAuthUser();
-  const { isLoading, isInitialized } = useAuthStatus();
+  const { isAuthenticated, isLoading, isInitialized } = useAuthStatus();
   const location = useLocation();
 
   // Show screen loader only if:
@@ -21,10 +20,8 @@ export const RequireAuth = () => {
     return <ScreenLoader />;
   }
 
-  const token = storage.getItem('access_token');
-
-  // If no token or no user, redirect to login
-  if (!token || !user) {
+  // If no in-memory session or user, redirect to login
+  if (!isAuthenticated || !user) {
     return (
       <Navigate
         to={`/auth/signin?next=${encodeURIComponent(location.pathname)}`}
