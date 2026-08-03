@@ -236,6 +236,34 @@
       }
     }
   },
+  "TENANT_DASHBOARD": {
+    "TITLE": "Tenant Dashboard",
+    "DESCRIPTION": "Review attributed traffic, orders and commission for your Tenant.",
+    "DATE_RANGE": "Date range",
+    "BRAND": "Brand",
+    "ALL_BRANDS": "All Brands",
+    "ERROR": "Dashboard data could not be loaded.",
+    "EMPTY": "No dashboard data matches the selected filters.",
+    "ORDERS_RECORDED": "Orders recorded",
+    "TOP_BRANDS": "Top performing Brands",
+    "DISTRIBUTION": "Actual Commission",
+    "COMMISSION_NOTE": "Only confirmed Order Items contribute to Actual Commission.",
+    "LAST_REFRESHED": "Last refreshed: {{value}}",
+    "RANGES": { "WEEK": "Week", "MONTH": "Month", "YEAR": "Year" },
+    "METRICS": {
+      "CLICKS": "Tracked clicks",
+      "ORDERS": "Attributed orders",
+      "RATE": "Click-to-order rate",
+      "REVENUE": "Revenue",
+      "COMMISSION": "Actual commission"
+    },
+    "SOURCES": {
+      "OFFER": "Offer",
+      "CATEGORY": "Category",
+      "TENANT_BRAND_DEFAULT": "Tenant & Brand Default",
+      "ALL_TENANT_DEFAULT": "All Tenant Default"
+    }
+  },
   "ADMIN_DASHBOARD": {
     "TITLE": "Reporting Dashboard",
     "DESCRIPTION": "Monitor clicks, conversions, tracked GMV and estimated or confirmed commission across the platform.",

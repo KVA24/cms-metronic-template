@@ -236,6 +236,34 @@
       }
     }
   },
+  "TENANT_DASHBOARD": {
+    "TITLE": "Tổng quan Tenant",
+    "DESCRIPTION": "Theo dõi lưu lượng, đơn hàng được ghi nhận và hoa hồng của Tenant.",
+    "DATE_RANGE": "Khoảng thời gian",
+    "BRAND": "Thương hiệu",
+    "ALL_BRANDS": "Tất cả thương hiệu",
+    "ERROR": "Không thể tải dữ liệu tổng quan.",
+    "EMPTY": "Không có dữ liệu phù hợp với bộ lọc đã chọn.",
+    "ORDERS_RECORDED": "Đơn hàng ghi nhận",
+    "TOP_BRANDS": "Thương hiệu hiệu quả nhất",
+    "DISTRIBUTION": "Hoa hồng thực nhận",
+    "COMMISSION_NOTE": "Chỉ Order Item đã xác nhận được cộng vào hoa hồng thực nhận.",
+    "LAST_REFRESHED": "Cập nhật lần cuối: {{value}}",
+    "RANGES": { "WEEK": "Tuần", "MONTH": "Tháng", "YEAR": "Năm" },
+    "METRICS": {
+      "CLICKS": "Lượt click ghi nhận",
+      "ORDERS": "Đơn hàng được ghi nhận",
+      "RATE": "Tỷ lệ click thành đơn",
+      "REVENUE": "Doanh thu",
+      "COMMISSION": "Hoa hồng thực nhận"
+    },
+    "SOURCES": {
+      "OFFER": "Ưu đãi",
+      "CATEGORY": "Danh mục",
+      "TENANT_BRAND_DEFAULT": "Mặc định Tenant & Brand",
+      "ALL_TENANT_DEFAULT": "Mặc định mọi Tenant"
+    }
+  },
   "ADMIN_DASHBOARD": {
     "TITLE": "Dashboard báo cáo",
     "DESCRIPTION": "Theo dõi click, conversion, GMV và hoa hồng tạm tính hoặc chính thức trên toàn hệ thống.",

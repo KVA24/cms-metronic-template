@@ -158,6 +158,9 @@ const AdminExceptionDetailPage = lazy(() =>
 const TenantRoutePlaceholderPage = lazy(() =>
   import('@/features/tenant/access/ui/tenant-route-placeholder-page').then((m) => ({ default: m.TenantRoutePlaceholderPage })),
 );
+const TenantDashboardPage = lazy(() =>
+  import('@/features/tenant/dashboard/ui/tenant-dashboard-page').then((m) => ({ default: m.TenantDashboardPage })),
+);
 const AccountManagementPage = lazy(() =>
   import('@/features/account').then((m) => ({ default: m.AccountPage })),
 );
@@ -220,7 +223,7 @@ export function AppRoutingSetup() {
             <Route path="/admin/transactions/:transactionId" element={<AdminTransactionDetailPage />} />
             <Route path="/admin/exceptions" element={<AdminExceptionListPage />} />
             <Route path="/admin/exceptions/:exceptionId" element={<AdminExceptionDetailPage />} />
-            <Route path="/tenant/dashboard" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/dashboard" element={<TenantDashboardPage />} />
             <Route path="/tenant/assigned-brands" element={<TenantRoutePlaceholderPage />} />
             <Route path="/tenant/earn-display" element={<TenantRoutePlaceholderPage />} />
             <Route path="/tenant/earn-display/:brandId" element={<TenantRoutePlaceholderPage />} />
