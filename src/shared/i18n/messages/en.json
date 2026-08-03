@@ -931,6 +931,63 @@
       "EXPORT_ERROR": "The export request could not be completed."
     }
   },
+  "ADMIN_TRANSACTION_DETAIL": {
+    "TITLE": "Transaction detail",
+    "BACK": "Back to Transactions",
+    "ORDER_SUMMARY": "Order Summary",
+    "ORDER_ID": "Order ID",
+    "BRAND_ORDER_ID": "Brand Order ID",
+    "TENANT": "Tenant",
+    "USER_ID": "User ID",
+    "MEMBER_REF": "Member Ref",
+    "BRAND": "Brand",
+    "ORDER_STATUS": "Order Status",
+    "LATEST_UPDATED": "Latest Updated",
+    "ESTIMATED_COMMISSION": "Estimated commission",
+    "ESTIMATED_TENANT_SHARE": "Estimated Tenant share",
+    "ACTUAL_COMMISSION": "Actual commission",
+    "ACTUAL_TENANT_SHARE": "Actual Tenant share",
+    "CONFIRMED_AT": "Commission confirmed",
+    "ITEMS": "Order items & commission resolution",
+    "ITEM_BADGE": "{{total}} items · {{refunded}} refunded",
+    "ITEM_CODE": "Item code",
+    "ITEM_NAME": "Item name",
+    "QTY": "Qty",
+    "BRAND_SOURCE": "Brand commission source",
+    "BRAND_VALUE": "Brand commission value",
+    "BRAND_REFERENCE": "Brand mapping reference",
+    "ORIGINAL_AMOUNT": "Original amount",
+    "FINAL_AMOUNT": "Final amount",
+    "GROSS_COMMISSION": "Gross commission",
+    "TENANT_SOURCE": "Tenant share source",
+    "TENANT_VALUE": "Tenant share value",
+    "TENANT_REFERENCE": "Tenant share reference",
+    "TENANT_SHARE": "Tenant share",
+    "ITEM_STATUS": "Item Status",
+    "HISTORY": "Adjustment & status history",
+    "NO_HISTORY": "No status history is available.",
+    "SOURCES": {
+      "OFFER": "Offer",
+      "CATEGORY": "Category",
+      "CATEGORY_DEFAULT": "Category Default",
+      "TENANT_BRAND_DEFAULT": "Tenant & Brand Default",
+      "ALL_TENANT_DEFAULT": "All Tenant Default"
+    },
+    "ITEM_STATUSES": {
+      "PENDING": "Pending",
+      "CONFIRMED": "Confirmed",
+      "REFUNDED": "Refunded"
+    },
+    "EVENTS": {
+      "ORDER_RECORDED": "{{brand}} submitted order {{order}} with {{count}} items.",
+      "ITEM_CONFIRMED": "Actual commission recorded for item {{item}}.",
+      "ITEM_REFUNDED": "Order {{order}} refunded item {{item}}.",
+      "RETRY_APPLIED": "Retry was applied successfully for order {{order}}."
+    },
+    "ERRORS": {
+      "LOAD_ERROR": "Transaction detail could not be loaded."
+    }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Dashboard",

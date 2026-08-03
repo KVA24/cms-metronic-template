@@ -13,6 +13,15 @@ export function useAdminTransactionFilters(roleCode: AdminRoleCode) {
   return useQuery({ queryKey: [...adminTransactionKeys.all, 'filters', roleCode], queryFn: () => adminTransactionService.getFilterOptions(roleCode), retry: false });
 }
 
+export function useAdminTransactionDetail(transactionId: string, roleCode: AdminRoleCode) {
+  return useQuery({
+    queryKey: [...adminTransactionKeys.all, 'detail', transactionId, roleCode],
+    queryFn: () => adminTransactionService.getDetail(transactionId, roleCode),
+    enabled: Boolean(transactionId),
+    retry: false,
+  });
+}
+
 export function useExportAdminTransactions() {
   return useMutation({
     mutationFn: async ({ query, roleCode, actorId }: { query: AdminTransactionQuery; roleCode: AdminRoleCode; actorId: string }) => {

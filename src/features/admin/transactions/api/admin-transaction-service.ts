@@ -82,6 +82,28 @@ export const adminTransactionService = {
     return structuredClone({ tenants: mockData.tenants, brands: mockData.brands });
   },
 
+  async getDetail(transactionId: string, roleCode: AdminRoleCode) {
+    assertView(roleCode);
+    const transaction = mockData.transactions.find(({ id }) => id === transactionId);
+    if (!transaction) throw new Error('NOT_FOUND');
+    const header = project(transaction, roleCode);
+    const showGross = canViewFinancialField(roleCode, 'grossCommission');
+    const showTenantShare = canViewFinancialField(roleCode, 'tenantShare');
+    const showAffiliateKeep = canViewFinancialField(roleCode, 'affiliateKeep');
+    const items = mockData.transactionItems.flatMap((item) => item.transactionId === transactionId ? [{
+        ...item,
+        brandCommissionValue: showGross ? item.brandCommissionValue : undefined,
+        grossCommission: showGross ? item.grossCommission : undefined,
+        tenantShareValue: showTenantShare ? item.tenantShareValue : undefined,
+        tenantShare: showTenantShare ? item.tenantShare : undefined,
+        affiliateKeep: showAffiliateKeep ? item.affiliateKeep : undefined,
+      }] : []);
+    const histories = mockData.transactionHistories
+      .filter((history) => history.transactionId === transactionId)
+      .sort((left, right) => left.eventAt.localeCompare(right.eventAt));
+    return structuredClone({ header, items, histories, financialScope: { grossCommission: showGross, tenantShare: showTenantShare, affiliateKeep: showAffiliateKeep } });
+  },
+
   async requestExport(query: AdminTransactionQuery, roleCode: AdminRoleCode, actorId: string) {
     if (!hasPermission(roleCode, 'transactions.export')) throw new Error('FORBIDDEN');
     const rows = filteredTransactions(query).map((item) => project(item, roleCode));

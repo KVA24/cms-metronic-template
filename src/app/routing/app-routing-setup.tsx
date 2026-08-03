@@ -140,6 +140,11 @@ const AdminTransactionListPage = lazy(() =>
     default: m.AdminTransactionListPage,
   })),
 );
+const AdminTransactionDetailPage = lazy(() =>
+  import('@/features/admin/transactions/ui/admin-transaction-detail-page').then((m) => ({
+    default: m.AdminTransactionDetailPage,
+  })),
+);
 const AccountManagementPage = lazy(() =>
   import('@/features/account').then((m) => ({ default: m.AccountPage })),
 );
@@ -199,6 +204,7 @@ export function AppRoutingSetup() {
             <Route path="/admin/tenants/:tenantId" element={<AdminTenantDetailPage />} />
             <Route path="/admin/configuration" element={<AdminConfigurationPage />} />
             <Route path="/admin/transactions" element={<AdminTransactionListPage />} />
+            <Route path="/admin/transactions/:transactionId" element={<AdminTransactionDetailPage />} />
             <Route
               path="/auth/welcome-message"
               element={<AuthWelcomeMessagePage />}

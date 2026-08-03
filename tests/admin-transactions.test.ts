@@ -58,3 +58,43 @@ describe('ADMIN Transaction list and export service', () => {
     await assert.rejects(() => adminTransactionService.requestExport(ADMIN_TRANSACTION_DEFAULT_QUERY, 'CMS_CSKH', 'cms-cskh'), /FORBIDDEN/);
   });
 });
+
+describe('ADMIN Transaction detail service', () => {
+  it('returns header, item snapshots and immutable chronological history', async () => {
+    const detail = await adminTransactionService.getDetail('transaction-lotus-pending', 'CMS_ADMIN');
+    assert.equal(detail.header.status, 'PENDING');
+    assert.equal(detail.items.length, 2);
+    assert.deepEqual(detail.items.map(({ status }) => status), ['CONFIRMED', 'PENDING']);
+    assert.deepEqual(detail.histories.map(({ eventType }) => eventType), ['ORDER_RECORDED', 'ITEM_CONFIRMED']);
+    assert.equal(detail.header.actualGrossCommission, 30_000);
+  });
+
+  it('keeps refunded original amount while zeroing mutable financial values', async () => {
+    const detail = await adminTransactionService.getDetail('transaction-lotus-cancelled', 'CMS_ADMIN');
+    const item = detail.items[0]!;
+    assert.equal(item.status, 'REFUNDED');
+    assert.equal(item.originalAmount, 100_000);
+    assert.equal(item.quantity, 0);
+    assert.equal(item.finalAmount, 0);
+    assert.equal(item.grossCommission, 0);
+    assert.equal(item.tenantShare, 0);
+  });
+
+  it('returns confirmed date only for a fully Confirmed order', async () => {
+    const confirmed = await adminTransactionService.getDetail('transaction-bamboo-confirmed', 'CMS_ADMIN');
+    const pending = await adminTransactionService.getDetail('transaction-lotus-pending', 'CMS_ADMIN');
+    assert.equal(Boolean(confirmed.header.commissionConfirmedAt), true);
+    assert.equal(pending.header.commissionConfirmedAt, null);
+  });
+
+  it('applies the same financial role scope to item detail', async () => {
+    const cskh = await adminTransactionService.getDetail('transaction-lotus-pending', 'CMS_CSKH');
+    assert.equal(cskh.items[0]?.grossCommission, undefined);
+    assert.equal(cskh.items[0]?.tenantShare, undefined);
+    assert.equal(cskh.items[0]?.affiliateKeep, undefined);
+  });
+
+  it('rejects a missing Transaction', async () => {
+    await assert.rejects(() => adminTransactionService.getDetail('missing', 'CMS_ADMIN'), /NOT_FOUND/);
+  });
+});

@@ -931,6 +931,63 @@
       "EXPORT_ERROR": "Không thể hoàn tất yêu cầu export."
     }
   },
+  "ADMIN_TRANSACTION_DETAIL": {
+    "TITLE": "Chi tiết Transaction",
+    "BACK": "Quay lại Transactions",
+    "ORDER_SUMMARY": "Tổng quan Order",
+    "ORDER_ID": "Order ID",
+    "BRAND_ORDER_ID": "Brand Order ID",
+    "TENANT": "Tenant",
+    "USER_ID": "User ID",
+    "MEMBER_REF": "Member Ref",
+    "BRAND": "Brand",
+    "ORDER_STATUS": "Trạng thái Order",
+    "LATEST_UPDATED": "Cập nhật gần nhất",
+    "ESTIMATED_COMMISSION": "Commission dự tính",
+    "ESTIMATED_TENANT_SHARE": "Tenant share dự tính",
+    "ACTUAL_COMMISSION": "Commission thực nhận",
+    "ACTUAL_TENANT_SHARE": "Tenant share thực nhận",
+    "CONFIRMED_AT": "Ngày chốt Commission",
+    "ITEMS": "Order item & kết quả commission",
+    "ITEM_BADGE": "{{total}} item · {{refunded}} đã hoàn",
+    "ITEM_CODE": "Mã SP",
+    "ITEM_NAME": "Tên SP",
+    "QTY": "Qty",
+    "BRAND_SOURCE": "Nguồn Brand commission",
+    "BRAND_VALUE": "Giá trị Brand commission",
+    "BRAND_REFERENCE": "Tham chiếu Brand mapping",
+    "ORIGINAL_AMOUNT": "Original amount",
+    "FINAL_AMOUNT": "Final amount",
+    "GROSS_COMMISSION": "Gross commission",
+    "TENANT_SOURCE": "Nguồn Tenant share",
+    "TENANT_VALUE": "Giá trị Tenant share",
+    "TENANT_REFERENCE": "Tham chiếu Tenant share",
+    "TENANT_SHARE": "Tenant share",
+    "ITEM_STATUS": "Trạng thái Item",
+    "HISTORY": "Lịch sử điều chỉnh & trạng thái",
+    "NO_HISTORY": "Chưa có lịch sử trạng thái.",
+    "SOURCES": {
+      "OFFER": "Offer",
+      "CATEGORY": "Category",
+      "CATEGORY_DEFAULT": "Category Default",
+      "TENANT_BRAND_DEFAULT": "Tenant & Brand Default",
+      "ALL_TENANT_DEFAULT": "All Tenant Default"
+    },
+    "ITEM_STATUSES": {
+      "PENDING": "Đang chờ",
+      "CONFIRMED": "Đã xác nhận",
+      "REFUNDED": "Đã hoàn"
+    },
+    "EVENTS": {
+      "ORDER_RECORDED": "{{brand}} gửi đơn {{order}} gồm {{count}} item.",
+      "ITEM_CONFIRMED": "Đã ghi nhận commission thực tế cho item {{item}}.",
+      "ITEM_REFUNDED": "Đơn {{order}} hoàn item {{item}}.",
+      "RETRY_APPLIED": "Đã retry thành công cho đơn {{order}}."
+    },
+    "ERRORS": {
+      "LOAD_ERROR": "Không thể tải chi tiết Transaction."
+    }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Bảng Điều Khiển",
