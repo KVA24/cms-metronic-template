@@ -7,6 +7,7 @@ import { AuthRouting } from '@/app/auth/auth-routing';
 import { ProtectedRoute } from '@/app/auth/protected-route';
 import { RequireAuth } from '@/app/auth/require-auth';
 import { ErrorRouting } from '@/app/errors/error-routing';
+import { PortalLandingRedirect } from './portal-landing-redirect';
 
 // Auth pages
 const AuthAccountDeactivatedPage = lazy(() =>
@@ -49,6 +50,14 @@ export function AppRoutingSetup() {
           <Route element={<Demo1Layout />}>
             <Route path="/" element={<WelcomePage />} />
             <Route
+              path="/admin"
+              element={<PortalLandingRedirect portalType="ADMIN" />}
+            />
+            <Route
+              path="/tenant"
+              element={<PortalLandingRedirect portalType="TENANT" />}
+            />
+            <Route
               path="/auth/welcome-message"
               element={<AuthWelcomeMessagePage />}
             />
@@ -86,6 +95,15 @@ export function AppRoutingSetup() {
                 />
               }
             ></Route>
+
+            <Route
+              path="/admin/*"
+              element={<Navigate to="/error/404" replace />}
+            />
+            <Route
+              path="/tenant/*"
+              element={<Navigate to="/error/404" replace />}
+            />
           </Route>
         </Route>
         <Route path="error/*" element={<ErrorRouting />} />

@@ -9,6 +9,7 @@ import {
 } from '@/shared/stores/auth-store';
 import { ScreenLoader } from '@/shared/ui/molecules/screen-loader';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { canAccessPortalRoute } from '../routing/portal-route-permissions';
 
 /**
  * Component to protect routes that require authentication.
@@ -48,6 +49,10 @@ export const RequireAuth = () => {
     return (
       <Navigate to={`/${session.portalType.toLowerCase()}/dashboard`} replace />
     );
+  }
+
+  if (!canAccessPortalRoute(location.pathname, session.permissions)) {
+    return <Navigate to="/error/403" replace />;
   }
 
   // If authenticated, render child routes

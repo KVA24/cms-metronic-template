@@ -1,7 +1,8 @@
 import { Fragment, ReactNode } from 'react';
-import { MENU_SIDEBAR } from '@/shared/config/menu.config';
 import { MenuItem } from '@/shared/config/types';
 import { useMenu } from '@/shared/hooks/use-menu';
+import { usePortalMenu } from '@/shared/hooks/use-portal-menu';
+import { useTranslations } from '@/shared/hooks/use-translations';
 import { cn } from '@/shared/lib/utils';
 import { ChevronRight } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -26,7 +27,9 @@ function ToolbarActions({ children }: { children?: ReactNode }) {
 function ToolbarBreadcrumbs() {
   const { pathname } = useLocation();
   const { getBreadcrumb, isActive } = useMenu(pathname);
-  const items: MenuItem[] = getBreadcrumb(MENU_SIDEBAR);
+  const menu = usePortalMenu();
+  const items: MenuItem[] = getBreadcrumb(menu);
+  const { t } = useTranslations();
 
   if (items.length === 0) {
     return null;
@@ -51,13 +54,13 @@ function ToolbarBreadcrumbs() {
                       : 'text-muted-foreground hover:text-primary',
                   )}
                 >
-                  {item.title}
+                  {item.translationKey ? t(item.translationKey) : item.title}
                 </Link>
               ) : (
                 <span
                   className={cn(isLast ? 'text-mono' : 'text-muted-foreground')}
                 >
-                  {item.title}
+                  {item.translationKey ? t(item.translationKey) : item.title}
                 </span>
               )}
               {!isLast && (
@@ -74,12 +77,15 @@ function ToolbarBreadcrumbs() {
 function ToolbarHeading({ title = '', description }: ToolbarHeadingProps) {
   const { pathname } = useLocation();
   const { getCurrentItem } = useMenu(pathname);
-  const item = getCurrentItem(MENU_SIDEBAR);
+  const menu = usePortalMenu();
+  const item = getCurrentItem(menu);
+  const { t } = useTranslations();
+  const itemTitle = item?.translationKey ? t(item.translationKey) : item?.title;
 
   return (
     <div className="flex flex-col justify-center gap-2">
       <h1 className="text-xl font-medium leading-none text-mono">
-        {title || item?.title || 'Untitled'}
+        {title || itemTitle || 'Untitled'}
       </h1>
       {description && (
         <div className="flex items-center gap-2 text-sm font-normal text-muted-foreground">

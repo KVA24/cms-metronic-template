@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
-import { MENU_SIDEBAR } from '@/shared/config/menu.config';
 import { useMenu } from '@/shared/hooks/use-menu';
+import { usePortalMenu } from '@/shared/hooks/use-portal-menu';
+import { useTranslations } from '@/shared/hooks/use-translations';
 import { useLocation } from 'react-router-dom';
 
 const Toolbar = ({ children }: { children: ReactNode }) => {
@@ -18,11 +19,14 @@ const ToolbarActions = ({ children }: { children: ReactNode }) => {
 const ToolbarPageTitle = ({ text }: { text?: string }) => {
   const { pathname } = useLocation();
   const { getCurrentItem } = useMenu(pathname);
-  const item = getCurrentItem(MENU_SIDEBAR);
+  const menu = usePortalMenu();
+  const item = getCurrentItem(menu);
+  const { t } = useTranslations();
+  const itemTitle = item?.translationKey ? t(item.translationKey) : item?.title;
 
   return (
     <h1 className="text-xl font-medium leading-none text-mono">
-      {text ?? item?.title}
+      {text ?? itemTitle}
     </h1>
   );
 };

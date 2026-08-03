@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { MENU_SIDEBAR } from '@/shared/config/menu.config';
 import { BreadcrumbProvider } from '@/shared/contexts/breadcrumb-context';
 import { useMenu } from '@/shared/hooks/use-menu';
 import { useIsMobile } from '@/shared/hooks/use-mobile';
+import { usePortalMenu } from '@/shared/hooks/use-portal-menu';
+import { useTranslations } from '@/shared/hooks/use-translations';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useSettings } from '@/app/providers/settings-provider';
@@ -14,7 +15,9 @@ export function Demo1Layout() {
   const isMobile = useIsMobile();
   const { pathname } = useLocation();
   const { getCurrentItem } = useMenu(pathname);
-  const item = getCurrentItem(MENU_SIDEBAR);
+  const menu = usePortalMenu();
+  const item = getCurrentItem(menu);
+  const { t } = useTranslations();
   const { settings, setOption } = useSettings();
 
   useEffect(() => {
@@ -67,7 +70,9 @@ export function Demo1Layout() {
   return (
     <BreadcrumbProvider>
       <Helmet>
-        <title>{item?.title}</title>
+        <title>
+          {item?.translationKey ? t(item.translationKey) : item?.title}
+        </title>
       </Helmet>
 
       {!isMobile && <Sidebar />}
@@ -75,7 +80,7 @@ export function Demo1Layout() {
       <div className="wrapper flex grow flex-col">
         <Header />
 
-        <main className="grow pt-5" role="content">
+        <main className="grow pt-5">
           <Outlet />
         </main>
 

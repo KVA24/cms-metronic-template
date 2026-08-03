@@ -11,7 +11,7 @@ interface AuthState {
   isAuthenticated: boolean;
   error: string | null;
   isInitialized: boolean;
-  login: (input: AuthLoginInput) => Promise<void>;
+  login: (input: AuthLoginInput) => Promise<AuthSession>;
   logout: () => Promise<void>;
   verify: () => Promise<void>;
   setError: (error: string | null) => void;
@@ -39,6 +39,7 @@ export const useAuthStore = create<AuthState>()(
             isAuthenticated: true,
             isInitialized: true,
           });
+          return session;
         } catch (error) {
           const message =
             error instanceof Error ? error.message : 'AUTH_UNKNOWN_ERROR';

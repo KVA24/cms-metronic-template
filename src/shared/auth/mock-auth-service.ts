@@ -57,9 +57,10 @@ export const mockAuthService = {
 export function getSafePortalRedirect(
   path: string | null,
   portalType: PortalType,
+  fallbackPath?: string,
 ): string {
   const portalRoot = portalType === 'ADMIN' ? '/admin' : '/tenant';
-  const fallback = `${portalRoot}/dashboard`;
+  const fallback = fallbackPath ?? `${portalRoot}/dashboard`;
   const safePath = safeRedirect(path);
 
   return safePath === portalRoot || safePath.startsWith(`${portalRoot}/`)

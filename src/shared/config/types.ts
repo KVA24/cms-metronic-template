@@ -1,5 +1,6 @@
-import { UserRole } from '@/shared/lib/rbac/roles';
 import { type LucideIcon } from 'lucide-react';
+import type { UserRole } from '../lib/rbac/roles';
+import type { PermissionCode } from '../permissions';
 
 export interface MenuItem {
   title?: string;
@@ -18,6 +19,7 @@ export interface MenuItem {
   separator?: boolean;
   // RBAC field
   requiredRoles?: UserRole[];
+  requiredPermission?: PermissionCode;
 }
 
 export type MenuConfig = MenuItem[];

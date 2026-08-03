@@ -1,45 +1,30 @@
-import { MenuConfig, MenuItem } from '@/shared/config/types';
-import { hasRequiredRole, UserRole } from './roles';
+import type { MenuConfig, MenuItem } from '../../config/types';
+import type { PermissionCode } from '../../permissions';
 
-/**
- * Filter menu items based on user role
- */
-export function filterMenuByRoles(
+export function filterMenuByPermissions(
   menu: MenuConfig,
-  roles: UserRole[],
+  permissions: Iterable<PermissionCode>,
 ): MenuConfig {
-  if (roles.length === 0) return [];
+  const permissionSet = new Set(permissions);
 
   return menu
-    .map((item) => filterMenuItem(item, roles))
+    .map((item) => filterMenuItemByPermission(item, permissionSet))
     .filter((item): item is MenuItem => item !== null);
 }
 
-/**
- * Filter a single menu item and its children
- */
-function filterMenuItem(item: MenuItem, roles: UserRole[]): MenuItem | null {
-  // If item has required roles, check if user has one of them
-  if (item.requiredRoles && item.requiredRoles.length > 0) {
-    if (!hasRequiredRole(roles, item.requiredRoles)) return null;
+function filterMenuItemByPermission(
+  item: MenuItem,
+  permissions: ReadonlySet<PermissionCode>,
+): MenuItem | null {
+  if (item.requiredPermission && !permissions.has(item.requiredPermission)) {
+    return null;
   }
 
-  // If item has children, filter them recursively
-  if (item.children && item.children.length > 0) {
-    const filteredChildren = item.children
-      .map((child) => filterMenuItem(child, roles))
-      .filter((child): child is MenuItem => child !== null);
+  if (!item.children) return item;
 
-    // If all children are filtered out, hide the parent too
-    if (filteredChildren.length === 0) {
-      return null;
-    }
+  const children = item.children
+    .map((child) => filterMenuItemByPermission(child, permissions))
+    .filter((child): child is MenuItem => child !== null);
 
-    return {
-      ...item,
-      children: filteredChildren,
-    };
-  }
-
-  return item;
+  return children.length > 0 ? { ...item, children } : null;
 }

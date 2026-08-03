@@ -21,6 +21,20 @@ describe('mock portal authentication', () => {
     assert.equal(session.permissions.includes('configuration.delete'), true);
   });
 
+  it('authenticates all four ADMIN and four TENANT seed personas', async () => {
+    for (const account of mockData.authAccounts) {
+      const session = await mockAuthService.login({
+        portalType: account.portalType,
+        username: account.username,
+        password: account.password,
+      });
+
+      assert.equal(session.portalType, account.portalType);
+      assert.equal(session.roleCode, account.roleCode);
+      assert.equal(session.tenantId, account.tenantId);
+    }
+  });
+
   it('rejects valid credentials submitted through the wrong portal', async () => {
     await assert.rejects(
       mockAuthService.login({

@@ -4,6 +4,7 @@ import {
   getSafePortalRedirect,
   isPathAllowedForPortal,
 } from '@/shared/auth';
+import { getFirstPermittedPath } from '@/shared/config/menu.config';
 import type { PortalType } from '@/shared/contracts';
 import { useTranslations } from '@/shared/hooks/use-translations';
 import { I18N_LANGUAGES } from '@/shared/i18n/config';
@@ -62,8 +63,16 @@ export function SignInPage() {
 
   useEffect(() => {
     if (isAuthenticated && session) {
+      const fallbackPath = getFirstPermittedPath(
+        session.portalType,
+        session.permissions,
+      );
       navigate(
-        getSafePortalRedirect(searchParams.get('next'), session.portalType),
+        getSafePortalRedirect(
+          searchParams.get('next'),
+          session.portalType,
+          fallbackPath,
+        ),
         { replace: true },
       );
     }
@@ -85,10 +94,19 @@ export function SignInPage() {
   async function onSubmit(values: SigninSchemaType) {
     try {
       setErrorCode(null);
-      await login({ portalType, ...values });
-      navigate(getSafePortalRedirect(searchParams.get('next'), portalType), {
-        replace: true,
-      });
+      const authenticatedSession = await login({ portalType, ...values });
+      const fallbackPath = getFirstPermittedPath(
+        authenticatedSession.portalType,
+        authenticatedSession.permissions,
+      );
+      navigate(
+        getSafePortalRedirect(
+          searchParams.get('next'),
+          portalType,
+          fallbackPath,
+        ),
+        { replace: true },
+      );
     } catch (caughtError) {
       logger.error('Sign-in error:', caughtError);
       const code =

@@ -1,3 +1,4 @@
+import { useTranslations } from '@/shared/hooks/use-translations';
 import { toAbsoluteUrl } from '@/shared/lib/helpers';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/atoms/button';
@@ -7,6 +8,7 @@ import { useSettings } from '@/app/providers/settings-provider';
 
 export function SidebarHeader() {
   const { settings, storeOption } = useSettings();
+  const { t } = useTranslations();
 
   const handleToggleClick = () => {
     // Save current scroll position
@@ -57,6 +59,7 @@ export function SidebarHeader() {
         size="sm"
         mode="icon"
         variant="outline"
+        aria-label={t('SIDEBAR.TOGGLE')}
         className={cn(
           'size-7 absolute start-full top-2/4 rtl:translate-x-2/4 -translate-x-2/4 -translate-y-2/4',
           settings.layouts.demo1.sidebarCollapse

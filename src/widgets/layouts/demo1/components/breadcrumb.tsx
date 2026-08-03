@@ -1,8 +1,9 @@
 import { Fragment } from 'react';
-import { MENU_SIDEBAR } from '@/shared/config/menu.config';
 import { MenuItem } from '@/shared/config/types';
 import { useBreadcrumb } from '@/shared/contexts/breadcrumb-context';
 import { useMenu } from '@/shared/hooks/use-menu';
+import { usePortalMenu } from '@/shared/hooks/use-portal-menu';
+import { useTranslations } from '@/shared/hooks/use-translations';
 import { cn } from '@/shared/lib/utils';
 import { ChevronRight, Home } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -11,12 +12,14 @@ export function Breadcrumb() {
   const { pathname } = useLocation();
   const { getBreadcrumb, isActive } = useMenu(pathname);
   const { customBreadcrumb } = useBreadcrumb();
-  const menuItems: MenuItem[] = getBreadcrumb(MENU_SIDEBAR);
+  const menu = usePortalMenu();
+  const menuItems: MenuItem[] = getBreadcrumb(menu);
+  const { t } = useTranslations();
 
   // Always start with Home
   const homeItem: MenuItem = {
     title: 'Home',
-    path: '/',
+    path: menu[0]?.path ?? '/',
     icon: Home,
   };
 
@@ -54,7 +57,13 @@ export function Breadcrumb() {
                 )}
                 key={`link-${item.path}`}
               >
-                {isHome ? <Home className="size-3.5" /> : item.title}
+                {isHome ? (
+                  <Home className="size-3.5" />
+                ) : item.translationKey ? (
+                  t(item.translationKey)
+                ) : (
+                  item.title
+                )}
               </Link>
             ) : (
               <span
@@ -63,7 +72,13 @@ export function Breadcrumb() {
                 )}
                 key={`span-${item.path || index}`}
               >
-                {isHome ? <Home className="size-3.5" /> : item.title}
+                {isHome ? (
+                  <Home className="size-3.5" />
+                ) : item.translationKey ? (
+                  t(item.translationKey)
+                ) : (
+                  item.title
+                )}
               </span>
             )}
             {!last && (
