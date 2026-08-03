@@ -47,10 +47,11 @@ export function Breadcrumb() {
         const isHome = index === 0;
 
         return (
-          <Fragment key={item.path || `root-${index}`}>
+          <Fragment key={`${item.path ?? 'root'}-${index}`}>
             {item.path && !last ? (
               <Link
                 to={item.path}
+                aria-label={isHome ? t('SIDEBAR.DASHBOARD') : undefined}
                 className={cn(
                   'hover:text-primary transition-colors',
                   active ? 'text-mono' : 'text-secondary-foreground',

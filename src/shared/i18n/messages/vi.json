@@ -233,6 +233,42 @@
       }
     }
   },
+  "ADMIN_DASHBOARD": {
+    "TITLE": "Dashboard báo cáo",
+    "DESCRIPTION": "Theo dõi click, conversion, GMV và hoa hồng tạm tính hoặc chính thức trên toàn hệ thống.",
+    "EXPORTING": "Đang xuất...",
+    "EXPORT_SUCCESS": "Yêu cầu xuất đã hoàn tất: {{fileName}}",
+    "EXPORT_ERROR": "Yêu cầu xuất dashboard thất bại.",
+    "ERROR": "Không thể tải dữ liệu dashboard.",
+    "EMPTY": "Không có dữ liệu phù hợp với bộ lọc đã chọn.",
+    "TREND_TITLE": "Xu hướng doanh thu chia sẻ",
+    "TREND_DESCRIPTION": "Giá trị theo ngày, đơn vị VND trong khoảng thời gian đã chọn.",
+    "STATUS_TITLE": "Trạng thái đơn hàng",
+    "TOP_BRANDS": "Thương hiệu hàng đầu",
+    "FILTERS": {
+      "FROM_DATE": "Từ ngày",
+      "TO_DATE": "Đến ngày",
+      "TENANT": "Đối tác",
+      "BRAND": "Thương hiệu",
+      "CATEGORY": "Danh mục",
+      "OFFER": "Ưu đãi",
+      "ORDER_STATUS": "Trạng thái đơn hàng"
+    },
+    "METRICS": {
+      "VALID_CLICKS": "Click hợp lệ",
+      "ORDERS": "Conversion / Đơn hàng",
+      "CONVERSION_RATE": "Tỷ lệ chuyển đổi",
+      "TRACKED_GMV": "GMV ghi nhận",
+      "EXCEPTIONS": "Ngoại lệ cần xử lý"
+    },
+    "FINANCIAL": {
+      "estimatedCommission": "Hoa hồng dự tính",
+      "estimatedTenantShare": "Phần chia đối tác dự tính",
+      "grossCommission": "Tổng hoa hồng chính thức",
+      "tenantShare": "Phần chia đối tác chính thức",
+      "affiliateKeep": "Phần Affiliate giữ lại"
+    }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Bảng Điều Khiển",
@@ -1128,7 +1164,10 @@
   "COMMON": {
     "STATUS": {
       "ACTIVE": "Hoạt Động",
-      "INACTIVE": "Không Hoạt Động"
+      "INACTIVE": "Không Hoạt Động",
+      "PENDING": "Đang chờ",
+      "CONFIRMED": "Đã xác nhận",
+      "CANCELLED": "Đã hủy"
     },
     "TABLE": {
       "ID": "ID",
@@ -1146,6 +1185,8 @@
     "SUBTRACT": "Trừ",
     "SEARCH": "Tìm Kiếm",
     "FILTER": "Lọc",
+    "ALL": "Tất cả",
+    "APPLY": "Áp dụng",
     "ACTIONS": "Hành Động",
     "YES": "Có",
     "NO": "Không",

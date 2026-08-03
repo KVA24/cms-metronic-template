@@ -461,14 +461,14 @@ Shared contracts, auth and routing are sequential prerequisites. After the Found
 
 | Task | Description and acceptance criteria                                                                                                                                 | Dependencies | Likely files                                     | Verify                                  | Size |
 | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------ | --------------------------------------- | ---- |
-| A6   | Implement ADMIN Reporting Dashboard service/query/page from the CMS mockup. Cards/charts support role financial projection and loading/empty/error states.          | F            | `features/admin/dashboard/{model,api,hooks,ui}`  | Dashboard role/manual checks; build     | M    |
+| A6 ✅ | Implement ADMIN Reporting Dashboard service/query/page from the CMS mockup. Cards/charts support role financial projection and loading/empty/error states.         | F            | `features/admin/dashboard/{model,api,hooks,ui}`  | Dashboard role/manual checks; build     | M    |
 | A7   | Implement read-only CMS system-role matrix for `CMS_ADMIN`; all other roles receive 403 and no mutation UI exists.                                                  | F            | `features/admin/rbac/{model,api,hooks,ui}`       | CMS-RBAC-001/002 checks                 | M    |
 | A8   | Implement Category list service/query/page with filters, sort, pagination, reset and empty/error states.                                                            | F            | `features/admin/categories/{model,api,hooks,ui}` | CMS-CAT-001 verification                | M    |
 | A9   | Implement Category create/detail/edit/status forms with `vi-VN`/`en-US`, dependency rules and asset metadata. All CMS-CAT-002..005 validations map to Zod/messages. | A8           | Category schema/form/page/service files          | Category CRUD manual flow; unit schemas | M    |
 
 #### Checkpoint C — Core ADMIN shell
 
-- [ ] Dashboard financial fields differ correctly by role.
+- [x] Dashboard financial fields differ correctly by role.
 - [ ] RBAC matrix is ADMIN-only and Category CRUD passes its SRS AC mapping.
 - [ ] Lint, tests and build pass.
 

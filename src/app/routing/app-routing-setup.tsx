@@ -30,6 +30,11 @@ const WelcomePage = lazy(() =>
 const DashboardPage = lazy(() =>
   import('@/features/dashboards').then((m) => ({ default: m.DashboardPage })),
 );
+const AdminDashboardPage = lazy(() =>
+  import('@/features/admin/dashboard/ui/admin-dashboard-page').then((m) => ({
+    default: m.AdminDashboardPage,
+  })),
+);
 const AccountManagementPage = lazy(() =>
   import('@/features/account').then((m) => ({ default: m.AccountPage })),
 );
@@ -57,6 +62,7 @@ export function AppRoutingSetup() {
               path="/tenant"
               element={<PortalLandingRedirect portalType="TENANT" />}
             />
+            <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
             <Route
               path="/auth/welcome-message"
               element={<AuthWelcomeMessagePage />}

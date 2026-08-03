@@ -233,6 +233,42 @@
       }
     }
   },
+  "ADMIN_DASHBOARD": {
+    "TITLE": "Reporting Dashboard",
+    "DESCRIPTION": "Monitor clicks, conversions, tracked GMV and estimated or confirmed commission across the platform.",
+    "EXPORTING": "Exporting...",
+    "EXPORT_SUCCESS": "Export request completed: {{fileName}}",
+    "EXPORT_ERROR": "The dashboard export request failed.",
+    "ERROR": "Dashboard data could not be loaded.",
+    "EMPTY": "No dashboard data matches the selected filters.",
+    "TREND_TITLE": "Revenue share trend",
+    "TREND_DESCRIPTION": "Daily values in VND for the selected date range.",
+    "STATUS_TITLE": "Order status",
+    "TOP_BRANDS": "Top Brands",
+    "FILTERS": {
+      "FROM_DATE": "From date",
+      "TO_DATE": "To date",
+      "TENANT": "Tenant",
+      "BRAND": "Brand",
+      "CATEGORY": "Category",
+      "OFFER": "Offer",
+      "ORDER_STATUS": "Order status"
+    },
+    "METRICS": {
+      "VALID_CLICKS": "Valid clicks",
+      "ORDERS": "Conversions / Orders",
+      "CONVERSION_RATE": "Conversion rate",
+      "TRACKED_GMV": "Tracked GMV",
+      "EXCEPTIONS": "Exceptions requiring action"
+    },
+    "FINANCIAL": {
+      "estimatedCommission": "Estimated commission",
+      "estimatedTenantShare": "Estimated Tenant share",
+      "grossCommission": "Confirmed gross commission",
+      "tenantShare": "Confirmed Tenant share",
+      "affiliateKeep": "Affiliate keep"
+    }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Dashboard",
@@ -1128,7 +1164,10 @@
   "COMMON": {
     "STATUS": {
       "ACTIVE": "Active",
-      "INACTIVE": "Inactive"
+      "INACTIVE": "Inactive",
+      "PENDING": "Pending",
+      "CONFIRMED": "Confirmed",
+      "CANCELLED": "Cancelled"
     },
     "TABLE": {
       "ID": "ID",
@@ -1146,6 +1185,8 @@
     "SUBTRACT": "Subtract",
     "SEARCH": "Search",
     "FILTER": "Filter",
+    "ALL": "All",
+    "APPLY": "Apply",
     "ACTIONS": "Actions",
     "YES": "Yes",
     "NO": "No",
