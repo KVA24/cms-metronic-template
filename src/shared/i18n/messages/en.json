@@ -264,6 +264,30 @@
       "ALL_TENANT_DEFAULT": "All Tenant Default"
     }
   },
+  "TENANT_ACCOUNTS": {
+    "TITLE": "Accounts",
+    "DESCRIPTION": "Manage staff accounts and their assigned Tenant roles.",
+    "ADD": "Add user",
+    "EDIT": "Edit user",
+    "KEYWORD": "Keyword",
+    "KEYWORD_PLACEHOLDER": "Username, full name or email",
+    "ROLE": "Role",
+    "ALL_ROLES": "All roles",
+    "ALL_STATUSES": "All statuses",
+    "USERNAME": "Username",
+    "FULL_NAME": "Full Name",
+    "EMAIL": "Email",
+    "PHONE": "Phone",
+    "PASSWORD": "Password information",
+    "CREATED": "Created",
+    "UPDATED": "Updated",
+    "INFORMATION": "Account information",
+    "ROLE_INACTIVE": "The assigned role is inactive. This account has no effective access.",
+    "ERROR": "Accounts could not be loaded.",
+    "NOT_FOUND": "Account was not found in this Tenant.",
+    "EMPTY": "No user accounts found",
+    "PAGE": "Page {{page}} of {{total}} · {{count}} accounts"
+  },
   "TENANT_ROLES": {
     "TITLE": "Roles",
     "DESCRIPTION": "Manage Tenant roles and review their permission coverage.",
@@ -2051,6 +2075,7 @@
     "STATUS": {
       "ACTIVE": "Active",
       "INACTIVE": "Inactive",
+      "LOCKED": "Locked",
       "DRAFT": "Draft",
       "PENDING": "Pending",
       "CONFIRMED": "Confirmed",

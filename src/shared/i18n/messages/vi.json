@@ -264,6 +264,30 @@
       "ALL_TENANT_DEFAULT": "Mặc định mọi Tenant"
     }
   },
+  "TENANT_ACCOUNTS": {
+    "TITLE": "Tài khoản",
+    "DESCRIPTION": "Quản lý tài khoản nhân viên và vai trò được gán trong Tenant.",
+    "ADD": "Thêm người dùng",
+    "EDIT": "Sửa người dùng",
+    "KEYWORD": "Từ khóa",
+    "KEYWORD_PLACEHOLDER": "Tên đăng nhập, họ tên hoặc email",
+    "ROLE": "Vai trò",
+    "ALL_ROLES": "Tất cả vai trò",
+    "ALL_STATUSES": "Tất cả trạng thái",
+    "USERNAME": "Tên đăng nhập",
+    "FULL_NAME": "Họ và tên",
+    "EMAIL": "Email",
+    "PHONE": "Số điện thoại",
+    "PASSWORD": "Thông tin mật khẩu",
+    "CREATED": "Người tạo",
+    "UPDATED": "Người cập nhật",
+    "INFORMATION": "Thông tin tài khoản",
+    "ROLE_INACTIVE": "Vai trò được gán đang ngừng hoạt động. Tài khoản này không có quyền hiệu lực.",
+    "ERROR": "Không thể tải danh sách tài khoản.",
+    "NOT_FOUND": "Không tìm thấy tài khoản trong Tenant này.",
+    "EMPTY": "Không tìm thấy tài khoản người dùng",
+    "PAGE": "Trang {{page}} / {{total}} · {{count}} tài khoản"
+  },
   "TENANT_ROLES": {
     "TITLE": "Vai trò",
     "DESCRIPTION": "Quản lý vai trò Tenant và xem mức bao phủ quyền.",
@@ -2051,6 +2075,7 @@
     "STATUS": {
       "ACTIVE": "Hoạt Động",
       "INACTIVE": "Không Hoạt Động",
+      "LOCKED": "Đã khóa",
       "DRAFT": "Bản nháp",
       "PENDING": "Đang chờ",
       "CONFIRMED": "Đã xác nhận",
