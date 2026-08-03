@@ -152,3 +152,124 @@ describe('ADMIN brand create service', () => {
     );
   });
 });
+
+describe('ADMIN brand detail, edit and deactivate service', () => {
+  beforeEach(() => resetMockData());
+
+  it('returns dependency counts and locks code once related data exists', async () => {
+    const detail = await adminBrandService.getBrand(
+      'brand-foodnest',
+      'CMS_OPERATION',
+    );
+
+    assert.equal(detail.codeLocked, true);
+    assert.equal(detail.dependencies.offerCount, 1);
+    assert.equal(detail.dependencies.assignmentCount, 1);
+  });
+
+  it('rejects a stale version and an immutable code change', async () => {
+    const current = await adminBrandService.getBrand(
+      'brand-foodnest',
+      'CMS_ADMIN',
+    );
+    const input = {
+      ...validBrandInput,
+      code: current.brand.code,
+      status: current.brand.status,
+    };
+
+    await assert.rejects(
+      () =>
+        adminBrandService.updateBrand(
+          'brand-foodnest',
+          { ...input, code: 'FOODNEST_NEW' },
+          current.brand.version,
+          'CMS_ADMIN',
+          'cms-admin',
+        ),
+      /BRAND_CODE_IMMUTABLE/,
+    );
+    await assert.rejects(
+      () =>
+        adminBrandService.updateBrand(
+          'brand-foodnest',
+          input,
+          current.brand.version - 1,
+          'CMS_ADMIN',
+          'cms-admin',
+        ),
+      /VERSION_CONFLICT/,
+    );
+  });
+
+  it('updates valid data, increments version and writes audit', async () => {
+    const current = await adminBrandService.getBrand(
+      'brand-travelgo',
+      'CMS_OPERATION',
+    );
+    const updated = await adminBrandService.updateBrand(
+      'brand-travelgo',
+      {
+        ...validBrandInput,
+        code: current.brand.code,
+        status: 'ACTIVE',
+        viDisplayName: 'TravelGo mới',
+      },
+      current.brand.version,
+      'CMS_OPERATION',
+      'cms-operation',
+    );
+
+    assert.equal(updated.version, current.brand.version + 1);
+    assert.equal(updated.name, 'TravelGo mới');
+    assert.equal(mockData.auditRecords.at(-1)?.action, 'UPDATE_BRAND');
+  });
+
+  it('blocks activation without exactly one active default category', async () => {
+    const current = await adminBrandService.getBrand(
+      'brand-stylehub',
+      'CMS_ADMIN',
+    );
+    await assert.rejects(
+      () =>
+        adminBrandService.updateBrand(
+          'brand-stylehub',
+          {
+            ...validBrandInput,
+            code: current.brand.code,
+            status: 'ACTIVE',
+          },
+          current.brand.version,
+          'CMS_ADMIN',
+          'cms-admin',
+        ),
+      /BRAND_DEFAULT_CATEGORY_REQUIRED/,
+    );
+  });
+
+  it('soft-deactivates without deleting Brand or Offer history', async () => {
+    const result = await adminBrandService.deactivateBrand(
+      'brand-foodnest',
+      'CMS_ADMIN',
+      'cms-admin',
+    );
+
+    assert.equal(result.brand.status, 'INACTIVE');
+    assert.equal(result.dependencies.canHardDelete, false);
+    assert.equal(mockData.brands.some(({ id }) => id === 'brand-foodnest'), true);
+    assert.equal(mockData.offers.some(({ brandId }) => brandId === 'brand-foodnest'), true);
+    assert.equal(mockData.auditRecords.at(-1)?.action, 'DEACTIVATE_BRAND');
+  });
+
+  it('enforces edit permission in the service', async () => {
+    await assert.rejects(
+      () =>
+        adminBrandService.deactivateBrand(
+          'brand-foodnest',
+          'CMS_FINANCE',
+          'cms-finance',
+        ),
+      /FORBIDDEN/,
+    );
+  });
+});

@@ -415,6 +415,7 @@
   },
   "ADMIN_BRAND_FORM": {
     "TITLE": "Create brand",
+    "EDIT_TITLE": "Edit brand",
     "DESCRIPTION": "Create the Brand master record first. Category mapping and integration credentials are configured outside this form.",
     "BACK": "Back to brands",
     "GENERAL": "General information",
@@ -440,6 +441,9 @@
     "TERMS": "Terms",
     "CREATE": "Create brand",
     "CREATE_SUCCESS": "Brand was created.",
+    "UPDATE_SUCCESS": "Brand was updated.",
+    "NOT_FOUND": "The Brand does not exist or you cannot access it.",
+    "CODE_LOCKED": "The Brand code is immutable because related business data exists.",
     "SAVE_ERROR": "The Brand could not be created. Your form data was preserved.",
     "DISCARD_TITLE": "Discard unsaved changes?",
     "DISCARD_DESCRIPTION": "Your Brand form changes will be lost.",
@@ -450,6 +454,7 @@
       "BRAND_CODE_LENGTH": "Brand code cannot exceed 50 characters.",
       "BRAND_CODE_INVALID": "Use letters, numbers, underscores or hyphens only.",
       "BRAND_CODE_DUPLICATE": "Brand code already exists.",
+      "BRAND_CODE_IMMUTABLE": "Brand code cannot change after related data exists.",
       "WEBSITE_REQUIRED": "Website URL is required.",
       "WEBSITE_INVALID": "Enter a valid http:// or https:// URL.",
       "LEGAL_NAME_LENGTH": "Legal name cannot exceed 255 characters.",
@@ -464,8 +469,24 @@
       "CONTACT_PHONE_INVALID": "Contact phone is invalid.",
       "NOTES_LENGTH": "Notes cannot exceed 1000 characters.",
       "LOGO_INVALID": "Use a PNG, JPEG or SVG logo no larger than 2 MB.",
-      "BRAND_DEFAULT_CATEGORY_REQUIRED": "Configure exactly one active default category before activating the Brand."
+      "BRAND_DEFAULT_CATEGORY_REQUIRED": "Configure exactly one active default category before activating the Brand.",
+      "VERSION_CONFLICT": "This Brand was updated elsewhere. Reload it before saving again."
     }
+  },
+  "ADMIN_BRAND_DETAIL": {
+    "NOT_FOUND": "The Brand does not exist or you cannot access it.",
+    "VERSION": "Version",
+    "DEPENDENCIES": "Dependency summary",
+    "MAPPINGS": "Category & Commission",
+    "OFFERS": "Offers",
+    "ASSIGNMENTS": "Tenant assignments",
+    "TRANSACTIONS": "Transactions",
+    "SOFT_DELETE_ONLY": "Related data exists, so this Brand can only be soft-deactivated.",
+    "DEACTIVATE": "Deactivate",
+    "DEACTIVATE_TITLE": "Deactivate this Brand?",
+    "DEACTIVATE_WARNING": "The Brand and its Offers will no longer be visible or clickable on the marketplace. Existing business history remains unchanged.",
+    "CONFIRM_DEACTIVATE": "Confirm deactivate",
+    "DEACTIVATE_SUCCESS": "Brand was deactivated."
   },
   "DASHBOARD": {
     "PAGE": {

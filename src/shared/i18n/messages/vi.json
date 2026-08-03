@@ -415,6 +415,7 @@
   },
   "ADMIN_BRAND_FORM": {
     "TITLE": "Tạo thương hiệu",
+    "EDIT_TITLE": "Sửa thương hiệu",
     "DESCRIPTION": "Tạo dữ liệu Brand trước. Category mapping và integration credential được cấu hình ngoài form này.",
     "BACK": "Quay lại thương hiệu",
     "GENERAL": "Thông tin chung",
@@ -440,6 +441,9 @@
     "TERMS": "Điều khoản",
     "CREATE": "Tạo thương hiệu",
     "CREATE_SUCCESS": "Đã tạo thương hiệu.",
+    "UPDATE_SUCCESS": "Đã cập nhật thương hiệu.",
+    "NOT_FOUND": "Brand không tồn tại hoặc bạn không có quyền truy cập.",
+    "CODE_LOCKED": "Không thể sửa mã Brand vì đã có dữ liệu nghiệp vụ liên quan.",
     "SAVE_ERROR": "Không thể tạo Brand. Dữ liệu form vẫn được giữ lại.",
     "DISCARD_TITLE": "Bỏ các thay đổi chưa lưu?",
     "DISCARD_DESCRIPTION": "Các thay đổi trên form Brand sẽ bị mất.",
@@ -450,6 +454,7 @@
       "BRAND_CODE_LENGTH": "Mã thương hiệu không được quá 50 ký tự.",
       "BRAND_CODE_INVALID": "Chỉ dùng chữ cái, số, dấu gạch dưới hoặc gạch ngang.",
       "BRAND_CODE_DUPLICATE": "Mã thương hiệu đã tồn tại.",
+      "BRAND_CODE_IMMUTABLE": "Không thể đổi mã Brand sau khi có dữ liệu liên quan.",
       "WEBSITE_REQUIRED": "Website URL là bắt buộc.",
       "WEBSITE_INVALID": "Nhập URL hợp lệ bắt đầu bằng http:// hoặc https://.",
       "LEGAL_NAME_LENGTH": "Tên pháp lý không được quá 255 ký tự.",
@@ -464,8 +469,24 @@
       "CONTACT_PHONE_INVALID": "Số điện thoại không hợp lệ.",
       "NOTES_LENGTH": "Ghi chú không được quá 1000 ký tự.",
       "LOGO_INVALID": "Dùng logo PNG, JPEG hoặc SVG không quá 2 MB.",
-      "BRAND_DEFAULT_CATEGORY_REQUIRED": "Cần cấu hình đúng một category mặc định Active trước khi kích hoạt Brand."
+      "BRAND_DEFAULT_CATEGORY_REQUIRED": "Cần cấu hình đúng một category mặc định Active trước khi kích hoạt Brand.",
+      "VERSION_CONFLICT": "Brand đã được cập nhật ở nơi khác. Hãy tải lại trước khi lưu."
     }
+  },
+  "ADMIN_BRAND_DETAIL": {
+    "NOT_FOUND": "Brand không tồn tại hoặc bạn không có quyền truy cập.",
+    "VERSION": "Phiên bản",
+    "DEPENDENCIES": "Thông tin liên kết",
+    "MAPPINGS": "Category & Commission",
+    "OFFERS": "Ưu đãi",
+    "ASSIGNMENTS": "Gán đối tác",
+    "TRANSACTIONS": "Giao dịch",
+    "SOFT_DELETE_ONLY": "Brand đã có dữ liệu liên quan nên chỉ có thể ngưng hoạt động.",
+    "DEACTIVATE": "Ngưng hoạt động",
+    "DEACTIVATE_TITLE": "Ngưng hoạt động Brand?",
+    "DEACTIVATE_WARNING": "Brand và các Offer sẽ không còn hiển thị hoặc click được trên marketplace. Dữ liệu nghiệp vụ lịch sử vẫn được giữ nguyên.",
+    "CONFIRM_DEACTIVATE": "Xác nhận ngưng hoạt động",
+    "DEACTIVATE_SUCCESS": "Đã ngưng hoạt động Brand."
   },
   "DASHBOARD": {
     "PAGE": {

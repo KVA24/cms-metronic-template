@@ -11,6 +11,7 @@ import {
 import {
   adminBrandSchema,
   type AdminBrandInput,
+  type AdminBrandDetailView,
   type AdminBrandListItem,
   type AdminBrandListResult,
   type AdminBrandQuery,
@@ -27,9 +28,49 @@ function resolveBrandContent(brand: Brand, locale: ContentLocale) {
 
 function assertPermission(
   roleCode: AdminRoleCode,
-  permission: 'brands.view' | 'brands.create',
+  permission: 'brands.view' | 'brands.create' | 'brands.edit',
 ): void {
   if (!hasPermission(roleCode, permission)) throw new Error('FORBIDDEN');
+}
+
+function getBrandOrThrow(brandId: string): Brand {
+  const brand = mockData.brands.find(({ id }) => id === brandId);
+  if (!brand) throw new Error('BRAND_NOT_FOUND');
+  return brand;
+}
+
+function getBrandDependencies(brandId: string) {
+  const offerCount = mockData.offers.filter(
+    (offer) => offer.brandId === brandId,
+  ).length;
+  const assignmentCount = mockData.tenantBrandAssignments.filter(
+    (assignment) => assignment.brandId === brandId,
+  ).length;
+  const mappingCount = mockData.brandCategoryMappings.filter(
+    (mapping) => mapping.brandId === brandId,
+  ).length;
+  const transactionCount = mockData.transactions.filter(
+    (transaction) => transaction.brandId === brandId,
+  ).length;
+  return {
+    offerCount,
+    assignmentCount,
+    mappingCount,
+    transactionCount,
+    canHardDelete:
+      offerCount + assignmentCount + mappingCount + transactionCount === 0,
+  };
+}
+
+function hasExactlyOneActiveDefaultMapping(brandId: string): boolean {
+  return (
+    mockData.brandCategoryMappings.filter(
+      (mapping) =>
+        mapping.brandId === brandId &&
+        mapping.status === 'ACTIVE' &&
+        mapping.isDefault,
+    ).length === 1
+  );
 }
 
 function toContents(
@@ -94,17 +135,19 @@ export const adminBrandService = {
         const mappings = mockData.brandCategoryMappings.filter(
           ({ brandId }) => brandId === brand.id,
         );
-        const categories = mappings
-          .map((mapping) => mockData.categories.find(({ id }) => id === mapping.categoryId))
-          .filter((category) => Boolean(category))
-          .map((category) => ({
-            id: category!.id,
-            name:
-              category!.contents.find(({ locale: value }) => value === locale)
-                ?.name ??
-              category!.contents.find(({ locale: value }) => value === 'vi-VN')!
-                .name,
-          }));
+        const categories = mappings.reduce<AdminBrandListItem['categories']>(
+          (result, mapping) => {
+            const category = mockData.categories.find(({ id }) => id === mapping.categoryId);
+            if (!category) return result;
+            const content =
+              category.contents.find(({ locale: value }) => value === locale) ??
+              category.contents.find(({ locale: value }) => value === 'vi-VN') ??
+              category.contents[0];
+            result.push({ id: category.id, name: content?.name ?? category.code });
+            return result;
+          },
+          [],
+        );
         const item: AdminBrandListItem = {
           id: brand.id,
           code: brand.code,
@@ -170,14 +213,37 @@ export const adminBrandService = {
 
   async getFilterOptions() {
     return structuredClone({
-      categories: mockData.categories
-        .filter(({ status }) => status === 'ACTIVE')
-        .map((category) => ({
-          id: category.id,
-          name:
-            category.contents.find(({ locale }) => locale === 'vi-VN')?.name ??
-            category.code,
-        })),
+      categories: mockData.categories.reduce<{ id: string; name: string }[]>(
+        (result, category) => {
+          if (category.status === 'ACTIVE') {
+            result.push({
+              id: category.id,
+              name:
+                category.contents.find(({ locale }) => locale === 'vi-VN')?.name ??
+                category.code,
+            });
+          }
+          return result;
+        },
+        [],
+      ),
+    });
+  },
+
+  async getBrand(
+    brandId: string,
+    roleCode: AdminRoleCode,
+  ): Promise<AdminBrandDetailView> {
+    assertPermission(roleCode, 'brands.view');
+    const brand = getBrandOrThrow(brandId);
+    const dependencies = getBrandDependencies(brandId);
+    const canEdit = hasPermission(roleCode, 'brands.edit');
+    return structuredClone({
+      brand,
+      dependencies,
+      codeLocked: !dependencies.canHardDelete,
+      canEdit,
+      canDeactivate: canEdit && brand.status !== 'INACTIVE',
     });
   },
 
@@ -227,6 +293,81 @@ export const adminBrandService = {
     mockData.brands.push(brand);
     audit('CREATE_BRAND', brand.id, actorId);
     return structuredClone(brand);
+  },
+
+  async updateBrand(
+    brandId: string,
+    input: AdminBrandInput,
+    expectedVersion: number,
+    roleCode: AdminRoleCode,
+    actorId: string,
+  ): Promise<Brand> {
+    assertPermission(roleCode, 'brands.edit');
+    const brand = getBrandOrThrow(brandId);
+    const parsed = adminBrandSchema.parse(input);
+    const dependencies = getBrandDependencies(brandId);
+    if (!dependencies.canHardDelete && parsed.code !== brand.code) {
+      throw new Error('BRAND_CODE_IMMUTABLE');
+    }
+    if (expectedVersion !== brand.version) throw new Error('VERSION_CONFLICT');
+    if (
+      mockData.brands.some(
+        (candidate) =>
+          candidate.id !== brandId &&
+          candidate.code.toLowerCase() === parsed.code.toLowerCase(),
+      )
+    ) {
+      throw new Error('BRAND_CODE_DUPLICATE');
+    }
+    if (
+      parsed.status === 'ACTIVE' &&
+      !hasExactlyOneActiveDefaultMapping(brandId)
+    ) {
+      throw new Error('BRAND_DEFAULT_CATEGORY_REQUIRED');
+    }
+
+    Object.assign(brand, {
+      code: parsed.code,
+      name:
+        parsed.defaultLocale === 'vi-VN'
+          ? parsed.viDisplayName
+          : parsed.enDisplayName,
+      legalName: parsed.legalName,
+      websiteUrl: parsed.websiteUrl,
+      logo: parsed.logo,
+      status: parsed.status,
+      defaultLocale: parsed.defaultLocale,
+      pendingDays: parsed.pendingDays,
+      contactName: parsed.contactName,
+      contactEmail: parsed.contactEmail,
+      contactPhone: parsed.contactPhone,
+      notes: parsed.notes,
+      contents: toContents(parsed),
+      updatedBy: actorId,
+      updatedAt: '2026-08-03T10:30:00.000Z',
+      version: brand.version + 1,
+    });
+    audit('UPDATE_BRAND', brand.id, actorId);
+    return structuredClone(brand);
+  },
+
+  async deactivateBrand(
+    brandId: string,
+    roleCode: AdminRoleCode,
+    actorId: string,
+  ): Promise<{
+    brand: Brand;
+    dependencies: ReturnType<typeof getBrandDependencies>;
+  }> {
+    assertPermission(roleCode, 'brands.edit');
+    const brand = getBrandOrThrow(brandId);
+    const dependencies = getBrandDependencies(brandId);
+    brand.status = 'INACTIVE';
+    brand.updatedBy = actorId;
+    brand.updatedAt = '2026-08-03T11:30:00.000Z';
+    brand.version += 1;
+    audit('DEACTIVATE_BRAND', brand.id, actorId);
+    return structuredClone({ brand, dependencies });
   },
 
   async uploadLogo(

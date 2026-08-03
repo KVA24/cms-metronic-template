@@ -40,6 +40,22 @@ export interface AdminBrandListItem {
 
 export type AdminBrandListResult = PageResult<AdminBrandListItem>;
 
+export interface BrandDependencySummary {
+  offerCount: number;
+  assignmentCount: number;
+  mappingCount: number;
+  transactionCount: number;
+  canHardDelete: boolean;
+}
+
+export interface AdminBrandDetailView {
+  brand: Brand;
+  dependencies: BrandDependencySummary;
+  codeLocked: boolean;
+  canEdit: boolean;
+  canDeactivate: boolean;
+}
+
 const assetMetadataSchema = z.object({
   id: z.string(),
   fileName: z.string(),
