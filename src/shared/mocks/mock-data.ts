@@ -46,24 +46,38 @@ const seedData: MockData = {
     },
   ],
   brands: [
-    {
-      id: 'brand-foodnest',
-      code: 'FOODNEST',
-      name: 'FoodNest',
-      status: 'ACTIVE',
-    },
-    {
-      id: 'brand-travelgo',
-      code: 'TRAVELGO',
-      name: 'TravelGo',
-      status: 'ACTIVE',
-    },
-    {
-      id: 'brand-stylehub',
-      code: 'STYLEHUB',
-      name: 'StyleHub',
-      status: 'DRAFT',
-    },
+    createBrand('foodnest', 'FOODNEST', 'FoodNest', 'ACTIVE', 16),
+    createBrand('travelgo', 'TRAVELGO', 'TravelGo', 'ACTIVE', 18),
+    createBrand('stylehub', 'STYLEHUB', 'StyleHub', 'DRAFT', 20),
+  ],
+  brandCategoryMappings: [
+    createBrandCategoryMapping(
+      'foodnest-food',
+      'brand-foodnest',
+      'category-food-dining',
+      'FOOD',
+      true,
+      8,
+      'ACTIVE',
+    ),
+    createBrandCategoryMapping(
+      'travelgo-travel',
+      'brand-travelgo',
+      'category-travel',
+      'TRAVEL',
+      true,
+      6,
+      'ACTIVE',
+    ),
+    createBrandCategoryMapping(
+      'stylehub-fashion',
+      'brand-stylehub',
+      'category-fashion',
+      'FASHION',
+      false,
+      5,
+      'DRAFT',
+    ),
   ],
   offers: [
     {
@@ -185,6 +199,85 @@ const seedData: MockData = {
   auditRecords: [],
 };
 
+function createBrand(
+  id: string,
+  code: string,
+  name: string,
+  status: MockData['brands'][number]['status'],
+  updatedDay: number,
+): MockData['brands'][number] {
+  return {
+    id: `brand-${id}`,
+    code,
+    name,
+    legalName: `${name} Joint Stock Company`,
+    websiteUrl: `https://${id}.test`,
+    logo: {
+      id: `asset-brand-${id}`,
+      fileName: `${id}.svg`,
+      mimeType: 'image/svg+xml',
+      sizeBytes: 4096,
+      url: '/media/app/mini-logo.svg',
+    },
+    status,
+    defaultLocale: 'vi-VN',
+    pendingDays: 14,
+    contactName: `${name} Merchant Ops`,
+    contactEmail: `merchant@${id}.test`,
+    contactPhone: '+84 900 000 000',
+    notes: '',
+    contents: [
+      {
+        locale: 'vi-VN',
+        displayName: name,
+        tagline: `${name} ưu đãi mỗi ngày`,
+        shortDescription: `Mô tả thương hiệu ${name}.`,
+        terms: 'Áp dụng điều kiện của thương hiệu.',
+      },
+      {
+        locale: 'en-US',
+        displayName: name,
+        tagline: `${name} everyday offers`,
+        shortDescription: `${name} brand description.`,
+        terms: 'Brand terms apply.',
+      },
+    ],
+    createdBy: 'cms-admin',
+    createdAt: '2026-07-01T02:00:00.000Z',
+    updatedBy: status === 'DRAFT' ? 'cms-operation' : 'cms-admin',
+    updatedAt: `2026-07-${updatedDay}T03:00:00.000Z`,
+    version: 1,
+  };
+}
+
+function createBrandCategoryMapping(
+  id: string,
+  brandId: string,
+  categoryId: string,
+  brandCategoryCode: string,
+  isDefault: boolean,
+  commissionValue: number,
+  status: MockData['brandCategoryMappings'][number]['status'],
+): MockData['brandCategoryMappings'][number] {
+  return {
+    id: `mapping-${id}`,
+    brandId,
+    categoryId,
+    brandCategoryCode,
+    brandCategoryName: brandCategoryCode,
+    isDefault,
+    commissionType: 'PERCENTAGE',
+    commissionValue,
+    effectiveFrom: '2026-07-01T00:00:00.000Z',
+    effectiveTo: null,
+    status,
+    createdBy: 'cms-admin',
+    createdAt: '2026-07-01T02:00:00.000Z',
+    updatedBy: 'cms-admin',
+    updatedAt: '2026-07-01T02:00:00.000Z',
+  };
+}
+
 function createCategory(
   id: string,
   code: string,
@@ -286,6 +379,11 @@ export function resetMockData(): void {
   );
   mockData.tenants.splice(0, mockData.tenants.length, ...freshData.tenants);
   mockData.brands.splice(0, mockData.brands.length, ...freshData.brands);
+  mockData.brandCategoryMappings.splice(
+    0,
+    mockData.brandCategoryMappings.length,
+    ...freshData.brandCategoryMappings,
+  );
   mockData.offers.splice(0, mockData.offers.length, ...freshData.offers);
   mockData.tenantBrandAssignments.splice(
     0,

@@ -55,6 +55,16 @@ const AdminCategoryFormPage = lazy(() =>
     (m) => ({ default: m.AdminCategoryFormPage }),
   ),
 );
+const AdminBrandListPage = lazy(() =>
+  import('@/features/admin/brands/ui/admin-brand-list-page').then((m) => ({
+    default: m.AdminBrandListPage,
+  })),
+);
+const AdminBrandCreatePage = lazy(() =>
+  import('@/features/admin/brands/ui/admin-brand-create-page').then((m) => ({
+    default: m.AdminBrandCreatePage,
+  })),
+);
 const AccountManagementPage = lazy(() =>
   import('@/features/account').then((m) => ({ default: m.AccountPage })),
 );
@@ -97,6 +107,8 @@ export function AppRoutingSetup() {
               path="/admin/categories/:categoryId"
               element={<AdminCategoryDetailPage />}
             />
+            <Route path="/admin/brands" element={<AdminBrandListPage />} />
+            <Route path="/admin/brands/new" element={<AdminBrandCreatePage />} />
             <Route
               path="/auth/welcome-message"
               element={<AuthWelcomeMessagePage />}

@@ -78,7 +78,48 @@ export interface Brand {
   id: string;
   code: string;
   name: string;
+  legalName: string;
+  websiteUrl: string;
+  logo: AssetMetadata | null;
   status: EntityStatus;
+  defaultLocale: ContentLocale;
+  pendingDays: number;
+  contactName: string;
+  contactEmail: string;
+  contactPhone: string;
+  notes: string;
+  contents: BrandLocaleContent[];
+  createdBy: string;
+  createdAt: string;
+  updatedBy: string;
+  updatedAt: string;
+  version: number;
+}
+
+export interface BrandLocaleContent {
+  locale: ContentLocale;
+  displayName: string;
+  tagline: string;
+  shortDescription: string;
+  terms: string;
+}
+
+export interface BrandCategoryMapping {
+  id: string;
+  brandId: string;
+  categoryId: string;
+  brandCategoryCode: string;
+  brandCategoryName: string;
+  isDefault: boolean;
+  commissionType: 'PERCENTAGE' | 'FIXED_AMOUNT';
+  commissionValue: number;
+  effectiveFrom: string;
+  effectiveTo: string | null;
+  status: EntityStatus;
+  createdBy: string;
+  createdAt: string;
+  updatedBy: string;
+  updatedAt: string;
 }
 
 export interface Offer {
@@ -163,6 +204,7 @@ export interface MockData {
   authAccounts: MockAuthAccount[];
   tenants: Tenant[];
   brands: Brand[];
+  brandCategoryMappings: BrandCategoryMapping[];
   offers: Offer[];
   tenantBrandAssignments: TenantBrandAssignment[];
   transactions: Transaction[];
