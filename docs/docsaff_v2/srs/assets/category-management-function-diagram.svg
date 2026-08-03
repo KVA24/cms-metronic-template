@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="320" viewBox="0 0 980 320">
+  <defs>
+    <style>
+      .box{fill:#fff;stroke:#cfd8e3;stroke-width:1.5;rx:8}
+      .head{fill:#eef8f8;stroke:#8fd2d8;stroke-width:1.5;rx:8}
+      .text{font-family:Arial,Helvetica,sans-serif;font-size:14px;fill:#17212f;font-weight:700}
+      .small{font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#667085}
+      .arrow{stroke:#667085;stroke-width:2;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#667085"/>
+    </marker>
+  </defs>
+  <rect x="30" y="118" width="150" height="84" class="head"/>
+  <text x="64" y="152" class="text">Admin/Ops</text>
+  <text x="54" y="174" class="small">Manage category</text>
+  <path d="M180 160 H230" class="arrow"/>
+  <rect x="230" y="48" width="190" height="220" class="box"/>
+  <text x="270" y="82" class="text">Category CMS</text>
+  <text x="260" y="116" class="small">List/filter categories</text>
+  <text x="260" y="140" class="small">Create category</text>
+  <text x="260" y="164" class="small">Edit category</text>
+  <text x="260" y="188" class="small">Deactivate category</text>
+  <text x="260" y="212" class="small">Manage translations</text>
+  <path d="M420 160 H470" class="arrow"/>
+  <rect x="470" y="68" width="190" height="184" class="box"/>
+  <text x="512" y="102" class="text">Category Store</text>
+  <text x="500" y="136" class="small">category_code</text>
+  <text x="500" y="160" class="small">icon/display_order</text>
+  <text x="500" y="184" class="small">name_by_locale</text>
+  <text x="500" y="208" class="small">status/audit</text>
+  <path d="M660 160 H710" class="arrow"/>
+  <rect x="710" y="48" width="230" height="220" class="box"/>
+  <text x="772" y="82" class="text">Consumers</text>
+  <text x="740" y="116" class="small">Landing category icons/filter</text>
+  <text x="740" y="140" class="small">Brand Category Mapping</text>
+  <text x="740" y="164" class="small">Tenant visibility filter</text>
+  <text x="740" y="188" class="small">Tenant earn display override</text>
+  <text x="740" y="212" class="small">Order/transaction category display</text>
+</svg>

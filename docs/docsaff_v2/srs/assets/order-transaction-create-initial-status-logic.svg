@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="900" viewBox="0 0 1700 900">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#475467"/>
+    </marker>
+    <style>
+      .input{fill:#eef4ff;stroke:#84adff;stroke-width:1.5}
+      .box{fill:#fff;stroke:#98a2b3;stroke-width:1.4}
+      .decision{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.5}
+      .success{fill:#ecfdf3;stroke:#12b76a;stroke-width:1.5}
+      .error{fill:#fff1f3;stroke:#f63d68;stroke-width:1.5}
+      .title{font:700 22px Arial,sans-serif;fill:#101828}
+      .text{font:700 13px Arial,sans-serif;fill:#101828}
+      .small{font:11px Arial,sans-serif;fill:#475467}
+      .label{font:700 8.5px Arial,sans-serif;fill:#667085}
+      .arrow{stroke:#475467;stroke-width:1.5;fill:none;marker-end:url(#arrow)}
+      .dashed{stroke:#667085;stroke-width:1.35;fill:none;stroke-dasharray:6 5;marker-end:url(#arrow)}
+    </style>
+  </defs>
+
+  <rect width="1700" height="900" fill="#fff"/>
+  <text x="850" y="42" class="title" text-anchor="middle">ORD-006 — Tạo Transaction và khởi tạo trạng thái</text>
+
+  <rect x="50" y="105" width="235" height="110" rx="10" class="input"/>
+  <text x="70" y="138" class="text">1. Nhận kết quả Order</text>
+  <text x="70" y="166" class="small">Tenant/Brand đã xác định</text>
+  <text x="70" y="190" class="small">Toàn bộ item đã resolve</text>
+
+  <path d="M285 160 H350" class="arrow"/>
+  <polygon points="470,95 590,160 470,225 350,160" class="decision"/>
+  <text x="470" y="153" class="text" text-anchor="middle">2. Tất cả item Pass?</text>
+  <text x="470" y="176" class="small" text-anchor="middle">COM-001/002</text>
+
+  <path d="M590 160 H655" class="arrow"/>
+  <text x="614" y="149" class="label">CÓ</text>
+  <polygon points="785,90 915,160 785,230 655,160" class="decision"/>
+  <text x="785" y="152" class="text" text-anchor="middle">3. Transaction tồn tại?</text>
+  <text x="785" y="176" class="small" text-anchor="middle">Brand + brand_order_id</text>
+
+  <path d="M785 230 V285" class="arrow"/>
+  <text x="796" y="263" class="label">CÓ</text>
+  <polygon points="785,285 900,350 785,415 670,350" class="decision"/>
+  <text x="785" y="343" class="text" text-anchor="middle">4. Payload giống?</text>
+  <text x="785" y="366" class="small" text-anchor="middle">Dữ liệu đã ghi nhận</text>
+
+  <path d="M670 350 H500 V475" class="arrow"/>
+  <text x="590" y="339" class="label">CÓ</text>
+  <rect x="365" y="475" width="270" height="110" rx="10" class="success"/>
+  <text x="385" y="510" class="text">5A. Trả Transaction hiện có</text>
+  <text x="385" y="540" class="small">Kết quả idempotent</text>
+  <text x="385" y="564" class="small">Không tạo Transaction mới</text>
+
+  <path d="M900 350 H910 V440 H1080 V475" class="dashed"/>
+  <text x="914" y="432" class="label">KHÔNG</text>
+  <rect x="945" y="475" width="270" height="110" rx="10" class="error"/>
+  <text x="1080" y="521" class="text" text-anchor="middle">5B. Ghi Exception</text>
+  <text x="1080" y="550" class="small" text-anchor="middle">idempotency_conflict</text>
+
+  <path d="M915 160 H990" class="arrow"/>
+  <text x="938" y="149" class="label">KHÔNG</text>
+  <rect x="990" y="105" width="210" height="110" rx="10" class="box"/>
+  <text x="1010" y="140" class="text">5. Sinh Order ID</text>
+  <text x="1010" y="171" class="small">Tạo order_id duy nhất</text>
+
+  <path d="M1200 160 H1260" class="arrow"/>
+  <rect x="1260" y="105" width="265" height="110" rx="10" class="box"/>
+  <text x="1280" y="138" class="text">6. Lưu Transaction atomic</text>
+  <text x="1280" y="166" class="small">Order header + toàn bộ item</text>
+  <text x="1280" y="190" class="small">Commission/Tenant Share snapshot</text>
+
+  <path d="M1392 215 V300" class="arrow"/>
+  <rect x="1260" y="300" width="265" height="110" rx="10" class="box"/>
+  <text x="1280" y="334" class="text">7. Khởi tạo trạng thái</text>
+  <text x="1280" y="362" class="small">Order Status = Pending</text>
+  <text x="1280" y="386" class="small">Item Status = Pending</text>
+
+  <path d="M1260 355 H1185" class="arrow"/>
+  <rect x="920" y="300" width="265" height="110" rx="10" class="box"/>
+  <text x="940" y="334" class="text">8. Tổng hợp số dự tính</text>
+  <text x="940" y="362" class="small">Gross commission dự tính</text>
+  <text x="940" y="386" class="small">Tenant Share dự tính</text>
+
+  <path d="M1052 410 V650" class="arrow"/>
+  <rect x="905" y="650" width="295" height="115" rx="10" class="success"/>
+  <text x="925" y="685" class="text">9. Commit thành công</text>
+  <text x="925" y="715" class="small">Transaction sẵn sàng hiển thị</text>
+  <text x="925" y="739" class="small">trên CMS/Tenant Portal theo quyền</text>
+
+  <rect x="1320" y="650" width="270" height="115" rx="10" class="error"/>
+  <text x="1455" y="715" class="text" text-anchor="middle">Ghi Exception</text>
+
+  <path d="M470 225 V260 H300 V620 H1455 V650" class="dashed"/>
+  <text x="312" y="608" class="label">KHÔNG</text>
+
+  <path d="M1392 410 V610 H1455 V650" class="dashed"/>
+  <text x="1405" y="598" class="label">LƯU THẤT BẠI</text>
+</svg>

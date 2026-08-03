@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="270" viewBox="0 0 1060 270">
+  <defs><style>.box{fill:#fff;stroke:#cfd8e3;stroke-width:1.5;rx:8}.head{fill:#eef8f8;stroke:#8fd2d8;stroke-width:1.5;rx:8}.warn{fill:#fff7df;stroke:#e7bd55;stroke-width:1.5;rx:8}.text{font-family:Arial,Helvetica,sans-serif;font-size:14px;fill:#17212f;font-weight:700}.small{font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#667085}.arrow{stroke:#667085;stroke-width:2;fill:none;marker-end:url(#arrow)}</style><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#667085"/></marker></defs>
+  <rect x="24" y="94" width="160" height="76" class="head"/><text x="54" y="127" class="text">Offer/Brand</text><text x="44" y="148" class="small">Need display text</text>
+  <path d="M184 132 H244" class="arrow"/>
+  <rect x="244" y="76" width="190" height="112" class="warn"/><text x="284" y="108" class="text">Offer Override</text><text x="278" y="132" class="small">Use if active &amp; locale match</text><text x="278" y="153" class="small">Highest priority</text>
+  <path d="M434 132 H494" class="arrow"/>
+  <rect x="494" y="76" width="190" height="112" class="box"/><text x="528" y="108" class="text">Category Override</text><text x="528" y="132" class="small">Use if no Offer override</text><text x="528" y="153" class="small">By Brand category</text>
+  <path d="M684 132 H744" class="arrow"/>
+  <rect x="744" y="76" width="230" height="112" class="box"/><text x="794" y="108" class="text">Brand Display</text><text x="778" y="132" class="small">Fallback if no override</text><text x="778" y="153" class="small">Display only, no point posting</text>
+</svg>

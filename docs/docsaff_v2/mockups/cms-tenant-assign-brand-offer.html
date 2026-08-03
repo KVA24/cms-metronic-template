@@ -1,0 +1,1042 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mockup CMS - Assign Brand/Offer cho Tenant</title>
+  <style>
+    :root {
+      --ink: #17212f;
+      --muted: #667085;
+      --line: #d9e1ea;
+      --page: #f5f7fa;
+      --surface: #ffffff;
+      --primary: #095f78;
+      --primary-dark: #074759;
+      --danger: #b42318;
+      --soft: #eef8f8;
+      --success-bg: #ecfdf3;
+      --success: #027a48;
+      --warn-bg: #fff7df;
+      --warn: #865400;
+      --gray-bg: #f2f4f7;
+      --gray: #475467;
+      --radius: 8px;
+      --shadow: 0 12px 28px rgba(23, 33, 47, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button, input, select, textarea { font: inherit; }
+
+    .app {
+      min-width: 1180px;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      background: #17212f;
+      color: #ffffff;
+      padding: 22px 16px;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 8px 22px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .mark {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      background: var(--primary);
+      font-weight: 850;
+    }
+
+    .brand-mark strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .brand-mark span {
+      display: block;
+      margin-top: 3px;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 12px;
+    }
+
+    .nav {
+      padding-top: 18px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .nav-item {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 10px;
+      border-radius: var(--radius);
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .nav-item.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      display: grid;
+      place-items: center;
+      color: currentColor;
+    }
+
+    .nav-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      height: 64px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .breadcrumb strong { color: var(--ink); }
+
+    .user-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      background: var(--primary);
+      font-weight: 800;
+    }
+
+    .content {
+      width: 1120px;
+      margin: 0 auto;
+      padding: 26px 0 42px;
+    }
+
+    .page-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .page-head p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .button {
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 0 14px;
+      background: #ffffff;
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 760;
+      cursor: default;
+      white-space: nowrap;
+    }
+
+    .button.primary {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 10px 20px rgba(9, 95, 120, 0.16);
+    }
+
+    .button svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .tenant-context {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .tenant-main {
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tenant-identity {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .tenant-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      color: #ffffff;
+      background: var(--primary);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .tenant-title strong {
+      display: block;
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.3;
+      font-weight: 850;
+    }
+
+    .tenant-title span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .tabs {
+      height: 48px;
+      display: flex;
+      align-items: stretch;
+      gap: 4px;
+      padding: 0 12px;
+      background: #ffffff;
+    }
+
+    .tab {
+      border: 0;
+      border-bottom: 3px solid transparent;
+      padding: 0 12px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 780;
+    }
+
+    .tab.active {
+      color: var(--primary-dark);
+      border-bottom-color: var(--primary);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .panel-head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.2;
+    }
+
+    .required-note {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .panel-body { padding: 18px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 13px;
+      font-weight: 760;
+      color: #344054;
+    }
+
+    .req { color: var(--danger); }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      outline: 0;
+    }
+
+    input, select {
+      height: 42px;
+      padding: 0 12px;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+      padding: 11px 12px;
+      line-height: 1.45;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .mode-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .mode-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      padding: 12px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .mode-card.active {
+      border-color: var(--primary);
+      background: var(--soft);
+    }
+
+    .mode-card strong {
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .mode-card span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .offer-list {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .offer-row {
+      min-height: 58px;
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) 96px;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-bottom: 1px solid #edf1f5;
+    }
+
+    .offer-row:last-child { border-bottom: 0; }
+
+    .offer-row input {
+      width: 16px;
+      height: 16px;
+    }
+
+    .offer-title {
+      min-width: 0;
+    }
+
+    .offer-title strong {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .offer-title span {
+      display: block;
+      margin-top: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 0 8px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .badge.active {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .badge.draft {
+      background: var(--warn-bg);
+      color: var(--warn);
+    }
+
+    .badge.inactive {
+      background: var(--gray-bg);
+      color: var(--gray);
+    }
+
+    .side {
+      position: sticky;
+      top: 82px;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .summary-item strong { color: var(--ink); }
+
+    .notice {
+      border: 1px solid #c7d7fe;
+      border-radius: var(--radius);
+      background: #eef4ff;
+      color: #3538cd;
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 650;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 14px;
+      align-items: end;
+    }
+
+    .filter-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .table-wrap {
+      overflow: hidden;
+      border-radius: 0 0 var(--radius) var(--radius);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      background: #ffffff;
+    }
+
+    th {
+      height: 44px;
+      background: #f8fafc;
+      color: #475467;
+      font-size: 12px;
+      line-height: 1.25;
+      font-weight: 800;
+      text-align: left;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
+    }
+
+    td {
+      min-height: 64px;
+      padding: 13px 14px;
+      border-bottom: 1px solid #edf1f5;
+      color: #344054;
+      font-size: 13px;
+      line-height: 1.4;
+      vertical-align: middle;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .check-cell input {
+      width: 16px;
+      height: 16px;
+    }
+
+    .brand-cell {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+    }
+
+    .brand-logo-small {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      color: #ffffff;
+      background: var(--primary);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .brand-title-small {
+      min-width: 0;
+    }
+
+    .brand-title-small strong {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .brand-title-small span {
+      display: block;
+      margin-top: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .muted { color: var(--muted); }
+
+    .row-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .modal-backdrop {
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #f8fafc;
+      padding: 16px;
+    }
+
+    .modal {
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .modal-head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .modal-head h3 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.25;
+    }
+
+    .modal-head p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .modal-body {
+      padding: 16px 18px;
+    }
+
+    .offer-config-row {
+      min-height: 58px;
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) 104px;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #edf1f5;
+    }
+
+    .offer-config-row:last-child { border-bottom: 0; }
+
+    .offer-config-row input {
+      width: 16px;
+      height: 16px;
+    }
+
+    .modal-footer {
+      padding: 14px 18px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .footer-actions {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand-mark">
+        <div class="mark">AM</div>
+        <div>
+          <strong>Affiliate CMS</strong>
+          <span>Operations Console</span>
+        </div>
+      </div>
+      <nav class="nav" aria-label="CMS navigation">
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v6H4z"></path><path d="M4 14h7v6H4z"></path><path d="M15 14h5v6h-5z"></path></svg></span>
+          Dashboard
+        </div>
+        <div class="nav-item active">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M7 7v13"></path><path d="M17 7v13"></path><path d="M9 4h6l2 3H7z"></path></svg></span>
+          Tenants
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 21h18"></path><path d="M5 21V5h8v16"></path><path d="M13 9h6v12"></path><path d="M8 8h2"></path><path d="M8 12h2"></path><path d="M8 16h2"></path></svg></span>
+          Brands
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h10"></path></svg></span>
+          Offers
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5"></path><path d="M4 19h16"></path><path d="M8 16v-5"></path><path d="M12 16V8"></path><path d="M16 16v-9"></path></svg></span>
+          Reports
+        </div>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb">
+          <span>Tenant Management</span>
+          <span>/</span>
+          <span>Vietnam Airlines Loyalty</span>
+          <span>/</span>
+          <strong>Assign Brand/Offer</strong>
+        </div>
+        <div class="user-box">
+          <span>Admin/Ops</span>
+          <div class="avatar">AO</div>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="page-head">
+          <div>
+            <h1>Assign Brand/Offer cho Tenant</h1>
+            <p>Cấu hình Brand hoặc Offer nào được hiển thị trên landing page của Tenant.</p>
+          </div>
+          <div class="actions">
+            <button class="button" type="button">Hủy</button>
+            <button class="button primary" type="button">Lưu assignment</button>
+          </div>
+        </div>
+
+        <section class="tenant-context">
+          <div class="tenant-main">
+            <div class="tenant-identity">
+              <div class="tenant-logo">VN</div>
+              <div class="tenant-title">
+                <strong>Vietnam Airlines Loyalty</strong>
+                <span>TEN-0001 · VNA_LOYALTY · Active</span>
+              </div>
+            </div>
+            <button class="button" type="button">Quay lại chi tiết Tenant</button>
+          </div>
+          <div class="tabs">
+            <button class="tab" type="button">Thông tin Tenant</button>
+            <button class="tab active" type="button">Brand/Offer visibility</button>
+            <button class="tab" type="button">Revenue share</button>
+            <button class="tab" type="button">Reports</button>
+            <button class="tab" type="button">Audit log</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Bộ lọc Brand</h2>
+            <button class="button" type="button">Đặt lại</button>
+          </div>
+          <div class="panel-body">
+            <div class="filters">
+              <div class="field">
+                <label for="keyword">Từ khóa</label>
+                <input id="keyword" placeholder="Brand ID, Brand name">
+              </div>
+              <div class="field">
+                <label for="status">Trạng thái Brand</label>
+                <select id="status">
+                  <option>Tất cả</option>
+                  <option>Active</option>
+                  <option>Inactive</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="category">Category</label>
+                <select id="category">
+                  <option>Tất cả category</option>
+                  <option>Du lịch</option>
+                  <option>Mua sắm</option>
+                  <option>Ăn uống</option>
+                  <option>Dịch vụ</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="visibility">Trạng thái hiển thị</label>
+                <select id="visibility">
+                  <option>Tất cả</option>
+                  <option>Đã hiển thị</option>
+                  <option>Chưa hiển thị</option>
+                  <option>Có chỉnh Offer riêng</option>
+                </select>
+              </div>
+            </div>
+            <div class="filter-actions">
+              <button class="button" type="button">Đặt lại</button>
+              <button class="button primary" type="button">Áp dụng</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Danh sách Brand hiển thị cho Tenant</h2>
+            <div class="actions">
+              <span class="required-note">Chọn Brand mặc định hiển thị tất cả Offer active</span>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <colgroup>
+                <col style="width: 56px">
+                <col style="width: 112px">
+                <col style="width: 220px">
+                <col style="width: 120px">
+                <col style="width: 108px">
+                <col style="width: 118px">
+                <col style="width: 145px">
+                <col style="width: 150px">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th class="check-cell"><input type="checkbox" aria-label="Select all brands"></th>
+                  <th>Brand ID</th>
+                  <th>Brand name</th>
+                  <th>Category</th>
+                  <th>Trạng thái</th>
+                  <th>Active offer</th>
+                  <th>Phạm vi hiển thị</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="check-cell"><input type="checkbox" checked aria-label="Select brand"></td>
+                  <td><strong>BRD-0001</strong></td>
+                  <td>
+                    <div class="brand-cell">
+                      <div class="brand-logo-small">TG</div>
+                      <div class="brand-title-small">
+                        <strong>TravelGo</strong>
+                        <span>travelgo.vn</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Du lịch</td>
+                  <td><span class="badge active">Active</span></td>
+                  <td>3 offer</td>
+                  <td><span class="badge draft">Custom offers</span></td>
+                  <td>
+                    <div class="row-actions">
+                      <button class="button" type="button">Chỉnh Offer</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="check-cell"><input type="checkbox" checked aria-label="Select brand"></td>
+                  <td><strong>BRD-0002</strong></td>
+                  <td>
+                    <div class="brand-cell">
+                      <div class="brand-logo-small">FM</div>
+                      <div class="brand-title-small">
+                        <strong>FreshMart</strong>
+                        <span>freshmart.vn</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Mua sắm</td>
+                  <td><span class="badge active">Active</span></td>
+                  <td>8 offer</td>
+                  <td><span class="badge active">All active offers</span></td>
+                  <td>
+                    <div class="row-actions">
+                      <button class="button" type="button">Chỉnh Offer</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="check-cell"><input type="checkbox" aria-label="Select brand"></td>
+                  <td><strong>BRD-0003</strong></td>
+                  <td>
+                    <div class="brand-cell">
+                      <div class="brand-logo-small">BI</div>
+                      <div class="brand-title-small">
+                        <strong>Bistro Inn</strong>
+                        <span>bistroinn.vn</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Ăn uống</td>
+                  <td><span class="badge active">Active</span></td>
+                  <td>4 offer</td>
+                  <td><span class="badge inactive">Hidden</span></td>
+                  <td>
+                    <div class="row-actions">
+                      <button class="button" type="button">Chỉnh Offer</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="check-cell"><input type="checkbox" checked aria-label="Select brand"></td>
+                  <td><strong>BRD-0004</strong></td>
+                  <td>
+                    <div class="brand-cell">
+                      <div class="brand-logo-small">SP</div>
+                      <div class="brand-title-small">
+                        <strong>StylePlus</strong>
+                        <span>styleplus.vn</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Mua sắm</td>
+                  <td><span class="badge inactive">Inactive</span></td>
+                  <td>0 offer</td>
+                  <td><span class="badge inactive">Hidden</span></td>
+                  <td>
+                    <div class="row-actions">
+                      <button class="button" type="button">Chỉnh Offer</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="modal-backdrop">
+          <div class="modal">
+            <div class="modal-head">
+              <div>
+                <h3>Chỉnh Offer hiển thị: TravelGo</h3>
+                <p>Mặc định khi chọn Brand, tất cả Offer active được hiển thị. Bỏ chọn các Offer không muốn hiển thị cho Tenant này.</p>
+              </div>
+              <button class="button" type="button">Đóng</button>
+            </div>
+            <div class="modal-body">
+              <div class="offer-config-row">
+                <input type="checkbox" checked aria-label="Select offer">
+                <div class="offer-title">
+                  <strong>Ưu đãi đặt phòng khách sạn cuối tuần</strong>
+                  <span>OFF-0001 · Active · 01/07/2026 - 31/12/2026</span>
+                </div>
+                <span class="badge active">Visible</span>
+              </div>
+              <div class="offer-config-row">
+                <input type="checkbox" checked aria-label="Select offer">
+                <div class="offer-title">
+                  <strong>Combo vé máy bay và khách sạn</strong>
+	                  <span>OFF-0002 · Active · 15/07/2026 - 30/09/2026</span>
+                </div>
+                <span class="badge active">Visible</span>
+              </div>
+              <div class="offer-config-row">
+                <input type="checkbox" aria-label="Select offer">
+                <div class="offer-title">
+                  <strong>Tour trải nghiệm trong ngày</strong>
+                  <span>OFF-0003 · Draft · chưa đặt thời gian</span>
+                </div>
+                <span class="badge inactive">Hidden</span>
+              </div>
+              <div class="offer-config-row">
+                <input type="checkbox" aria-label="Select offer">
+                <div class="offer-title">
+                  <strong>Ưu đãi thuê xe sân bay</strong>
+                  <span>OFF-0004 · Inactive · 01/05/2026 - 30/06/2026</span>
+                </div>
+                <span class="badge inactive">Hidden</span>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="button" type="button">Hủy</button>
+              <button class="button primary" type="button">Lưu Offer visibility</button>
+            </div>
+          </div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Lưu ý</h2>
+          </div>
+          <div class="panel-body">
+            <div class="notice">
+              Màn này chỉ quyết định Brand/Offer nào được hiển thị cho Tenant. Cấu hình commission chia cho Tenant nên đặt ở tab <strong>Revenue share</strong> trong Tenant detail, theo Tenant + Brand/Offer. Earn display cũng nên tách module riêng theo Tenant + Brand/Offer.
+            </div>
+          </div>
+        </section>
+
+        <div class="footer-actions">
+          <button class="button" type="button">Hủy</button>
+          <button class="button primary" type="button">Lưu assignment</button>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

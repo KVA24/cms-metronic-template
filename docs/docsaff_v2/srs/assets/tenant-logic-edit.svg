@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="260" viewBox="0 0 1040 260">
+  <style>text{font-family:Arial,Helvetica,sans-serif;fill:#17212f}.box{fill:#fff;stroke:#095f78;stroke-width:2;rx:8}.decision{fill:#fff7df;stroke:#865400;stroke-width:2}.arrow{stroke:#667085;stroke-width:2;fill:none;marker-end:url(#a)}.muted{fill:#667085;font-size:13px}.title{font-weight:700;font-size:15px}</style>
+  <defs><marker id="a" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#667085"/></marker></defs>
+  <rect x="26" y="88" width="128" height="64" class="box"/><text x="90" y="113" text-anchor="middle" class="title">Mở Tenant</text><text x="90" y="135" text-anchor="middle" class="muted">detail/edit</text>
+  <rect x="198" y="88" width="140" height="64" class="box"/><text x="268" y="113" text-anchor="middle" class="title">Load data</text><text x="268" y="135" text-anchor="middle" class="muted">prefill form</text>
+  <rect x="382" y="88" width="142" height="64" class="box"/><text x="453" y="113" text-anchor="middle" class="title">Admin/Ops</text><text x="453" y="135" text-anchor="middle" class="muted">cập nhật</text>
+  <polygon points="626,76 708,120 626,164 544,120" class="decision"/><text x="626" y="116" text-anchor="middle" class="title">Dữ liệu hợp lệ?</text>
+  <rect x="760" y="88" width="124" height="64" class="box"/><text x="822" y="113" text-anchor="middle" class="title">Save</text><text x="822" y="135" text-anchor="middle" class="muted">audit old/new</text>
+  <rect x="548" y="188" width="156" height="50" class="box"/><text x="626" y="218" text-anchor="middle" class="title">Hiển thị lỗi</text>
+  <path d="M154 120H198" class="arrow"/><path d="M338 120H382" class="arrow"/><path d="M524 120H544" class="arrow"/><path d="M708 120H760" class="arrow"/><path d="M626 164V188" class="arrow"/>
+</svg>

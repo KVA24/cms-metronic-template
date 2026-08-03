@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mockup CMS - Thêm mới Offer</title>
+  <style>
+    :root {
+      --ink: #17212f;
+      --muted: #667085;
+      --line: #d9e1ea;
+      --page: #f5f7fa;
+      --surface: #ffffff;
+      --primary: #095f78;
+      --primary-dark: #074759;
+      --danger: #b42318;
+      --soft: #eef8f8;
+      --info: #eef4ff;
+      --info-ink: #3538cd;
+      --radius: 8px;
+      --shadow: 0 12px 28px rgba(23, 33, 47, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button, input, select, textarea { font: inherit; }
+
+    .app {
+      min-width: 1180px;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      background: #17212f;
+      color: #ffffff;
+      padding: 22px 16px;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 8px 22px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .mark {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      background: var(--primary);
+      font-weight: 850;
+    }
+
+    .brand-mark strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .brand-mark span {
+      display: block;
+      margin-top: 3px;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 12px;
+    }
+
+    .nav {
+      padding-top: 18px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .nav-item {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 10px;
+      border-radius: var(--radius);
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .nav-item.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      display: grid;
+      place-items: center;
+      color: currentColor;
+    }
+
+    .nav-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      height: 64px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .breadcrumb strong { color: var(--ink); }
+
+    .user-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      background: var(--primary);
+      font-weight: 800;
+    }
+
+    .content {
+      width: 1120px;
+      margin: 0 auto;
+      padding: 26px 0 42px;
+    }
+
+    .page-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .page-head p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .button {
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 0 14px;
+      background: #ffffff;
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 760;
+      cursor: default;
+      white-space: nowrap;
+    }
+
+    .button.primary {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 10px 20px rgba(9, 95, 120, 0.16);
+    }
+
+    .layout {
+      display: grid;
+      gap: 16px;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.2;
+    }
+
+    .required-note {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .panel-body { padding: 18px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .grid.three {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .grid.two-tight {
+      grid-template-columns: 1fr 1fr;
+      max-width: none;
+      align-items: start;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 13px;
+      font-weight: 760;
+      color: #344054;
+    }
+
+    .req { color: var(--danger); }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      outline: 0;
+    }
+
+    input, select {
+      height: 42px;
+      padding: 0 12px;
+    }
+
+    input:disabled,
+    select:disabled,
+    textarea:disabled,
+    input[readonly] {
+      background: #f8fafc;
+      color: #475467;
+      cursor: not-allowed;
+    }
+
+    textarea {
+      min-height: 96px;
+      resize: vertical;
+      padding: 11px 12px;
+      line-height: 1.45;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .locale-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .locale-tab {
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 0 12px;
+      background: #ffffff;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    .locale-tab.active {
+      border-color: var(--primary);
+      background: var(--soft);
+      color: var(--primary-dark);
+    }
+
+    .locale-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #12b76a;
+    }
+
+    .locale-dot.missing { background: #d0d5dd; }
+
+    .notice {
+      border: 1px solid #c7d7fe;
+      border-radius: var(--radius);
+      background: var(--info);
+      color: var(--info-ink);
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 650;
+      margin-bottom: 16px;
+    }
+
+    .context-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #f8fafc;
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .context-item {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .context-item[hidden] {
+      display: none;
+    }
+
+    .context-item span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+    }
+
+    .context-item strong {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .input-affix {
+      position: relative;
+    }
+
+    .input-affix input {
+      padding-right: 54px;
+    }
+
+    .affix {
+      position: absolute;
+      right: 1px;
+      top: 1px;
+      height: 40px;
+      min-width: 44px;
+      border-left: 1px solid #cbd5e1;
+      display: grid;
+      place-items: center;
+      color: #344054;
+      background: #f8fafc;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .footer-actions {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand-mark">
+        <div class="mark">AM</div>
+        <div>
+          <strong>Affiliate CMS</strong>
+          <span>Operations Console</span>
+        </div>
+      </div>
+      <nav class="nav" aria-label="CMS navigation">
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v6H4z"></path><path d="M4 14h7v6H4z"></path><path d="M15 14h5v6h-5z"></path></svg></span>
+          Dashboard
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M7 7v13"></path><path d="M17 7v13"></path><path d="M9 4h6l2 3H7z"></path></svg></span>
+          Tenants
+        </div>
+        <div class="nav-item active">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 21h18"></path><path d="M5 21V5h8v16"></path><path d="M13 9h6v12"></path><path d="M8 8h2"></path><path d="M8 12h2"></path><path d="M8 16h2"></path></svg></span>
+          Brands
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h10"></path></svg></span>
+          Offers
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5"></path><path d="M4 19h16"></path><path d="M8 16v-5"></path><path d="M12 16V8"></path><path d="M16 16v-9"></path></svg></span>
+          Reports
+        </div>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb">
+          <span>Brand Management</span>
+          <span>/</span>
+          <span>TravelGo</span>
+          <span>/</span>
+          <span>Offers</span>
+          <span>/</span>
+          <strong>Thêm mới Offer</strong>
+        </div>
+        <div class="user-box">
+          <span>Admin/Ops</span>
+          <div class="avatar">AO</div>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="page-head">
+          <div>
+            <h1 id="page-title">Thêm mới Offer</h1>
+            <p id="page-description">Tạo Offer trong Brand đang xem, nhập content đa ngôn ngữ và tùy chọn cấu hình Mapping &amp; commission.</p>
+          </div>
+        </div>
+
+        <div class="layout">
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Thông tin chung</h2>
+              <span class="required-note" id="required-note"><span class="req">*</span> Bắt buộc</span>
+            </div>
+            <div class="panel-body">
+              <div class="notice">
+                Earn display dạng "Nhận/hoàn x với mỗi y chi tiêu" không cấu hình ở màn Offer này. Clicked Offer chỉ dùng attribution; Offer commission được resolve theo brand_offer_code của từng order item.
+              </div>
+              <div class="context-card">
+                <div class="context-item">
+                  <span>Brand</span>
+                  <strong>TravelGo</strong>
+                </div>
+                <div class="context-item">
+                  <span>Brand ID</span>
+                  <strong>BRD-0001</strong>
+                </div>
+                <div class="context-item" id="offer-id-context" hidden>
+                  <span>Offer ID</span>
+                  <strong>OFF-0001</strong>
+                </div>
+              </div>
+              <div class="grid">
+                <div class="field">
+                  <label for="status">Offer status <span class="req">*</span></label>
+                  <select id="status">
+	                    <option>Draft</option>
+	                    <option>Active</option>
+	                    <option>Inactive</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="start-date">Start date</label>
+                  <input id="start-date" type="text" inputmode="numeric" placeholder="dd/mm/yyyy hh:mm:ss">
+                </div>
+                <div class="field">
+                  <label for="end-date">End date</label>
+                  <input id="end-date" type="text" inputmode="numeric" placeholder="dd/mm/yyyy hh:mm:ss">
+                </div>
+                <div class="field full">
+                  <label for="destination-url">Destination URL <span class="req">*</span></label>
+                  <input id="destination-url" placeholder="https://brand.example/landing?utm_source=affiliate">
+                  <div class="hint">URL đích của Brand. Platform sẽ gắn tracking parameter khi End user click từ landing page.</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Nội dung hiển thị đa ngôn ngữ</h2>
+              <span class="required-note">Mặc định tiếng Việt</span>
+            </div>
+            <div class="panel-body">
+              <div class="locale-tabs" aria-label="Chọn ngôn ngữ nhập content">
+                <button class="locale-tab active" type="button"><span class="locale-dot"></span>Tiếng Việt</button>
+                <button class="locale-tab" type="button"><span class="locale-dot missing"></span>English</button>
+                <button class="locale-tab" type="button">+ Thêm ngôn ngữ</button>
+              </div>
+              <div class="grid">
+                <div class="field">
+                  <label for="title-vi">Offer title <span class="req">*</span></label>
+                  <input id="title-vi" placeholder="VD: Ưu đãi đặt phòng khách sạn cuối tuần">
+                </div>
+                <div class="field">
+                  <label for="badge-vi">Badge/Label</label>
+                  <input id="badge-vi" placeholder="VD: Nổi bật, Mới, Online only">
+                </div>
+                <div class="field full">
+                  <label for="description-vi">Description</label>
+                  <textarea id="description-vi" placeholder="Mô tả offer hiển thị trên card hoặc trang chi tiết."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="terms-vi">Terms & conditions</label>
+                  <textarea id="terms-vi" placeholder="Điều kiện áp dụng, sản phẩm/dịch vụ không áp dụng, ghi chú vận hành nếu cần hiển thị."></textarea>
+                </div>
+              </div>
+            </div>
+          </section>
+
+	          <section class="panel">
+	            <div class="panel-head">
+	              <h2>Mapping &amp; commission</h2>
+	              <span class="required-note">Không bắt buộc</span>
+	            </div>
+	            <div class="panel-body">
+	              <div class="notice">
+	                Brand gửi <strong>brand_offer_code</strong> theo từng order item. Platform dùng Brand Offer ID/Code để mapping với Offer này và xác định Offer commission. Nếu không cấu hình mapping, hệ thống không resolve commission theo Offer.
+	              </div>
+	              <div class="grid two-tight">
+	                <div class="field">
+	                  <label for="brand-offer-code">Brand Offer ID/Code</label>
+	                  <input id="brand-offer-code" placeholder="VD: TG-HOTEL-WEEKEND">
+	                  <div class="hint">Mã Offer trong hệ thống Brand và được Brand gửi lại theo từng order item.</div>
+	                </div>
+	                <div class="field">
+	                  <label for="brand-offer-title">Brand Offer Title</label>
+	                  <input id="brand-offer-title" placeholder="VD: Hotel Weekend Campaign">
+	                  <div class="hint">Tên tham chiếu của Offer trong hệ thống Brand.</div>
+	                </div>
+	                <div class="field">
+	                  <label for="commission-type">Commission type</label>
+	                  <select id="commission-type">
+	                    <option>Không cấu hình</option>
+	                    <option>Percentage</option>
+	                    <option>Fixed amount</option>
+	                  </select>
+	                </div>
+	                <div class="field">
+	                  <label for="commission-value">Commission value <span class="req" id="commission-value-required" hidden>*</span></label>
+	                  <div class="input-affix">
+	                    <input id="commission-value" type="number" min="0" step="0.01" placeholder="Không bắt buộc" disabled>
+	                    <span class="affix">%</span>
+	                  </div>
+		                  <div class="hint" id="commission-value-hint">Chọn Commission type để nhập Commission value.</div>
+	                </div>
+	              </div>
+	            </div>
+	          </section>
+        </div>
+
+        <div class="footer-actions" id="footer-actions">
+          <button class="button" type="button" onclick="window.location.href='cms-offer-list.html'">Hủy</button>
+          <button class="button primary" type="button">Tạo Offer</button>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script>
+    (() => {
+      const commissionType = document.getElementById("commission-type");
+      const commissionValue = document.getElementById("commission-value");
+      const commissionAffix = commissionValue.nextElementSibling;
+      const commissionRequired = document.getElementById("commission-value-required");
+      const commissionHint = document.getElementById("commission-value-hint");
+
+      const syncCommissionValue = () => {
+        const configured = commissionType.value !== "Không cấu hình";
+        commissionValue.disabled = !configured;
+        commissionValue.required = configured;
+        commissionRequired.hidden = !configured;
+        commissionValue.placeholder = configured ? "VD: 5" : "Không bắt buộc";
+        commissionAffix.textContent = commissionType.value === "Fixed amount" ? "VND" : "%";
+        commissionHint.textContent = configured
+          ? "Bắt buộc nhập. Percentage: lớn hơn 0 và không quá 100; Fixed amount: lớn hơn 0."
+          : "Chọn Commission type để nhập Commission value.";
+        if (!configured) commissionValue.value = "";
+      };
+
+      commissionType.addEventListener("change", syncCommissionValue);
+      syncCommissionValue();
+
+      const mode = new URLSearchParams(window.location.search).get("mode");
+      if (mode !== "view" && mode !== "edit") return;
+
+      const values = {
+        status: "Active",
+        "start-date": "01/07/2026 00:00:00",
+        "end-date": "31/12/2026 23:59:59",
+        "destination-url": "https://travelgo.vn/hotel-weekend",
+        "title-vi": "Ưu đãi đặt phòng khách sạn cuối tuần",
+        "badge-vi": "Nổi bật",
+        "description-vi": "Ưu đãi dành cho khách hàng đặt phòng khách sạn vào cuối tuần.",
+        "terms-vi": "Áp dụng cho đặt phòng hợp lệ và không áp dụng đồng thời với chương trình khác.",
+        "brand-offer-code": "TG-HOTEL-WEEKEND",
+        "brand-offer-title": "Hotel Weekend Campaign",
+        "commission-type": "Percentage",
+        "commission-value": "5.5"
+      };
+
+      Object.entries(values).forEach(([id, value]) => {
+        const control = document.getElementById(id);
+        if (control) control.value = value;
+      });
+      syncCommissionValue();
+
+      document.getElementById("offer-id-context").hidden = false;
+      document.querySelector(".context-card").style.gridTemplateColumns = "1fr 1fr 1fr";
+      const breadcrumb = document.querySelector(".breadcrumb strong");
+      const title = document.getElementById("page-title");
+      const description = document.getElementById("page-description");
+      const footer = document.getElementById("footer-actions");
+
+      if (mode === "view") {
+        document.title = "Affiliate CMS - View Offer";
+        breadcrumb.textContent = "Chi tiết Offer";
+        title.textContent = "Chi tiết Offer";
+        description.textContent = "Xem thông tin, content đa ngôn ngữ, mapping và commission của Offer.";
+        document.getElementById("required-note").hidden = true;
+        document.querySelectorAll(".layout input, .layout select, .layout textarea, .layout button").forEach((control) => {
+          control.disabled = true;
+        });
+        footer.innerHTML = `
+          <button class="button" type="button" onclick="window.location.href='cms-offer-list.html'">Quay lại</button>
+          <button class="button primary" type="button" onclick="window.location.href='cms-offer-edit.html'">Chỉnh sửa</button>
+        `;
+      } else {
+        document.title = "Affiliate CMS - Edit Offer";
+        breadcrumb.textContent = "Chỉnh sửa Offer";
+        title.textContent = "Chỉnh sửa Offer";
+        description.textContent = "Cập nhật các thông tin được phép thay đổi của Offer.";
+        const brandOfferCode = document.getElementById("brand-offer-code");
+        brandOfferCode.readOnly = true;
+        brandOfferCode.nextElementSibling.textContent = "Không thể thay đổi vì Brand Offer ID/Code đã được sử dụng trong transaction.";
+        footer.innerHTML = `
+          <button class="button" type="button" onclick="window.location.href='cms-offer-list.html'">Hủy</button>
+          <button class="button primary" type="button">Lưu thay đổi</button>
+        `;
+      }
+    })();
+  </script>
+</body>
+</html>

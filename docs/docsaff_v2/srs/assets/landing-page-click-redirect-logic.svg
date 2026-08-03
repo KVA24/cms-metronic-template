@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="260" viewBox="0 0 1060 260">
+  <defs><style>.box{fill:#fff;stroke:#cfd8e3;stroke-width:1.5;rx:8}.head{fill:#eef8f8;stroke:#8fd2d8;stroke-width:1.5;rx:8}.warn{fill:#fff7df;stroke:#e7bd55;stroke-width:1.5;rx:8}.text{font-family:Arial,Helvetica,sans-serif;font-size:14px;fill:#17212f;font-weight:700}.small{font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#667085}.arrow{stroke:#667085;stroke-width:2;fill:none;marker-end:url(#arrow)}</style><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#667085"/></marker></defs>
+  <rect x="24" y="92" width="160" height="76" class="head"/><text x="54" y="125" class="text">End User</text><text x="42" y="146" class="small">Click Brand/Offer</text>
+  <path d="M184 130 H244" class="arrow"/>
+  <rect x="244" y="74" width="190" height="112" class="box"/><text x="282" y="106" class="text">Validate Click</text><text x="278" y="130" class="small">Tenant active</text><text x="278" y="151" class="small">Brand/Offer visible</text>
+  <path d="M434 130 H494" class="arrow"/>
+  <rect x="494" y="74" width="210" height="112" class="warn"/><text x="544" y="106" class="text">Create Click</text><text x="528" y="130" class="small">Generate click_id</text><text x="528" y="151" class="small">Store user_ref if available</text>
+  <path d="M704 130 H764" class="arrow"/>
+  <rect x="764" y="74" width="240" height="112" class="box"/><text x="824" y="106" class="text">Redirect</text><text x="798" y="130" class="small">Append tracking parameter</text><text x="798" y="151" class="small">No CPC billing in MVP1</text>
+</svg>

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="600" viewBox="0 0 1500 600">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#475467"/>
+    </marker>
+    <style>
+      .brand{fill:#fff7ed;stroke:#fb923c;stroke-width:1.4;rx:9}
+      .platform{fill:#eef4ff;stroke:#84adff;stroke-width:1.4;rx:9}
+      .box{fill:#fff;stroke:#98a2b3;stroke-width:1.4;rx:9}
+      .decision{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.5}
+      .success{fill:#ecfdf3;stroke:#12b76a;stroke-width:1.5;rx:9}
+      .exception{fill:#fff1f3;stroke:#f63d68;stroke-width:1.5;rx:9}
+      .title{font:700 19px Arial,sans-serif;fill:#101828}
+      .text{font:700 13px Arial,sans-serif;fill:#101828}
+      .small{font:12px Arial,sans-serif;fill:#475467}
+      .label{font:700 10px Arial,sans-serif;fill:#667085}
+      .arrow{stroke:#475467;stroke-width:1.6;fill:none;marker-end:url(#arrow)}
+      .dashed{stroke:#667085;stroke-width:1.4;fill:none;stroke-dasharray:6 5;marker-end:url(#arrow)}
+    </style>
+  </defs>
+
+  <rect width="1500" height="560" fill="#fff"/>
+  <text x="750" y="34" class="title" text-anchor="middle">ORD-003/005 — Hoàn/hủy toàn bộ theo từng Order Item</text>
+
+  <rect x="30" y="90" width="205" height="96" class="brand"/>
+  <text x="48" y="118" class="text">1. Brand gửi event</text>
+  <text x="48" y="143" class="small">brand_order_id, event_type</text>
+  <text x="48" y="166" class="small">items: item_code</text>
+
+  <path d="M235 138 H275" class="arrow"/>
+
+  <rect x="275" y="90" width="195" height="96" class="platform"/>
+  <text x="293" y="118" class="text">2. Validate event</text>
+  <text x="293" y="143" class="small">Auth, schema, request_id</text>
+  <text x="293" y="166" class="small">Không hỗ trợ partial item</text>
+
+  <path d="M470 138 H510" class="arrow"/>
+
+  <polygon points="600,82 690,138 600,194 510,138" class="decision"/>
+  <text x="600" y="132" class="text" text-anchor="middle">3. Match Order?</text>
+  <text x="600" y="153" class="small" text-anchor="middle">Brand + brand_order_id</text>
+
+  <path d="M690 138 H730" class="arrow"/>
+  <text x="700" y="127" class="label">CÓ</text>
+
+  <polygon points="820,82 910,138 820,194 730,138" class="decision"/>
+  <text x="820" y="132" class="text" text-anchor="middle">4. Match item?</text>
+  <text x="820" y="153" class="small" text-anchor="middle">item_code thuộc Order</text>
+
+  <path d="M910 138 H950" class="arrow"/>
+  <text x="920" y="127" class="label">CÓ</text>
+
+  <rect x="950" y="90" width="230" height="96" class="box"/>
+  <text x="968" y="118" class="text">5. Hoàn toàn bộ item</text>
+  <text x="968" y="143" class="small">Qty = 0 · Final amount = 0</text>
+  <text x="968" y="166" class="small">Item Status = Refunded</text>
+
+  <path d="M1180 138 H1220" class="arrow"/>
+
+  <rect x="1220" y="90" width="245" height="96" class="platform"/>
+  <text x="1238" y="118" class="text">6. Cập nhật commission</text>
+  <text x="1238" y="143" class="small">Gross commission = 0</text>
+  <text x="1238" y="166" class="small">Tenant Share = 0</text>
+
+  <rect x="1060" y="280" width="300" height="92" class="box"/>
+  <text x="1078" y="310" class="text">7. Lưu Adjustment History</text>
+  <text x="1078" y="335" class="small">Event và dữ liệu trước/sau</text>
+
+  <rect x="1035" y="435" width="350" height="112" class="success"/>
+  <text x="1053" y="465" class="text">8. Tổng hợp lại Order</text>
+  <text x="1053" y="490" class="small">Tất cả Refunded → Cancelled</text>
+  <text x="1053" y="513" class="small">Có Pending/Exception → Pending</text>
+  <text x="1053" y="536" class="small">Còn lại có Confirmed → Confirmed</text>
+
+  <path d="M1342 186 V235 H1210 V280" class="arrow"/>
+  <path d="M1210 372 V435" class="arrow"/>
+
+  <rect x="250" y="330" width="650" height="104" class="exception"/>
+  <text x="575" y="360" class="text" text-anchor="middle">Ghi Exception và dừng cập nhật</text>
+  <text x="575" y="385" class="small" text-anchor="middle">Event không hợp lệ hoặc không match</text>
+  <text x="575" y="408" class="small" text-anchor="middle">Không thay đổi Transaction</text>
+
+  <path d="M372 186 V330" class="dashed"/>
+  <text x="385" y="215" class="label">KHÔNG HỢP LỆ</text>
+  <path d="M600 194 V330" class="dashed"/>
+  <text x="615" y="223" class="label">KHÔNG MATCH</text>
+  <path d="M820 194 V330" class="dashed"/>
+  <text x="835" y="223" class="label">KHÔNG MATCH</text>
+</svg>

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="520" viewBox="0 0 1500 520">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#475467"/>
+    </marker>
+    <style>
+      .box{fill:#fff;stroke:#98a2b3;stroke-width:1.4;rx:9}
+      .platform{fill:#eef4ff;stroke:#84adff;stroke-width:1.4;rx:9}
+      .decision{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.5}
+      .success{fill:#ecfdf3;stroke:#12b76a;stroke-width:1.5;rx:9}
+      .exception{fill:#fff1f3;stroke:#f63d68;stroke-width:1.5;rx:9}
+      .title{font:700 19px Arial,sans-serif;fill:#101828}
+      .text{font:700 13px Arial,sans-serif;fill:#101828}
+      .small{font:12px Arial,sans-serif;fill:#475467}
+      .label{font:700 10px Arial,sans-serif;fill:#667085}
+      .arrow{stroke:#475467;stroke-width:1.6;fill:none;marker-end:url(#arrow)}
+      .dashed{stroke:#667085;stroke-width:1.4;fill:none;stroke-dasharray:6 5;marker-end:url(#arrow)}
+    </style>
+  </defs>
+
+  <rect width="1500" height="520" fill="#fff"/>
+  <text x="750" y="34" class="title" text-anchor="middle">ORD-004 — Match Click ID và tạo Transaction</text>
+
+  <rect x="30" y="95" width="190" height="96" class="platform"/>
+  <text x="48" y="123" class="text">1. Nhận request hợp lệ</text>
+  <text x="48" y="148" class="small">Từ ORD-001/002</text>
+  <text x="48" y="171" class="small">Order gồm nhiều item</text>
+
+  <path d="M220 143 H260" class="arrow"/>
+
+  <polygon points="350,87 440,143 350,199 260,143" class="decision"/>
+  <text x="350" y="137" class="text" text-anchor="middle">2. Click match?</text>
+  <text x="350" y="158" class="small" text-anchor="middle">Click ID và Brand</text>
+
+  <path d="M440 143 H480" class="arrow"/>
+  <text x="448" y="132" class="label">CÓ</text>
+
+  <polygon points="575,87 670,143 575,199 480,143" class="decision"/>
+  <text x="575" y="137" class="text" text-anchor="middle">3. Hợp lệ?</text>
+  <text x="575" y="158" class="small" text-anchor="middle">Brand và Tenant Active</text>
+
+  <path d="M670 143 H710" class="arrow"/>
+  <text x="678" y="132" class="label">CÓ</text>
+
+  <rect x="710" y="95" width="220" height="96" class="platform"/>
+  <text x="728" y="123" class="text">4. Xử lý từng item</text>
+  <text x="728" y="148" class="small">COM-001: Gross commission</text>
+  <text x="728" y="171" class="small">COM-002: Tenant Share</text>
+
+  <path d="M930 143 H970" class="arrow"/>
+
+  <polygon points="1070,87 1170,143 1070,199 970,143" class="decision"/>
+  <text x="1070" y="137" class="text" text-anchor="middle">5. Đủ kết quả?</text>
+  <text x="1070" y="158" class="small" text-anchor="middle">Tất cả item</text>
+
+  <path d="M1170 143 H1210" class="arrow"/>
+  <text x="1178" y="132" class="label">CÓ</text>
+
+  <rect x="1210" y="82" width="250" height="122" class="success"/>
+  <text x="1228" y="112" class="text">6. Tạo Transaction</text>
+  <text x="1228" y="137" class="small">Một Order + toàn bộ Order Item</text>
+  <text x="1228" y="160" class="small">Order/Item Status = Pending</text>
+  <text x="1228" y="183" class="small">Lưu atomically</text>
+
+  <rect x="550" y="350" width="400" height="100" class="exception"/>
+  <text x="568" y="380" class="text">Ghi Exception và dừng tạo Transaction</text>
+  <text x="568" y="405" class="small">Click/eligibility/source/rule không hợp lệ</text>
+  <text x="568" y="428" class="small">Không lưu Transaction dở dang</text>
+
+  <path d="M350 199 V280 H650 V350" class="dashed"/>
+  <text x="366" y="220" class="label">KHÔNG</text>
+
+  <path d="M575 199 V255 H720 V350" class="dashed"/>
+  <text x="590" y="220" class="label">KHÔNG</text>
+
+  <path d="M1070 199 V280 H850 V350" class="dashed"/>
+  <text x="1085" y="220" class="label">KHÔNG</text>
+</svg>

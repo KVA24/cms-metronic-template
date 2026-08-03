@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CMS - Tài khoản Tenant Portal</title>
+  <style>
+    :root {
+      --ink:#17212f; --muted:#667085; --line:#d9e1ea; --page:#f5f7fa;
+      --surface:#fff; --primary:#095f78; --primary-dark:#074759;
+      --success:#027a48; --success-bg:#ecfdf3; --danger:#b42318;
+      --soft:#eef8f8; --radius:8px; --shadow:0 18px 45px rgba(23,33,47,.16);
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; min-width:1180px; background:var(--page); color:var(--ink); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
+    button,input,select { font:inherit; }
+    button { cursor:pointer; }
+    .app { min-height:100vh; display:grid; grid-template-columns:248px minmax(0,1fr); }
+    .sidebar { padding:22px 16px; color:#fff; background:#17212f; }
+    .brand-mark { display:flex; align-items:center; gap:12px; padding:0 8px 22px; border-bottom:1px solid rgba(255,255,255,.14); }
+    .mark { width:38px; height:38px; display:grid; place-items:center; border-radius:8px; background:var(--primary); font-weight:900; }
+    .brand-mark strong,.brand-mark span { display:block; }
+    .brand-mark span { margin-top:3px; color:rgba(255,255,255,.65); font-size:12px; }
+    .nav { padding-top:18px; display:grid; gap:6px; }
+    .nav-item { min-height:38px; display:flex; align-items:center; gap:10px; padding:0 10px; border-radius:var(--radius); color:rgba(255,255,255,.76); font-size:14px; font-weight:650; }
+    .nav-item.active { color:#fff; background:rgba(255,255,255,.12); }
+    .nav-icon { width:20px; height:20px; display:grid; place-items:center; }
+    .nav-icon svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 28px; border-bottom:1px solid var(--line); background:#fff; }
+    .breadcrumb { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:13px; }
+    .breadcrumb strong { color:var(--ink); }
+    .user-box { display:flex; align-items:center; gap:10px; font-size:13px; font-weight:700; }
+    .avatar { width:34px; height:34px; display:grid; place-items:center; border-radius:50%; color:#fff; background:var(--primary); }
+    .content { width:1120px; margin:0 auto; padding:26px 0 42px; }
+    .page-head { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:16px; }
+    .page-head h1 { margin:0; font-size:28px; line-height:1.2; }
+    .page-head p { margin:7px 0 0; color:var(--muted); font-size:14px; line-height:1.5; }
+    .button { height:40px; border:1px solid var(--line); border-radius:var(--radius); padding:0 14px; color:var(--ink); background:#fff; display:inline-flex; align-items:center; gap:8px; font-weight:760; white-space:nowrap; }
+    .button:hover { border-color:#8fbfc8; }
+    .button.primary { border-color:var(--primary); color:#fff; background:var(--primary); }
+    .button.primary:hover { background:var(--primary-dark); }
+    .button.small { min-height:34px; padding:0 12px; font-size:13px; }
+    .tenant-context,.panel { margin-bottom:16px; overflow:hidden; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); box-shadow:var(--shadow); }
+    .tenant-main { padding:16px 18px; display:flex; align-items:center; justify-content:space-between; gap:18px; border-bottom:1px solid var(--line); }
+    .tenant-identity { display:flex; align-items:center; gap:13px; }
+    .tenant-logo { width:42px; height:42px; display:grid; place-items:center; flex:0 0 auto; border-radius:var(--radius); color:#fff; background:var(--primary); font-size:13px; font-weight:850; }
+    .tenant-title strong,.tenant-title span { display:block; }
+    .tenant-title span { margin-top:5px; color:var(--muted); font-size:13px; }
+    .tabs { height:48px; display:flex; align-items:stretch; gap:4px; padding:0 12px; background:#fff; }
+    .tab { border:0; border-bottom:3px solid transparent; padding:0 12px; color:var(--muted); background:transparent; font-size:13px; font-weight:780; white-space:nowrap; }
+    .tab.active { color:var(--primary-dark); border-bottom-color:var(--primary); }
+    .panel-head { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:16px 18px; border-bottom:1px solid var(--line); }
+    .panel-head h2 { margin:0; font-size:18px; }
+    .panel-head p { margin:5px 0 0; color:var(--muted); font-size:13px; }
+    .panel-body { padding:18px; }
+    .filters { display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:14px; align-items:end; }
+    .filter-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:14px; }
+    .table-wrap { overflow:hidden; border-radius:0 0 var(--radius) var(--radius); }
+    table { width:100%; border-collapse:collapse; table-layout:fixed; background:#fff; }
+    th { padding:13px 15px; color:#526174; background:#f8fafc; font-size:11px; font-weight:900; text-align:left; text-transform:uppercase; letter-spacing:.35px; }
+    td { padding:15px; border-top:1px solid var(--line); font-size:13px; vertical-align:middle; }
+    td strong,td span { display:block; }
+    td span { margin-top:4px; color:var(--muted); font-size:12px; }
+    .badge { display:inline-flex; align-items:center; min-height:27px; border-radius:999px; padding:0 10px; font-size:12px; font-weight:900; }
+    .badge.active { color:var(--success); background:var(--success-bg); }
+    .table-actions { display:flex; align-items:center; justify-content:flex-end; gap:8px; }
+    .note { margin-top:14px; padding:13px 15px; border:1px solid #b9dfe1; border-radius:8px; color:#14546a; background:var(--soft); font-size:13px; line-height:1.5; }
+    .modal-layer { position:fixed; inset:0; z-index:20; display:none; align-items:center; justify-content:center; padding:24px; background:rgba(16,24,40,.52); }
+    .modal-layer.show { display:flex; }
+    .modal { width:min(760px,calc(100vw - 48px)); max-height:calc(100vh - 48px); overflow:auto; border-radius:12px; background:#fff; box-shadow:var(--shadow); }
+    .modal-head { display:flex; align-items:flex-start; justify-content:space-between; gap:18px; padding:20px 22px; border-bottom:1px solid var(--line); }
+    .modal-head h2 { margin:0; font-size:21px; }
+    .modal-head p { margin:6px 0 0; color:var(--muted); font-size:13px; }
+    .modal-body { padding:20px 22px; }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:17px 18px; }
+    .field.full { grid-column:1/-1; }
+    label { display:block; margin-bottom:7px; color:#24364c; font-size:12px; font-weight:850; }
+    .required { color:var(--danger); }
+    input,select { width:100%; height:42px; border:1px solid #cbd7e1; border-radius:8px; padding:0 12px; color:var(--ink); background:#fff; }
+    input[readonly],select:disabled { color:#667085; background:#f2f4f7; opacity:1; }
+    .input-icon { position:relative; }
+    .input-icon input { padding-right:42px; }
+    .eye { position:absolute; right:1px; top:1px; width:40px; height:40px; border:0; color:#667085; background:transparent; }
+    .help { margin-top:6px; color:var(--muted); font-size:11px; line-height:1.45; }
+    .modal-foot { display:flex; justify-content:flex-end; gap:10px; padding:16px 22px; border-top:1px solid var(--line); background:#fafbfc; }
+    .view-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .view-item { min-height:74px; border:1px solid var(--line); border-radius:8px; padding:12px 14px; background:#fafcfd; }
+    .view-item span { display:block; margin-bottom:7px; color:var(--muted); font-size:11px; font-weight:850; text-transform:uppercase; }
+    .view-item strong { font-size:14px; }
+    .account-section-head { margin:-20px -22px 20px; padding:17px 22px; border-bottom:1px solid var(--line); background:#fafbfc; }
+    .account-section-head strong { display:block; font-size:16px; }
+    .account-section-head p { margin:5px 0 0; color:var(--muted); font-size:12px; }
+    .readonly { min-height:42px; display:flex; align-items:center; border:1px solid #cfd8e3; border-radius:8px; padding:0 12px; color:var(--ink); background:#f8fafc; }
+    .security-note { grid-column:1/-1; padding:12px; border-radius:8px; color:#074759; background:#eef8f8; font-size:12px; line-height:1.5; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand-mark"><div class="mark">AM</div><div><strong>Affiliate CMS</strong><span>Operations Console</span></div></div>
+      <nav class="nav" aria-label="CMS navigation">
+        <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v6H4z"></path><path d="M4 14h7v6H4z"></path><path d="M15 14h5v6h-5z"></path></svg></span>Dashboard</div>
+        <div class="nav-item active"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M7 7v13"></path><path d="M17 7v13"></path><path d="M9 4h6l2 3H7z"></path></svg></span>Tenants</div>
+        <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 21h18"></path><path d="M5 21V5h8v16"></path><path d="M13 9h6v12"></path><path d="M8 8h2"></path><path d="M8 12h2"></path><path d="M8 16h2"></path></svg></span>Brands</div>
+        <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h10"></path></svg></span>Offers</div>
+        <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5"></path><path d="M4 19h16"></path><path d="M8 16v-5"></path><path d="M12 16V8"></path><path d="M16 16v-9"></path></svg></span>Reports</div>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Tenant Management</span><span>/</span><span>Vietnam Airlines Loyalty</span><span>/</span><strong>Tenant Portal Accounts</strong></div>
+        <div class="user-box"><span>Admin/Ops</span><div class="avatar">AO</div></div>
+      </header>
+
+      <section class="content">
+        <div class="page-head"><div><h1>Tài khoản Tenant Portal</h1><p>Quản lý tài khoản đăng nhập Portal của Tenant.</p></div></div>
+
+        <section class="tenant-context">
+          <div class="tenant-main">
+            <div class="tenant-identity">
+              <div class="tenant-logo">VN</div>
+              <div class="tenant-title"><strong>Vietnam Airlines Loyalty</strong><span>TEN-0001 · VNA_LOYALTY · Active</span></div>
+            </div>
+            <button class="button primary" id="openCreate" type="button">+ Thêm mới tài khoản</button>
+          </div>
+          <div class="tabs">
+            <button class="tab" type="button">Thông tin Tenant</button>
+            <button class="tab" type="button">Brand/Offer visibility</button>
+            <button class="tab" type="button">Revenue share</button>
+            <button class="tab active" type="button">Tài khoản Tenant Portal</button>
+            <button class="tab" type="button">Reports</button>
+            <button class="tab" type="button">Audit log</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Bộ lọc</h2>
+            <button class="button" type="button">Đặt lại</button>
+          </div>
+          <div class="panel-body">
+            <div class="filters">
+              <div class="field">
+                <label for="accountKeyword">Từ khóa</label>
+                <input id="accountKeyword" placeholder="Username, full name, email">
+              </div>
+              <div class="field">
+                <label for="accountRole">Role</label>
+                <select id="accountRole">
+                  <option>Tất cả Role</option>
+                  <option>Admin Tenant</option>
+                  <option>Marketing/Ops Tenant</option>
+                  <option>Finance Tenant</option>
+                  <option>Viewer Tenant</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="accountStatus">Status</label>
+                <select id="accountStatus">
+                  <option>Tất cả</option>
+                  <option>Active</option>
+                  <option>Inactive</option>
+                  <option>Locked</option>
+                </select>
+              </div>
+            </div>
+            <div class="filter-actions">
+              <button class="button" type="button">Đặt lại</button>
+              <button class="button primary" type="button">Áp dụng</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div><h2>Danh sách tài khoản Tenant Portal</h2><p>Các tài khoản được phép đăng nhập Portal của Tenant này.</p></div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <colgroup><col style="width:135px"><col style="width:160px"><col style="width:200px"><col style="width:130px"><col style="width:95px"><col style="width:165px"><col style="width:155px"></colgroup>
+              <thead><tr><th>Username</th><th>Full name</th><th>Email</th><th>Role</th><th>Status</th><th>Created at</th><th style="text-align:right">Action</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>vna.admin</strong><span>Primary account</span></td>
+                  <td><strong>Nguyễn Minh Anh</strong></td>
+                  <td><strong>minhanh@vna.example</strong></td>
+                  <td><strong>Admin Tenant</strong></td>
+                  <td><span class="badge active">Active</span></td>
+                  <td><strong>28/07/2026 10:15:30</strong></td>
+                  <td><div class="table-actions"><button class="button small view-account" type="button">View</button><button class="button small edit-account" type="button">Edit</button></div></td>
+                </tr>
+                <tr>
+                  <td><strong>finance.ha</strong></td>
+                  <td><strong>Trần Thu Hà</strong></td>
+                  <td><strong>thuha@vna.example</strong></td>
+                  <td><strong>Finance Tenant</strong></td>
+                  <td><span class="badge active">Active</span></td>
+                  <td><strong>28/07/2026 14:20:05</strong></td>
+                  <td><div class="table-actions"><button class="button small view-account" type="button">View</button><button class="button small edit-account" type="button">Edit</button></div></td>
+                </tr>
+                <tr>
+                  <td><strong>viewer.linh</strong></td>
+                  <td><strong>Phạm Ngọc Linh</strong></td>
+                  <td><strong>ngoclinh@vna.example</strong></td>
+                  <td><strong>Viewer Tenant</strong></td>
+                  <td><span class="badge active">Active</span></td>
+                  <td><strong>29/07/2026 08:35:42</strong></td>
+                  <td><div class="table-actions"><button class="button small view-account" type="button">View</button><button class="button small edit-account" type="button">Edit</button></div></td>
+                </tr>
+                <tr>
+                  <td><strong>ops.support</strong></td>
+                  <td><strong>Lê Hoàng Nam</strong></td>
+                  <td><strong>hoangnam@vna.example</strong></td>
+                  <td><strong>Admin Tenant</strong></td>
+                  <td><span class="badge" style="color:#475467;background:#f2f4f7">Inactive</span></td>
+                  <td><strong>29/07/2026 09:10:18</strong></td>
+                  <td><div class="table-actions"><button class="button small view-account" type="button">View</button><button class="button small edit-account" type="button">Edit</button></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-layer" id="createModal">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="createTitle">
+      <div class="modal-head"><div><h2 id="createTitle">Thêm mới tài khoản Tenant Portal</h2><p>Tạo tài khoản đăng nhập Tenant Portal cho Vietnam Airlines Loyalty.</p></div></div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field"><label>Username <span class="required">*</span></label><input placeholder="Enter username"><div class="help">Must be unique within this Tenant.</div></div>
+          <div class="field"><label>Full name <span class="required">*</span></label><input placeholder="Enter full name"></div>
+          <div class="field"><label>Email <span class="required">*</span></label><input type="email" placeholder="Enter email address"></div>
+          <div class="field"><label>Phone</label><input placeholder="Enter phone number"></div>
+          <div class="field"><label>Role <span class="required">*</span></label><select><option>Admin Tenant</option><option selected>Marketing/Ops Tenant</option><option>Finance Tenant</option><option>Viewer Tenant</option></select><div class="help">Tài khoản đầu tiên bắt buộc là Admin Tenant; các tài khoản tiếp theo được chọn System/Custom Role Active thuộc Tenant.</div></div>
+          <div class="field"><label>Status</label><select disabled><option>Active</option></select><div class="help">Tài khoản mới mặc định Active.</div></div>
+          <div class="field"><label>Initial password <span class="required">*</span></label><div class="input-icon"><input class="password-input" type="password" placeholder="Enter initial password"><button class="eye" type="button">◉</button></div></div>
+          <div class="field"><label>Confirm password <span class="required">*</span></label><div class="input-icon"><input class="password-input" type="password" placeholder="Re-enter password"><button class="eye" type="button">◉</button></div></div>
+          <div class="field full"><div class="help">Password must contain uppercase, lowercase, number, special character and at least 8 characters.</div></div>
+        </div>
+      </div>
+      <div class="modal-foot"><button class="button close-modal" type="button">Cancel</button><button class="button primary" type="button">Create account</button></div>
+    </section>
+  </div>
+
+  <div class="modal-layer" id="viewModal">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="viewTitle">
+      <div class="modal-head"><div><h2 id="viewTitle">View user account</h2><p>Read-only view. Account information cannot be edited on this screen.</p></div></div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field"><label>Username</label><div class="readonly">vna.admin</div></div>
+          <div class="field"><label>Full Name</label><div class="readonly">Nguyễn Minh Anh</div></div>
+          <div class="field"><label>Email</label><div class="readonly">minhanh@vna.example</div></div>
+          <div class="field"><label>Phone</label><div class="readonly">090 123 4567</div></div>
+          <div class="field"><label>Role</label><div class="readonly"><span class="badge" style="color:#095f78;background:#eef8f8">Admin Tenant</span></div></div>
+          <div class="field"><label>Status</label><div class="readonly"><span class="badge active">Active</span></div></div>
+          <div class="field"><label>Initial password</label><div class="readonly">••••••••</div><div class="help">Password value is masked and cannot be viewed.</div></div>
+          <div class="field"><label>Confirm password</label><div class="readonly">••••••••</div><div class="help">Password confirmation is never stored or displayed as plain text.</div></div>
+        </div>
+      </div>
+      <div class="modal-foot"><button class="button close-modal" type="button">Close</button><button class="button primary" id="editFromView" type="button">Edit user</button></div>
+    </section>
+  </div>
+
+  <div class="modal-layer" id="editModal">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+      <div class="modal-head"><div><h2 id="editTitle">Edit user account</h2><p>Update employee information, role, password or account status.</p></div></div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field"><label>Username <span class="required">*</span></label><input value="vna.admin" readonly><div class="help">Username cannot be changed after the account is created.</div></div>
+          <div class="field"><label>Full name <span class="required">*</span></label><input value="Nguyễn Minh Anh"></div>
+          <div class="field"><label>Email</label><input type="email" value="minhanh@vna.example"></div>
+          <div class="field"><label>Phone</label><input value="090 123 4567"></div>
+          <div class="field"><label>Role <span class="required">*</span></label><select><option>Admin Tenant</option><option>Marketing/Ops Tenant</option><option>Finance Tenant</option><option>Viewer Tenant</option></select><div class="help">New permissions apply after changes are saved.</div></div>
+          <div class="field"><label>Status <span class="required">*</span></label><select><option>Active</option><option>Inactive</option><option>Locked</option></select></div>
+          <div class="field"><label>Initial password</label><div class="input-icon"><input class="password-input" type="password" placeholder="Enter a new password to replace current"><button class="eye" type="button">◉</button></div><div class="help">Leave blank to keep the current password.</div></div>
+          <div class="field"><label>Confirm password</label><div class="input-icon"><input class="password-input" type="password" placeholder="Re-enter new password"><button class="eye" type="button">◉</button></div></div>
+          <div class="security-note">Changing Role or Status may immediately affect this user's access after the current session is refreshed or invalidated according to security policy.</div>
+        </div>
+      </div>
+      <div class="modal-foot"><button class="button close-modal" type="button">Cancel</button><button class="button primary" type="button">Save changes</button></div>
+    </section>
+  </div>
+
+  <script>
+    const openModal = id => document.getElementById(id).classList.add('show');
+    const closeModal = layer => layer.classList.remove('show');
+    document.getElementById('openCreate').addEventListener('click', () => openModal('createModal'));
+    document.querySelectorAll('.view-account').forEach(button => button.addEventListener('click', () => openModal('viewModal')));
+    document.querySelectorAll('.edit-account').forEach(button => button.addEventListener('click', () => openModal('editModal')));
+    document.getElementById('editFromView').addEventListener('click', () => {
+      closeModal(document.getElementById('viewModal'));
+      openModal('editModal');
+    });
+    document.querySelectorAll('.close-modal').forEach(button => button.addEventListener('click', () => closeModal(button.closest('.modal-layer'))));
+    document.querySelectorAll('.modal-layer').forEach(layer => layer.addEventListener('click', event => { if (event.target === layer) closeModal(layer); }));
+    document.querySelectorAll('.eye').forEach(button => button.addEventListener('click', () => {
+      const input = button.previousElementSibling;
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }));
+    if (location.hash === '#create') openModal('createModal');
+    if (location.hash === '#view') openModal('viewModal');
+    if (location.hash === '#edit') openModal('editModal');
+  </script>
+</body>
+</html>

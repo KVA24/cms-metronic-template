@@ -1,0 +1,258 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="2380" viewBox="0 0 1800 2380">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#344054"/>
+    </marker>
+    <style>
+      .title{font:700 30px Arial,sans-serif;fill:#101828}
+      .subtitle{font:14px Arial,sans-serif;fill:#475467}
+      .lane{fill:#f8fafc;stroke:#d0d5dd}
+      .lane-head{fill:#eef4ff;stroke:#84adff;rx:8}
+      .eu-head{fill:#ecfdf3;stroke:#12b76a;rx:8}
+      .brand-head{fill:#fff7ed;stroke:#fdba74;rx:8}
+      .lane-title{font:700 15px Arial,sans-serif;fill:#344054;text-anchor:middle}
+      .step{fill:#fff;stroke:#98a2b3;stroke-width:1.3;rx:10}
+      .eu{fill:#f0fdf4;stroke:#12b76a;stroke-width:1.3;rx:10}
+      .brand{fill:#fff7ed;stroke:#fb923c;stroke-width:1.3;rx:10}
+      .platform{fill:#eef4ff;stroke:#84adff;stroke-width:1.3;rx:10}
+      .db{fill:#f9fafb;stroke:#667085;stroke-width:1.3;rx:10}
+      .decision{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.5}
+      .success{fill:#ecfdf3;stroke:#12b76a;stroke-width:1.5;rx:10}
+      .exception{fill:#fff1f3;stroke:#f63d68;stroke-width:1.5;rx:10}
+      .box-title{font:700 14px Arial,sans-serif;fill:#101828}
+      .box-text{font:12.5px Arial,sans-serif;fill:#475467}
+      .label{font:700 11px Arial,sans-serif;fill:#344054}
+      .branch-label{font:700 10px Arial,sans-serif;fill:#667085}
+      .arrow{stroke:#344054;stroke-width:1.6;fill:none;marker-end:url(#arrow)}
+      .dashed{stroke:#667085;stroke-width:1.5;fill:none;stroke-dasharray:7 5;marker-end:url(#arrow)}
+    </style>
+  </defs>
+
+  <rect width="1800" height="2380" fill="#fff"/>
+  <text x="900" y="42" class="title" text-anchor="middle">Luồng Order và tính commission theo từng item</text>
+  <text x="900" y="68" class="subtitle" text-anchor="middle">Order có nhiều item; mỗi item resolve Brand commission và Tenant share độc lập.</text>
+
+  <!-- Swimlanes -->
+  <rect x="40" y="100" width="270" height="2240" class="lane"/>
+  <rect x="315" y="100" width="270" height="2240" class="lane"/>
+  <rect x="590" y="100" width="270" height="2240" class="lane"/>
+  <rect x="865" y="100" width="270" height="2240" class="lane"/>
+  <rect x="1140" y="100" width="270" height="2240" class="lane"/>
+  <rect x="1415" y="100" width="345" height="2240" class="lane"/>
+
+  <rect x="55" y="118" width="240" height="44" class="eu-head"/>
+  <text x="175" y="146" class="lane-title">End User</text>
+  <rect x="330" y="118" width="240" height="44" class="lane-head"/>
+  <text x="450" y="146" class="lane-title">Landing Page / Click Tracking</text>
+  <rect x="605" y="118" width="240" height="44" class="brand-head"/>
+  <text x="725" y="146" class="lane-title">Brand Website / Postback</text>
+  <rect x="880" y="118" width="240" height="44" class="lane-head"/>
+  <text x="1000" y="146" class="lane-title">Order API / Click Match</text>
+  <rect x="1155" y="118" width="240" height="44" class="lane-head"/>
+  <text x="1275" y="146" class="lane-title">Commission / Tenant Share</text>
+  <rect x="1430" y="118" width="315" height="44" class="lane-head"/>
+  <text x="1587" y="146" class="lane-title">Transaction / Reporting</text>
+
+  <!-- Landing and click -->
+  <rect x="70" y="205" width="210" height="70" class="eu"/>
+  <text x="88" y="231" class="box-title">1. Truy cập landing page</text>
+  <text x="88" y="254" class="box-text">Mở marketplace của Tenant</text>
+  <path d="M280 240 H360" class="arrow"/>
+
+  <rect x="360" y="205" width="190" height="70" class="platform"/>
+  <text x="378" y="231" class="box-title">2. Load catalog</text>
+  <text x="378" y="254" class="box-text">Brand/Offer được hiển thị</text>
+  <path d="M550 240 H1460" class="arrow"/>
+
+  <rect x="1460" y="205" width="250" height="70" class="db"/>
+  <text x="1478" y="231" class="box-title">3. Trả dữ liệu landing page</text>
+  <text x="1478" y="254" class="box-text">Brand, Offer, banner, earn text</text>
+
+  <path d="M1585 275 V305 H175 V340" class="dashed"/>
+
+  <rect x="70" y="340" width="210" height="70" class="eu"/>
+  <text x="88" y="366" class="box-title">4. Click Brand/Offer</text>
+  <text x="88" y="389" class="box-text">Chọn CTA để sang Brand</text>
+  <path d="M280 375 H360" class="arrow"/>
+
+  <rect x="360" y="340" width="190" height="70" class="platform"/>
+  <text x="378" y="366" class="box-title">5. Tạo click tracking</text>
+  <text x="378" y="389" class="box-text">Tenant, Brand, Offer, member</text>
+  <path d="M550 375 H1460" class="arrow"/>
+
+  <rect x="1460" y="340" width="250" height="70" class="db"/>
+  <text x="1478" y="366" class="box-title">6. Lưu click record</text>
+  <text x="1478" y="389" class="box-text">Sinh Click ID và redirect URL</text>
+
+  <path d="M1585 410 V455 H455 V490" class="dashed"/>
+
+  <rect x="360" y="490" width="190" height="70" class="platform"/>
+  <text x="378" y="516" class="box-title">7. Redirect sang Brand</text>
+  <text x="378" y="539" class="box-text">Gắn Click ID vào URL</text>
+  <path d="M550 525 H635" class="arrow"/>
+
+  <rect x="635" y="490" width="190" height="70" class="brand"/>
+  <text x="653" y="516" class="box-title">8. Mở trang Brand</text>
+  <text x="653" y="539" class="box-text">Nhận traffic và tracking</text>
+
+  <!-- Explicit 8 -> 9 -->
+  <path d="M730 560 V600 H175 V640" class="arrow"/>
+
+  <rect x="70" y="640" width="210" height="70" class="eu"/>
+  <text x="88" y="666" class="box-title">9. Đặt hàng tại Brand</text>
+  <text x="88" y="689" class="box-text">Chọn sản phẩm và thanh toán</text>
+  <path d="M280 675 H635" class="arrow"/>
+
+  <rect x="635" y="640" width="190" height="70" class="brand"/>
+  <text x="653" y="666" class="box-title">10. Order Success</text>
+  <text x="653" y="689" class="box-text">Brand ghi nhận Order</text>
+  <path d="M730 710 V770" class="arrow"/>
+
+  <rect x="620" y="770" width="220" height="108" class="brand"/>
+  <text x="638" y="796" class="box-title">11. Gửi Order nhiều item</text>
+  <text x="638" y="819" class="box-text">Thông tin chung của Order</text>
+  <text x="638" y="842" class="box-text">Mỗi item: offer_code,</text>
+  <text x="638" y="865" class="box-text">category_code, amount, Qty</text>
+  <path d="M840 824 H900" class="arrow"/>
+
+  <rect x="900" y="770" width="210" height="108" class="platform"/>
+  <text x="918" y="796" class="box-title">12. Validate request</text>
+  <text x="918" y="819" class="box-text">Auth, schema, duplicate,</text>
+  <text x="918" y="842" class="box-text">idempotency, currency,</text>
+  <text x="918" y="865" class="box-text">Order và item fields</text>
+  <path d="M1005 878 V925" class="arrow"/>
+
+  <!-- Validation / click -->
+  <polygon points="1005,925 1105,980 1005,1035 905,980" class="decision"/>
+  <text x="1005" y="974" class="box-title" text-anchor="middle">13. Click match?</text>
+
+  <path d="M1105 980 H1145 V970 H1185" class="arrow"/>
+  <text x="1125" y="968" class="label">PASS</text>
+
+  <polygon points="1295,920 1405,970 1295,1020 1185,970" class="decision"/>
+  <text x="1295" y="963" class="box-title" text-anchor="middle">14. Kiểm tra hợp lệ?</text>
+  <text x="1295" y="983" class="box-text" text-anchor="middle">Brand, Tenant</text>
+
+  <path d="M1295 1020 V1120" class="arrow"/>
+  <text x="1305" y="1050" class="label">PASS</text>
+
+  <rect x="610" y="940" width="230" height="88" class="exception"/>
+  <text x="628" y="966" class="box-title">Ghi Exception</text>
+  <text x="628" y="989" class="box-text">Lưu lỗi validation/click;</text>
+  <text x="628" y="1012" class="box-text">dừng xử lý request lỗi</text>
+  <path d="M905 980 H840" class="arrow"/>
+  <text x="855" y="968" class="label">FAIL</text>
+  <path d="M1218 1005 H1160 V1040 H840" class="dashed"/>
+  <text x="1082" y="1032" class="label">FAIL</text>
+
+  <g transform="translate(0 50)">
+  <!-- Brand commission source -->
+  <polygon points="1295,1070 1405,1130 1295,1190 1185,1130" class="decision"/>
+  <text x="1295" y="1125" class="box-title" text-anchor="middle">15. Resolve</text>
+  <text x="1295" y="1145" class="box-text" text-anchor="middle">Brand Commission Source</text>
+
+  <rect x="390" y="1260" width="260" height="94" class="db"/>
+  <text x="408" y="1286" class="box-title">16A. Resolve Offer</text>
+  <text x="408" y="1309" class="box-text">offer_code có mapping/rule</text>
+  <text x="408" y="1332" class="box-text">hợp lệ</text>
+
+  <rect x="700" y="1260" width="260" height="94" class="db"/>
+  <text x="718" y="1286" class="box-title">16B. Resolve Category</text>
+  <text x="718" y="1309" class="box-text">category_code có mapping/rule</text>
+  <text x="718" y="1332" class="box-text">hợp lệ</text>
+
+  <rect x="1010" y="1260" width="260" height="94" class="db"/>
+  <text x="1028" y="1286" class="box-title">16C. Resolve Default Category</text>
+  <text x="1028" y="1309" class="box-text">Không có hoặc không mapping</text>
+  <text x="1028" y="1332" class="box-text">được Category; dùng mặc định</text>
+
+  <rect x="1420" y="1248" width="290" height="118" class="exception"/>
+  <text x="1438" y="1274" class="box-title">16D. Ghi Exception</text>
+  <text x="1438" y="1300" class="box-text">Lưu lỗi validation do không tìm</text>
+  <text x="1438" y="1323" class="box-text">được Brand commission source</text>
+
+  <!-- Four separate routes from 15 -->
+  <path d="M1218 1160 V1205 H520 V1260" class="arrow"/>
+  <text x="600" y="1195" class="branch-label">Có Offer code hợp lệ</text>
+  <path d="M1260 1182 V1220 H830 V1260" class="arrow"/>
+  <text x="865" y="1211" class="branch-label">Có Category code hợp lệ</text>
+  <path d="M1325 1182 V1235 H1140 V1260" class="arrow"/>
+  <text x="1125" y="1227" class="branch-label">Category trống/không mapping</text>
+  <path d="M1370 1160 H1565 V1248" class="arrow"/>
+  <text x="1430" y="1151" class="branch-label">Không tìm được source</text>
+
+  <!-- 16A/B/C merge into 17 -->
+  <rect x="850" y="1435" width="360" height="82" class="platform"/>
+  <text x="868" y="1462" class="box-title">17. Tính Gross commission theo item</text>
+  <text x="868" y="1486" class="box-text">Áp dụng rule Offer/Category/Category Default</text>
+
+  <path d="M520 1354 V1385 H920 V1435" class="arrow"/>
+  <path d="M830 1354 V1400 H1030 V1435" class="arrow"/>
+  <path d="M1140 1354 V1415 H1140 V1435" class="arrow"/>
+  <path d="M1030 1517 V1560" class="arrow"/>
+
+  <!-- Tenant share resolution -->
+  <polygon points="1030,1560 1140,1620 1030,1680 920,1620" class="decision"/>
+  <text x="1030" y="1612" class="box-title" text-anchor="middle">18. Resolve</text>
+  <text x="1030" y="1632" class="box-text" text-anchor="middle">Tenant share source</text>
+
+  <rect x="270" y="1750" width="240" height="88" class="db"/>
+  <text x="288" y="1776" class="box-title">18A. Theo Offer</text>
+  <text x="288" y="1799" class="box-text">Dùng Tenant share Offer</text>
+  <text x="288" y="1822" class="box-text">và tỷ lệ tương ứng</text>
+
+  <rect x="545" y="1750" width="240" height="88" class="db"/>
+  <text x="563" y="1776" class="box-title">18B. Theo Category</text>
+  <text x="563" y="1799" class="box-text">Dùng Tenant share Category</text>
+  <text x="563" y="1822" class="box-text">và tỷ lệ tương ứng</text>
+
+  <rect x="820" y="1750" width="240" height="88" class="db"/>
+  <text x="838" y="1776" class="box-title">18C. Tenant &amp; Brand default</text>
+  <text x="838" y="1799" class="box-text">Dùng tỷ lệ cấu hình theo</text>
+  <text x="838" y="1822" class="box-text">tổ hợp Tenant + Brand</text>
+
+  <rect x="1095" y="1750" width="270" height="88" class="db"/>
+  <text x="1113" y="1776" class="box-title">18D. All Tenant Default</text>
+  <text x="1113" y="1799" class="box-text">Dùng tỷ lệ cấu hình cho tất cả</text>
+  <text x="1113" y="1822" class="box-text">Tenant tại Configuration</text>
+
+  <rect x="1450" y="1738" width="260" height="112" class="exception"/>
+  <text x="1468" y="1764" class="box-title">18E. Ghi Exception</text>
+  <text x="1468" y="1790" class="box-text">Lưu lỗi validation do không tìm</text>
+  <text x="1468" y="1813" class="box-text">được Tenant commission share</text>
+
+  <path d="M950 1650 V1688 H390 V1750" class="arrow"/>
+  <text x="405" y="1679" class="branch-label">Có rule theo Offer</text>
+  <path d="M990 1672 V1705 H665 V1750" class="arrow"/>
+  <text x="675" y="1697" class="branch-label">Có rule theo Category</text>
+  <path d="M1040 1674 V1722 H940 V1750" class="arrow"/>
+  <text x="950" y="1714" class="branch-label">Có Tenant &amp; Brand default</text>
+  <path d="M1085 1670 V1737 H1230 V1750" class="arrow"/>
+  <text x="1100" y="1729" class="branch-label">Dùng All Tenant Default</text>
+  <path d="M1140 1620 H1580 V1738" class="arrow"/>
+  <text x="1430" y="1611" class="branch-label">Không tìm được source</text>
+
+  <!-- Valid tenant share branches merge into calculation -->
+  <rect x="820" y="1925" width="420" height="96" class="platform"/>
+  <text x="868" y="1952" class="box-title">Tính Tenant Share theo từng item</text>
+  <text x="868" y="1976" class="box-text">Áp dụng rule Offer → Category →</text>
+  <text x="868" y="1999" class="box-text">Tenant &amp; Brand Default → All Tenant Default</text>
+
+  <path d="M390 1838 V1870 H890 V1925" class="arrow"/>
+  <path d="M665 1838 V1885 H990 V1925" class="arrow"/>
+  <path d="M940 1838 V1900 H1090 V1925" class="arrow"/>
+  <path d="M1230 1838 V1915 H1190 V1925" class="arrow"/>
+
+  <path d="M1030 2021 V2035 H1585 V2070" class="arrow"/>
+  <rect x="1460" y="2070" width="250" height="82" class="db"/>
+  <text x="1478" y="2097" class="box-title">19. Tạo transaction</text>
+  <text x="1478" y="2121" class="box-text">Lưu gross_commission,</text>
+  <text x="1478" y="2141" class="box-text">tenant_share, affiliate_keep</text>
+
+  <path d="M1585 2152 V2185" class="arrow"/>
+  <rect x="1460" y="2185" width="250" height="70" class="success"/>
+  <text x="1478" y="2212" class="box-title">20. Reporting sẵn sàng</text>
+  <text x="1478" y="2236" class="box-text">CMS/Tenant Portal xem theo quyền</text>
+
+  </g>
+</svg>

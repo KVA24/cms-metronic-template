@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="650" viewBox="0 0 1100 650">
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L10 3 0 6Z" fill="#52657a"/></marker>
+    <style>.b{fill:#fff;stroke:#0b6b82;stroke-width:2}.d{fill:#eef8fa;stroke:#0b6b82;stroke-width:2}.e{fill:#fff3f1;stroke:#cf3f32;stroke-width:2}.s{fill:#effaf4;stroke:#188456;stroke-width:2}.l{fill:none;stroke:#52657a;stroke-width:2;marker-end:url(#a)}.t{font:15px Arial;fill:#172235}.h{font:700 19px Arial;fill:#172235}.x{font:700 13px Arial;fill:#52657a}</style>
+  </defs>
+  <text class="h" x="550" y="30" text-anchor="middle">TP-ROLE-001 — Delete Role Flow</text>
+  <rect class="b" x="400" y="55" width="300" height="58" rx="10"/><text class="t" x="550" y="90" text-anchor="middle">Click Delete on Role list</text>
+  <path class="l" d="M550 113V150"/>
+  <rect class="b" x="400" y="150" width="300" height="68" rx="10"/><text class="t" x="550" y="179" text-anchor="middle">Display Delete role confirmation</text><text class="t" x="550" y="201" text-anchor="middle">Cancel / Delete role</text>
+  <path class="l" d="M400 184H230V275"/><text class="x" x="288" y="172">Cancel</text>
+  <rect class="b" x="80" y="275" width="300" height="58" rx="10"/><text class="t" x="230" y="310" text-anchor="middle">Close popup — keep Role unchanged</text>
+  <path class="l" d="M550 218V265"/><text class="x" x="565" y="246">Confirm</text>
+  <polygon class="d" points="550,265 700,330 550,395 400,330"/><text class="t" x="550" y="325" text-anchor="middle">Is Role assigned</text><text class="t" x="550" y="347" text-anchor="middle">to any User?</text>
+  <path class="l" d="M400 330H230V430"/><text class="x" x="320" y="318">Yes</text>
+  <rect class="e" x="65" y="430" width="330" height="82" rx="10"/><text class="t" x="230" y="459" text-anchor="middle">Do not delete Role</text><text class="t" x="230" y="482" text-anchor="middle">This role is currently in use</text><text class="t" x="230" y="503" text-anchor="middle">and cannot be deleted.</text>
+  <path class="l" d="M700 330H870V430"/><text class="x" x="780" y="318">No</text>
+  <rect class="s" x="705" y="430" width="330" height="82" rx="10"/><text class="t" x="870" y="459" text-anchor="middle">Delete Role and permissions</text><text class="t" x="870" y="482" text-anchor="middle">Write Audit Log</text><text class="t" x="870" y="503" text-anchor="middle">Role deleted successfully</text>
+  <path class="l" d="M230 512V570H475"/><path class="l" d="M870 512V570H625"/>
+  <rect class="b" x="400" y="570" width="300" height="58" rx="10"/><text class="t" x="550" y="605" text-anchor="middle">Close popup and return to Role list</text>
+</svg>

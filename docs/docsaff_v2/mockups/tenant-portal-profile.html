@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tenant Portal - My Profile</title>
+  <link rel="stylesheet" href="tenant-portal-account-settings.css">
+  <style>
+    .profile-summary{display:flex;align-items:center;gap:16px;padding:22px 24px;border-bottom:1px solid var(--line)}
+    .profile-avatar{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:var(--primary);color:#fff;font-size:19px;font-weight:800}
+    .profile-summary h2{margin:0;font-size:18px}.profile-summary p{margin:5px 0 0;color:var(--muted);font-size:12px}
+    .password{position:relative}.password input{padding-right:44px}.eye{position:absolute;right:8px;top:6px;width:30px;height:30px;border:0;background:transparent;color:var(--muted);cursor:pointer;display:grid;place-items:center}.eye svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .security-note{grid-column:1/-1;margin-top:-6px;padding:11px 12px;border-radius:8px;background:var(--soft);color:var(--primary-dark);font-size:12px;line-height:1.5}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="side">
+      <div class="brand"><div class="mark">V</div><div><strong>Tenant Portal</strong><span>White-label Marketplace</span></div></div>
+      <div class="tenant"><strong>Vietnam Airlines Loyalty</strong><span>Tenant code: VNA_LOYALTY</span></div>
+      <nav class="nav">
+        <a href="#">▦ Dashboard</a><a href="#">◇ Assigned Brands</a><a href="#">◫ Earn display</a><a href="#">▤ Transactions</a>
+        <div class="nav-parent"><div class="nav-parent-title"><span>⚙ Account settings</span><span>⌃</span></div><div class="nav-children"><a href="tenant-portal-role-list.html">Roles</a><a href="tenant-portal-user-list.html">Accounts</a><a class="active" href="tenant-portal-profile.html">Profile</a></div></div>
+      </nav>
+    </aside>
+    <main>
+      <header class="top"><div class="crumb">Account settings / <strong>Profile</strong></div><div class="user"><span>Tenant Admin</span><span class="avatar">TA</span></div></header>
+      <section class="content" style="width:940px">
+        <div class="head"><div><h1>My profile</h1><p>Review and update your personal account information.</p></div></div>
+        <div class="card">
+          <div class="profile-summary"><div class="profile-avatar">TA</div><div><h2>Nguyen Minh Anh</h2><p>tenant.admin · Tenant Admin · Active</p></div></div>
+          <form class="form" id="profile-form">
+            <div class="field"><label>Username</label><input value="tenant.admin" disabled><p class="hint">Username cannot be changed.</p></div>
+            <div class="field"><label>Role</label><input value="Tenant Admin" disabled><p class="hint">Role is managed by an authorized Tenant Admin.</p></div>
+            <div class="field"><label>Full Name <span class="req">*</span></label><input value="Nguyen Minh Anh" required></div>
+            <div class="field"><label>Email</label><input type="email" value="minhanh@vna.example"></div>
+            <div class="field"><label>Phone</label><input value="+84 903 456 789"></div>
+            <div class="field"><label>Status</label><input value="Active" disabled></div>
+            <div class="field"><label>New password</label><div class="password"><input id="profile-password" type="password" placeholder="Leave blank to keep current password"><button class="eye" type="button" data-target="profile-password" aria-label="Show password"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.5"/></svg></button></div></div>
+            <div class="field"><label>Confirm password</label><div class="password"><input id="profile-confirm" type="password" placeholder="Re-enter new password"><button class="eye" type="button" data-target="profile-confirm" aria-label="Show password"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.5"/></svg></button></div></div>
+            <div class="security-note"><strong>Password requirements:</strong> At least 8 characters, including one uppercase letter, one lowercase letter, one number and one special character. Leave both password fields blank to keep the current password.</div>
+          </form>
+          <div class="card-foot"><a class="button" href="tenant-portal-profile.html">Cancel</a><button class="button primary" type="submit" form="profile-form">Save</button></div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script>
+    document.querySelectorAll('.eye').forEach(button => button.addEventListener('click', () => {
+      const input = document.getElementById(button.dataset.target);
+      input.type = input.type === 'password' ? 'text' : 'password';
+      button.setAttribute('aria-label', input.type === 'password' ? 'Show password' : 'Hide password');
+    }));
+  </script>
+</body>
+</html>

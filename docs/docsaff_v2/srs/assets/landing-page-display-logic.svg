@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="420" viewBox="0 0 1180 420">
+  <defs>
+    <style>
+      .bg{fill:#f7fafc}
+      .title{font-family:Arial,Helvetica,sans-serif;font-size:22px;font-weight:900;fill:#102333}
+      .sub{font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#64748b}
+      .step{fill:#ffffff;stroke:#cfd8e3;stroke-width:1.5;rx:18}
+      .s1{fill:#e8fbf8;stroke:#43b8b3;stroke-width:1.8}
+      .s2{fill:#f3f7fb;stroke:#9fb1c3;stroke-width:1.8}
+      .s3{fill:#fff9e8;stroke:#f0c56b;stroke-width:1.8}
+      .s4{fill:#eff6ff;stroke:#8ec5f0;stroke-width:1.8}
+      .s5{fill:#f4f0ff;stroke:#b9a6ff;stroke-width:1.8}
+      .s6{fill:#eefaf4;stroke:#61c6a0;stroke-width:1.8}
+      .num{font-family:Arial,Helvetica,sans-serif;font-size:18px;font-weight:900;fill:#ffffff}
+      .numCircle{fill:#0f8b8d}
+      .txt{font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:800;fill:#17212f}
+      .small{font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#667085}
+      .arrow{stroke:#64748b;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1180" height="420"/>
+  <text x="36" y="42" class="title">Landing Page Display Logic — 6-step Screen Flow</text>
+  <text x="36" y="64" class="sub">This diagram follows the Screen Flow exactly: open page, resolve context, load catalog, apply Tenant visibility, resolve earn display and render UI.</text>
+
+  <rect x="44" y="112" width="300" height="86" class="step s1"/>
+  <circle cx="78" cy="142" r="18" class="numCircle"/><text x="73" y="148" class="num">1</text>
+  <text x="110" y="136" class="txt">End User opens Landing Page</text>
+  <text x="110" y="158" class="small">From Tenant app / webview</text>
+  <text x="110" y="176" class="small">Entry point into Affiliate Marketplace</text>
+
+  <path d="M344 155 H408" class="arrow"/>
+
+  <rect x="408" y="112" width="300" height="86" class="step s2"/>
+  <circle cx="442" cy="142" r="18" class="numCircle"/><text x="437" y="148" class="num">2</text>
+  <text x="474" y="136" class="txt">Runtime resolves context</text>
+  <text x="474" y="158" class="small">tenant_id, locale, device context</text>
+  <text x="474" y="176" class="small">member_ref/user_ref if app provides it</text>
+
+  <path d="M708 155 H772" class="arrow"/>
+
+  <rect x="772" y="112" width="300" height="86" class="step s3"/>
+  <circle cx="806" cy="142" r="18" class="numCircle"/><text x="801" y="148" class="num">3</text>
+  <text x="838" y="136" class="txt">Load public catalog</text>
+  <text x="838" y="158" class="small">Brand / Category / Offer by Tenant</text>
+  <text x="838" y="176" class="small">Source: CMS catalog APIs</text>
+
+  <path d="M922 198 V242" class="arrow"/>
+
+  <rect x="772" y="242" width="300" height="86" class="step s4"/>
+  <circle cx="806" cy="272" r="18" class="numCircle"/><text x="801" y="278" class="num">4</text>
+  <text x="838" y="266" class="txt">Apply Brand/Offer visibility</text>
+  <text x="838" y="288" class="small">Filter by Tenant Portal visibility</text>
+  <text x="838" y="306" class="small">Only visible Brand/Offer continues</text>
+
+  <path d="M772 285 H708" class="arrow"/>
+
+  <rect x="408" y="242" width="300" height="86" class="step s5"/>
+  <circle cx="442" cy="272" r="18" class="numCircle"/><text x="437" y="278" class="num">5</text>
+  <text x="474" y="266" class="txt">Resolve earn display text</text>
+  <text x="474" y="288" class="small">Brand / Category / Offer display</text>
+  <text x="474" y="306" class="small">Source: Tenant Portal configuration</text>
+
+  <path d="M408 285 H344" class="arrow"/>
+
+  <rect x="44" y="242" width="300" height="86" class="step s6"/>
+  <circle cx="78" cy="272" r="18" class="numCircle"/><text x="73" y="278" class="num">6</text>
+  <text x="110" y="266" class="txt">Render Landing Page UI</text>
+  <text x="110" y="288" class="small">Hero, categories, Popular Brands</text>
+  <text x="110" y="306" class="small">All Brands, earn display and actions</text>
+
+  <text x="44" y="374" class="sub">Data ownership: CMS provides Brand/Category/Offer public catalog. Tenant Portal provides Brand/Offer visibility and earn display. Runtime combines both under Tenant scope.</text>
+</svg>

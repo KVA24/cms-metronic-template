@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="1260" viewBox="0 0 2200 1260">
+  <defs>
+    <style>
+      .bg{fill:#f6f8fb}
+      .title{font:700 30px Arial,sans-serif;fill:#172033}
+      .sub{font:15px Arial,sans-serif;fill:#667085}
+      .box{fill:#fff;stroke:#cfd8e3;stroke-width:1.8}
+      .process{fill:#eefafa;stroke:#0b7185;stroke-width:2}
+      .decision{fill:#fff8e8;stroke:#d98a00;stroke-width:2}
+      .success{fill:#ecfdf3;stroke:#188456;stroke-width:2}
+      .error{fill:#fff3f1;stroke:#cf3f32;stroke-width:2}
+      .info{fill:#f0f7ff;stroke:#6d91d0;stroke-width:1.8}
+      .readonly{fill:#f8fafc;stroke:#98a2b3;stroke-width:1.8}
+      .h{font:700 17px Arial,sans-serif;fill:#172033}
+      .t{font:12px Arial,sans-serif;fill:#52657a}
+      .label{font:700 12px Arial,sans-serif;fill:#475467}
+      .line{fill:none;stroke:#667085;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+      .goodLine{fill:none;stroke:#188456;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+      .badLine{fill:none;stroke:#cf3f32;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+      .arrow{fill:#667085}.goodArrow{fill:#188456}.badArrow{fill:#cf3f32}
+    </style>
+  </defs>
+
+  <rect width="2200" height="1260" class="bg"/>
+  <text x="60" y="58" class="title">TP-BRAND-001 — Assigned Brands Logic</text>
+  <text x="60" y="88" class="sub">Assigned Brand list, landing visibility, Hot Brands, Category/Commission and Offer visibility</text>
+
+  <!-- Entry -->
+  <rect x="950" y="120" width="300" height="78" rx="14" class="process"/>
+  <text x="1100" y="152" text-anchor="middle" class="h">Open Brands</text>
+  <text x="1100" y="176" text-anchor="middle" class="t">Tenant user opens menu</text>
+
+  <path d="M1100 198 L1100 302" class="line"/>
+  <path d="M1094 293 L1100 305 L1106 293 Z" class="arrow"/>
+
+  <rect x="910" y="307" width="380" height="82" rx="14" class="process"/>
+  <text x="1100" y="339" text-anchor="middle" class="h">Load assigned Brands</text>
+  <text x="1100" y="363" text-anchor="middle" class="t">Brand, Category, Offer, visibility</text>
+
+  <!-- Action bus -->
+  <path d="M170 520 L1580 520" class="line"/>
+  <path d="M1100 389 L1100 520" class="line"/>
+  <path d="M1094 511 L1100 523 L1106 511 Z" class="arrow"/>
+
+  <!-- Filter / Refresh -->
+  <path d="M170 520 L170 580" class="line"/>
+  <path d="M164 571 L170 583 L176 571 Z" class="arrow"/>
+  <rect x="50" y="585" width="240" height="78" rx="14" class="box"/>
+  <text x="170" y="617" text-anchor="middle" class="h">Apply filter</text>
+  <text x="170" y="641" text-anchor="middle" class="t">Keyword, category, status</text>
+
+  <path d="M170 663 L170 720" class="line"/>
+  <path d="M164 711 L170 723 L176 711 Z" class="arrow"/>
+  <rect x="50" y="725" width="240" height="78" rx="14" class="info"/>
+  <text x="170" y="757" text-anchor="middle" class="h">Refresh list</text>
+  <text x="170" y="781" text-anchor="middle" class="t">Keep filter on paging</text>
+
+  <!-- Show on landing -->
+  <path d="M530 520 L530 580" class="line"/>
+  <path d="M524 571 L530 583 L536 571 Z" class="arrow"/>
+  <rect x="410" y="585" width="240" height="78" rx="14" class="box"/>
+  <text x="530" y="617" text-anchor="middle" class="h">Show on landing</text>
+  <text x="530" y="641" text-anchor="middle" class="t">Show on landing On/Off</text>
+
+  <path d="M530 663 L530 720" class="line"/>
+  <path d="M524 711 L530 723 L536 711 Z" class="arrow"/>
+  <polygon points="530,725 660,790 530,855 400,790" class="decision"/>
+  <text x="530" y="784" text-anchor="middle" class="h">Eligible?</text>
+  <text x="530" y="808" text-anchor="middle" class="t">Tenant, Brand, assignment</text>
+
+  <path d="M400 790 L350 790 L350 1040 L320 1040" class="badLine"/>
+  <path d="M330 1034 L318 1040 L330 1046 Z" class="badArrow"/>
+  <text x="362" y="905" class="label">No</text>
+  <rect x="100" y="1000" width="220" height="78" rx="14" class="error"/>
+  <text x="210" y="1032" text-anchor="middle" class="h">Disable toggle</text>
+  <text x="210" y="1056" text-anchor="middle" class="t">Show reason</text>
+
+  <path d="M530 855 L530 920" class="goodLine"/>
+  <path d="M524 911 L530 923 L536 911 Z" class="goodArrow"/>
+  <text x="544" y="889" class="label">Yes</text>
+  <rect x="390" y="925" width="280" height="86" rx="14" class="success"/>
+  <text x="530" y="957" text-anchor="middle" class="h">Save Brand visibility</text>
+  <text x="530" y="981" text-anchor="middle" class="t">Audit log + update landing</text>
+
+  <!-- Hot Brands -->
+  <path d="M880 520 L880 580" class="line"/>
+  <path d="M874 571 L880 583 L886 571 Z" class="arrow"/>
+  <rect x="760" y="585" width="240" height="78" rx="14" class="box"/>
+  <text x="880" y="617" text-anchor="middle" class="h">Click 🔥 Hot</text>
+  <text x="880" y="641" text-anchor="middle" class="t">Select / unselect Brand</text>
+
+  <path d="M880 663 L880 720" class="line"/>
+  <path d="M874 711 L880 723 L886 711 Z" class="arrow"/>
+  <polygon points="880,725 1010,790 880,855 750,790" class="decision"/>
+  <text x="880" y="784" text-anchor="middle" class="h">Can select?</text>
+  <text x="880" y="808" text-anchor="middle" class="t">Landing On + &lt; 3 Hot</text>
+
+  <path d="M750 790 L700 790 L700 1080 L680 1080" class="badLine"/>
+  <path d="M690 1074 L678 1080 L690 1086 Z" class="badArrow"/>
+  <text x="712" y="935" class="label">No</text>
+  <rect x="460" y="1040" width="220" height="78" rx="14" class="error"/>
+  <text x="570" y="1072" text-anchor="middle" class="h">Disable Hot</text>
+  <text x="570" y="1096" text-anchor="middle" class="t">Limit / landing off</text>
+
+  <path d="M880 855 L880 920" class="goodLine"/>
+  <path d="M874 911 L880 923 L886 911 Z" class="goodArrow"/>
+  <text x="894" y="889" class="label">Yes</text>
+  <rect x="740" y="925" width="280" height="86" rx="14" class="success"/>
+  <text x="880" y="957" text-anchor="middle" class="h">Save Hot selection</text>
+  <text x="880" y="981" text-anchor="middle" class="t">Audit log + Hot Brands</text>
+
+  <!-- Categories -->
+  <path d="M1230 520 L1230 580" class="line"/>
+  <path d="M1224 571 L1230 583 L1236 571 Z" class="arrow"/>
+  <rect x="1110" y="585" width="240" height="78" rx="14" class="readonly"/>
+  <text x="1230" y="617" text-anchor="middle" class="h">View Category Mapping</text>
+  <text x="1230" y="641" text-anchor="middle" class="t">Categories column</text>
+
+  <path d="M1230 663 L1230 720" class="line"/>
+  <path d="M1224 711 L1230 723 L1236 711 Z" class="arrow"/>
+  <rect x="1090" y="725" width="280" height="86" rx="14" class="readonly"/>
+  <text x="1230" y="757" text-anchor="middle" class="h">Open Categories tab</text>
+  <text x="1230" y="781" text-anchor="middle" class="t">CMS mapping, read-only</text>
+
+  <path d="M1230 811 L1230 875" class="line"/>
+  <path d="M1224 866 L1230 878 L1236 866 Z" class="arrow"/>
+  <rect x="1090" y="880" width="280" height="86" rx="14" class="readonly"/>
+  <text x="1230" y="912" text-anchor="middle" class="h">Keep Brand context</text>
+  <text x="1230" y="936" text-anchor="middle" class="t">No Category update</text>
+
+  <!-- Offers -->
+  <path d="M1580 520 L1580 580" class="line"/>
+  <path d="M1574 571 L1580 583 L1586 571 Z" class="arrow"/>
+  <rect x="1460" y="585" width="240" height="78" rx="14" class="box"/>
+  <text x="1580" y="617" text-anchor="middle" class="h">View Offer scope</text>
+  <text x="1580" y="641" text-anchor="middle" class="t">Offers column</text>
+
+  <path d="M1580 663 L1580 720" class="line"/>
+  <path d="M1574 711 L1580 723 L1586 711 Z" class="arrow"/>
+  <rect x="1440" y="725" width="280" height="86" rx="14" class="box"/>
+  <text x="1580" y="757" text-anchor="middle" class="h">Open Offers tab</text>
+  <text x="1580" y="781" text-anchor="middle" class="t">Offer list of selected Brand</text>
+
+  <path d="M1580 811 L1580 870" class="line"/>
+  <path d="M1574 861 L1580 873 L1586 861 Z" class="arrow"/>
+  <polygon points="1580,875 1710,940 1580,1005 1450,940" class="decision"/>
+  <text x="1580" y="934" text-anchor="middle" class="h">Offer valid?</text>
+  <text x="1580" y="958" text-anchor="middle" class="t">Active + within period</text>
+
+  <path d="M1450 940 L1410 940 L1410 1105 L1390 1105" class="badLine"/>
+  <path d="M1400 1099 L1388 1105 L1400 1111 Z" class="badArrow"/>
+  <text x="1422" y="1025" class="label">No</text>
+  <rect x="1170" y="1065" width="220" height="78" rx="14" class="error"/>
+  <text x="1280" y="1097" text-anchor="middle" class="h">Auto Off</text>
+  <text x="1280" y="1121" text-anchor="middle" class="t">Disable Offer toggle</text>
+
+  <path d="M1580 1005 L1580 1055 L1790 1055 L1790 978" class="goodLine"/>
+  <path d="M1784 990 L1790 978 L1796 990 Z" class="goodArrow"/>
+  <text x="1595" y="1033" class="label">Yes</text>
+  <rect x="1720" y="900" width="260" height="78" rx="14" class="success"/>
+  <text x="1850" y="932" text-anchor="middle" class="h">Save Offer visibility</text>
+  <text x="1850" y="956" text-anchor="middle" class="t">Audit log + update landing</text>
+</svg>

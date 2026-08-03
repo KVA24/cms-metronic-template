@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="950" viewBox="0 0 1600 950">
+  <defs>
+    <style>
+      .bg{fill:#f5f7fa}.title{font:700 28px Arial,sans-serif;fill:#172033}.sub{font:14px Arial,sans-serif;fill:#667085}
+      .root{fill:#08778d;stroke:#075f74;stroke-width:2;rx:14}.rootText{font:700 22px Arial,sans-serif;fill:#fff}.rootSub{font:13px Arial,sans-serif;fill:#dff7f8}
+      .group{fill:#fff;stroke:#ccd6e2;stroke-width:1.5;rx:14}.gtitle{font:700 16px Arial,sans-serif;fill:#344054}
+      .module{fill:#eefafa;stroke:#16849a;stroke-width:1.7;rx:10}.account{fill:#f0f7ff;stroke:#4b78c2;stroke-width:1.6;rx:10}
+      .shared{fill:#fff8e8;stroke:#d59a20;stroke-width:1.5;rx:10}.external{fill:#f7f8fa;stroke:#8997aa;stroke-width:1.5;rx:10}
+      .h{font:700 15px Arial,sans-serif;fill:#172033}.t{font:12px Arial,sans-serif;fill:#475467}.tiny{font:11px Arial,sans-serif;fill:#667085}
+      .flow{fill:none;stroke:#53657a;stroke-width:2;marker-end:url(#arrow)}.control{fill:none;stroke:#d59a20;stroke-width:1.8;stroke-dasharray:7 5;marker-end:url(#arrowGold)}
+      .data{fill:none;stroke:#7a8799;stroke-width:1.7;stroke-dasharray:6 5;marker-end:url(#arrowGray)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#53657a"/></marker>
+    <marker id="arrowGold" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#d59a20"/></marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#7a8799"/></marker>
+  </defs>
+  <rect width="1600" height="950" class="bg"/>
+  <text x="50" y="45" class="title">Tenant Portal — Function Diagram</text>
+  <text x="50" y="72" class="sub">MVP1 functional modules, use cases, shared controls and platform data dependencies</text>
+
+  <rect x="575" y="100" width="450" height="85" class="root"/>
+  <text x="800" y="134" text-anchor="middle" class="rootText">Tenant Portal</text>
+  <text x="800" y="158" text-anchor="middle" class="rootSub">Tenant-scoped white-label marketplace operations</text>
+
+  <rect x="50" y="220" width="1500" height="290" class="group"/>
+  <text x="72" y="249" class="gtitle">User-facing functional modules</text>
+
+  <rect x="80" y="285" width="245" height="150" class="module"/>
+  <text x="202" y="314" text-anchor="middle" class="h">Authentication</text>
+  <text x="202" y="342" text-anchor="middle" class="t">TP-AUTH-001 · Sign in</text>
+  <text x="202" y="364" text-anchor="middle" class="t">TP-AUTH-002 · Forgot password</text>
+  <text x="202" y="391" text-anchor="middle" class="tiny">Tenant/User/Role status</text>
+  <text x="202" y="410" text-anchor="middle" class="tiny">OTP · Lockout · Session</text>
+
+  <rect x="355" y="285" width="245" height="150" class="module"/>
+  <text x="477" y="314" text-anchor="middle" class="h">Dashboard</text>
+  <text x="477" y="342" text-anchor="middle" class="t">TP-DASH-001</text>
+  <text x="477" y="369" text-anchor="middle" class="tiny">Clicks · Orders · Amount</text>
+  <text x="477" y="388" text-anchor="middle" class="tiny">Commission · Trend · Status</text>
+  <text x="477" y="407" text-anchor="middle" class="tiny">No Dashboard Export</text>
+
+  <rect x="630" y="285" width="245" height="150" class="module"/>
+  <text x="752" y="314" text-anchor="middle" class="h">Brands</text>
+  <text x="752" y="342" text-anchor="middle" class="t">TP-BRAND-001</text>
+  <text x="752" y="369" text-anchor="middle" class="tiny">Assigned Brands</text>
+  <text x="752" y="388" text-anchor="middle" class="tiny">Category/Commission mapping</text>
+  <text x="752" y="407" text-anchor="middle" class="tiny">Brand + Offer visibility</text>
+
+  <rect x="905" y="285" width="245" height="150" class="module"/>
+  <text x="1027" y="314" text-anchor="middle" class="h">Earn display</text>
+  <text x="1027" y="342" text-anchor="middle" class="t">TP-EARN-001</text>
+  <text x="1027" y="369" text-anchor="middle" class="tiny">Brand · Category · Offer text</text>
+  <text x="1027" y="388" text-anchor="middle" class="tiny">EN/VN · Status · Effective period</text>
+  <text x="1027" y="407" text-anchor="middle" class="tiny">Offer → Category → Brand</text>
+
+  <rect x="1180" y="285" width="320" height="150" class="module"/>
+  <text x="1340" y="314" text-anchor="middle" class="h">Transactions</text>
+  <text x="1340" y="342" text-anchor="middle" class="t">TP-TXN-001 · List</text>
+  <text x="1340" y="364" text-anchor="middle" class="t">TP-TXN-002 · Detail</text>
+  <text x="1340" y="391" text-anchor="middle" class="tiny">Read-only · View · Status history</text>
+  <text x="1340" y="410" text-anchor="middle" class="tiny">Transaction Export by permission</text>
+
+  <path d="M800 185V205H202V285" class="flow"/><path d="M800 185V205H477V285" class="flow"/><path d="M800 185V205H752V285" class="flow"/><path d="M800 185V205H1027V285" class="flow"/><path d="M800 185V205H1340V285" class="flow"/>
+
+  <rect x="50" y="540" width="940" height="205" class="group"/>
+  <text x="72" y="569" class="gtitle">Account settings</text>
+  <rect x="80" y="610" width="270" height="100" class="account"/>
+  <text x="215" y="638" text-anchor="middle" class="h">Roles</text><text x="215" y="663" text-anchor="middle" class="t">TP-ROLE-001</text><text x="215" y="686" text-anchor="middle" class="tiny">Role lifecycle · Permission matrix · Full</text>
+  <rect x="385" y="610" width="270" height="100" class="account"/>
+  <text x="520" y="638" text-anchor="middle" class="h">Users</text><text x="520" y="663" text-anchor="middle" class="t">TP-USER-001</text><text x="520" y="686" text-anchor="middle" class="tiny">User · Role assignment · Status · Unlock</text>
+  <rect x="690" y="610" width="270" height="100" class="account"/>
+  <text x="825" y="638" text-anchor="middle" class="h">Profile</text><text x="825" y="663" text-anchor="middle" class="t">TP-PROFILE-001</text><text x="825" y="686" text-anchor="middle" class="tiny">Own profile · Password</text>
+  <path d="M800 185V195H30V585H520V610" class="flow"/><path d="M520 585H215V610" class="flow"/><path d="M520 585H825V610" class="flow"/>
+
+  <rect x="1020" y="540" width="530" height="205" class="group"/>
+  <text x="1042" y="569" class="gtitle">Shared controls — applied to every module</text>
+  <rect x="1050" y="610" width="220" height="100" class="shared"/>
+  <text x="1160" y="638" text-anchor="middle" class="h">Tenant context &amp; RBAC</text><text x="1160" y="664" text-anchor="middle" class="tiny">Tenant isolation · Action/field permission</text><text x="1160" y="684" text-anchor="middle" class="tiny">Session/status enforcement</text>
+  <rect x="1300" y="610" width="220" height="100" class="shared"/>
+  <text x="1410" y="638" text-anchor="middle" class="h">Audit &amp; concurrency</text><text x="1410" y="664" text-anchor="middle" class="tiny">Before/after · Actor · Timestamp</text><text x="1410" y="684" text-anchor="middle" class="tiny">Version/conflict · No Audit UI module</text>
+  <path d="M1020 660H990" class="control"/>
+
+  <rect x="50" y="780" width="1500" height="130" class="group"/>
+  <text x="72" y="809" class="gtitle">Platform-owned sources and consumers</text>
+  <rect x="80" y="835" width="330" height="55" class="external"/><text x="245" y="858" text-anchor="middle" class="h">Tenant / Brand / Category / Offer CMS</text><text x="245" y="877" text-anchor="middle" class="tiny">Assignment · Master status · Mapping · Commission</text>
+  <rect x="470" y="835" width="330" height="55" class="external"/><text x="635" y="858" text-anchor="middle" class="h">Click / Reporting / Transaction Services</text><text x="635" y="877" text-anchor="middle" class="tiny">Tracked clicks · Orders · Status · Commission</text>
+  <rect x="860" y="835" width="300" height="55" class="external"/><text x="1010" y="858" text-anchor="middle" class="h">Landing Page Runtime</text><text x="1010" y="877" text-anchor="middle" class="tiny">Visibility · Earn display rendering</text>
+  <rect x="1220" y="835" width="300" height="55" class="external"/><text x="1370" y="858" text-anchor="middle" class="h">Auth / RBAC / Audit Services</text><text x="1370" y="877" text-anchor="middle" class="tiny">Identity · Authorization · Trace</text>
+  <path d="M245 835V760" class="data"/><path d="M635 835V760" class="data"/><path d="M1010 835V760" class="data"/><path d="M1370 835V760" class="data"/>
+</svg>

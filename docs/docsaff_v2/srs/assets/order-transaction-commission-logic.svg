@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1350" viewBox="0 0 1800 1350">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#475467"/>
+    </marker>
+    <style>
+      .input{fill:#eef4ff;stroke:#84adff;stroke-width:1.5;rx:10}
+      .box{fill:#fff;stroke:#98a2b3;stroke-width:1.4;rx:10}
+      .calc{fill:#eef4ff;stroke:#84adff;stroke-width:1.5;rx:10}
+      .decision{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.5}
+      .success{fill:#ecfdf3;stroke:#12b76a;stroke-width:1.5;rx:10}
+      .error{fill:#fff1f3;stroke:#f63d68;stroke-width:1.5;rx:10}
+      .title{font:700 22px Arial,sans-serif;fill:#101828}
+      .section{font:700 14px Arial,sans-serif;fill:#095f78}
+      .text{font:700 13px Arial,sans-serif;fill:#101828}
+      .small{font:11.5px Arial,sans-serif;fill:#475467}
+      .branch-title{font:700 11.5px Arial,sans-serif;fill:#101828}
+      .branch-text{font:10.2px Arial,sans-serif;fill:#475467}
+      .label{font:700 8.5px Arial,sans-serif;fill:#667085}
+      .arrow{stroke:#475467;stroke-width:1.5;fill:none;marker-end:url(#arrow)}
+      .dashed{stroke:#667085;stroke-width:1.35;fill:none;stroke-dasharray:6 5;marker-end:url(#arrow)}
+    </style>
+  </defs>
+
+  <rect width="1800" height="1350" fill="#fff"/>
+  <text x="900" y="38" class="title" text-anchor="middle">COM-001/002 — Tính Brand commission và Tenant Share theo từng item</text>
+
+  <text x="55" y="86" class="section">COM-001 — Brand commission</text>
+
+  <rect x="70" y="110" width="250" height="116" class="input"/>
+  <text x="90" y="140" class="text">1. Nhận Order Item</text>
+  <text x="90" y="166" class="small">Final amount</text>
+  <text x="90" y="189" class="small">offer_code, category_code</text>
+  <text x="90" y="212" class="small">order_success_at</text>
+
+  <!-- Step 2 is placed lower to keep the first row clear -->
+  <path d="M320 168 H430 V285" class="arrow"/>
+  <polygon points="560,210 690,285 560,360 430,285" class="decision"/>
+  <text x="560" y="277" class="text" text-anchor="middle">2. Resolve</text>
+  <text x="560" y="301" class="small" text-anchor="middle">Brand commission source</text>
+
+  <rect x="750" y="225" width="240" height="116" class="box"/>
+  <text x="770" y="255" class="text">2A. Offer</text>
+  <text x="770" y="292" class="small">Source = Offer</text>
+
+  <rect x="1040" y="225" width="240" height="116" class="box"/>
+  <text x="1060" y="255" class="text">2B. Category</text>
+  <text x="1060" y="292" class="small">Source = Category</text>
+
+  <rect x="1330" y="225" width="250" height="116" class="box"/>
+  <text x="1350" y="255" class="text">2C. Category Default</text>
+  <text x="1350" y="292" class="small">Source = Category Default</text>
+
+  <path d="M690 267 H750" class="arrow"/>
+  <text x="705" y="258" class="label">OFFER</text>
+  <path d="M595 349 V390 H1160 V341" class="arrow"/>
+  <text x="870" y="382" class="label">CATEGORY</text>
+  <path d="M525 349 V410 H1455 V341" class="arrow"/>
+  <text x="1210" y="402" class="label">CATEGORY DEFAULT</text>
+
+  <rect x="790" y="480" width="370" height="120" class="calc"/>
+  <text x="810" y="510" class="text">3. Tính Gross commission của item</text>
+  <text x="810" y="548" class="small">Ưu tiên: Offer → Category → Category Default</text>
+
+  <path d="M870 341 V445 H880 V480" class="arrow"/>
+  <path d="M1160 341 V445 H975 V480" class="arrow"/>
+  <path d="M1455 341 V460 H1070 V480" class="arrow"/>
+
+  <text x="55" y="680" class="section">COM-002 — Tenant Share</text>
+
+  <path d="M975 600 V700" class="arrow"/>
+  <polygon points="975,700 1095,770 975,840 855,770" class="decision"/>
+  <text x="975" y="762" class="text" text-anchor="middle">4. Resolve</text>
+  <text x="975" y="786" class="small" text-anchor="middle">Tenant Share source</text>
+
+  <rect x="80" y="925" width="250" height="108" class="box"/>
+  <text x="98" y="953" class="branch-title">4A. Theo Offer</text>
+  <text x="98" y="986" class="branch-text">Source = Offer</text>
+
+  <rect x="380" y="925" width="250" height="108" class="box"/>
+  <text x="398" y="953" class="branch-title">4B. Theo Category</text>
+  <text x="398" y="986" class="branch-text">Source = Category</text>
+
+  <rect x="680" y="925" width="280" height="108" class="box"/>
+  <text x="698" y="953" class="branch-title">4C. Tenant &amp; Brand Default</text>
+  <text x="698" y="986" class="branch-text">Source = Tenant &amp; Brand Default</text>
+
+  <rect x="1010" y="925" width="300" height="108" class="box"/>
+  <text x="1028" y="953" class="branch-title">4D. All Tenant Default</text>
+  <text x="1028" y="986" class="branch-text">Source = All Tenant Default</text>
+
+  <path d="M895 814 V860 H205 V925" class="arrow"/>
+  <text x="220" y="852" class="label">CÓ RULE OFFER</text>
+  <path d="M935 833 V875 H505 V925" class="arrow"/>
+  <text x="520" y="867" class="label">CÓ RULE CATEGORY</text>
+  <path d="M1000 833 V890 H820 V925" class="arrow"/>
+  <text x="835" y="882" class="label">CÓ TENANT + BRAND DEFAULT</text>
+  <path d="M1055 814 V860 H1160 V925" class="arrow"/>
+  <text x="1070" y="852" class="label">DÙNG ALL TENANT DEFAULT</text>
+
+  <rect x="1420" y="925" width="320" height="108" class="error"/>
+  <text x="1580" y="984" class="text" text-anchor="middle">Ghi Exception</text>
+
+  <path d="M1580 283 H1760 V979 H1740" class="dashed"/>
+  <text x="1595" y="274" class="label">KHÔNG CÓ BRAND SOURCE</text>
+  <path d="M1095 770 H1705 V925" class="dashed"/>
+  <text x="1480" y="761" class="label">KHÔNG CÓ TENANT SHARE SOURCE</text>
+
+  <rect x="650" y="1160" width="520" height="132" class="success"/>
+  <text x="670" y="1198" class="text">5. Tính Tenant Share của item</text>
+  <text x="670" y="1236" class="small">Ưu tiên: Offer → Category → Tenant &amp; Brand Default → All Tenant Default</text>
+
+  <path d="M205 1033 V1085 H760 V1160" class="arrow"/>
+  <path d="M505 1033 V1100 H855 V1160" class="arrow"/>
+  <path d="M820 1033 V1115 H950 V1160" class="arrow"/>
+  <path d="M1160 1033 V1130 H1050 V1160" class="arrow"/>
+</svg>

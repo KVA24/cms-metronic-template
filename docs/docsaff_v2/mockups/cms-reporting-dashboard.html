@@ -1,0 +1,1131 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mockup CMS - Dashboard báo cáo</title>
+  <style>
+    :root {
+      --ink: #17212f;
+      --muted: #667085;
+      --line: #d9e1ea;
+      --page: #f5f7fa;
+      --surface: #ffffff;
+      --primary: #095f78;
+      --primary-dark: #074759;
+      --soft: #eef8f8;
+      --success-bg: #ecfdf3;
+      --success: #027a48;
+      --warn-bg: #fff7df;
+      --warn: #865400;
+      --gray-bg: #f2f4f7;
+      --gray: #475467;
+      --danger-bg: #fff1f3;
+      --danger: #b42318;
+      --blue-bg: #e5efff;
+      --blue: #1d4ed8;
+      --radius: 8px;
+      --shadow: 0 12px 28px rgba(23, 33, 47, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button, input, select { font: inherit; }
+
+    .app {
+      min-width: 1440px;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      background: #17212f;
+      color: #ffffff;
+      padding: 22px 16px;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 8px 22px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .mark {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      background: var(--primary);
+      font-weight: 850;
+    }
+
+    .brand-mark strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .brand-mark span {
+      display: block;
+      margin-top: 3px;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 12px;
+    }
+
+    .nav {
+      padding-top: 18px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .nav-item {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 10px;
+      border-radius: var(--radius);
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .nav-item.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      display: grid;
+      place-items: center;
+      color: currentColor;
+    }
+
+    .nav-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      height: 64px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .breadcrumb strong { color: var(--ink); }
+
+    .user-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      background: var(--primary);
+      font-weight: 800;
+    }
+
+    .content {
+      width: 1180px;
+      margin: 0 auto;
+      padding: 26px 0 42px;
+    }
+
+    .page-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.22;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .head-actions {
+      display: flex;
+      gap: 10px;
+      padding-top: 2px;
+    }
+
+    .btn {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      color: var(--ink);
+      border-radius: var(--radius);
+      padding: 0 14px;
+      font-weight: 750;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: default;
+      white-space: nowrap;
+    }
+
+    .btn svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .btn.primary {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .filter {
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr 1fr 1fr 1fr 1fr auto auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    input, select {
+      width: 100%;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      padding: 0 11px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .kpi {
+      padding: 16px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      min-height: 124px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .kpi .label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .kpi .value {
+      margin-top: 10px;
+      font-size: 25px;
+      line-height: 1.1;
+      font-weight: 850;
+      letter-spacing: 0;
+    }
+
+    .kpi .delta {
+      margin-top: 10px;
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      gap: 5px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .delta.up {
+      color: var(--success);
+      background: var(--success-bg);
+    }
+
+    .delta.neutral {
+      color: var(--gray);
+      background: var(--gray-bg);
+    }
+
+    .delta.warn {
+      color: var(--warn);
+      background: var(--warn-bg);
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.38fr) minmax(0, 0.92fr);
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .panel-head {
+      min-height: 56px;
+      padding: 0 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .panel-title {
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .panel-meta {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .chart-wrap {
+      padding: 18px;
+    }
+
+    .chart {
+      height: 286px;
+      position: relative;
+      border-left: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .grid-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #edf1f5;
+    }
+
+    .grid-line:nth-child(1) { top: 20%; }
+    .grid-line:nth-child(2) { top: 40%; }
+    .grid-line:nth-child(3) { top: 60%; }
+    .grid-line:nth-child(4) { top: 80%; }
+
+    .bars {
+      position: absolute;
+      left: 22px;
+      right: 18px;
+      bottom: 0;
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      align-items: end;
+      gap: 16px;
+    }
+
+    .bar-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+      align-items: end;
+      height: 100%;
+      position: relative;
+    }
+
+    .bar {
+      min-height: 24px;
+      border-radius: 6px 6px 0 0;
+    }
+
+    .bar.pending { background: #f2b84b; }
+    .bar.confirmed { background: var(--primary); }
+
+    .bar-label {
+      position: absolute;
+      left: 50%;
+      bottom: -24px;
+      transform: translateX(-50%);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .legend {
+      display: flex;
+      gap: 16px;
+      margin-top: 34px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .dot.pending { background: #f2b84b; }
+    .dot.confirmed { background: var(--primary); }
+    .dot.click { background: var(--blue); }
+
+    .status-list {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .status-row {
+      display: grid;
+      grid-template-columns: 96px 1fr 64px;
+      gap: 12px;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .track {
+      height: 10px;
+      background: #edf1f5;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    .fill.confirmed { background: var(--success); }
+    .fill.pending { background: #f2b84b; }
+    .fill.cancelled { background: var(--danger); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    th, td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+      font-size: 13px;
+    }
+
+    th {
+      background: #f8fafc;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    td {
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .money {
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .badge.success {
+      color: var(--success);
+      background: var(--success-bg);
+    }
+
+    .badge.warn {
+      color: var(--warn);
+      background: var(--warn-bg);
+    }
+
+    .badge.blue {
+      color: var(--blue);
+      background: var(--blue-bg);
+    }
+
+    .brand-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .logo {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      background: var(--primary);
+      font-weight: 850;
+      flex: 0 0 auto;
+    }
+
+    .brand-cell strong {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .brand-cell span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .two-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .compact-list {
+      padding: 8px 0;
+    }
+
+    .compact-row {
+      min-height: 58px;
+      padding: 0 18px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .compact-row:last-child {
+      border-bottom: 0;
+    }
+
+    .rank {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .rank-no {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: var(--soft);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 850;
+      flex: 0 0 auto;
+    }
+
+    .rank strong {
+      display: block;
+      font-size: 13px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .rank span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .right-value {
+      text-align: right;
+      font-size: 13px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .right-value span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand-mark">
+        <div class="mark">AF</div>
+        <div>
+          <strong>Affiliate CMS</strong>
+          <span>Admin Portal</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 13h8V3H3z"/><path d="M13 21h8V3h-8z"/><path d="M3 21h8v-6H3z"/></svg></span>
+          Dashboard
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 7H4"/><path d="M20 12H4"/><path d="M20 17H4"/></svg></span>
+          Brand Management
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M7 7v13"/><path d="M17 7v13"/><path d="M9 4h6l2 3H7z"/></svg></span>
+          Offer Management
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 20V4h16v16z"/><path d="M8 9h8"/><path d="M8 13h5"/></svg></span>
+          Tenant Management
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 19h16"/><path d="M7 16V9"/><path d="M12 16V5"/><path d="M17 16v-4"/></svg></span>
+          Transaction
+        </div>
+        <div class="nav-item active">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-7"/></svg></span>
+          Báo cáo
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg></span>
+          Đối soát
+        </div>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb">
+          <span>CMS</span>
+          <span>/</span>
+          <strong>Dashboard báo cáo</strong>
+        </div>
+        <div class="user-box">
+          <span>Finance Admin</span>
+          <div class="avatar">FA</div>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="page-head">
+          <div>
+            <h1>Dashboard báo cáo</h1>
+            <div class="subtitle">Theo dõi click, conversion, GMV và doanh thu/hoa hồng tạm tính, chính thức trên toàn hệ thống.</div>
+          </div>
+          <div class="head-actions">
+            <button class="btn">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+              Export
+            </button>
+            <button class="btn primary">
+              <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v6h6"/></svg>
+              Làm mới dữ liệu
+            </button>
+          </div>
+        </div>
+
+        <section class="panel filter">
+          <div class="filter-grid">
+            <div>
+              <label>Khoảng thời gian</label>
+              <input value="01/07/2026 - 24/07/2026">
+            </div>
+            <div>
+              <label>Tenant</label>
+              <select>
+                <option>Tất cả Tenant</option>
+                <option>TravelGo</option>
+                <option>FinPlus</option>
+              </select>
+            </div>
+            <div>
+              <label>Brand</label>
+              <select>
+                <option>Tất cả Brand</option>
+                <option>TokyoLife</option>
+                <option>BookingX</option>
+              </select>
+            </div>
+            <div>
+              <label>Category</label>
+              <select>
+                <option>Tất cả Category</option>
+                <option>Du lịch</option>
+                <option>Thời trang</option>
+              </select>
+            </div>
+            <div>
+              <label>Offer</label>
+              <select>
+                <option>Tất cả Offer</option>
+                <option>Summer Sale</option>
+                <option>Member Deal</option>
+              </select>
+            </div>
+            <div>
+              <label>Order status</label>
+              <select>
+                <option>Tất cả trạng thái</option>
+                <option>Pending</option>
+                <option>Confirmed</option>
+                <option>Cancelled</option>
+              </select>
+            </div>
+            <button class="btn primary">Áp dụng</button>
+            <button class="btn">Đặt lại</button>
+          </div>
+        </section>
+
+        <section class="kpi-grid">
+          <div class="kpi">
+            <div>
+              <div class="label">Click hợp lệ</div>
+              <div class="value">184,920</div>
+            </div>
+            <div class="delta up">+12.4%</div>
+          </div>
+          <div class="kpi">
+            <div>
+              <div class="label">Conversion / Order</div>
+              <div class="value">7,842</div>
+            </div>
+            <div class="delta up">CR 4.24%</div>
+          </div>
+          <div class="kpi">
+            <div>
+              <div class="label">GMV tracked</div>
+              <div class="value">18.42 tỷ</div>
+            </div>
+            <div class="delta neutral">VND</div>
+          </div>
+          <div class="kpi">
+            <div>
+              <div class="label">Exception cần xử lý</div>
+              <div class="value">36</div>
+            </div>
+            <div class="delta warn">Mapping / rule</div>
+          </div>
+        </section>
+
+        <section class="kpi-grid">
+          <div class="kpi">
+            <div>
+              <div class="label">Commission dự tính</div>
+              <div class="value">642.8 triệu</div>
+            </div>
+            <div class="delta warn">Order pending</div>
+          </div>
+          <div class="kpi">
+            <div>
+              <div class="label">Tenant share dự tính</div>
+              <div class="value">385.7 triệu</div>
+            </div>
+            <div class="delta warn">Chưa settlement</div>
+          </div>
+          <div class="kpi">
+            <div>
+              <div class="label">Commission chính thức</div>
+              <div class="value">1.24 tỷ</div>
+            </div>
+            <div class="delta up">Confirmed</div>
+          </div>
+          <div class="kpi">
+            <div>
+              <div class="label">Affiliate keep</div>
+              <div class="value">496.2 triệu</div>
+            </div>
+            <div class="delta neutral">Sau chia Tenant</div>
+          </div>
+        </section>
+
+        <section class="section-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">Xu hướng doanh thu chia sẻ</div>
+                <div class="panel-meta">Theo ngày, đơn vị VND</div>
+              </div>
+              <span class="badge blue">7 ngày gần nhất</span>
+            </div>
+            <div class="chart-wrap">
+              <div class="chart">
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="bars">
+                  <div class="bar-group">
+                    <div class="bar pending" style="height: 42%"></div>
+                    <div class="bar confirmed" style="height: 58%"></div>
+                    <span class="bar-label">18/07</span>
+                  </div>
+                  <div class="bar-group">
+                    <div class="bar pending" style="height: 48%"></div>
+                    <div class="bar confirmed" style="height: 62%"></div>
+                    <span class="bar-label">19/07</span>
+                  </div>
+                  <div class="bar-group">
+                    <div class="bar pending" style="height: 36%"></div>
+                    <div class="bar confirmed" style="height: 54%"></div>
+                    <span class="bar-label">20/07</span>
+                  </div>
+                  <div class="bar-group">
+                    <div class="bar pending" style="height: 51%"></div>
+                    <div class="bar confirmed" style="height: 76%"></div>
+                    <span class="bar-label">21/07</span>
+                  </div>
+                  <div class="bar-group">
+                    <div class="bar pending" style="height: 58%"></div>
+                    <div class="bar confirmed" style="height: 72%"></div>
+                    <span class="bar-label">22/07</span>
+                  </div>
+                  <div class="bar-group">
+                    <div class="bar pending" style="height: 61%"></div>
+                    <div class="bar confirmed" style="height: 69%"></div>
+                    <span class="bar-label">23/07</span>
+                  </div>
+                  <div class="bar-group">
+                    <div class="bar pending" style="height: 46%"></div>
+                    <div class="bar confirmed" style="height: 66%"></div>
+                    <span class="bar-label">24/07</span>
+                  </div>
+                </div>
+              </div>
+              <div class="legend">
+                <span><i class="dot pending"></i> Tenant share dự tính</span>
+                <span><i class="dot confirmed"></i> Tenant share chính thức</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">Cơ cấu order status</div>
+                <div class="panel-meta">Theo số lượng transaction</div>
+              </div>
+            </div>
+            <div class="status-list">
+              <div class="status-row">
+                <span>Confirmed</span>
+                <div class="track"><div class="fill confirmed" style="width: 64%"></div></div>
+                <span class="money">5,018</span>
+              </div>
+              <div class="status-row">
+                <span>Pending</span>
+                <div class="track"><div class="fill pending" style="width: 29%"></div></div>
+                <span class="money">2,274</span>
+              </div>
+              <div class="status-row">
+                <span>Cancelled</span>
+                <div class="track"><div class="fill cancelled" style="width: 7%"></div></div>
+                <span class="money">550</span>
+              </div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Nhóm số liệu</th>
+                  <th>Số tiền</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Tenant share chính thức</td>
+                  <td class="money">744.3 triệu</td>
+                </tr>
+                <tr>
+                  <td>Tenant share dự tính</td>
+                  <td class="money">385.7 triệu</td>
+                </tr>
+                <tr>
+                  <td>Affiliate keep chính thức</td>
+                  <td class="money">496.2 triệu</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel" style="margin-bottom: 18px;">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Top Brand theo GMV tracked</div>
+              <div class="panel-meta">Hiển thị Brand có giao dịch cao nhất trong kỳ</div>
+            </div>
+            <span class="badge success">Confirmed + Pending</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 255px;">Brand</th>
+                <th style="width: 150px;">Tenant chính</th>
+                <th style="width: 120px;">Click</th>
+                <th style="width: 120px;">Order</th>
+                <th style="width: 150px;">GMV tracked</th>
+                <th style="width: 170px;">Commission dự tính</th>
+                <th style="width: 170px;">Commission chính thức</th>
+                <th style="width: 160px;">Tenant share</th>
+                <th style="width: 120px;">Exception</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="brand-cell">
+                    <div class="logo">TL</div>
+                    <div>
+                      <strong>TokyoLife</strong>
+                      <span>BR-10028</span>
+                    </div>
+                  </div>
+                </td>
+                <td>TravelGo</td>
+                <td class="money">42,180</td>
+                <td class="money">1,842</td>
+                <td class="money">4.82 tỷ</td>
+                <td class="money">148.6 triệu</td>
+                <td class="money">287.4 triệu</td>
+                <td class="money">172.4 triệu</td>
+                <td><span class="badge warn">8</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="brand-cell">
+                    <div class="logo">BX</div>
+                    <div>
+                      <strong>BookingX</strong>
+                      <span>BR-10031</span>
+                    </div>
+                  </div>
+                </td>
+                <td>FinPlus</td>
+                <td class="money">35,910</td>
+                <td class="money">1,106</td>
+                <td class="money">3.75 tỷ</td>
+                <td class="money">122.1 triệu</td>
+                <td class="money">244.8 triệu</td>
+                <td class="money">146.9 triệu</td>
+                <td><span class="badge success">0</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="brand-cell">
+                    <div class="logo">EL</div>
+                    <div>
+                      <strong>ElectroLand</strong>
+                      <span>BR-10045</span>
+                    </div>
+                  </div>
+                </td>
+                <td>TravelGo</td>
+                <td class="money">28,770</td>
+                <td class="money">934</td>
+                <td class="money">2.96 tỷ</td>
+                <td class="money">91.4 triệu</td>
+                <td class="money">198.2 triệu</td>
+                <td class="money">118.9 triệu</td>
+                <td><span class="badge warn">5</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="two-cols">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">Top Tenant theo doanh thu chia sẻ</div>
+                <div class="panel-meta">Số chính thức đã chốt</div>
+              </div>
+            </div>
+            <div class="compact-list">
+              <div class="compact-row">
+                <div class="rank">
+                  <div class="rank-no">1</div>
+                  <div>
+                    <strong>TravelGo Loyalty</strong>
+                    <span>2,918 order confirmed</span>
+                  </div>
+                </div>
+                <div class="right-value">312.6 triệu<span>Tenant share</span></div>
+              </div>
+              <div class="compact-row">
+                <div class="rank">
+                  <div class="rank-no">2</div>
+                  <div>
+                    <strong>FinPlus Rewards</strong>
+                    <span>1,847 order confirmed</span>
+                  </div>
+                </div>
+                <div class="right-value">226.8 triệu<span>Tenant share</span></div>
+              </div>
+              <div class="compact-row">
+                <div class="rank">
+                  <div class="rank-no">3</div>
+                  <div>
+                    <strong>MemberHub</strong>
+                    <span>253 order confirmed</span>
+                  </div>
+                </div>
+                <div class="right-value">59.1 triệu<span>Tenant share</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">Top Offer theo conversion</div>
+                <div class="panel-meta">Offer có hiệu quả cao trong kỳ</div>
+              </div>
+            </div>
+            <div class="compact-list">
+              <div class="compact-row">
+                <div class="rank">
+                  <div class="rank-no">1</div>
+                  <div>
+                    <strong>Summer Sale 15%</strong>
+                    <span>TokyoLife</span>
+                  </div>
+                </div>
+                <div class="right-value">842<span>orders</span></div>
+              </div>
+              <div class="compact-row">
+                <div class="rank">
+                  <div class="rank-no">2</div>
+                  <div>
+                    <strong>Hotel Member Deal</strong>
+                    <span>BookingX</span>
+                  </div>
+                </div>
+                <div class="right-value">611<span>orders</span></div>
+              </div>
+              <div class="compact-row">
+                <div class="rank">
+                  <div class="rank-no">3</div>
+                  <div>
+                    <strong>Back to School</strong>
+                    <span>ElectroLand</span>
+                  </div>
+                </div>
+                <div class="right-value">508<span>orders</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

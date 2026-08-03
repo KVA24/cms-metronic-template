@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900">
+  <defs>
+    <style>
+      .bg{fill:#f6f8fb}
+      .title{font:700 28px Arial,sans-serif;fill:#172033}
+      .sub{font:14px Arial,sans-serif;fill:#667085}
+      .root{fill:#0b7185;stroke:#075f74;stroke-width:2}
+      .login{fill:#e9fbfb;stroke:#0b7185;stroke-width:2}
+      .screen{fill:#fff;stroke:#cfd8e3;stroke-width:1.6}
+      .account{fill:#f0f7ff;stroke:#6d91d0;stroke-width:1.8}
+      .child{fill:#fff;stroke:#b7c5d6;stroke-width:1.5}
+      .rootText{font:700 22px Arial,sans-serif;fill:#fff}
+      .rootSub{font:13px Arial,sans-serif;fill:#dff7f8}
+      .h{font:700 17px Arial,sans-serif;fill:#172033}
+      .small{font:12px Arial,sans-serif;fill:#667085}
+      .line{fill:none;stroke:#667085;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+      .softLine{fill:none;stroke:#98a2b3;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+      .arrow{fill:#667085}
+      .softArrow{fill:#98a2b3}
+    </style>
+  </defs>
+
+  <rect width="1500" height="900" class="bg"/>
+  <text x="60" y="54" class="title">Tenant Portal — Site Map</text>
+  <text x="60" y="82" class="sub">Simple screen navigation after Login</text>
+
+  <!-- Root -->
+  <rect x="590" y="120" width="320" height="86" rx="16" class="root"/>
+  <text x="750" y="155" text-anchor="middle" class="rootText">Tenant Portal</text>
+  <text x="750" y="179" text-anchor="middle" class="rootSub">Tenant web application</text>
+
+  <!-- Login -->
+  <path d="M750 206 L750 255" class="line"/>
+  <path d="M744 246 L750 258 L756 246 Z" class="arrow"/>
+  <rect x="635" y="260" width="230" height="76" rx="14" class="login"/>
+  <text x="750" y="291" text-anchor="middle" class="h">Login</text>
+  <text x="750" y="314" text-anchor="middle" class="small">User authentication</text>
+
+  <!-- Main navigation connector -->
+  <path d="M750 336 L750 390" class="line"/>
+  <path d="M744 381 L750 393 L756 381 Z" class="arrow"/>
+  <path d="M160 410 L1340 410" class="softLine"/>
+
+  <!-- Main screens -->
+  <path d="M190 410 L190 455" class="softLine"/>
+  <path d="M184 446 L190 458 L196 446 Z" class="softArrow"/>
+  <rect x="90" y="460" width="200" height="78" rx="14" class="screen"/>
+  <text x="190" y="492" text-anchor="middle" class="h">Dashboard</text>
+  <text x="190" y="515" text-anchor="middle" class="small">Main screen</text>
+
+  <path d="M470 410 L470 455" class="softLine"/>
+  <path d="M464 446 L470 458 L476 446 Z" class="softArrow"/>
+  <rect x="370" y="460" width="200" height="78" rx="14" class="screen"/>
+  <text x="470" y="492" text-anchor="middle" class="h">Assigned Brands</text>
+  <text x="470" y="515" text-anchor="middle" class="small">Brand scope</text>
+
+  <path d="M750 410 L750 455" class="softLine"/>
+  <path d="M744 446 L750 458 L756 446 Z" class="softArrow"/>
+  <rect x="650" y="460" width="200" height="78" rx="14" class="screen"/>
+  <text x="750" y="492" text-anchor="middle" class="h">Earn display</text>
+  <text x="750" y="515" text-anchor="middle" class="small">Display content</text>
+
+  <path d="M1310 410 L1310 455" class="softLine"/>
+  <path d="M1304 446 L1310 458 L1316 446 Z" class="softArrow"/>
+  <rect x="1200" y="460" width="220" height="78" rx="14" class="account"/>
+  <text x="1310" y="492" text-anchor="middle" class="h">Account settings</text>
+  <text x="1310" y="515" text-anchor="middle" class="small">Sub menu</text>
+
+  <!-- Account settings children -->
+  <path d="M1310 538 L1310 590" class="line"/>
+  <path d="M1304 581 L1310 593 L1316 581 Z" class="arrow"/>
+  <path d="M940 610 L1450 610" class="softLine"/>
+
+  <path d="M1000 610 L1000 650" class="softLine"/>
+  <path d="M994 641 L1000 653 L1006 641 Z" class="softArrow"/>
+  <rect x="920" y="655" width="160" height="64" rx="12" class="child"/>
+  <text x="1000" y="694" text-anchor="middle" class="h">Roles</text>
+
+  <path d="M1195 610 L1195 650" class="softLine"/>
+  <path d="M1189 641 L1195 653 L1201 641 Z" class="softArrow"/>
+  <rect x="1115" y="655" width="160" height="64" rx="12" class="child"/>
+  <text x="1195" y="694" text-anchor="middle" class="h">Accounts</text>
+
+  <path d="M1390 610 L1390 650" class="softLine"/>
+  <path d="M1384 641 L1390 653 L1396 641 Z" class="softArrow"/>
+  <rect x="1310" y="655" width="160" height="64" rx="12" class="child"/>
+  <text x="1390" y="694" text-anchor="middle" class="h">Profile</text>
+
+  <path d="M1000 719 L1000 760" class="softLine"/>
+  <path d="M994 751 L1000 763 L1006 751 Z" class="softArrow"/>
+  <rect x="905" y="765" width="190" height="64" rx="12" class="child"/>
+  <text x="1000" y="804" text-anchor="middle" class="h">Permissions</text>
+</svg>

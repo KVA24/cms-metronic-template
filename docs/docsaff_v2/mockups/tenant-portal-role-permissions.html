@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tenant Portal - Role Permissions</title>
+  <link rel="stylesheet" href="tenant-portal-account-settings.css">
+  <style>
+    .content{width:1240px}.permission-panel{overflow:hidden}.permission-intro{display:flex;justify-content:space-between;gap:24px;padding:18px 22px;border-bottom:1px solid var(--line)}
+    .permission-note{margin:0;flex:1}.selection-summary{min-width:210px;padding:10px 13px;border:1px solid #b7dfe3;border-radius:8px;background:#f1fbfb;color:var(--primary-dark);font-size:12px}
+    .selection-summary strong{display:block;margin-top:3px;font-size:15px}.permission-table{table-layout:fixed}.permission-table th,.permission-table td{padding:13px 10px}
+    .permission-table th:nth-child(1){width:135px}.permission-table th:nth-child(2){width:315px}.permission-table th:not(:nth-child(-n+2)){width:95px}
+    .module-name{font-weight:800}.scope{color:#475467;font-size:12px;line-height:1.45}
+    .na{color:#a7b0bf;font-weight:700}.full-cell{background:#f3fbfb}.full-check{width:18px;height:18px}.permission-table tbody tr:hover{background:#fbfcfd}
+    .permission-table tbody tr:last-child td{border-bottom:0}.matrix-help{padding:12px 22px;border-top:1px solid var(--line);background:#fbfcfd;color:var(--muted);font-size:11px;line-height:1.55}
+    .matrix-help strong{color:var(--ink)}.save-message{display:none;margin-right:auto;align-items:center;color:var(--success);font-size:12px;font-weight:750}.save-message.show{display:flex}
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><div class="mark">V</div><div><strong>Tenant Portal</strong><span>White-label Marketplace</span></div></div>
+    <div class="tenant"><strong>Vietnam Airlines Loyalty</strong><span>Tenant code: VNA_LOYALTY</span></div>
+    <nav class="nav">
+      <a href="tenant-portal-dashboard.html">▦ Dashboard</a>
+      <a href="tenant-portal-assigned-brands.html">◇ Assigned Brands</a>
+      <a href="tenant-portal-earn-display.html">◫ Earn display</a>
+      <a href="tenant-portal-transaction-list.html">▤ Transactions</a>
+      <div class="nav-parent"><div class="nav-parent-title"><span>⚙ Account settings</span><span>⌃</span></div><div class="nav-children"><a class="active" href="tenant-portal-role-list.html">Roles</a><a href="tenant-portal-user-list.html">Accounts</a><a href="tenant-portal-profile.html">Profile</a></div></div>
+    </nav>
+  </aside>
+  <main>
+    <header class="top"><div class="crumb">Account settings / Roles / <strong>Permissions</strong></div><div class="user"><span>Tenant Admin</span><span class="avatar">TA</span></div></header>
+    <section class="content">
+      <div class="head"><div><h1>Role permissions</h1><p>Select the actions this role can perform in each Tenant Portal module.</p></div></div>
+      <div class="panel permission-panel">
+        <div class="role-summary"><div>Role ID<strong>ROLE-MKT-OPS</strong></div><div>Role Name<strong>Marketing/Ops</strong></div><div>Status<strong><span class="badge active-b">Active</span></strong></div></div>
+        <div class="permission-intro">
+          <div class="permission-note"><strong>Tenant-scoped permissions only.</strong><br>Unavailable actions are marked “—”. Financial fields remain subject to the role's financial-data permission policy.</div>
+          <div class="selection-summary">Permission coverage<strong id="coverage">0 of 7 modules have Full access</strong></div>
+        </div>
+        <table class="permission-table" aria-label="Role permission matrix">
+          <thead><tr><th>Module</th><th>Functions covered</th><th class="center">View</th><th class="center">Create</th><th class="center">Edit</th><th class="center">Delete / Disable</th><th class="center">Export</th><th class="center">Permissions</th><th class="center full-cell">Full</th></tr></thead>
+          <tbody>
+            <tr data-module="Dashboard"><td><span class="module-name">Dashboard</span></td><td class="scope">View Tenant metrics, charts, status distribution and Top Brands.</td><td class="center"><input class="check action-check" type="checkbox" checked aria-label="Dashboard View"></td><td class="center na">—</td><td class="center na">—</td><td class="center na">—</td><td class="center na">—</td><td class="center na">—</td><td class="center full-cell"><input class="check full-check" type="checkbox" aria-label="Dashboard Full"></td></tr>
+            <tr data-module="Brands"><td><span class="module-name">Brands</span></td><td class="scope">View assigned Brands, Category/Offer scope; manage Brand and Offer landing visibility.</td><td class="center"><input class="check action-check" type="checkbox" checked aria-label="Brands View"></td><td class="center na">—</td><td class="center"><input class="check action-check" type="checkbox" checked aria-label="Brands Edit"></td><td class="center na">—</td><td class="center na">—</td><td class="center na">—</td><td class="center full-cell"><input class="check full-check" type="checkbox" aria-label="Brands Full"></td></tr>
+            <tr data-module="Earn display"><td><span class="module-name">Earn display</span></td><td class="scope">View, create and update Brand, Category and Offer earn/cashback display text.</td><td class="center"><input class="check action-check" type="checkbox" checked aria-label="Earn display View"></td><td class="center"><input class="check action-check" type="checkbox" checked aria-label="Earn display Create"></td><td class="center"><input class="check action-check" type="checkbox" checked aria-label="Earn display Edit"></td><td class="center na">—</td><td class="center na">—</td><td class="center na">—</td><td class="center full-cell"><input class="check full-check" type="checkbox" aria-label="Earn display Full"></td></tr>
+            <tr data-module="Transactions"><td><span class="module-name">Transactions</span></td><td class="scope">View transaction list/detail and export Tenant-scoped transaction data.</td><td class="center"><input class="check action-check" type="checkbox" checked aria-label="Transactions View"></td><td class="center na">—</td><td class="center na">—</td><td class="center na">—</td><td class="center"><input class="check action-check" type="checkbox" aria-label="Transactions Export"></td><td class="center na">—</td><td class="center full-cell"><input class="check full-check" type="checkbox" aria-label="Transactions Full"></td></tr>
+            <tr data-module="Roles"><td><span class="module-name">Roles</span></td><td class="scope">View, create, edit, configure permissions, inactivate or delete Tenant roles.</td><td class="center"><input class="check action-check" type="checkbox" aria-label="Roles View"></td><td class="center"><input class="check action-check" type="checkbox" aria-label="Roles Create"></td><td class="center"><input class="check action-check" type="checkbox" aria-label="Roles Edit"></td><td class="center"><input class="check action-check" type="checkbox" aria-label="Roles Delete or Disable"></td><td class="center na">—</td><td class="center"><input class="check action-check" type="checkbox" aria-label="Roles Permissions"></td><td class="center full-cell"><input class="check full-check" type="checkbox" aria-label="Roles Full"></td></tr>
+            <tr data-module="Accounts"><td><span class="module-name">Accounts</span></td><td class="scope">View, create and edit Tenant users; activate, inactivate or unlock accounts.</td><td class="center"><input class="check action-check" type="checkbox" aria-label="Accounts View"></td><td class="center"><input class="check action-check" type="checkbox" aria-label="Accounts Create"></td><td class="center"><input class="check action-check" type="checkbox" aria-label="Accounts Edit"></td><td class="center"><input class="check action-check" type="checkbox" aria-label="Accounts Disable"></td><td class="center na">—</td><td class="center na">—</td><td class="center full-cell"><input class="check full-check" type="checkbox" aria-label="Accounts Full"></td></tr>
+            <tr data-module="Profile"><td><span class="module-name">Profile</span></td><td class="scope">View and update the signed-in user's profile and password.</td><td class="center"><input class="check action-check" type="checkbox" checked aria-label="Profile View"></td><td class="center na">—</td><td class="center"><input class="check action-check" type="checkbox" aria-label="Profile Edit"></td><td class="center na">—</td><td class="center na">—</td><td class="center na">—</td><td class="center full-cell"><input class="check full-check" type="checkbox" aria-label="Profile Full"></td></tr>
+          </tbody>
+        </table>
+        <div class="matrix-help"><strong>How Full works:</strong> selecting Full selects every available action in that module. Clearing Full clears every available action. When all available actions are selected individually, Full is selected automatically; a partial selection shows Full in an indeterminate state.</div>
+        <div class="card-foot"><span id="save-message" class="save-message">✓ Permissions saved successfully</span><a class="button" href="tenant-portal-role-view.html">Cancel</a><button id="save-permissions" class="button primary">Save permissions</button></div>
+      </div>
+    </section>
+  </main>
+</div>
+<script>
+  const rows = [...document.querySelectorAll('tbody tr[data-module]')];
+  const coverage = document.getElementById('coverage');
+  function syncRow(row) {
+    const actions = [...row.querySelectorAll('.action-check')];
+    const full = row.querySelector('.full-check');
+    const selected = actions.filter(action => action.checked).length;
+    full.checked = selected === actions.length;
+    full.indeterminate = selected > 0 && selected < actions.length;
+  }
+  function updateCoverage() {
+    const fullCount = rows.filter(row => row.querySelector('.full-check').checked).length;
+    coverage.textContent = `${fullCount} of ${rows.length} modules have Full access`;
+  }
+  rows.forEach(row => {
+    const actions = [...row.querySelectorAll('.action-check')];
+    const full = row.querySelector('.full-check');
+    actions.forEach(action => action.addEventListener('change', () => { syncRow(row); updateCoverage(); }));
+    full.addEventListener('change', () => {
+      actions.forEach(action => { action.checked = full.checked; });
+      full.indeterminate = false;
+      updateCoverage();
+    });
+    syncRow(row);
+  });
+  updateCoverage();
+  document.getElementById('save-permissions').addEventListener('click', () => {
+    document.getElementById('save-message').classList.add('show');
+  });
+</script>
+</body>
+</html>

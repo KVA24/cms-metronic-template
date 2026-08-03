@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mockup CMS - Danh sách Offer theo Brand</title>
+  <style>
+    :root {
+      --ink: #17212f;
+      --muted: #667085;
+      --line: #d9e1ea;
+      --page: #f5f7fa;
+      --surface: #ffffff;
+      --primary: #095f78;
+      --primary-dark: #074759;
+      --soft: #eef8f8;
+      --success-bg: #ecfdf3;
+      --success: #027a48;
+      --warn-bg: #fff7df;
+      --warn: #865400;
+      --gray-bg: #f2f4f7;
+      --gray: #475467;
+      --danger-bg: #fff1f3;
+      --danger: #b42318;
+      --radius: 8px;
+      --shadow: 0 12px 28px rgba(23, 33, 47, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button, input, select { font: inherit; }
+
+    .app {
+      min-width: 1180px;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      background: #17212f;
+      color: #ffffff;
+      padding: 22px 16px;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 8px 22px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .mark {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      background: var(--primary);
+      font-weight: 850;
+    }
+
+    .brand-mark strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .brand-mark span {
+      display: block;
+      margin-top: 3px;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 12px;
+    }
+
+    .nav {
+      padding-top: 18px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .nav-item {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 10px;
+      border-radius: var(--radius);
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .nav-item.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      display: grid;
+      place-items: center;
+      color: currentColor;
+    }
+
+    .nav-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      height: 64px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .breadcrumb strong { color: var(--ink); }
+
+    .user-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      background: var(--primary);
+      font-weight: 800;
+    }
+
+    .content {
+      width: 1120px;
+      margin: 0 auto;
+      padding: 26px 0 42px;
+    }
+
+    .page-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .page-head p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .button {
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 0 14px;
+      background: #ffffff;
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 760;
+      cursor: default;
+      white-space: nowrap;
+    }
+
+    .button.primary {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 10px 20px rgba(9, 95, 120, 0.16);
+    }
+
+    .button.icon {
+      width: 38px;
+      padding: 0;
+      justify-content: center;
+    }
+
+    .button svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .brand-context {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .brand-context-main {
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand-identity {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      color: #ffffff;
+      background: var(--primary);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .brand-title { min-width: 0; }
+
+    .brand-title strong {
+      display: block;
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.3;
+      font-weight: 850;
+    }
+
+    .brand-title span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .tabs {
+      height: 48px;
+      display: flex;
+      align-items: stretch;
+      gap: 4px;
+      padding: 0 12px;
+      background: #ffffff;
+    }
+
+    .tab {
+      border: 0;
+      border-bottom: 3px solid transparent;
+      padding: 0 12px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 780;
+    }
+
+    .tab.active {
+      color: var(--primary-dark);
+      border-bottom-color: var(--primary);
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .panel-head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.2;
+    }
+
+    .panel-body { padding: 18px; }
+
+    .notice {
+      padding: 14px;
+      border: 1px solid #b9cdfd;
+      border-radius: var(--radius);
+      color: #263fd6;
+      background: #eef4ff;
+      font-size: 13px;
+      font-weight: 650;
+      line-height: 1.5;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: minmax(220px, 1.35fr) minmax(170px, 1fr) minmax(220px, 1.2fr);
+      gap: 12px;
+      align-items: end;
+    }
+
+    .filter-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 760;
+      color: #344054;
+    }
+
+    input, select {
+      width: 100%;
+      height: 42px;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      outline: 0;
+      padding: 0 12px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      overflow-y: hidden;
+      border-radius: 0 0 var(--radius) var(--radius);
+      scrollbar-color: #98a2b3 #eef2f6;
+      scrollbar-width: thin;
+    }
+
+    .table-wrap::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    .table-wrap::-webkit-scrollbar-track {
+      background: #eef2f6;
+    }
+
+    .table-wrap::-webkit-scrollbar-thumb {
+      border: 2px solid #eef2f6;
+      border-radius: 999px;
+      background: #98a2b3;
+    }
+
+    table {
+      width: 100%;
+      min-width: 1074px;
+      border-collapse: collapse;
+      table-layout: fixed;
+      background: #ffffff;
+    }
+
+    th {
+      height: 44px;
+      background: #f8fafc;
+      color: #475467;
+      font-size: 12px;
+      line-height: 1.25;
+      font-weight: 800;
+      text-align: left;
+      padding: 0 10px;
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
+    }
+
+    td {
+      min-height: 64px;
+      padding: 13px 10px;
+      border-bottom: 1px solid #edf1f5;
+      color: #344054;
+      font-size: 13px;
+      line-height: 1.4;
+      vertical-align: middle;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .offer-title {
+      min-width: 0;
+    }
+
+    .offer-title strong {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .offer-title span {
+      display: block;
+      margin-top: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .muted { color: var(--muted); }
+
+    .effective-period {
+      min-width: 0;
+      color: #475467;
+      font-size: 11.5px;
+      line-height: 1.45;
+      white-space: nowrap;
+    }
+
+    .effective-period span { display: block; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      border-radius: 999px;
+      padding: 0 9px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .badge.active {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .badge.draft {
+      background: var(--warn-bg);
+      color: var(--warn);
+    }
+
+    .badge.inactive {
+      background: var(--gray-bg);
+      color: var(--gray);
+    }
+
+    .badge.missing {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .row-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .button.mapping-action {
+      min-height: 34px;
+      padding: 0 10px;
+      gap: 6px;
+      color: var(--primary);
+      border-color: #abd8df;
+      background: #f4fbfc;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .button.mapping-action svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .mapping-info {
+      min-width: 0;
+    }
+
+    .mapping-info .badge {
+      margin-bottom: 4px;
+    }
+
+    .mapping-info small {
+      display: block;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 650;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .pagination {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand-mark">
+        <div class="mark">AM</div>
+        <div>
+          <strong>Affiliate CMS</strong>
+          <span>Operations Console</span>
+        </div>
+      </div>
+      <nav class="nav" aria-label="CMS navigation">
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v6H4z"></path><path d="M4 14h7v6H4z"></path><path d="M15 14h5v6h-5z"></path></svg></span>
+          Dashboard
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M7 7v13"></path><path d="M17 7v13"></path><path d="M9 4h6l2 3H7z"></path></svg></span>
+          Tenants
+        </div>
+        <div class="nav-item active">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 21h18"></path><path d="M5 21V5h8v16"></path><path d="M13 9h6v12"></path><path d="M8 8h2"></path><path d="M8 12h2"></path><path d="M8 16h2"></path></svg></span>
+          Brands
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h10"></path></svg></span>
+          Offers
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5"></path><path d="M4 19h16"></path><path d="M8 16v-5"></path><path d="M12 16V8"></path><path d="M16 16v-9"></path></svg></span>
+          Reports
+        </div>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb">
+          <span>Brand Management</span>
+          <span>/</span>
+          <span>TravelGo</span>
+          <span>/</span>
+          <strong>Offers</strong>
+        </div>
+        <div class="user-box">
+          <span>Admin/Ops</span>
+          <div class="avatar">AO</div>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="page-head">
+          <div>
+            <h1>Danh sách Offer</h1>
+            <p>Quản lý Offer thuộc Brand TravelGo và mapping mã Offer của Brand với Offer trên Affiliate Platform.</p>
+          </div>
+          <div class="actions">
+            <button class="button primary" type="button" onclick="window.location.href='cms-offer-create.html'">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+              Thêm Offer
+            </button>
+          </div>
+        </div>
+
+        <section class="brand-context">
+          <div class="brand-context-main">
+            <div class="brand-identity">
+              <div class="brand-logo">TG</div>
+              <div class="brand-title">
+                <strong>TravelGo</strong>
+                <span>BRD-0001 · travelgo.vn · Active</span>
+              </div>
+            </div>
+            <button class="button" type="button">Quay lại danh sách Brand</button>
+          </div>
+          <div class="tabs">
+            <button class="tab" type="button">Thông tin Brand</button>
+            <button class="tab active" type="button">Offers</button>
+            <button class="tab" type="button">Audit log</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Quy tắc Mapping Offer</h2>
+          </div>
+          <div class="panel-body">
+            <div class="notice">
+              Brand gửi <strong>brand_offer_code</strong> theo từng order item. Platform dùng
+              <strong>brand_id + brand_offer_code</strong> để xác định Offer commission. Nếu không tìm thấy mapping hợp lệ,
+              order item được đưa vào exception.
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Bộ lọc</h2>
+            <button class="button" type="button">Đặt lại</button>
+          </div>
+          <div class="panel-body">
+            <div class="filters">
+              <div class="field">
+                <label for="keyword">Từ khóa</label>
+                <input id="keyword" placeholder="Mapping ID, Offer title, Brand Offer ID/code">
+              </div>
+              <div class="field">
+                <label for="status">Trạng thái</label>
+                <select id="status">
+	                  <option>Tất cả trạng thái</option>
+	                  <option>Active</option>
+	                  <option>Draft</option>
+	                  <option>Inactive</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="commission-status">Commission rule status</label>
+                <select id="commission-status">
+                  <option>Tất cả</option>
+                  <option>Đã cấu hình</option>
+                  <option>Chưa cấu hình</option>
+                </select>
+              </div>
+            </div>
+            <div class="filter-actions">
+              <button class="button" type="button">Đặt lại</button>
+              <button class="button primary" type="button">Áp dụng</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Danh sách Offer Mapping</h2>
+            <div class="actions">
+              <button class="button icon" type="button" aria-label="Refresh">
+                <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.5 6.3L3 16"></path><path d="M3 21v-5h5"></path><path d="M3 12A9 9 0 0 1 18.5 5.7L21 8"></path><path d="M21 3v5h-5"></path></svg>
+              </button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <colgroup>
+                <col style="width: 92px">
+                <col style="width: 140px">
+                <col style="width: 131px">
+                <col style="width: 145px">
+                <col style="width: 112px">
+                <col style="width: 112px">
+                <col style="width: 112px">
+                <col style="width: 108px">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>Mapping ID</th>
+                  <th>Offer Title</th>
+                  <th>Brand Offer<br>ID/Code</th>
+                  <th>Brand Offer<br>Title</th>
+                  <th>Commission<br>Type</th>
+                  <th>Commission<br>Value</th>
+                  <th>Offer<br>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>OFM-0001</strong></td>
+                  <td>
+                    <div class="offer-title">
+                      <strong>Ưu đãi đặt phòng khách sạn cuối tuần</strong>
+                      <span>Hotel weekend deal</span>
+                    </div>
+                  </td>
+                  <td><strong>TG-HOTEL-WEEKEND</strong></td>
+                  <td>Hotel Weekend Campaign</td>
+                  <td>Percentage</td>
+                  <td><span class="badge active">5.5%</span></td>
+                  <td><span class="badge active">Active</span></td>
+                  <td>
+                    <div class="row-actions">
+                      <button class="button icon" type="button" aria-label="View Offer" onclick="window.location.href='cms-offer-view.html'"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                      <button class="button icon" type="button" aria-label="Edit Offer" onclick="window.location.href='cms-offer-edit.html'"><svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>OFM-0002</strong></td>
+                  <td>
+                    <div class="offer-title">
+                      <strong>Combo vé máy bay và khách sạn</strong>
+                      <span>Flight and hotel bundle</span>
+                    </div>
+                  </td>
+                  <td><strong>TG-FLIGHT-BUNDLE</strong></td>
+                  <td>Flight & Hotel Bundle</td>
+                  <td>Percentage</td>
+                  <td><span class="badge active">6%</span></td>
+                  <td><span class="badge active">Active</span></td>
+                  <td>
+                    <div class="row-actions">
+                      <button class="button icon" type="button" aria-label="View Offer" onclick="window.location.href='cms-offer-view.html'"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                      <button class="button icon" type="button" aria-label="Edit Offer" onclick="window.location.href='cms-offer-edit.html'"><svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>-</strong></td>
+                  <td>
+                    <div class="offer-title">
+                      <strong>Tour trải nghiệm trong ngày</strong>
+                      <span>Day tour experience</span>
+                    </div>
+                  </td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td><span class="badge missing">Chưa cấu hình</span></td>
+                  <td><span class="badge draft">Draft</span></td>
+                  <td>
+                    <div class="row-actions">
+                      <button class="button icon" type="button" aria-label="View Offer" onclick="window.location.href='cms-offer-view.html'"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                      <button class="button icon" type="button" aria-label="Edit Offer" onclick="window.location.href='cms-offer-edit.html'"><svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>OFM-0003</strong></td>
+                  <td>
+                    <div class="offer-title">
+                      <strong>Ưu đãi thuê xe sân bay</strong>
+                      <span>Airport car service</span>
+                    </div>
+                  </td>
+                  <td><strong>TG-AIRPORT-CAR</strong></td>
+                  <td>Airport Car Service</td>
+                  <td>Fixed amount</td>
+                  <td><span class="badge active">30,000 VND</span></td>
+                  <td><span class="badge inactive">Inactive</span></td>
+                  <td>
+                    <div class="row-actions">
+                      <button class="button icon" type="button" aria-label="View Offer" onclick="window.location.href='cms-offer-view.html'"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                      <button class="button icon" type="button" aria-label="Edit Offer" onclick="window.location.href='cms-offer-edit.html'"><svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <span>Hiển thị 1-4 trong 12 Offer Mapping của TravelGo</span>
+            <div class="actions">
+              <button class="button" type="button">Trước</button>
+              <button class="button" type="button">Sau</button>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

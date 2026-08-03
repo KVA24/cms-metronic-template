@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="280" viewBox="0 0 1040 280">
+  <style>
+    text{font-family:Arial,Helvetica,sans-serif;fill:#17212f}
+    .box{fill:#fff;stroke:#095f78;stroke-width:2;rx:8}
+    .decision{fill:#fff7df;stroke:#865400;stroke-width:2}
+    .arrow{stroke:#667085;stroke-width:2;fill:none;marker-end:url(#a)}
+    .muted{fill:#667085;font-size:13px}
+    .title{font-weight:700;font-size:15px}
+  </style>
+  <defs><marker id="a" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#667085"/></marker></defs>
+  <rect x="24" y="96" width="138" height="64" class="box"/><text x="93" y="121" text-anchor="middle" class="title">Admin/Ops</text><text x="93" y="143" text-anchor="middle" class="muted">mở Tenant</text>
+  <rect x="204" y="96" width="154" height="64" class="box"/><text x="281" y="121" text-anchor="middle" class="title">Nhập user</text><text x="281" y="143" text-anchor="middle" class="muted">email/role</text>
+  <polygon points="470,84 556,128 470,172 384,128" class="decision"/><text x="470" y="124" text-anchor="middle" class="title">Dữ liệu hợp lệ?</text>
+  <polygon points="690,84 776,128 690,172 604,128" class="decision"/><text x="690" y="124" text-anchor="middle" class="title">Email unique?</text>
+  <rect x="824" y="96" width="156" height="64" class="box"/><text x="902" y="121" text-anchor="middle" class="title">Tạo user</text><text x="902" y="143" text-anchor="middle" class="muted">hash password</text>
+  <rect x="394" y="208" width="152" height="48" class="box"/><text x="470" y="237" text-anchor="middle" class="title">Hiển thị lỗi field</text>
+  <rect x="614" y="208" width="152" height="48" class="box"/><text x="690" y="237" text-anchor="middle" class="title">Email đã tồn tại</text>
+  <path d="M162 128H204" class="arrow"/><path d="M358 128H384" class="arrow"/><path d="M556 128H604" class="arrow"/><path d="M776 128H824" class="arrow"/><path d="M470 172V208" class="arrow"/><path d="M690 172V208" class="arrow"/>
+</svg>

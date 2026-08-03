@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="1320" viewBox="0 0 2200 1320">
+  <defs>
+    <style>
+      .bg{fill:#f6f8fb}
+      .title{font:700 30px Arial,sans-serif;fill:#172033}
+      .sub{font:15px Arial,sans-serif;fill:#667085}
+      .box{fill:#fff;stroke:#cfd8e3;stroke-width:1.8}
+      .process{fill:#eefafa;stroke:#0b7185;stroke-width:2}
+      .decision{fill:#fff8e8;stroke:#d98a00;stroke-width:2}
+      .success{fill:#ecfdf3;stroke:#188456;stroke-width:2}
+      .error{fill:#fff3f1;stroke:#cf3f32;stroke-width:2}
+      .info{fill:#f0f7ff;stroke:#6d91d0;stroke-width:1.8}
+      .h{font:700 17px Arial,sans-serif;fill:#172033}
+      .t{font:12px Arial,sans-serif;fill:#52657a}
+      .label{font:700 12px Arial,sans-serif;fill:#475467}
+      .line{fill:none;stroke:#667085;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+      .goodLine{fill:none;stroke:#188456;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+      .badLine{fill:none;stroke:#cf3f32;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+      .arrow{fill:#667085}.goodArrow{fill:#188456}.badArrow{fill:#cf3f32}
+    </style>
+  </defs>
+
+  <rect width="2200" height="1320" class="bg"/>
+  <text x="60" y="58" class="title">TP-ROLE-001 — Role Management Logic</text>
+  <text x="60" y="88" class="sub">Role list, add, view, edit, permissions and delete flow</text>
+
+  <!-- Entry -->
+  <rect x="960" y="125" width="300" height="78" rx="14" class="process"/>
+  <text x="1110" y="157" text-anchor="middle" class="h">Open Roles</text>
+  <text x="1110" y="181" text-anchor="middle" class="t">Account settings &gt; Roles</text>
+
+  <path d="M1110 203 L1110 258" class="line"/>
+  <path d="M1104 249 L1110 261 L1116 249 Z" class="arrow"/>
+
+  <rect x="960" y="263" width="300" height="78" rx="14" class="process"/>
+  <text x="1110" y="295" text-anchor="middle" class="h">Role list</text>
+  <text x="1110" y="319" text-anchor="middle" class="t">Filter + Tenant role list</text>
+
+  <!-- Action bus -->
+  <path d="M170 420 L1980 420" class="line"/>
+  <path d="M1110 341 L1110 420" class="line"/>
+  <path d="M1104 411 L1110 423 L1116 411 Z" class="arrow"/>
+
+  <!-- Filter column -->
+  <path d="M170 420 L170 485" class="line"/>
+  <path d="M164 476 L170 488 L176 476 Z" class="arrow"/>
+  <rect x="50" y="490" width="240" height="78" rx="14" class="box"/>
+  <text x="170" y="522" text-anchor="middle" class="h">Apply filter</text>
+  <text x="170" y="546" text-anchor="middle" class="t">Keyword + Status</text>
+  <path d="M170 568 L170 625" class="line"/>
+  <path d="M164 616 L170 628 L176 616 Z" class="arrow"/>
+  <rect x="50" y="630" width="240" height="78" rx="14" class="info"/>
+  <text x="170" y="662" text-anchor="middle" class="h">Refresh Role list</text>
+  <text x="170" y="686" text-anchor="middle" class="t">Tenant scope only</text>
+
+  <!-- Add column -->
+  <path d="M520 420 L520 485" class="line"/>
+  <path d="M514 476 L520 488 L526 476 Z" class="arrow"/>
+  <rect x="400" y="490" width="240" height="78" rx="14" class="box"/>
+  <text x="520" y="522" text-anchor="middle" class="h">Add role</text>
+  <text x="520" y="546" text-anchor="middle" class="t">Enter role info</text>
+
+  <path d="M520 568 L520 625" class="line"/>
+  <path d="M514 616 L520 628 L526 616 Z" class="arrow"/>
+  <polygon points="520,630 650,695 520,760 390,695" class="decision"/>
+  <text x="520" y="689" text-anchor="middle" class="h">Valid data?</text>
+  <text x="520" y="713" text-anchor="middle" class="t">ID, name, status</text>
+
+  <path d="M390 695 L365 695 L365 790 L340 790" class="badLine"/>
+  <path d="M350 784 L338 790 L350 796 Z" class="badArrow"/>
+  <text x="372" y="738" class="label">No</text>
+  <rect x="170" y="750" width="170" height="78" rx="14" class="error"/>
+  <text x="255" y="782" text-anchor="middle" class="h">Show error</text>
+  <text x="255" y="806" text-anchor="middle" class="t">Highlight fields</text>
+
+  <path d="M520 760 L520 925" class="goodLine"/>
+  <path d="M514 916 L520 928 L526 916 Z" class="goodArrow"/>
+  <text x="534" y="842" class="label">Yes</text>
+  <rect x="400" y="930" width="240" height="78" rx="14" class="success"/>
+  <text x="520" y="962" text-anchor="middle" class="h">Create role</text>
+  <text x="520" y="986" text-anchor="middle" class="t">Audit log, return list</text>
+
+  <!-- View column -->
+  <path d="M875 420 L875 485" class="line"/>
+  <path d="M869 476 L875 488 L881 476 Z" class="arrow"/>
+  <rect x="755" y="490" width="240" height="78" rx="14" class="info"/>
+  <text x="875" y="522" text-anchor="middle" class="h">View role</text>
+  <text x="875" y="546" text-anchor="middle" class="t">Read-only detail</text>
+
+  <!-- Edit from View -->
+  <path d="M875 568 L875 625" class="line"/>
+  <path d="M869 616 L875 628 L881 616 Z" class="arrow"/>
+  <rect x="755" y="630" width="240" height="78" rx="14" class="box"/>
+  <text x="875" y="662" text-anchor="middle" class="h">Edit role</text>
+  <text x="875" y="686" text-anchor="middle" class="t">Role ID read-only</text>
+
+  <path d="M875 708 L875 765" class="line"/>
+  <path d="M869 756 L875 768 L881 756 Z" class="arrow"/>
+  <polygon points="875,770 1005,835 875,900 745,835" class="decision"/>
+  <text x="875" y="829" text-anchor="middle" class="h">Valid update?</text>
+  <text x="875" y="853" text-anchor="middle" class="t">Name, remark, status</text>
+
+  <path d="M745 835 L730 835" class="badLine"/>
+  <path d="M740 829 L728 835 L740 841 Z" class="badArrow"/>
+  <text x="735" y="822" class="label">No</text>
+  <rect x="560" y="795" width="170" height="78" rx="14" class="error"/>
+  <text x="645" y="827" text-anchor="middle" class="h">Show error</text>
+  <text x="645" y="851" text-anchor="middle" class="t">Keep edit</text>
+
+  <path d="M875 900 L875 965" class="goodLine"/>
+  <path d="M869 956 L875 968 L881 956 Z" class="goodArrow"/>
+  <text x="889" y="934" class="label">Yes</text>
+  <rect x="755" y="970" width="240" height="78" rx="14" class="success"/>
+  <text x="875" y="1002" text-anchor="middle" class="h">Save changes</text>
+  <text x="875" y="1026" text-anchor="middle" class="t">Audit log, return list</text>
+
+  <!-- Permissions column -->
+  <path d="M1230 420 L1230 485" class="line"/>
+  <path d="M1224 476 L1230 488 L1236 476 Z" class="arrow"/>
+  <rect x="1110" y="490" width="240" height="78" rx="14" class="info"/>
+  <text x="1230" y="522" text-anchor="middle" class="h">View role</text>
+  <text x="1230" y="546" text-anchor="middle" class="t">Open Permissions</text>
+
+  <path d="M1230 568 L1230 625" class="line"/>
+  <path d="M1224 616 L1230 628 L1236 616 Z" class="arrow"/>
+  <rect x="1110" y="630" width="240" height="78" rx="14" class="box"/>
+  <text x="1230" y="662" text-anchor="middle" class="h">Permissions</text>
+  <text x="1230" y="686" text-anchor="middle" class="t">Select allowed actions</text>
+
+  <path d="M1230 708 L1230 765" class="line"/>
+  <path d="M1224 756 L1230 768 L1236 756 Z" class="arrow"/>
+  <polygon points="1230,770 1360,835 1230,900 1100,835" class="decision"/>
+  <text x="1230" y="829" text-anchor="middle" class="h">Allowed scope?</text>
+  <text x="1230" y="853" text-anchor="middle" class="t">Tenant permissions only</text>
+
+  <path d="M1360 835 L1440 835" class="badLine"/>
+  <path d="M1430 829 L1442 835 L1430 841 Z" class="badArrow"/>
+  <text x="1390" y="822" class="label">No</text>
+  <rect x="1440" y="775" width="190" height="78" rx="14" class="error"/>
+  <text x="1535" y="807" text-anchor="middle" class="h">Reject save</text>
+  <text x="1535" y="831" text-anchor="middle" class="t">Invalid permission</text>
+
+  <path d="M1230 900 L1230 965" class="goodLine"/>
+  <path d="M1224 956 L1230 968 L1236 956 Z" class="goodArrow"/>
+  <text x="1244" y="934" class="label">Yes</text>
+  <rect x="1110" y="970" width="240" height="78" rx="14" class="success"/>
+  <text x="1230" y="1002" text-anchor="middle" class="h">Save permissions</text>
+  <text x="1230" y="1026" text-anchor="middle" class="t">Apply to users, audit</text>
+
+  <!-- Delete column -->
+  <path d="M1835 420 L1835 485" class="line"/>
+  <path d="M1829 476 L1835 488 L1841 476 Z" class="arrow"/>
+  <rect x="1715" y="490" width="240" height="78" rx="14" class="box"/>
+  <text x="1835" y="522" text-anchor="middle" class="h">Delete action</text>
+  <text x="1835" y="546" text-anchor="middle" class="t">Open confirmation</text>
+
+  <path d="M1835 568 L1835 625" class="line"/>
+  <path d="M1829 616 L1835 628 L1841 616 Z" class="arrow"/>
+  <polygon points="1835,630 1965,695 1835,760 1705,695" class="decision"/>
+  <text x="1835" y="689" text-anchor="middle" class="h">Confirm?</text>
+  <text x="1835" y="713" text-anchor="middle" class="t">Cancel or Delete role</text>
+
+  <path d="M1705 695 L1625 695" class="line"/>
+  <path d="M1635 689 L1623 695 L1635 701 Z" class="arrow"/>
+  <text x="1655" y="682" class="label">Cancel</text>
+  <rect x="1455" y="655" width="170" height="78" rx="14" class="info"/>
+  <text x="1540" y="687" text-anchor="middle" class="h">No change</text>
+  <text x="1540" y="711" text-anchor="middle" class="t">Return list</text>
+
+  <path d="M1835 760 L1835 825" class="line"/>
+  <path d="M1829 816 L1835 828 L1841 816 Z" class="arrow"/>
+  <text x="1849" y="794" class="label">Delete</text>
+  <polygon points="1835,830 1965,895 1835,960 1705,895" class="decision"/>
+  <text x="1835" y="889" text-anchor="middle" class="h">In use?</text>
+  <text x="1835" y="913" text-anchor="middle" class="t">Assigned to users</text>
+
+  <path d="M1705 895 L1645 895 L1645 955 L1625 955" class="badLine"/>
+  <path d="M1635 949 L1623 955 L1635 961 Z" class="badArrow"/>
+  <text x="1658" y="925" class="label">Yes</text>
+  <rect x="1455" y="915" width="170" height="78" rx="14" class="error"/>
+  <text x="1540" y="947" text-anchor="middle" class="h">Block delete</text>
+  <text x="1540" y="971" text-anchor="middle" class="t">Role in use</text>
+
+  <path d="M1835 960 L1835 1025" class="goodLine"/>
+  <path d="M1829 1016 L1835 1028 L1841 1016 Z" class="goodArrow"/>
+  <text x="1849" y="994" class="label">No</text>
+  <rect x="1715" y="1030" width="240" height="78" rx="14" class="success"/>
+  <text x="1835" y="1062" text-anchor="middle" class="h">Delete role</text>
+  <text x="1835" y="1086" text-anchor="middle" class="t">Delete permissions, audit</text>
+</svg>

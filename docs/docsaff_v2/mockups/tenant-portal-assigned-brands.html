@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tenant Portal - Assigned Brands</title>
+  <link rel="stylesheet" href="tenant-portal-account-settings.css">
+  <style>
+    .content{width:1400px}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}.metric{padding:16px 18px;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow)}.metric span,.metric small{display:block;color:var(--muted);font-size:12px}.metric strong{display:block;margin:5px 0 3px;font-size:23px}.notice{margin-bottom:16px;padding:12px 15px;border:1px solid #b7dfdf;border-radius:8px;background:var(--soft);color:var(--primary-dark);font-size:12px;line-height:1.5}.filters{grid-template-columns:2fr 1fr 1fr auto}.brand-code{font-weight:800;color:var(--primary-dark);white-space:nowrap}.brand-cell{display:flex;align-items:center;gap:10px;min-width:170px}.brand-logo{width:38px;height:38px;border:1px solid #b7dfdf;border-radius:8px;display:grid;place-items:center;background:var(--soft);color:var(--primary);font-weight:850}.stack strong,.stack span{display:block}.stack span{margin-top:3px;color:var(--muted);font-size:11px}.count-link{border:0;background:transparent;color:var(--primary);font-weight:800;padding:0;cursor:pointer}.count-link small{display:block;margin-top:3px;color:var(--muted);font-weight:500}.switch{width:44px;height:24px;border:0;border-radius:999px;padding:3px;display:inline-flex;align-items:center;background:#d0d5dd;cursor:pointer}.switch.on{justify-content:flex-end;background:var(--primary)}.switch:disabled{opacity:.5;cursor:not-allowed}.knob{width:18px;height:18px;border-radius:50%;background:#fff}.hot-toggle{width:36px;height:32px;border:1px solid #e4e7ec;border-radius:999px;background:#fff;color:#98a2b3;display:inline-grid;place-items:center;font-size:16px;cursor:pointer;box-shadow:0 4px 12px rgba(16,24,40,.06)}.hot-toggle.on{border-color:#fedf89;background:#fffaeb;color:#f79009;box-shadow:0 6px 16px rgba(247,144,9,.18)}.hot-toggle:disabled{background:#f2f4f7;color:#c5cad3;border-color:#e4e7ec;box-shadow:none;cursor:not-allowed}.hot-cell{min-width:80px}.cell-actions{display:flex;gap:8px;white-space:nowrap}.button.link-button{border:0;padding:0;background:transparent;color:var(--primary);box-shadow:none}.expand-row{display:none}.expand-row.open{display:table-row}.expand-cell{padding:0 16px 18px 72px;background:#f8fafc}.detail-card{border:1px solid var(--line);border-radius:10px;background:#fff;overflow:hidden}.detail-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line)}.tabs{display:flex;gap:6px}.tab{border:0;border-radius:7px;padding:8px 12px;background:#eef2f6;color:var(--muted);font-weight:750;cursor:pointer}.tab.active{background:var(--soft);color:var(--primary-dark)}.detail-body{padding:14px 16px}.detail-panel{display:none}.detail-panel.active{display:block}.mini-table{width:100%;border-collapse:collapse}.mini-table th,.mini-table td{padding:10px;border-bottom:1px solid var(--line);text-align:left;font-size:12px}.mini-table th{color:var(--muted);font-size:10px;text-transform:uppercase}.mini-table tr:last-child td{border-bottom:0}.confirm-backdrop{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(16,24,40,.45)}.confirm-backdrop.open{display:flex}.confirm-modal{width:420px;border-radius:14px;background:#fff;box-shadow:0 24px 60px rgba(16,24,40,.28);overflow:hidden}.confirm-modal header{padding:18px 20px;border-bottom:1px solid var(--line)}.confirm-modal h2{margin:0;font-size:18px}.confirm-modal p{margin:8px 0 0;color:var(--muted);font-size:13px;line-height:1.45}.confirm-actions{display:flex;justify-content:flex-end;gap:10px;padding:14px 20px;background:#f8fafc}th,td{padding-inline:11px}.panel table{table-layout:auto}
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><div class="mark">V</div><div><strong>Tenant Portal</strong><span>White-label Marketplace</span></div></div>
+    <div class="tenant"><strong>Vietnam Airlines Loyalty</strong><span>Tenant code: VNA_LOYALTY</span></div>
+    <nav class="nav"><a href="#">▦ Dashboard</a><a class="active" href="#">◇ Assigned Brands</a><a href="#">◫ Earn display</a><a href="#">▤ Transactions</a><div class="nav-parent"><div class="nav-parent-title"><span>⚙ Account settings</span><span>⌃</span></div><div class="nav-children"><a href="tenant-portal-role-list.html">Roles</a><a href="tenant-portal-user-list.html">Accounts</a><a href="tenant-portal-profile.html">Profile</a></div></div></nav>
+  </aside>
+  <main>
+    <header class="top"><div class="crumb">Tenant Portal / <strong>Assigned Brands</strong></div><div class="user"><span>Tenant Admin</span><span class="avatar">TA</span></div></header>
+    <section class="content">
+      <div class="head"><div><h1>Assigned Brands</h1><p>One Brand per row. Review Category mappings and configure Offer visibility without duplicated Brand data.</p></div><button class="button">↻ Refresh</button></div>
+      <div class="notice"><strong>Platform-managed data:</strong> Brand information, Category mapping, commission and assignment are read-only. Tenant users may control Brand and Offer visibility only when the Brand and assignment are Active.</div>
+      <div class="summary"><div class="metric"><span>Assigned Brands</span><strong>18</strong></div><div class="metric"><span>Visible on landing</span><strong>11</strong></div><div class="metric"><span>Landing Coverage</span><strong>61%</strong><small>11 of 18 Brands visible</small></div></div>
+      <div class="panel">
+        <div class="filters"><div><label>Keyword</label><input placeholder="Search Brand code or display name"></div><div><label>Category</label><select><option>All categories</option><option>Travel</option><option>Shopping</option><option>Dining</option></select></div><div><label>Brand status</label><select><option>All statuses</option><option>Active</option><option>Inactive</option></select></div><button class="button filter-action">Apply</button></div>
+        <div class="table-head"><strong>Brands assigned to Vietnam Airlines Loyalty</strong><span>18 Brands · Hot brands 3/3 selected</span></div>
+        <table>
+          <thead><tr><th>Brand Code</th><th>Brand Name</th><th>Categories</th><th>Offers</th><th>Show on landing</th><th>Earn display</th><th>Brand Hot</th><th>Last updated</th></tr></thead>
+          <tbody>
+            <tr><td><span class="brand-code">BRD-0001</span></td><td><div class="brand-cell"><div class="brand-logo">TG</div><div class="stack"><strong>TravelGo</strong></div></div></td><td><button class="count-link expand-trigger" data-target="travel-detail" data-tab="categories">3 Categories<small>View mappings</small></button></td><td><button class="count-link expand-trigger" data-target="travel-detail" data-tab="offers">2 / 5 Customized<small>View Offer scope</small></button></td><td><button class="switch on" data-confirm="landing" data-brand="TravelGo"><span class="knob"></span></button></td><td><span class="badge active-b">Configured</span></td><td class="hot-cell"><button class="hot-toggle on" data-confirm="hot" data-brand="TravelGo" title="Brand Hot on landing page" aria-label="Toggle TravelGo Brand Hot">🔥</button></td><td><div class="stack"><strong>15/07/2026 10:30:00</strong><span>Tenant Admin</span></div></td></tr>
+            <tr id="travel-detail" class="expand-row"><td colspan="8" class="expand-cell"><div class="detail-card"><div class="detail-head"><div><strong>TravelGo configuration</strong><div class="stack"><span>Category commission is read-only; Offer visibility can be configured by an authorized Tenant user.</span></div></div><div class="tabs"><button class="tab active" data-panel="travel-categories">Categories &amp; Commission</button><button class="tab" data-panel="travel-offers">Offers</button></div></div><div class="detail-body"><div id="travel-categories" class="detail-panel active"><table class="mini-table"><thead><tr><th>Brand Category</th><th>Affiliate Category</th><th>Commission</th><th>Effective From</th><th>Effective To</th><th>Status</th></tr></thead><tbody><tr><td>HOTEL</td><td>Travel / Hotel</td><td>5%</td><td>01 Jan 2026</td><td>31 Dec 2026</td><td><span class="badge active-b">Active</span></td></tr><tr><td>FLIGHT</td><td>Travel / Flight</td><td>3%</td><td>01 Jan 2026</td><td>31 Dec 2026</td><td><span class="badge active-b">Active</span></td></tr><tr><td>TOUR</td><td>Travel / Tour</td><td>4%</td><td>01 Mar 2026</td><td>31 Dec 2026</td><td><span class="badge active-b">Active</span></td></tr></tbody></table></div><div id="travel-offers" class="detail-panel"><table class="mini-table"><thead><tr><th>Offer</th><th>Offer commission</th><th>Offer visibility</th><th>Effective From</th><th>Effective To</th><th>Status</th></tr></thead><tbody><tr><td>Summer Hotel Deal</td><td>8%</td><td><button class="switch on" aria-label="Hide Summer Hotel Deal"><span class="knob"></span></button></td><td>01 Jun 2026</td><td>31 Aug 2026</td><td><span class="badge active-b">Active</span></td></tr><tr><td>Flight Weekend</td><td>6%</td><td><button class="switch" aria-label="Show Flight Weekend"><span class="knob"></span></button></td><td>01 Jul 2026</td><td>30 Sep 2026</td><td><span class="badge active-b">Active</span></td></tr><tr><td>Tour Flash Sale</td><td>10%</td><td><button class="switch on" aria-label="Hide Tour Flash Sale"><span class="knob"></span></button></td><td>20 Jul 2026</td><td>31 Jul 2026</td><td><span class="badge active-b">Active</span></td></tr><tr><td>Hotel Bonus</td><td>7%</td><td><button class="switch" disabled title="The Offer is past its Effective To date and cannot be enabled." aria-label="Offer visibility unavailable after Effective To"><span class="knob"></span></button></td><td>01 Jan 2026</td><td>30 Jun 2026</td><td><span class="badge active-b">Active</span></td></tr></tbody></table></div></div></div></td></tr>
+            <tr><td><span class="brand-code">BRD-0002</span></td><td><div class="brand-cell"><div class="brand-logo">FM</div><div class="stack"><strong>FreshMart</strong></div></div></td><td><button class="count-link">2 Categories<small>View mappings</small></button></td><td><button class="count-link">0 / 8 Customized<small>All Active Offers</small></button></td><td><button class="switch on" data-confirm="landing" data-brand="FreshMart"><span class="knob"></span></button></td><td><span class="badge warn">Not configured</span></td><td class="hot-cell"><button class="hot-toggle" data-confirm="hot" data-brand="FreshMart" title="Mark as Brand Hot" aria-label="Toggle FreshMart Brand Hot">🔥</button></td><td><div class="stack"><strong>14/07/2026 16:45:00</strong><span>Tenant Admin</span></div></td></tr>
+            <tr><td><span class="brand-code">BRD-0003</span></td><td><div class="brand-cell"><div class="brand-logo">BI</div><div class="stack"><strong>Bistro Inn</strong></div></div></td><td><button class="count-link">4 Categories<small>View mappings</small></button></td><td><button class="count-link">1 / 4 Customized<small>Custom Offer scope</small></button></td><td><button class="switch" data-confirm="landing" data-brand="Bistro Inn"><span class="knob"></span></button></td><td><span class="badge active-b">Configured</span></td><td class="hot-cell"><button class="hot-toggle" disabled title="Turn on Show on landing before marking this Brand as Hot." aria-label="Brand Hot unavailable">🔥</button></td><td><div class="stack"><strong>12/07/2026 09:15:00</strong><span>Tenant Admin</span></div></td></tr>
+          </tbody>
+        </table>
+        <div class="foot"><span>Showing 1–3 of 18 Brands</span><span>Previous &nbsp; 1 &nbsp; 2 &nbsp; 3 &nbsp; 4 &nbsp; Next</span></div>
+      </div>
+    </section>
+  </main>
+</div>
+<div id="confirm-backdrop" class="confirm-backdrop" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+  <div class="confirm-modal">
+    <header>
+      <h2 id="confirm-title">Confirm change</h2>
+      <p id="confirm-message">Please confirm this action.</p>
+    </header>
+    <div class="confirm-actions">
+      <button id="confirm-cancel" class="button">Cancel</button>
+      <button id="confirm-apply" class="button primary">Confirm</button>
+    </div>
+  </div>
+</div>
+<script>
+  document.getElementById('travel-detail').firstElementChild.colSpan=8;
+  const confirmBackdrop=document.getElementById('confirm-backdrop');
+  const confirmTitle=document.getElementById('confirm-title');
+  const confirmMessage=document.getElementById('confirm-message');
+  const confirmCancel=document.getElementById('confirm-cancel');
+  const confirmApply=document.getElementById('confirm-apply');
+  let pendingAction=null;
+  function openConfirm({title,message,onConfirm}){
+    confirmTitle.textContent=title;
+    confirmMessage.textContent=message;
+    pendingAction=onConfirm;
+    confirmBackdrop.classList.add('open');
+  }
+  function closeConfirm(){
+    confirmBackdrop.classList.remove('open');
+    pendingAction=null;
+  }
+  confirmCancel.addEventListener('click',closeConfirm);
+  confirmBackdrop.addEventListener('click',event=>{ if(event.target===confirmBackdrop) closeConfirm(); });
+  confirmApply.addEventListener('click',()=>{ if(pendingAction) pendingAction(); closeConfirm(); });
+  document.querySelectorAll('.switch').forEach(button=>button.addEventListener('click',()=>{
+    if(button.disabled) return;
+    const willTurnOn=!button.classList.contains('on');
+    const toggle=()=>button.classList.toggle('on');
+    if(button.dataset.confirm==='landing' && willTurnOn){
+      openConfirm({
+        title:'Confirm show on landing',
+        message:`Turn on Show on landing for ${button.dataset.brand}? This Brand will be visible on the landing page when all eligibility rules are met.`,
+        onConfirm:toggle
+      });
+    } else {
+      toggle();
+    }
+  }));
+  document.querySelectorAll('.hot-toggle:not(:disabled)').forEach(button=>button.addEventListener('click',()=>{
+    const willTurnOn=!button.classList.contains('on');
+    const toggle=()=>button.classList.toggle('on');
+    if(button.dataset.confirm==='hot' && willTurnOn){
+      openConfirm({
+        title:'Confirm Brand Hot',
+        message:`Mark ${button.dataset.brand} as a Brand Hot on the landing page?`,
+        onConfirm:toggle
+      });
+    } else {
+      toggle();
+    }
+  }));
+  document.querySelectorAll('.expand-trigger').forEach(button=>button.addEventListener('click',()=>{
+    const row=document.getElementById(button.dataset.target); row.classList.add('open');
+    const panel=button.dataset.tab==='offers'?'travel-offers':'travel-categories';
+    row.querySelectorAll('.tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.panel===panel));
+    row.querySelectorAll('.detail-panel').forEach(item=>item.classList.toggle('active',item.id===panel));
+  }));
+  document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{
+    const card=tab.closest('.detail-card'); card.querySelectorAll('.tab').forEach(item=>item.classList.toggle('active',item===tab));
+    card.querySelectorAll('.detail-panel').forEach(item=>item.classList.toggle('active',item.id===tab.dataset.panel));
+  }));
+  if(location.hash==='#categories') document.querySelector('.expand-trigger[data-tab="categories"]').click();
+  if(location.hash==='#offers') document.querySelector('.expand-trigger[data-tab="offers"]').click();
+  if(location.hash==='#confirm-landing') document.querySelector('button[data-confirm="landing"][data-brand="Bistro Inn"]').click();
+  if(location.hash==='#confirm-hot') document.querySelector('button[data-confirm="hot"][data-brand="FreshMart"]').click();
+</script>
+</body>
+</html>

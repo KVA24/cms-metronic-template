@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mockup CMS - Danh sách Transaction</title>
+  <style>
+    :root {
+      --ink: #17212f;
+      --muted: #667085;
+      --line: #d9e1ea;
+      --page: #f5f7fa;
+      --surface: #ffffff;
+      --primary: #095f78;
+      --success-bg: #ecfdf3;
+      --success: #027a48;
+      --warn-bg: #fff7df;
+      --warn: #865400;
+      --gray-bg: #f2f4f7;
+      --gray: #475467;
+      --danger-bg: #fff1f3;
+      --danger: #b42318;
+      --blue-bg: #e5efff;
+      --blue: #1d4ed8;
+      --radius: 8px;
+      --shadow: 0 12px 28px rgba(23, 33, 47, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button, input, select { font: inherit; }
+
+    .app {
+      min-width: 1280px;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      background: #17212f;
+      color: #ffffff;
+      padding: 22px 16px;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 8px 22px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .mark {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      background: var(--primary);
+      font-weight: 850;
+    }
+
+    .brand-mark strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .brand-mark span {
+      display: block;
+      margin-top: 3px;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 12px;
+    }
+
+    .nav {
+      padding-top: 18px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .nav-item {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 10px;
+      border-radius: var(--radius);
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .nav-item.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      display: grid;
+      place-items: center;
+      color: currentColor;
+    }
+
+    .nav-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      height: 64px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .breadcrumb strong { color: var(--ink); }
+
+    .user-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      background: var(--primary);
+      font-weight: 800;
+    }
+
+    .content {
+      width: calc(100% - 40px);
+      max-width: 1840px;
+      margin: 0 auto;
+      padding: 22px 0 36px;
+    }
+
+    .page-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .page-head p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .button {
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      padding: 0 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 750;
+      cursor: default;
+      white-space: nowrap;
+    }
+
+    .button.primary {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .button svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .filters {
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(260px, 1.5fr) 140px 140px 145px 150px auto;
+      gap: 8px;
+      align-items: end;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfe;
+    }
+
+    .field {
+      display: grid;
+      gap: 5px;
+    }
+
+    label {
+      color: #5f6b7f;
+      font-size: 12px;
+      line-height: 1.2;
+      font-weight: 750;
+    }
+
+    input, select {
+      width: 100%;
+      min-height: 38px;
+      border: 1px solid #d5deea;
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      padding: 0 12px;
+      outline: none;
+    }
+
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      min-width: 1460px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #5f6b7f;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      font-weight: 800;
+    }
+
+    td strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .money {
+      font-weight: 800;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .badge {
+      min-height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 0 10px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .badge.success { color: var(--success); background: var(--success-bg); }
+    .badge.warn { color: var(--warn); background: var(--warn-bg); }
+    .badge.gray { color: var(--gray); background: var(--gray-bg); }
+    .badge.danger { color: var(--danger); background: var(--danger-bg); }
+    .badge.blue { color: var(--blue); background: var(--blue-bg); }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .icon-button {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      display: inline-grid;
+      place-items: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .icon-button svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .pagination {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 13px;
+      background: #fbfcfe;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand-mark">
+        <div class="mark">A</div>
+        <div>
+          <strong>Affiliate CMS</strong>
+          <span>Operations console</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="m7 14 4-4 3 3 5-6"/></svg></span>Dashboard</div>
+        <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V8l7-4 7 4v13"/></svg></span>Tenants</div>
+        <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg></span>Brands & Offers</div>
+        <div class="nav-item active"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h3"/></svg></span>Transactions</div>
+        <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></span>Exceptions</div>
+        <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 19h16"/><path d="M7 16V9"/><path d="M12 16V5"/><path d="M17 16v-4"/></svg></span>Reports</div>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb">
+          <span>CMS</span>
+          <span>/</span>
+          <strong>Transactions</strong>
+        </div>
+        <div class="user-box">
+          <span>Admin Ops</span>
+          <div class="avatar">AO</div>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="page-head">
+          <div>
+            <h1>Danh sách transaction</h1>
+            <p>Tra cứu order/conversion được Brand đồng bộ về Platform, order status và phần chia cho Tenant.</p>
+          </div>
+          <a class="button" href="cms-transaction-export.xlsx" download style="text-decoration:none">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+            Export Excel
+          </a>
+        </div>
+
+        <section class="panel">
+          <div class="filters">
+            <div class="field">
+              <label for="keyword">Từ khóa</label>
+              <input id="keyword" placeholder="Order ID, Brand order ID">
+            </div>
+            <div class="field">
+              <label for="tenant">Tenant</label>
+              <select id="tenant">
+                <option>Tất cả</option>
+                <option>Lotus Rewards</option>
+                <option>VNA Loyalty</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="brand">Brand</label>
+              <select id="brand">
+                <option>Tất cả</option>
+                <option>TravelGo</option>
+                <option>StyleHub</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="order-status">Order status</label>
+              <select id="order-status">
+                <option>Tất cả</option>
+                <option>Pending</option>
+                <option>Confirmed</option>
+                <option>Cancelled</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="date">Date range</label>
+              <select id="date">
+                <option>30 ngày gần nhất</option>
+                <option>7 ngày gần nhất</option>
+                <option>Tháng này</option>
+              </select>
+            </div>
+            <button class="button" type="button">Đặt lại</button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <colgroup>
+                <col style="width: 140px">
+                <col style="width: 105px">
+                <col style="width: 115px">
+                <col style="width: 120px">
+                <col style="width: 105px">
+                <col style="width: 125px">
+                <col style="width: 105px">
+                <col style="width: 130px">
+                <col style="width: 125px">
+                <col style="width: 135px">
+                <col style="width: 120px">
+                <col style="width: 155px">
+                <col style="width: 120px">
+                <col style="width: 65px">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Click ID</th>
+                  <th>Brand order</th>
+                  <th>Tenant</th>
+                  <th>Brand</th>
+                  <th>Final amount</th>
+                  <th>Order status</th>
+                  <th>Commission dự tính</th>
+                  <th>Tenant share dự tính</th>
+                  <th>Commission thực nhận</th>
+                  <th>Tenant share thực nhận</th>
+                  <th>Ngày chốt Commission</th>
+                  <th>Latest Updated</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>ORD-20260717-001</strong></td>
+                  <td>CLK-9A81F2</td>
+                  <td>TG-845120</td>
+                  <td>Lotus Rewards</td>
+                  <td><strong>TravelGo</strong></td>
+                  <td><span class="money">3.700.000 VND</span></td>
+                  <td><span class="badge warn">Pending</span></td>
+                  <td><span class="money">160.000 VND</span></td>
+                  <td><span class="money">96.000 VND</span></td>
+                  <td><span class="muted">-</span></td>
+                  <td><span class="muted">-</span></td>
+                  <td><span class="muted">-</span></td>
+                  <td>19/07/2026<div class="muted">14:25:12</div></td>
+                  <td>
+                    <div class="actions">
+                      <a class="icon-button" href="cms-transaction-detail.html" aria-label="Xem chi tiết"><svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z"/><circle cx="12" cy="12" r="3"/></svg></a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>ORD-20260717-002</strong></td>
+                  <td>CLK-21BB90</td>
+                  <td>ST-99301</td>
+                  <td>VNA Loyalty</td>
+                  <td><strong>StyleHub</strong></td>
+                  <td><span class="money">1.250.000 VND</span></td>
+                  <td><span class="badge success">Confirmed</span></td>
+                  <td><span class="muted">-</span></td>
+                  <td><span class="muted">-</span></td>
+                  <td><span class="money">62.500 VND</span></td>
+                  <td><span class="money">37.500 VND</span></td>
+                  <td>17/07/2026 08:15:30</td>
+                  <td>17/07/2026<div class="muted">08:18:00</div></td>
+                  <td>
+                    <div class="actions">
+                      <a class="icon-button" href="cms-transaction-detail.html" aria-label="Xem chi tiết"><svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z"/><circle cx="12" cy="12" r="3"/></svg></a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>ORD-20260716-047</strong></td>
+                  <td>CLK-12FA77</td>
+                  <td>BK-55021</td>
+                  <td>Lotus Rewards</td>
+                  <td><strong>Bookly</strong></td>
+                  <td><span class="money">620.000 VND</span></td>
+                  <td><span class="badge gray">Cancelled</span></td>
+                  <td><span class="muted">-</span></td>
+                  <td><span class="muted">-</span></td>
+                  <td><span class="muted">-</span></td>
+                  <td><span class="muted">-</span></td>
+                  <td><span class="muted">-</span></td>
+                  <td>16/07/2026<div class="muted">16:05:00</div></td>
+                  <td>
+                    <div class="actions">
+                      <a class="icon-button" href="cms-transaction-detail.html" aria-label="Xem chi tiết"><svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z"/><circle cx="12" cy="12" r="3"/></svg></a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>ORD-20260716-039</strong></td>
+                  <td>CLK-70AC19</td>
+                  <td>EL-88930</td>
+                  <td>VNA Loyalty</td>
+                  <td><strong>ElectroMart</strong></td>
+                  <td><span class="money">8.900.000 VND</span></td>
+                  <td><span class="badge gray">Cancelled</span></td>
+                  <td><span class="muted">-</span></td>
+                  <td><span class="muted">-</span></td>
+                  <td><span class="muted">-</span></td>
+                  <td><span class="muted">-</span></td>
+                  <td><span class="muted">-</span></td>
+                  <td>16/07/2026<div class="muted">10:31:00</div></td>
+                  <td>
+                    <div class="actions">
+                      <a class="icon-button" href="cms-transaction-detail.html" aria-label="Xem chi tiết"><svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z"/><circle cx="12" cy="12" r="3"/></svg></a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination">
+            <span>Hiển thị 1-4 trong 248 transaction</span>
+            <div class="actions">
+              <button class="button" type="button">Trước</button>
+              <button class="button" type="button">Sau</button>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

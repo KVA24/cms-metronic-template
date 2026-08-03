@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="980" viewBox="0 0 1800 980">
+  <defs>
+    <style>
+      .bg{fill:#f6f8fb}
+      .title{font:700 28px Arial,sans-serif;fill:#172033}
+      .sub{font:15px Arial,sans-serif;fill:#667085}
+      .box{fill:#fff;stroke:#cfd8e3;stroke-width:1.8}
+      .process{fill:#eefafa;stroke:#0b7185;stroke-width:2}
+      .decision{fill:#fff8e8;stroke:#d98a00;stroke-width:2}
+      .pending{fill:#fff8e8;stroke:#d98a00;stroke-width:2}
+      .confirmed{fill:#ecfdf3;stroke:#188456;stroke-width:2}
+      .cancelled{fill:#fff3f1;stroke:#cf3f32;stroke-width:2}
+      .render{fill:#f0f7ff;stroke:#6d91d0;stroke-width:2}
+      .h{font:700 17px Arial,sans-serif;fill:#172033}
+      .t{font:12px Arial,sans-serif;fill:#52657a}
+      .label{font:700 13px Arial,sans-serif;fill:#475467}
+      .line{fill:none;stroke:#667085;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+      .warnLine{fill:none;stroke:#d98a00;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+      .goodLine{fill:none;stroke:#188456;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+      .badLine{fill:none;stroke:#cf3f32;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+      .arrow{fill:#667085}.warnArrow{fill:#d98a00}.goodArrow{fill:#188456}.badArrow{fill:#cf3f32}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" class="arrow"/></marker>
+    <marker id="warnArrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" class="warnArrow"/></marker>
+    <marker id="goodArrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" class="goodArrow"/></marker>
+    <marker id="badArrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" class="badArrow"/></marker>
+  </defs>
+
+  <rect width="1800" height="980" class="bg"/>
+  <text x="60" y="58" class="title">TP-TXN-001 / TP-TXN-002 — Transaction Logic</text>
+  <text x="60" y="88" class="sub">Transaction List and Detail use 3 Order Status values only: Pending, Confirmed, Cancelled.</text>
+
+  <!-- List flow -->
+  <rect x="100" y="145" width="250" height="84" rx="14" class="process"/>
+  <text x="225" y="178" text-anchor="middle" class="h">Open Transactions</text>
+  <text x="225" y="203" text-anchor="middle" class="t">Tenant user opens menu</text>
+
+  <path d="M350 187 H450" class="line" marker-end="url(#arrow)"/>
+  <rect x="470" y="145" width="275" height="84" rx="14" class="box"/>
+  <text x="607" y="178" text-anchor="middle" class="h">Search / Filter</text>
+  <text x="607" y="203" text-anchor="middle" class="t">Order Date, keyword, Brand, status</text>
+
+  <path d="M745 187 H845" class="line" marker-end="url(#arrow)"/>
+  <rect x="865" y="145" width="275" height="84" rx="14" class="process"/>
+  <text x="1002" y="178" text-anchor="middle" class="h">Load transactions</text>
+  <text x="1002" y="203" text-anchor="middle" class="t">Tenant scope + RBAC fields</text>
+
+  <path d="M1140 187 H1240" class="line" marker-end="url(#arrow)"/>
+  <rect x="1260" y="145" width="330" height="84" rx="14" class="render"/>
+  <text x="1425" y="178" text-anchor="middle" class="h">Render Transaction List</text>
+  <text x="1425" y="203" text-anchor="middle" class="t">Order ID, Brand Order, amount, dates</text>
+
+  <!-- Detail flow -->
+  <path d="M1425 229 V285 H900 V325" class="line" marker-end="url(#arrow)"/>
+  <rect x="735" y="345" width="330" height="84" rx="14" class="process"/>
+  <text x="900" y="378" text-anchor="middle" class="h">Click View</text>
+  <text x="900" y="403" text-anchor="middle" class="t">Open selected Order ID</text>
+
+  <path d="M900 429 V475" class="line" marker-end="url(#arrow)"/>
+  <polygon points="900,495 1080,565 900,635 720,565" class="decision"/>
+  <text x="900" y="557" text-anchor="middle" class="h">Order Status?</text>
+  <text x="900" y="582" text-anchor="middle" class="t">Choose commission display</text>
+
+  <!-- Three status outputs, no crossing / no merge -->
+  <path d="M720 565 H330 V685" class="warnLine" marker-end="url(#warnArrow)"/>
+  <text x="500" y="548" text-anchor="middle" class="label">Pending</text>
+
+  <path d="M900 635 V685" class="goodLine" marker-end="url(#goodArrow)"/>
+  <text x="955" y="670" class="label">Confirmed</text>
+
+  <path d="M1080 565 H1470 V685" class="badLine" marker-end="url(#badArrow)"/>
+  <text x="1300" y="548" text-anchor="middle" class="label">Cancelled</text>
+
+  <rect x="140" y="705" width="380" height="155" rx="16" class="pending"/>
+  <text x="330" y="740" text-anchor="middle" class="h">Display Pending commission</text>
+  <text x="330" y="770" text-anchor="middle" class="t">Estimated commission: show amount</text>
+  <text x="330" y="798" text-anchor="middle" class="t">Actual commission: —</text>
+  <text x="330" y="826" text-anchor="middle" class="t">Confirmed Commission Date: _</text>
+
+  <rect x="710" y="705" width="380" height="155" rx="16" class="confirmed"/>
+  <text x="900" y="740" text-anchor="middle" class="h">Display Confirmed commission</text>
+  <text x="900" y="770" text-anchor="middle" class="t">Estimated commission: show amount</text>
+  <text x="900" y="798" text-anchor="middle" class="t">Actual commission: show amount</text>
+  <text x="900" y="826" text-anchor="middle" class="t">Confirmed Commission Date: show datetime</text>
+
+  <rect x="1280" y="705" width="380" height="155" rx="16" class="cancelled"/>
+  <text x="1470" y="740" text-anchor="middle" class="h">Display Cancelled commission</text>
+  <text x="1470" y="770" text-anchor="middle" class="t">Estimated commission: keep history</text>
+  <text x="1470" y="798" text-anchor="middle" class="t">Actual commission: 0 VND</text>
+  <text x="1470" y="826" text-anchor="middle" class="t">Confirmed Commission Date: _</text>
+
+  <text x="900" y="925" text-anchor="middle" class="label">Each output renders the Transaction Detail with the selected Order ID context.</text>
+</svg>

@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tenant Portal - Dashboard</title>
+  <link rel="stylesheet" href="tenant-portal-account-settings.css">
+  <style>
+    .content{width:calc(100% - 56px);max-width:1400px;margin:0 28px}.head-actions{display:flex;gap:8px}.filters{grid-template-columns:.8fr 1.4fr auto}.dashboard-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.metric{grid-column:span 3;padding:17px 18px;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow)}.metric .metric-head{display:flex;justify-content:space-between;align-items:center}.metric span,.metric small{color:var(--muted);font-size:12px}.metric strong{display:block;margin:7px 0 4px;font-size:25px}.metric.primary-metric{border-color:#9bd6dc;background:linear-gradient(135deg,#fff 0%,#eefafa 100%)}.metric.primary-metric strong{color:var(--primary-dark)}.chart-card{background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);overflow:hidden}.trend-card{grid-column:span 9}.status-card{grid-column:span 3}.brand-card{grid-column:span 7}.source-card{grid-column:span 5}.card-head{display:flex;justify-content:space-between;align-items:flex-start;padding:16px 18px;border-bottom:1px solid var(--line)}.card-head h2{margin:0;font-size:17px}.card-head p{margin:5px 0 0;color:var(--muted);font-size:12px}.legend{display:flex;gap:14px;align-items:center;color:var(--muted);font-size:11px}.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}.chart-body{padding:16px 18px}.trend-chart{width:100%;height:250px;display:block}.grid-line{stroke:#e7ebf0;stroke-width:1}.axis-label{font:11px Arial,sans-serif;fill:#7a869d}.area{fill:url(#areaFill)}.line{fill:none;stroke:#08778d;stroke-width:3}.point{fill:#fff;stroke:#08778d;stroke-width:2}.status-list{padding:8px 18px 16px}.status-row{display:grid;grid-template-columns:78px 1fr 42px;gap:8px;align-items:center;padding:8px 0}.bar{height:8px;border-radius:999px;background:#edf0f4;overflow:hidden}.bar i{display:block;height:100%;border-radius:999px}.status-row strong{text-align:right;font-size:12px}.status-row span{font-size:12px}.commission-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 18px 18px}.mini{padding:12px;border-radius:8px;background:#f7f9fb}.mini span{display:block;color:var(--muted);font-size:11px}.mini strong{display:block;margin-top:5px;font-size:17px}.mini.danger strong{color:var(--danger)}.rank-table{width:100%;border-collapse:collapse}.rank-table th,.rank-table td{padding:12px 10px;border-bottom:1px solid #edf0f3;text-align:left;font-size:12px}.rank-table th{color:var(--muted);font-size:10px;text-transform:uppercase}.rank-table tr:last-child td{border-bottom:0}.rank{width:24px;height:24px;display:grid;place-items:center;border-radius:7px;background:var(--soft);color:var(--primary);font-weight:850}.brand-cell{display:flex;align-items:center;gap:9px}.brand-logo{width:32px;height:32px;border:1px solid #b7dfdf;border-radius:8px;display:grid;place-items:center;background:var(--soft);color:var(--primary);font-size:10px;font-weight:850}.money{white-space:nowrap;font-weight:750}.source-body{padding:16px 18px}.source-total{display:flex;justify-content:space-between;margin-bottom:16px}.source-total span{color:var(--muted);font-size:12px}.source-total strong{font-size:18px}.source-bars{display:grid;gap:13px}.source-label{display:flex;justify-content:space-between;margin-bottom:7px;font-size:12px}.source-label strong{font-size:12px}.stacked{display:flex;height:15px;border-radius:999px;overflow:hidden;background:#edf0f4}.offer-segment{background:#08778d}.category-segment{background:#6bb9c2}.brand-segment{background:#f59e0b}.all-tenant-segment{background:#8b5cf6}.source-note{margin-top:15px;padding:12px;border-radius:8px;background:var(--soft);color:var(--primary-dark);font-size:12px;line-height:1.45}.footer-note{margin-top:16px;color:var(--muted);font-size:11px;text-align:right}
+  </style>
+  <style>
+    .chart-tools{display:flex;flex-direction:column;align-items:flex-end;gap:8px}.grouping{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:11px}.grouping select{height:30px;width:112px;padding:0 28px 0 9px;font-size:11px}.filter-warning{display:none;margin-top:10px;padding:10px 12px;border:1px solid #fed7aa;border-radius:8px;background:#fff7ed;color:#9a3412;font-size:12px;font-weight:700}.filter-warning.show{display:block}.trend-card{grid-column:span 8}.order-trend-card{grid-column:span 4}.chart-stack{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px 18px}.line-panel{position:relative;padding:14px;border:1px solid #e5edf3;border-radius:10px;background:linear-gradient(180deg,#fff 0%,#fbfdff 100%)}.line-panel h3{margin:0 0 8px;font-size:14px}.line-chart{width:100%;height:225px;display:block}.order-chart-body{padding:16px 18px 18px}.order-summary{margin-bottom:14px;padding:14px;border:1px solid #fed7aa;border-radius:12px;background:linear-gradient(135deg,#fff7ed 0%,#fff 100%);box-shadow:0 10px 22px rgba(245,158,11,.10)}.order-summary span{display:block;color:#9a3412;font-size:11px;font-weight:800}.order-summary strong{display:block;margin-top:5px;color:#17212f;font-size:26px}.axis-title{font:700 10px Arial,sans-serif;fill:#667085}.chart-wrap{position:relative}.chart-tooltip{position:absolute;z-index:5;display:none;min-width:205px;padding:10px 12px;border-radius:8px;background:#17212f;color:#fff;box-shadow:0 8px 20px rgba(15,23,42,.25);font-size:11px;line-height:1.55;pointer-events:none}.chart-tooltip strong{display:block;margin-bottom:3px;font-size:12px}.line-path{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.line-path.revenue{stroke:#14b8a6}.line-path.commission{stroke:#2563eb}.line-path.orders{stroke:#f59e0b}.line-area{opacity:.14}.line-point{fill:#fff;stroke-width:2.2;cursor:pointer}.line-point.revenue{stroke:#14b8a6}.line-point.commission{stroke:#2563eb}.line-point.orders{stroke:#f59e0b}.line-point:hover{stroke-width:4}.aggregation-note{display:none}
+  </style>
+  <style>
+    .trend-card{grid-column:span 12}.order-trend-card{grid-column:span 12}.order-chart-body{padding:18px}.order-headline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.order-summary,.status-chip{margin:0;padding:14px 16px;border-radius:12px;border:1px solid #e5edf3;background:#fff}.order-summary{border-color:#bae6fd;background:linear-gradient(135deg,#eff6ff 0%,#fff 100%);box-shadow:0 10px 22px rgba(37,99,235,.08)}.order-summary span{display:block;color:#1d4ed8;font-size:11px;font-weight:800;text-transform:uppercase}.order-summary strong{display:block;margin-top:6px;color:#17212f;font-size:28px}.status-mix{display:contents}.status-chip span{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase}.status-chip strong{display:block;margin-top:6px;font-size:22px}.status-dot{width:9px;height:9px;border-radius:50%;display:inline-block}.status-pending{border-color:#fde68a;background:#fffbeb}.status-confirmed{border-color:#bbf7d0;background:#f0fdf4}.status-cancel{border-color:#fecdd3;background:#fff1f2}.order-main-panel,.mini-order-panel{border:1px solid #e5edf3;border-radius:12px;background:linear-gradient(180deg,#fff 0%,#fbfdff 100%)}.order-main-panel{padding:14px;margin-bottom:14px}.order-main-panel h3,.mini-order-panel h3{margin:0;font-size:14px}.order-main-panel h3{margin-bottom:6px}.orders-status-chart{width:100%;height:255px;display:block}.mini-orders-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.mini-order-panel{padding:12px}.mini-order-panel h3{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:13px}.mini-order-chart{width:100%;height:120px;display:block}.total-order-line,.mini-order-line{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.total-order-line{stroke:#0f766e}.mini-order-line.pending{stroke:#f59e0b}.mini-order-line.confirmed{stroke:#22c55e}.mini-order-line.cancel{stroke:#ef4444}.total-order-point,.mini-order-point{fill:#fff;stroke-width:2.4;cursor:pointer}.total-order-point{stroke:#0f766e}.mini-order-point.pending{stroke:#f59e0b}.mini-order-point.confirmed{stroke:#22c55e}.mini-order-point.cancel{stroke:#ef4444}.hover-capture{fill:transparent;cursor:pointer}.order-legend{display:flex;gap:16px;align-items:center;color:var(--muted);font-size:11px}.order-legend i{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:5px}.order-trend-card .card-head{align-items:center}
+  </style>
+  <style>
+    .trend-card{grid-column:span 12}.status-card{grid-column:span 4}.order-trend-card{grid-column:span 8}.status-overview{padding:16px 18px 18px;display:grid;gap:14px}.status-total-card{padding:16px;border:1px solid #bae6fd;border-radius:12px;background:linear-gradient(135deg,#eff6ff 0%,#fff 100%)}.status-total-card span{display:block;color:#1d4ed8;font-size:11px;font-weight:800;text-transform:uppercase}.status-total-card strong{display:block;margin-top:6px;font-size:30px}.status-rows{display:grid;gap:12px}.status-row{grid-template-columns:86px 1fr 46px;padding:0}.status-row span{font-weight:800}.status-footnote{margin:0;padding:11px 12px;border-radius:10px;background:#f8fafc;color:var(--muted);font-size:11px}.order-trend-card .card-head{align-items:flex-start}.order-chart-body{padding:18px}.order-main-panel{border:0;padding:0;margin:0;background:transparent}.orders-status-chart{height:255px}.order-headline,.mini-orders-grid,.order-summary,.status-mix,.status-chip,.mini-order-panel{display:unset}.order-headline,.mini-orders-grid{display:none}.total-order-line{stroke:#0f766e}.total-order-point{stroke:#0f766e}.hover-capture{fill:transparent;cursor:pointer}
+  </style>
+  <style>
+    .order-trend-card{grid-column:span 12}.order-trend-card .card-head{align-items:flex-start}.order-chart-body{padding:18px;background:#fff}.order-main-panel{padding:14px;border:1px solid #e5edf3;border-radius:12px;background:#fff}.orders-status-chart{height:275px}.total-order-line{stroke:#7c3aed;stroke-width:3.2}.total-order-point{stroke:#7c3aed}.order-area{fill:#7c3aed;opacity:.10}.order-legend i{background:#7c3aed!important}.order-trend-card .chart-tools{align-items:flex-end}.orders-panel{grid-column:1/-1}.orders-panel-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}.orders-panel h3{margin:0 0 4px}.orders-panel p{margin:0;color:var(--muted);font-size:12px}.trend-card .order-main-panel{padding:0;border:0;background:transparent}.trend-card .orders-status-chart{height:250px}
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><div class="mark">V</div><div><strong>Tenant Portal</strong><span>White-label Marketplace</span></div></div>
+    <div class="tenant"><strong>Vietnam Airlines Loyalty</strong><span>Tenant code: VNA_LOYALTY</span></div>
+    <nav class="nav"><a class="active" href="tenant-portal-dashboard.html">▦ Dashboard</a><a href="tenant-portal-assigned-brands.html">◇ Assigned Brands</a><a href="tenant-portal-earn-display.html">◫ Earn display</a><div class="nav-parent"><div class="nav-parent-title"><span>⚙ Account settings</span><span>⌃</span></div><div class="nav-children"><a href="tenant-portal-role-list.html">Roles</a><a href="tenant-portal-user-list.html">Accounts</a><a href="tenant-portal-profile.html">Profile</a></div></div></nav>
+  </aside>
+  <main>
+    <header class="top"><div class="crumb">Tenant Portal / <strong>Dashboard</strong></div><div class="user"><span>Tenant Admin</span><span class="avatar">TA</span></div></header>
+    <section class="content">
+      <div class="head"><div><h1>Dashboard</h1><p>Monitor marketplace traffic, attributed orders and commission performance for this Tenant.</p></div><div class="head-actions"><button class="button">↻ Refresh</button></div></div>
+      <section class="panel" style="margin-bottom:16px">
+        <div class="filters">
+          <div><label>Date range</label><select id="reporting-period" aria-label="Date range"><option>Week</option><option selected>Month</option><option>Year</option></select></div>
+          <div><label>Brand</label><select><option>All Brands</option><option>TravelGo</option><option>FreshMart</option><option>Bistro Inn</option></select></div>
+          <button id="apply-filter" class="button primary filter-action">Apply</button>
+        </div>
+      </section>
+
+      <div class="dashboard-grid">
+        <article class="metric primary-metric"><div class="metric-head"><span>Tracked clicks</span></div><strong>18,642</strong><small>Outbound clicks recorded</small></article>
+        <article class="metric"><div class="metric-head"><span>Attributed orders</span></div><strong>1,284</strong><small>6.9% click-to-order rate</small></article>
+        <article class="metric"><div class="metric-head"><span>Revenue</span></div><strong>2.48B VND</strong></article>
+        <article class="metric"><div class="metric-head"><span>Actual commission</span></div><strong>71.2M VND</strong></article>
+
+        <article class="chart-card trend-card">
+          <div class="card-head"><div><h2>Orders, revenue and actual commission trend</h2><p>All Dashboard sections use the selected Date range.</p></div><div class="chart-tools"><div class="legend"><span><i style="background:#14b8a6;border-radius:2px"></i>Revenue</span><span><i style="background:#2563eb;border-radius:2px"></i>Actual commission</span></div></div></div>
+          <div class="chart-body chart-wrap">
+            <div id="trend-tooltip" class="chart-tooltip"></div>
+            <div id="orders-tooltip" class="chart-tooltip"></div>
+            <div class="chart-stack">
+              <section class="line-panel">
+                <h3>Revenue</h3>
+                <svg id="revenue-chart" class="line-chart" viewBox="0 0 560 225" role="img" aria-label="Revenue line chart"></svg>
+              </section>
+              <section class="line-panel">
+                <h3>Actual commission</h3>
+                <svg id="commission-chart" class="line-chart" viewBox="0 0 560 225" role="img" aria-label="Actual commission line chart"></svg>
+              </section>
+              <section class="line-panel orders-panel">
+                <div class="orders-panel-head">
+                  <div><h3>Orders recorded</h3><p>Hover a point to view total, Pending, Confirmed and Cancel orders.</p></div>
+                  <div class="order-legend"><span><i style="background:#7c3aed;border-radius:2px"></i>Total orders</span></div>
+                </div>
+                <section class="order-main-panel">
+                  <svg id="orders-chart" class="orders-status-chart" viewBox="0 0 960 255" role="img" aria-label="Total orders by day line chart"></svg>
+                </section>
+              </section>
+            </div>
+          </div>
+        </article>
+
+        <article class="chart-card brand-card">
+          <div class="card-head"><div><h2>Top performing Brands</h2><p>Ranked by actual commission in the selected period</p></div></div>
+          <div class="chart-body" style="padding-top:5px">
+            <table class="rank-table"><thead><tr><th>#</th><th>Brand</th><th>Orders</th><th>Revenue</th><th>Actual commission</th></tr></thead><tbody>
+              <tr><td><span class="rank">1</span></td><td><div class="brand-cell"><div class="brand-logo">TG</div><strong>TravelGo</strong></div></td><td>486</td><td class="money">1.12B VND</td><td class="money">32.8M VND</td></tr>
+              <tr><td><span class="rank">2</span></td><td><div class="brand-cell"><div class="brand-logo">FM</div><strong>FreshMart</strong></div></td><td>438</td><td class="money">842M VND</td><td class="money">25.6M VND</td></tr>
+              <tr><td><span class="rank">3</span></td><td><div class="brand-cell"><div class="brand-logo">BI</div><strong>Bistro Inn</strong></div></td><td>360</td><td class="money">518M VND</td><td class="money">12.8M VND</td></tr>
+            </tbody></table>
+          </div>
+        </article>
+
+        <article class="chart-card source-card">
+          <div class="card-head"><div><h2>Actual Commission</h2><p>Actual commission by Offer, Category, Tenant &amp; Brand Default and All Tenant Default</p></div></div>
+          <div class="source-body">
+            <div class="source-total"><span>Total actual commission</span><strong>71.2M VND</strong></div>
+            <div class="source-bars">
+              <div><div class="source-label"><span>Offer</span><strong>32.8M VND · 46.1%</strong></div><div class="stacked"><i class="offer-segment" style="width:46.1%"></i></div></div>
+              <div><div class="source-label"><span>Category</span><strong>25.6M VND · 36.0%</strong></div><div class="stacked"><i class="category-segment" style="width:36%"></i></div></div>
+              <div><div class="source-label"><span>Tenant &amp; Brand Default</span><strong>8.0M VND · 11.2%</strong></div><div class="stacked"><i class="brand-segment" style="width:11.2%"></i></div></div>
+              <div><div class="source-label"><span>All Tenant Default</span><strong>4.8M VND · 6.7%</strong></div><div class="stacked"><i class="all-tenant-segment" style="width:6.7%"></i></div></div>
+            </div>
+            <div class="source-note">Includes actual commission from Confirmed items only. <strong>Total actual commission equals the Actual commission metric shown above.</strong></div>
+          </div>
+        </article>
+      </div>
+      <div class="footer-note">Last refreshed: 31/07/2026, 10:30 · Data is scoped to Vietnam Airlines Loyalty</div>
+    </section>
+  </main>
+</div>
+<script>
+  const reportingPeriodSelect = document.getElementById('reporting-period');
+  const applyFilterButton = document.getElementById('apply-filter');
+  const trendTooltip = document.getElementById('trend-tooltip');
+  const ordersTooltip = document.getElementById('orders-tooltip');
+  const trendData = {
+    Month: [
+      ['01', '01 Jul 2026', 68, 1.9, 36], ['02', '02 Jul 2026', 72, 2.1, 39], ['03', '03 Jul 2026', 75, 2.0, 41],
+      ['04', '04 Jul 2026', 64, 1.8, 35], ['05', '05 Jul 2026', 80, 2.3, 43], ['06', '06 Jul 2026', 80, 2.6, 46],
+      ['07', '07 Jul 2026', 78, 2.2, 42], ['08', '08 Jul 2026', 85, 2.4, 47], ['09', '09 Jul 2026', 76, 2.1, 40],
+      ['10', '10 Jul 2026', 88, 2.5, 45], ['11', '11 Jul 2026', 92, 2.7, 50], ['12', '12 Jul 2026', 81, 2.3, 37],
+      ['13', '13 Jul 2026', 77, 2.1, 38], ['14', '14 Jul 2026', 84, 2.4, 44], ['15', '15 Jul 2026', 108, 3.2, 55],
+      ['16', '16 Jul 2026', 86, 2.9, 49], ['17', '17 Jul 2026', 74, 2.0, 35], ['18', '18 Jul 2026', 82, 2.3, 42],
+      ['19', '19 Jul 2026', 89, 2.5, 46], ['20', '20 Jul 2026', 93, 2.6, 48], ['21', '21 Jul 2026', 70, 1.9, 33],
+      ['22', '22 Jul 2026', 86, 2.4, 43], ['23', '23 Jul 2026', 87, 2.5, 44], ['24', '24 Jul 2026', 81, 2.5, 41],
+      ['25', '25 Jul 2026', 79, 2.2, 39], ['26', '26 Jul 2026', 73, 2.0, 36], ['27', '27 Jul 2026', 66, 1.8, 32],
+      ['28', '28 Jul 2026', 88, 2.5, 47], ['29', '29 Jul 2026', 84, 2.4, 45], ['30', '30 Jul 2026', 73, 2.3, 38],
+      ['31', '31 Jul 2026', 61, 1.8, 28]
+    ],
+    Week: [
+      ['Mon', '20 Jul 2026', 93, 2.6, 48], ['Tue', '21 Jul 2026', 70, 1.9, 33], ['Wed', '22 Jul 2026', 86, 2.4, 43],
+      ['Thu', '23 Jul 2026', 87, 2.5, 44], ['Fri', '24 Jul 2026', 81, 2.5, 41], ['Sat', '25 Jul 2026', 79, 2.2, 39],
+      ['Sun', '26 Jul 2026', 73, 2.0, 36]
+    ],
+    Year: [
+      ['Jan', 'January 2026', 420, 7.8, 860], ['Feb', 'February 2026', 455, 8.6, 905], ['Mar', 'March 2026', 470, 8.2, 940],
+      ['Apr', 'April 2026', 525, 10.4, 1010], ['May', 'May 2026', 615, 14.6, 1195], ['Jun', 'June 2026', 580, 12.9, 1120],
+      ['Jul', 'July 2026', 642, 17.8, 1284], ['Aug', 'August 2026', 590, 15.5, 1160], ['Sep', 'September 2026', 610, 16.2, 1215],
+      ['Oct', 'October 2026', 635, 16.8, 1250], ['Nov', 'November 2026', 650, 17.2, 1305], ['Dec', 'December 2026', 665, 18.4, 1330]
+    ]
+  };
+  const charts = {
+    revenue: document.getElementById('revenue-chart'),
+    commission: document.getElementById('commission-chart'),
+    orders: document.getElementById('orders-chart')
+  };
+  const axisMax = {
+    revenue: {Month: 120, Week: 120, Year: 700},
+    commission: {Month: 4, Week: 4, Year: 20},
+    orders: {Month: 60, Week: 60, Year: 1500}
+  };
+  const svgNS = 'http://www.w3.org/2000/svg';
+  function moneyLabel(amountInMillions) {
+    return `${Math.round(amountInMillions * 1000000).toLocaleString('en-US')} VND`;
+  }
+  function valueLabel(seriesKey, value) {
+    if (seriesKey === 'orders') return `${value.toLocaleString('en-US')} orders`;
+    return moneyLabel(value);
+  }
+  function addHover(point, tooltipEl) {
+    point.addEventListener('mouseenter', () => {
+      tooltipEl.innerHTML = `<strong>${point.dataset.period}</strong>${point.dataset.series}: <b>${point.dataset.value}</b>`;
+      tooltipEl.style.display = 'block';
+    });
+    point.addEventListener('mousemove', event => {
+      const wrap = tooltipEl.parentElement.getBoundingClientRect();
+      tooltipEl.style.left = `${Math.min(event.clientX - wrap.left + 12, wrap.width - 225)}px`;
+      tooltipEl.style.top = `${Math.max(event.clientY - wrap.top - 48, 4)}px`;
+    });
+    point.addEventListener('mouseleave', () => tooltipEl.style.display = 'none');
+  }
+  function svgEl(name, attributes, parent) {
+    const node = document.createElementNS(svgNS, name);
+    Object.entries(attributes).forEach(([key, value]) => node.setAttribute(key, value));
+    parent.appendChild(node);
+    return node;
+  }
+  function drawText(parent, label, x, y, attrs = {}) {
+    const text = document.createElementNS(svgNS, 'text');
+    text.setAttribute('x', x);
+    text.setAttribute('y', y);
+    Object.entries(attrs).forEach(([key, value]) => text.setAttribute(key, value));
+    text.textContent = label;
+    parent.appendChild(text);
+  }
+  function drawLineChart(svg, view, seriesKey, seriesName, colorClass) {
+    svg.innerHTML = '';
+    const data = trendData[view];
+    const max = axisMax[seriesKey][view];
+    const valueIndex = seriesKey === 'revenue' ? 2 : seriesKey === 'commission' ? 3 : 4;
+    const left = 48, right = 530, top = 24, bottom = 182, height = bottom - top;
+    const step = (right - left) / Math.max(data.length - 1, 1);
+    [0, .25, .5, .75, 1].forEach((ratio, index) => {
+      const y = top + height * ratio;
+      svgEl('path', {d:`M${left} ${y}H${right}`, class:'grid-line'}, svg);
+      const labelValue = Math.round(max * (1 - ratio));
+      drawText(svg, seriesKey === 'orders' ? labelValue : `${labelValue}M`, 5, y + 4, {class:'axis-label'});
+    });
+    const points = data.map((item, index) => {
+      const x = left + step * index;
+      const y = bottom - (item[valueIndex] / max * height);
+      return {x, y, item, index};
+    });
+    const path = points.map((point, index) => `${index ? 'L' : 'M'}${point.x.toFixed(1)} ${point.y.toFixed(1)}`).join(' ');
+    svgEl('path', {d:`M${points[0].x} ${bottom} ${path.replace('M','L')} L${points[points.length - 1].x} ${bottom} Z`, class:'line-area', fill: seriesKey === 'revenue' ? '#14b8a6' : seriesKey === 'commission' ? '#2563eb' : '#f59e0b'}, svg);
+    svgEl('path', {d:path, class:`line-path ${colorClass}`}, svg);
+    const shouldShowLabel = (point) => {
+      if (view !== 'Month') return true;
+      const day = Number(point.item[0]);
+      return day === 1 || (day % 5 === 0 && day !== 30) || point.index === points.length - 1;
+    };
+    points.forEach(point => {
+      const [label, period] = point.item;
+      const value = point.item[valueIndex];
+      const marker = svgEl('circle', {cx:point.x, cy:point.y, r:4, class:`line-point ${colorClass}`, 'data-period':period, 'data-series':seriesName, 'data-value':valueLabel(seriesKey, value), 'data-index':point.index}, svg);
+      addHover(marker, seriesKey === 'orders' ? ordersTooltip : trendTooltip);
+      if (shouldShowLabel(point)) {
+        drawText(svg, label, point.x, 211, {class:'axis-label', 'text-anchor':'middle', transform:view === 'Month' ? `rotate(-45 ${point.x} 211)` : ''});
+      }
+    });
+  }
+  function splitOrderStatus(total) {
+    const cancel = Math.max(1, Math.round(total * 0.05));
+    const pending = Math.round(total * 0.33);
+    const confirmed = Math.max(0, total - pending - cancel);
+    return {pending, confirmed, cancel};
+  }
+  function orderSeriesData(view) {
+    return trendData[view].map((item, index) => {
+      const total = item[4];
+      const status = splitOrderStatus(total);
+      return {label:item[0], period:item[1], total, ...status, index};
+    });
+  }
+  function shouldShowOrderLabel(point, view, lastIndex) {
+    if (view !== 'Month') return true;
+    const day = Number(point.label);
+    return day === 1 || (day % 5 === 0 && day !== 30) || point.index === lastIndex;
+  }
+  function drawOrderLineChart(svg, view, seriesKey, seriesName, colorClass, options = {}) {
+    svg.innerHTML = '';
+    const data = orderSeriesData(view);
+    const max = options.max || axisMax.orders[view];
+    const left = options.left || 48;
+    const right = options.right || 930;
+    const top = options.top || 20;
+    const bottom = options.bottom || 196;
+    const labelY = options.labelY || 236;
+    const height = bottom - top;
+    const step = (right - left) / Math.max(data.length - 1, 1);
+    [0, .25, .5, .75, 1].forEach(ratio => {
+      const y = top + height * ratio;
+      svgEl('path', {d:`M${left} ${y}H${right}`, class:'grid-line'}, svg);
+      drawText(svg, Math.round(max * (1 - ratio)), 8, y + 4, {class:'axis-label'});
+    });
+    const points = data.map((item, index) => {
+      const x = left + step * index;
+      const value = item[seriesKey];
+      const y = bottom - (value / max * height);
+      return {x, y, value, item, index};
+    });
+    const path = points.map((point, index) => `${index ? 'L' : 'M'}${point.x.toFixed(1)} ${point.y.toFixed(1)}`).join(' ');
+    if (options.total) {
+      svgEl('path', {d:`M${points[0].x} ${bottom} ${path.replace('M','L')} L${points[points.length - 1].x} ${bottom} Z`, class:'order-area'}, svg);
+    }
+    svgEl('path', {d:path, class: options.total ? 'total-order-line' : `mini-order-line ${colorClass}`}, svg);
+    points.forEach(point => {
+      const captureWidth = Math.max(8, step * .9);
+      const marker = svgEl('circle', {cx:point.x.toFixed(1), cy:point.y.toFixed(1), r:options.total ? 4 : 3, class: options.total ? 'total-order-point' : `mini-order-point ${colorClass}`}, svg);
+      const capture = svgEl('rect', {x:(point.x - captureWidth / 2).toFixed(1), y:top, width:captureWidth.toFixed(1), height:height, class:'hover-capture'}, svg);
+      capture.dataset.period = point.item.period;
+      capture.dataset.value = `${point.value.toLocaleString('en-US')} orders`;
+      capture.dataset.total = `${point.item.total.toLocaleString('en-US')} orders`;
+      capture.dataset.pending = point.item.pending.toLocaleString('en-US');
+      capture.dataset.confirmed = point.item.confirmed.toLocaleString('en-US');
+      capture.dataset.cancel = point.item.cancel.toLocaleString('en-US');
+      capture.addEventListener('mouseenter', () => {
+        ordersTooltip.innerHTML = options.total
+          ? `<strong>${capture.dataset.period}</strong>Total orders: <b>${capture.dataset.total}</b><br>Pending: <b>${capture.dataset.pending}</b><br>Confirmed: <b>${capture.dataset.confirmed}</b><br>Cancel: <b>${capture.dataset.cancel}</b>`
+          : `<strong>${capture.dataset.period}</strong>${seriesName}: <b>${capture.dataset.value}</b>`;
+        ordersTooltip.style.display = 'block';
+      });
+      capture.addEventListener('mousemove', event => {
+        const wrap = ordersTooltip.parentElement.getBoundingClientRect();
+        ordersTooltip.style.left = `${Math.min(event.clientX - wrap.left + 12, wrap.width - 225)}px`;
+        ordersTooltip.style.top = `${Math.max(event.clientY - wrap.top - 70, 4)}px`;
+      });
+      capture.addEventListener('mouseleave', () => ordersTooltip.style.display = 'none');
+      if (shouldShowOrderLabel(point.item, view, data.length - 1)) {
+        drawText(svg, point.item.label, point.x, labelY, {class:'axis-label', 'text-anchor':'middle', transform:view === 'Month' ? `rotate(-45 ${point.x} ${labelY})` : ''});
+      }
+    });
+  }
+  function renderTrend(view) {
+    drawLineChart(charts.revenue, view, 'revenue', 'Revenue', 'revenue');
+    drawLineChart(charts.commission, view, 'commission', 'Actual commission', 'commission');
+    drawOrderLineChart(charts.orders, view, 'total', 'Total orders', 'total', {total:true, max:axisMax.orders[view], left:48, right:930, top:18, bottom:196, labelY:236});
+  }
+  applyFilterButton.addEventListener('click', () => renderTrend(reportingPeriodSelect.value));
+  renderTrend('Month');
+  const documentedHoverState = window.location.hash.replace('#', '');
+  if (documentedHoverState === 'hover-trends') {
+    document.body.style.background = '#eef3f7';
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    const app = document.querySelector('.app');
+    const side = document.querySelector('.side');
+    const top = document.querySelector('.top');
+    const head = document.querySelector('.head');
+    const filterPanel = document.querySelector('.panel');
+    document.querySelectorAll('.metric, .brand-card, .source-card, .footer-note').forEach(node => node.style.display = 'none');
+    if (side) side.style.display = 'none';
+    if (top) top.style.display = 'none';
+    if (head) head.style.display = 'none';
+    if (filterPanel) filterPanel.style.display = 'none';
+    if (app) app.style.display = 'block';
+    const main = document.querySelector('main');
+    const content = document.querySelector('.content');
+    if (main) main.style.margin = '0';
+    if (content) {
+      content.style.width = 'calc(100% - 56px)';
+      content.style.maxWidth = '1400px';
+      content.style.margin = '28px auto';
+    }
+    const chartBody = document.querySelector('.trend-card .chart-body');
+    const revenuePoint = [...document.querySelectorAll('#revenue-chart .line-point')].find(point => point.dataset.index === '14');
+    const commissionPoint = [...document.querySelectorAll('#commission-chart .line-point')].find(point => point.dataset.index === '14');
+    const orderCapture = [...document.querySelectorAll('#orders-chart .hover-capture')].find(point => point.dataset.period === '15 Jul 2026');
+    const showDocTooltip = (html, left, top) => {
+      const tip = document.createElement('div');
+      tip.className = 'chart-tooltip';
+      tip.innerHTML = html;
+      tip.style.display = 'block';
+      tip.style.left = left;
+      tip.style.top = top;
+      chartBody.appendChild(tip);
+    };
+    if (revenuePoint) {
+      showDocTooltip(`<strong>${revenuePoint.dataset.period}</strong>${revenuePoint.dataset.series}: <b>${revenuePoint.dataset.value}</b>`, '300px', '128px');
+    }
+    if (commissionPoint) {
+      showDocTooltip(`<strong>${commissionPoint.dataset.period}</strong>${commissionPoint.dataset.series}: <b>${commissionPoint.dataset.value}</b>`, '895px', '128px');
+    }
+    if (orderCapture) {
+      showDocTooltip(`<strong>${orderCapture.dataset.period}</strong>Total orders: <b>${orderCapture.dataset.total}</b><br>Pending: <b>${orderCapture.dataset.pending}</b><br>Confirmed: <b>${orderCapture.dataset.confirmed}</b><br>Cancel: <b>${orderCapture.dataset.cancel}</b>`, '620px', '410px');
+    }
+    window.scrollTo(0, 0);
+  } else if (documentedHoverState === 'hover-order' || documentedHoverState === 'hover-commission') {
+    const selector = documentedHoverState === 'hover-order' ? '#revenue-chart .line-point' : '#commission-chart .line-point';
+    const targetPoint = [...document.querySelectorAll(selector)].find(point => point.dataset.index === '14');
+    if (targetPoint) {
+      trendTooltip.innerHTML = `<strong>${targetPoint.dataset.period}</strong>${targetPoint.dataset.series}: <b>${targetPoint.dataset.value}</b>`;
+      trendTooltip.style.display = 'block';
+      trendTooltip.style.left = documentedHoverState === 'hover-order' ? '335px' : '650px';
+      trendTooltip.style.top = '165px';
+    }
+  }
+</script>
+</body>
+</html>

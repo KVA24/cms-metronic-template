@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tenant Portal - Transactions</title>
+  <link rel="stylesheet" href="tenant-portal-account-settings.css">
+  <style>
+    .content{width:calc(100% - 56px);max-width:1640px;margin:0 28px}.head-actions{display:flex;gap:8px}.notice{margin-bottom:16px;padding:12px 15px;border:1px solid #b7dfdf;border-radius:8px;background:var(--soft);color:var(--primary-dark);font-size:12px;line-height:1.5}.filters{grid-template-columns:1.45fr 1.15fr 1fr 1fr auto}.date-range{display:grid;grid-template-columns:1fr 1fr;gap:8px}.brand-cell{display:flex;gap:9px;align-items:center}.brand-logo{width:34px;height:34px;border:1px solid #b7dfdf;border-radius:8px;display:grid;place-items:center;background:var(--soft);color:var(--primary);font-size:11px;font-weight:850}.stack strong,.stack span{display:block}.stack span{margin-top:3px;color:var(--muted);font-size:11px}.order-id{font-weight:850;color:var(--primary-dark);white-space:nowrap}.missing{color:var(--muted);font-weight:800}.money{white-space:nowrap;font-weight:750}.money.zero{color:var(--danger)}.money.pending{color:var(--muted)}.badge.warn{background:#fff7df;color:#865400}.badge.blue{background:#e5efff;color:#1d4ed8}.badge.danger{background:#fff1f3;color:#b42318}.badge.gray{background:var(--gray-bg);color:var(--gray)}.transaction-table th,.transaction-table td{padding-inline:10px}.transaction-table td{vertical-align:middle}.transaction-link{border:0;background:transparent;color:var(--primary-dark);font:inherit;font-weight:850;padding:0;cursor:pointer;text-align:left;text-decoration:underline;text-underline-offset:2px}.transaction-link:hover{color:var(--primary)}.detail-view{display:none}.detail-view.active{display:block}.list-view.hidden{display:none}.back{border:0;background:transparent;color:var(--primary);font-weight:800;padding:0 0 12px;cursor:pointer}.detail-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}.detail-head h1{margin:0;font-size:26px}.detail-head p{margin:5px 0 0;color:var(--muted)}.detail-statuses{display:flex;gap:8px;align-items:center}.detail-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:16px}.detail-column{display:grid;gap:16px;align-content:start}.detail-card{background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);overflow:hidden}.detail-card h2{margin:0;padding:17px 20px;border-bottom:1px solid var(--line);font-size:17px}.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:6px 20px 18px}.info{padding:13px 0;border-bottom:1px solid #edf0f3}.info:nth-child(odd){padding-right:18px}.info span,.commission-row span{display:block;color:var(--muted);font-size:11px}.info strong{display:block;margin-top:5px;font-size:13px}.commission-box{padding:18px 20px}.commission-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #edf0f3}.commission-row:last-child{border-bottom:0}.commission-row strong{font-size:14px}.commission-row.total strong{font-size:19px;color:var(--success)}.source-note{margin-bottom:12px;padding:11px 12px;border-radius:8px;background:var(--soft);color:var(--primary-dark);font-size:12px;line-height:1.45}.refund-note{margin-top:14px;padding:12px;border:1px solid #f2b8bd;border-radius:8px;background:#fff1f3;color:var(--danger);font-size:12px;line-height:1.5}.timeline{padding:18px 20px}.event{position:relative;padding:0 0 20px 28px}.event:last-child{padding-bottom:0}.event::before{content:"";position:absolute;left:5px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--primary)}.event:not(:last-child)::after{content:"";position:absolute;left:9px;top:17px;bottom:3px;width:1px;background:var(--line)}.event.negative::before{background:var(--danger)}.event strong,.event span{display:block}.event span{margin-top:4px;color:var(--muted);font-size:11px;line-height:1.45}
+  </style>
+  <style>.actions-cell{text-align:center}.view-button{height:34px;padding:0 13px}.transaction-table td:nth-child(3),.transaction-table td:nth-child(10){white-space:nowrap}.detail-view .back{padding-bottom:8px}.detail-view .detail-head{margin-bottom:10px}.detail-view .detail-head h1{font-size:24px}.detail-view .detail-head p{font-size:14px}.detail-hero{margin-bottom:14px;padding:18px 20px;border:1px solid #b7dfdf;border-radius:16px;background:linear-gradient(135deg,#f0fbfb 0%,#fff 58%,#eef7ff 100%);box-shadow:0 14px 34px rgba(23,33,47,.08);display:grid;grid-template-columns:1.65fr repeat(2,minmax(180px,.55fr));gap:16px;align-items:stretch}.hero-main{display:flex;gap:14px;align-items:center}.hero-logo{width:54px;height:54px;border:1px solid #b7dfdf;border-radius:14px;background:#fff;color:var(--primary);font-weight:900;display:grid;place-items:center}.hero-title strong{display:block;font-size:20px}.hero-title span{display:block;margin-top:4px;color:var(--muted);font-size:12px}.hero-stat{padding:13px 14px;border:1px solid #d9e4ec;border-radius:12px;background:rgba(255,255,255,.72)}.hero-stat span{display:block;color:var(--muted);font-size:11px;font-weight:700}.hero-stat strong{display:block;margin-top:6px;font-size:18px;white-space:nowrap}.hero-stat.actual strong{color:var(--success)}.hero-stat.zero strong{color:var(--danger)}.detail-view .detail-grid{grid-template-columns:1.05fr .95fr;gap:14px}.detail-view .detail-column{gap:14px}.detail-view .detail-card{border-radius:14px}.detail-view .detail-card h2{padding:14px 18px;font-size:16px;background:#fbfdff}.detail-view .info-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:14px 18px}.detail-view .info{padding:12px;border:1px solid #edf0f3;border-radius:10px;background:#fff;border-bottom:1px solid #edf0f3}.detail-view .info:nth-child(odd){padding-right:12px}.detail-view .info span{font-weight:700;text-transform:uppercase;letter-spacing:.025em}.detail-view .info strong{font-size:13px;line-height:1.35}.detail-view .commission-box{padding:16px 18px}.detail-view .commission-row{padding:10px 0}.detail-view .commission-row.total{margin-top:4px;padding:14px 12px;border:1px solid #b7dfdf;border-radius:12px;background:var(--soft)}.detail-view .commission-row.total strong{font-size:21px}.detail-view .source-note,.detail-view .refund-note{padding:11px 12px;margin-bottom:11px;border-radius:10px}.detail-view .timeline{padding:16px 18px}.detail-view .event{padding:0 0 17px 26px}.detail-view .event strong{font-size:15px}.detail-view .event:last-child{padding-bottom:0}</style>
+  <style>
+    .summary-grid{padding:14px 16px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.summary-card{min-height:72px;padding:10px 11px;border:1px solid var(--line);border-radius:8px;background:#fbfcfe}.summary-card span{display:block;color:var(--muted);font-size:11px;font-weight:750}.summary-card strong{display:block;margin-top:6px;font-size:14px;line-height:1.3}.summary-card small{display:block;margin-top:5px;color:var(--muted);font-size:10px}.summary-card.status-summary{position:relative;border-color:#f2d38c;background:#fffdf6;box-shadow:inset 3px 0 0 #f59e0b}.summary-card.status-summary .status-value{margin-top:7px}.summary-card.status-summary .status-value .badge{display:inline-flex}.items-card{margin-top:14px}.items-wrap{overflow-x:auto}.items-table{width:100%;min-width:1100px;border-collapse:collapse;table-layout:fixed}.items-table th,.items-table td{padding:11px 9px;border-bottom:1px solid var(--line);text-align:left;font-size:12px}.items-table th{background:#f8fafc;color:#5f6b7f;font-size:11px;text-transform:uppercase}.history-list{padding:13px 16px;display:grid;gap:12px}.history-event{display:grid;grid-template-columns:27px minmax(0,1fr);gap:9px}.history-dot{width:27px;height:27px;border-radius:50%;display:grid;place-items:center;background:var(--gray-bg);color:var(--gray);font-size:11px;font-weight:850}.history-dot.alert{color:var(--danger);background:#fff1f3}.history-event strong{display:block;font-size:13px}.history-event span{display:block;margin-top:3px;color:var(--muted);font-size:11px;line-height:1.45}
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><div class="mark">V</div><div><strong>Tenant Portal</strong><span>White-label Marketplace</span></div></div>
+    <div class="tenant"><strong>Vietnam Airlines Loyalty</strong><span>Tenant code: VNA_LOYALTY</span></div>
+    <nav class="nav"><a href="#">▦ Dashboard</a><a href="tenant-portal-assigned-brands.html">◇ Assigned Brands</a><a href="tenant-portal-earn-display.html">◫ Earn display</a><a class="active" href="#">▤ Transactions</a><div class="nav-parent"><div class="nav-parent-title"><span>⚙ Account settings</span><span>⌃</span></div><div class="nav-children"><a href="tenant-portal-role-list.html">Roles</a><a href="tenant-portal-user-list.html">Accounts</a><a href="tenant-portal-profile.html">Profile</a></div></div></nav>
+  </aside>
+  <main>
+    <header class="top"><div class="crumb">Tenant Portal / <strong>Transactions</strong></div><div class="user"><span>Tenant Admin</span><span class="avatar">TA</span></div></header>
+    <section class="content">
+      <div id="list-view" class="list-view">
+        <div class="head"><div><h1>Transactions</h1><p>View orders attributed to this Tenant and track estimated versus actual commission.</p></div><div class="head-actions"><button class="button">↻ Refresh</button><button class="button primary">⇩ Export</button></div></div>
+        <div class="notice"><strong>Read-only history:</strong> Transactions are recorded from tracked orders placed through this Tenant. Category, Offer and commission rule details are shown when you open a transaction. Canceled orders have <strong>Actual commission = 0</strong> and are not included in earned commission.</div>
+        <section class="panel">
+          <div class="filters">
+            <div><label>Order Date</label><div class="date-range"><input type="date" value="2026-07-01"><input type="date" value="2026-07-21"></div></div>
+            <div><label>Keyword</label><input placeholder="Order ID or Brand order ID"></div>
+            <div><label>Brand</label><select><option>All Brands</option><option>TravelGo</option><option>FreshMart</option><option>Bistro Inn</option></select></div>
+            <div><label>Order status</label><select><option>All statuses</option><option>Pending</option><option>Confirmed</option><option>Canceled</option></select></div>
+            <button class="button primary filter-action">Apply</button>
+          </div>
+          <div class="table-head"><strong>Orders attributed to Vietnam Airlines Loyalty</strong><span>1,284 transactions</span></div>
+          <table class="transaction-table">
+            <thead><tr><th>Order ID</th><th>Brand Order</th><th>Order Date</th><th>Member Ref</th><th>Brand</th><th>Order status</th><th>Estimated commission</th><th>Actual commission</th><th>Confirmed Commission Date</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr><td><span class="order-id">ORD-20260721-0184</span></td><td>TG-890431</td><td>21/07/2026 10:42:00</td><td>MEM-00004821</td><td><div class="brand-cell"><div class="brand-logo">TG</div><strong>TravelGo</strong></div></td><td><span class="badge warn">Pending</span></td><td class="money">96,000 VND</td><td class="money">36,000 VND</td><td><span class="missing">_</span></td><td class="actions-cell"><button class="button view-button" data-record="travelgo">View</button></td></tr>
+              <tr><td><span class="order-id">ORD-20260720-0161</span></td><td>FM-568204</td><td>20/07/2026 16:20:00</td><td><span class="missing">_</span></td><td><div class="brand-cell"><div class="brand-logo">FM</div><strong>FreshMart</strong></div></td><td><span class="badge warn">Pending</span></td><td class="money">111,000 VND</td><td class="money pending">—</td><td><span class="missing">_</span></td><td class="actions-cell"><button class="button view-button" data-record="paid">View</button></td></tr>
+              <tr><td><span class="order-id">ORD-20260720-0148</span></td><td>BI-115036</td><td>20/07/2026 11:35:00</td><td>MEM-00005106</td><td><div class="brand-cell"><div class="brand-logo">BI</div><strong>Bistro Inn</strong></div></td><td><span class="badge warn">Pending</span></td><td class="money">50,000 VND</td><td class="money pending">—</td><td><span class="missing">_</span></td><td class="actions-cell"><button class="button view-button" data-record="processing">View</button></td></tr>
+              <tr><td><span class="order-id">ORD-20260719-0132</span></td><td>FM-563218</td><td>19/07/2026 14:08:00</td><td>MEM-00006152</td><td><div class="brand-cell"><div class="brand-logo">FM</div><strong>FreshMart</strong></div></td><td><span class="badge active-b">Confirmed</span></td><td class="money">180,000 VND</td><td class="money">180,000 VND</td><td>21/07/2026 08:30:00</td><td class="actions-cell"><button class="button view-button" data-record="completed">View</button></td></tr>
+              <tr><td><span class="order-id">ORD-20260717-0098</span></td><td>TG-887905</td><td>17/07/2026 09:42:00</td><td>MEM-00007315</td><td><div class="brand-cell"><div class="brand-logo">TG</div><strong>TravelGo</strong></div></td><td><span class="badge danger">Canceled</span></td><td class="money">125,000 VND</td><td class="money zero">0 VND</td><td><span class="missing">_</span></td><td class="actions-cell"><button class="button view-button" data-record="refunded">View</button></td></tr>
+              <tr><td><span class="order-id">ORD-20260715-0061</span></td><td>BI-114728</td><td>15/07/2026 18:25:00</td><td><span class="missing">_</span></td><td><div class="brand-cell"><div class="brand-logo">BI</div><strong>Bistro Inn</strong></div></td><td><span class="badge danger">Canceled</span></td><td class="money">48,000 VND</td><td class="money zero">0 VND</td><td><span class="missing">_</span></td><td class="actions-cell"><button class="button view-button" data-record="cancelled">View</button></td></tr>
+            </tbody>
+          </table>
+          <div class="foot"><span>Showing 1–6 of 1,284 transactions</span><span>Previous &nbsp; 1 &nbsp; 2 &nbsp; 3 &nbsp; … &nbsp; 214 &nbsp; Next</span></div>
+        </section>
+      </div>
+
+      <div id="detail-view" class="detail-view">
+        <button id="back-to-list" class="back">← Back to Transactions</button>
+        <div class="detail-head">
+          <div><h1 id="detail-title">Transaction details</h1><p id="detail-subtitle"></p></div>
+          <div class="detail-statuses"><span id="order-status"></span></div>
+        </div>
+        <section class="detail-card"><h2>Order summary</h2><div id="order-summary" class="summary-grid"></div></section>
+        <section class="detail-card items-card">
+          <h2>Order items &amp; Tenant share details</h2>
+          <div class="items-wrap"><table class="items-table">
+            <thead><tr><th>Mã SP</th><th>Tên SP</th><th>Qty</th><th>Original amount</th><th>Final amount</th><th>Tenant share source</th><th>Tenant share value</th><th>Tenant share reference</th><th>Tenant share</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><strong>ITEM-TG-001</strong></td><td>Hotel booking package</td><td>1</td><td class="money">2,000,000 VND</td><td class="money">2,000,000 VND</td><td><span class="badge blue">Offer</span></td><td>60%</td><td>TS-OFFER-0001</td><td class="money">60,000 VND</td><td><span class="badge warn">Pending</span></td></tr>
+              <tr><td><strong>ITEM-TG-002</strong></td><td>Airport transfer</td><td>0</td><td class="money">1,600,000 VND</td><td class="money">0 VND</td><td><span class="badge gray">Category</span></td><td>50%</td><td>TS-CAT-0012</td><td class="money">0 VND</td><td><span class="badge danger">Refunded</span></td></tr>
+              <tr><td><strong>ITEM-TG-003</strong></td><td>Dining voucher</td><td>1</td><td class="money">1,200,000 VND</td><td class="money">1,200,000 VND</td><td><span class="badge gray">Tenant &amp; Brand Default</span></td><td>60%</td><td>_</td><td class="money">36,000 VND</td><td><span class="badge active-b">Confirmed</span></td></tr>
+            </tbody>
+          </table></div>
+        </section>
+        <section class="detail-card items-card"><h2>Adjustment &amp; status history</h2><div id="status-history" class="history-list"></div></section>
+      </div>
+
+    </section>
+  </main>
+</div>
+<script>
+  const records = {
+    travelgo: {
+      transactionId:'ORD-20260721-0184', brandOrderId:'TG-890431', date:'21/07/2026 10:42:00', confirmCommissionDate:'_', tenant:'Vietnam Airlines Loyalty', userId:'USR-00004821', memberRef:'MEM-00004821', brand:'TravelGo', category:'—', offer:'Summer Hotel Deal', amount:'4,800,000 VND', orderStatus:'Pending', orderClass:'warn', source:'Offer', rule:'5%', estimated:'240,000 VND', actual:'—', tenantEstimated:'96,000 VND', tenantActual:'36,000 VND', note:'This order is still in the pending period. Actual commission will be recorded after the pending period ends and the commission is confirmed.', negative:false,
+      events:[['Order recorded','21/07/2026 10:42:00 · Brand order TG-890431 was recorded with 3 items.'],['Item refund request received','23/07/2026 14:25:06 · Brand fully refunded ITEM-TG-002.'],['Actual commission recorded','23/07/2026 14:25:12 · ITEM-TG-003 was Confirmed with Tenant share of 36,000 VND; the Order remains Pending because ITEM-TG-001 has not been confirmed.']]
+    },
+    completed: {
+      transactionId:'ORD-20260719-0132', brandOrderId:'FM-563218', date:'19/07/2026 14:08:00', confirmCommissionDate:'21/07/2026 08:30:00', tenant:'Vietnam Airlines Loyalty', memberRef:'MEM-00006152', brand:'FreshMart', category:'Grocery', offer:'—', amount:'3,000,000 VND', orderStatus:'Confirmed', orderClass:'active-b', source:'Category', rule:'6%', estimated:'180,000 VND', actual:'180,000 VND', note:'The order has passed the pending period and the commission has been confirmed. Actual commission equals the estimated commission.', negative:false,
+      events:[['Click tracked','19/07/2026 13:51:00 · Attribution window started'],['Order recorded','19/07/2026 14:08:00 · Brand order FM-563218'],['Commission estimated','19/07/2026 14:08:00 · Estimated commission: 180,000 VND'],['Commission confirmed','21/07/2026 08:30:00 · Actual commission recorded as 180,000 VND']]
+    },
+    refunded: {
+      transactionId:'ORD-20260717-0098', brandOrderId:'TG-887905', date:'17/07/2026 09:42:00', confirmCommissionDate:'_', tenant:'Vietnam Airlines Loyalty', memberRef:'MEM-00007315', brand:'TravelGo', category:'—', offer:'Flight Weekend', amount:'2,500,000 VND', orderStatus:'Canceled', orderClass:'danger', source:'Offer', rule:'5%', estimated:'125,000 VND', actual:'0 VND', note:'This order was refunded/canceled. Its estimated commission was canceled and is not included in actual commission.', negative:true,
+      events:[['Click tracked','17/07/2026 09:18:00 · Attribution window started'],['Order recorded','17/07/2026 09:42:00 · Brand order TG-887905'],['Commission estimated','17/07/2026 09:42:00 · 125,000 VND calculated from Offer rule'],['Refund received','20/07/2026 15:06:00 · Full refund confirmed by Brand'],['Commission canceled','20/07/2026 15:06:00 · Actual commission adjusted to 0 VND']]
+    }
+  };
+  Object.assign(records, {
+    paid:{...records.completed,transactionId:'ORD-20260720-0161',brandOrderId:'FM-568204',date:'20/07/2026 16:20:00',confirmCommissionDate:'_',memberRef:'_',amount:'1,850,000 VND',orderStatus:'Pending',orderClass:'warn',rule:'6%',estimated:'111,000 VND',actual:'—',note:'This order is still in the pending period. Actual commission will be recorded after the pending period ends and the commission is confirmed.',events:[['Order recorded','20/07/2026 16:20:00 · Brand order FM-568204'],['Commission estimated','20/07/2026 16:24:00 · Estimated commission: 111,000 VND']]},
+    processing:{...records.travelgo,transactionId:'ORD-20260720-0148',brandOrderId:'BI-115036',date:'20/07/2026 11:35:00',confirmCommissionDate:'_',memberRef:'MEM-00005106',brand:'Bistro Inn',offer:'Weekend Set Menu',amount:'980,000 VND',orderStatus:'Pending',rule:'50,000 VND',estimated:'50,000 VND',events:[['Order recorded','20/07/2026 11:35:00 · Brand order BI-115036'],['Commission estimated','20/07/2026 11:40:00 · Estimated commission: 50,000 VND']]},
+    cancelled:{...records.completed,transactionId:'ORD-20260715-0061',brandOrderId:'BI-114728',date:'15/07/2026 18:25:00',confirmCommissionDate:'_',memberRef:'_',brand:'Bistro Inn',category:'Dining',amount:'1,200,000 VND',orderStatus:'Canceled',orderClass:'danger',rule:'4%',estimated:'48,000 VND',actual:'0 VND',note:'This order was refunded/canceled. Its estimated commission was canceled and is not included in actual commission.',negative:true,events:[['Order recorded','15/07/2026 18:25:00 · Brand order BI-114728'],['Commission estimated','15/07/2026 18:25:00 · Estimated commission: 48,000 VND'],['Order canceled','15/07/2026 18:41:00 · Cancellation confirmed by Bistro Inn'],['Commission canceled','15/07/2026 18:41:00 · Actual commission adjusted to 0 VND']]}
+  });
+
+  const listView = document.getElementById('list-view');
+  const detailView = document.getElementById('detail-view');
+  const summaryCard = (label,value,note='',className='') => `<div class="summary-card ${className}"><span>${label}</span><strong class="${className === 'status-summary' ? 'status-value' : ''}">${value}</strong>${note ? `<small>${note}</small>` : ''}</div>`;
+  const brandInitials = brand => (brand || '').split(/\s+/).map(part => part[0]).join('').slice(0,2).toUpperCase();
+  function openDetail(key){
+    const r = records[key] || records.travelgo;
+    document.getElementById('detail-title').textContent = r.transactionId;
+    document.getElementById('detail-subtitle').textContent = `Brand Order: ${r.brandOrderId}`;
+    document.getElementById('order-status').className = `badge ${r.orderClass}`;
+    document.getElementById('order-status').textContent = r.orderStatus;
+    document.getElementById('order-summary').innerHTML =
+      summaryCard('Order ID',r.transactionId)+summaryCard('Brand Order ID',r.brandOrderId)+
+      summaryCard('User ID',r.userId || 'USR-00004821')+summaryCard('Member Ref',r.memberRef || '_')+
+      summaryCard('Brand',r.brand)+summaryCard('Order status',`<span class="badge ${r.orderClass}">${r.orderStatus}</span>`,'','status-summary')+
+      summaryCard('Order date',r.date)+
+      summaryCard('Tenant share dự tính',r.tenantEstimated || r.estimated,'Tổng Tenant share hiện tại của các item')+
+      summaryCard('Tenant share thực nhận',r.tenantActual || r.actual)+summaryCard('Ngày chốt Commission',r.confirmCommissionDate || '_');
+    document.getElementById('status-history').innerHTML = r.events.map((event,index)=>{
+      const alert = /refund|cancel/i.test(`${event[0]} ${event[1]}`);
+      return `<div class="history-event"><div class="history-dot ${alert ? 'alert' : ''}">${index+1}</div><div><strong>${event[0]}</strong><span>${event[1]}</span></div></div>`;
+    }).join('');
+    listView.classList.add('hidden'); detailView.classList.add('active'); window.scrollTo(0,0);
+  }
+  document.querySelectorAll('.view-button').forEach(button=>button.addEventListener('click',()=>openDetail(button.dataset.record)));
+  document.getElementById('back-to-list').addEventListener('click',()=>{detailView.classList.remove('active');listView.classList.remove('hidden');window.scrollTo(0,0)});
+  if(window.location.hash === '#confirmed'){ openDetail('completed'); }
+  if(window.location.hash === '#travelgo'){ openDetail('travelgo'); }
+</script>
+</body>
+</html>

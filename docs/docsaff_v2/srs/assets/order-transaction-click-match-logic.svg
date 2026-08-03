@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="430" viewBox="0 0 1300 430">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#475467"/>
+    </marker>
+    <style>
+      .platform{fill:#eef4ff;stroke:#84adff;stroke-width:1.4;rx:9}
+      .decision{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.5}
+      .success{fill:#ecfdf3;stroke:#12b76a;stroke-width:1.5;rx:9}
+      .exception{fill:#fff1f3;stroke:#f63d68;stroke-width:1.5;rx:9}
+      .title{font:700 18px Arial,sans-serif;fill:#101828}
+      .text{font:700 13px Arial,sans-serif;fill:#101828}
+      .small{font:12px Arial,sans-serif;fill:#475467}
+      .label{font:700 10px Arial,sans-serif;fill:#667085}
+      .arrow{stroke:#475467;stroke-width:1.6;fill:none;marker-end:url(#arrow)}
+      .dashed{stroke:#667085;stroke-width:1.4;fill:none;stroke-dasharray:6 5;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1300" height="430" fill="#fff"/>
+  <text x="650" y="34" class="title" text-anchor="middle">ORD-004 — Match Click ID và xác định Tenant/Brand</text>
+
+  <rect x="35" y="95" width="210" height="96" class="platform"/>
+  <text x="53" y="123" class="text">1. Nhận request hợp lệ</text>
+  <text x="53" y="148" class="small">Từ ORD-001/002</text>
+  <text x="53" y="171" class="small">Order gồm nhiều item</text>
+
+  <path d="M245 143 H300" class="arrow"/>
+  <polygon points="400,87 500,143 400,199 300,143" class="decision"/>
+  <text x="400" y="136" class="text" text-anchor="middle">2. Click match?</text>
+  <text x="400" y="158" class="small" text-anchor="middle">Click ID và Brand context</text>
+
+  <path d="M500 143 H555" class="arrow"/>
+  <text x="515" y="132" class="label">CÓ</text>
+  <polygon points="660,87 765,143 660,199 555,143" class="decision"/>
+  <text x="660" y="136" class="text" text-anchor="middle">3. Hợp lệ?</text>
+  <text x="660" y="158" class="small" text-anchor="middle">Brand/Tenant Active</text>
+
+  <path d="M765 143 H820" class="arrow"/>
+  <text x="780" y="132" class="label">CÓ</text>
+  <rect x="820" y="95" width="240" height="96" class="success"/>
+  <text x="838" y="123" class="text">4. Chuyển sang COM-001</text>
+  <text x="838" y="148" class="small">Kèm Tenant/Brand context</text>
+  <text x="838" y="171" class="small">Chưa tạo Transaction</text>
+
+  <rect x="420" y="300" width="420" height="92" class="exception"/>
+  <text x="630" y="330" class="text" text-anchor="middle">Ghi Exception và dừng xử lý</text>
+  <text x="630" y="355" class="small" text-anchor="middle">Click không match hoặc Brand/Tenant không hợp lệ</text>
+  <text x="630" y="378" class="small" text-anchor="middle">Không tạo Transaction</text>
+
+  <path d="M400 199 V300" class="dashed"/>
+  <text x="415" y="225" class="label">KHÔNG</text>
+  <path d="M660 199 V300" class="dashed"/>
+  <text x="675" y="225" class="label">KHÔNG</text>
+</svg>

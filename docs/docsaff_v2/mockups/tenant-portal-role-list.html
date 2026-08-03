@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tenant Portal - Roles</title>
+  <link rel="stylesheet" href="tenant-portal-account-settings.css">
+  <style>[hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><div class="mark">V</div><div><strong>Tenant Portal</strong><span>White-label Marketplace</span></div></div>
+    <div class="tenant"><strong>Vietnam Airlines Loyalty</strong><span>Tenant code: VNA_LOYALTY</span></div>
+    <nav class="nav">
+      <a href="#">▦ Dashboard</a><a href="#">◇ Assigned Brands</a><a href="#">◫ Earn display</a><a href="#">▤ Transactions</a>
+      <div class="nav-parent"><div class="nav-parent-title"><span>⚙ Account settings</span><span>⌃</span></div><div class="nav-children"><a class="active" href="tenant-portal-role-list.html">Roles</a><a href="tenant-portal-user-list.html">Accounts</a><a href="#">Profile</a></div></div>
+    </nav>
+  </aside>
+  <main>
+    <header class="top"><div class="crumb">Tenant Portal / Account settings / <strong>Roles</strong></div><div class="user"><span>Tenant Admin</span><span class="avatar">TA</span></div></header>
+    <section class="content">
+      <div class="head"><div><h1>Roles</h1><p>Manage roles and permissions for users within your Tenant.</p></div><a class="button primary" href="tenant-portal-role-create.html">＋ Add role</a></div>
+      <div class="panel">
+        <div class="filters"><div><label>Keyword</label><input placeholder="Search Role ID, Role Name or Remark"></div><div><label>Status</label><select><option>All statuses</option><option>Active</option><option>Inactive</option></select></div><button class="button filter-action">Apply</button></div>
+        <div class="table-head"><strong>Role list</strong><span>4 roles</span></div>
+        <table>
+          <thead><tr><th>Role ID</th><th>Role Name</th><th>Remark</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td class="name">ROLE-ADMIN</td><td>Tenant Admin</td><td>Full tenant administration access</td><td><span class="badge active-b">Active</span></td><td><a class="link" href="tenant-portal-role-view.html">View</a><a class="link" href="tenant-portal-role-edit.html">Edit</a><button class="link delete" data-role-id="ROLE-ADMIN" data-role-name="Tenant Admin" data-assigned="true">Delete</button></td></tr>
+            <tr><td class="name">ROLE-MKT-OPS</td><td>Marketing/Ops</td><td>Manage brands, offers and earn display</td><td><span class="badge active-b">Active</span></td><td><a class="link" href="tenant-portal-role-view.html">View</a><a class="link" href="tenant-portal-role-edit.html">Edit</a><button class="link delete" data-role-id="ROLE-MKT-OPS" data-role-name="Marketing/Ops" data-assigned="true">Delete</button></td></tr>
+            <tr><td class="name">ROLE-FINANCE</td><td>Finance</td><td>View transactions and export reports</td><td><span class="badge active-b">Active</span></td><td><a class="link" href="tenant-portal-role-view.html">View</a><a class="link" href="tenant-portal-role-edit.html">Edit</a><button class="link delete" data-role-id="ROLE-FINANCE" data-role-name="Finance" data-assigned="true">Delete</button></td></tr>
+            <tr><td class="name">ROLE-VIEWER</td><td>Viewer</td><td>Read-only access to permitted reports</td><td><span class="badge inactive">Inactive</span></td><td><a class="link" href="tenant-portal-role-view.html">View</a><a class="link" href="tenant-portal-role-edit.html">Edit</a><button class="link delete" data-role-id="ROLE-VIEWER" data-role-name="Viewer" data-assigned="false">Delete</button></td></tr>
+          </tbody>
+        </table>
+        <div class="foot"><span>Showing 1–4 of 4 roles</span><span>Previous &nbsp; 1 &nbsp; Next</span></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal-backdrop" id="delete-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <div class="modal-body">
+      <div class="modal-icon" id="modal-icon">!</div>
+      <h2 id="modal-title">Delete role?</h2>
+      <p id="modal-message">Are you sure you want to delete this role? This action cannot be undone.</p>
+      <div class="role-reference" id="role-reference"><strong>ROLE-VIEWER</strong> · Viewer</div>
+    </div>
+    <div class="modal-actions">
+      <button class="button" id="cancel-delete">Cancel</button>
+      <button class="button danger" id="confirm-delete">Delete role</button>
+      <button class="button primary" id="close-result" hidden>Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('delete-modal');
+  const title = document.getElementById('modal-title');
+  const message = document.getElementById('modal-message');
+  const reference = document.getElementById('role-reference');
+  const icon = document.getElementById('modal-icon');
+  const cancelButton = document.getElementById('cancel-delete');
+  const confirmButton = document.getElementById('confirm-delete');
+  const closeButton = document.getElementById('close-result');
+  let selectedRole = null;
+
+  function showConfirm(role) {
+    selectedRole = role;
+    title.textContent = 'Delete role?';
+    message.textContent = 'Are you sure you want to delete this role? This action cannot be undone.';
+    reference.hidden = false;
+    reference.innerHTML = '<strong>' + role.id + '</strong> · ' + role.name;
+    icon.textContent = '!';
+    icon.className = 'modal-icon';
+    cancelButton.hidden = false;
+    confirmButton.hidden = false;
+    closeButton.hidden = true;
+    modal.classList.add('open');
+  }
+
+  function showResult(type, role) {
+    selectedRole = role;
+    cancelButton.hidden = true;
+    confirmButton.hidden = true;
+    closeButton.hidden = false;
+    reference.hidden = false;
+    reference.innerHTML = '<strong>' + role.id + '</strong> · ' + role.name;
+    if (type === 'success') {
+      title.textContent = 'Role deleted successfully';
+      message.textContent = 'The role has been removed from this Tenant.';
+      icon.textContent = '✓';
+      icon.className = 'modal-icon success';
+    } else {
+      title.textContent = 'Unable to delete role';
+      message.textContent = 'This role is currently in use and cannot be deleted.';
+      icon.textContent = '!';
+      icon.className = 'modal-icon';
+    }
+    modal.classList.add('open');
+  }
+
+  document.querySelectorAll('[data-role-id]').forEach(button => button.addEventListener('click', () => {
+    showConfirm({id: button.dataset.roleId, name: button.dataset.roleName, assigned: button.dataset.assigned === 'true'});
+  }));
+  cancelButton.addEventListener('click', () => modal.classList.remove('open'));
+  closeButton.addEventListener('click', () => modal.classList.remove('open'));
+  confirmButton.addEventListener('click', () => showResult(selectedRole.assigned ? 'in-use' : 'success', selectedRole));
+  modal.addEventListener('click', event => { if (event.target === modal) modal.classList.remove('open'); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') modal.classList.remove('open'); });
+
+  const state = new URLSearchParams(location.search).get('state');
+  if (state === 'confirm') showConfirm({id:'ROLE-VIEWER', name:'Viewer', assigned:false});
+  if (state === 'success') showResult('success', {id:'ROLE-VIEWER', name:'Viewer', assigned:false});
+  if (state === 'in-use') showResult('in-use', {id:'ROLE-MKT-OPS', name:'Marketing/Ops', assigned:true});
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="300" viewBox="0 0 1040 300">
+  <style>text{font-family:Arial,Helvetica,sans-serif;fill:#17212f}.box{fill:#fff;stroke:#095f78;stroke-width:2;rx:8}.decision{fill:#fff7df;stroke:#865400;stroke-width:2}.arrow{stroke:#667085;stroke-width:2;fill:none;marker-end:url(#a)}.muted{fill:#667085;font-size:13px}.title{font-weight:700;font-size:15px}</style>
+  <defs><marker id="a" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#667085"/></marker></defs>
+  <rect x="28" y="104" width="150" height="64" class="box"/><text x="103" y="129" text-anchor="middle" class="title">Mở cấu hình</text><text x="103" y="151" text-anchor="middle" class="muted">Tenant + Brand</text>
+  <rect x="222" y="104" width="154" height="64" class="box"/><text x="299" y="129" text-anchor="middle" class="title">Nhập default</text><text x="299" y="151" text-anchor="middle" class="muted">type/value</text>
+  <polygon points="494,92 580,136 494,180 408,136" class="decision"/><text x="494" y="132" text-anchor="middle" class="title">Thêm override?</text>
+  <rect x="632" y="46" width="172" height="58" class="box"/><text x="718" y="70" text-anchor="middle" class="title">Add Category</text><text x="718" y="90" text-anchor="middle" class="muted">chọn cate của Brand</text>
+  <rect x="632" y="166" width="172" height="58" class="box"/><text x="718" y="190" text-anchor="middle" class="title">Add Offer</text><text x="718" y="210" text-anchor="middle" class="muted">chọn offer của Brand</text>
+  <polygon points="898,92 982,136 898,180 814,136" class="decision"/><text x="898" y="132" text-anchor="middle" class="title">Hợp lệ?</text>
+  <rect x="822" y="226" width="152" height="50" class="box"/><text x="898" y="256" text-anchor="middle" class="title">Lưu + audit</text>
+  <rect x="414" y="226" width="160" height="50" class="box"/><text x="494" y="256" text-anchor="middle" class="title">Hiển thị lỗi dòng</text>
+  <path d="M178 136H222" class="arrow"/><path d="M376 136H408" class="arrow"/><path d="M580 136C610 136 610 75 632 75" class="arrow"/><path d="M580 136C610 136 610 195 632 195" class="arrow"/><path d="M804 75C840 75 840 136 814 136" class="arrow"/><path d="M804 195C840 195 840 136 814 136" class="arrow"/><path d="M898 180V226" class="arrow"/><path d="M814 136C760 136 760 251 574 251" class="arrow"/>
+</svg>

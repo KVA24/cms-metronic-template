@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tenant Portal - Summary Prototype</title>
+  <style>
+    html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#f5f7fa}
+    iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+  </style>
+</head>
+<body>
+  <iframe id="tenant-portal-prototype" src="tenant-portal-login.html" title="Tenant Portal Prototype"></iframe>
+
+  <script>
+    const frame = document.getElementById('tenant-portal-prototype');
+
+    function fileName(value) {
+      return (value || '').split('/').pop().split('?')[0].split('#')[0];
+    }
+
+    function loadScreen(file) {
+      frame.src = file;
+    }
+
+    function patchLoginNavigation(doc) {
+      const form = doc.querySelector('form.login-card');
+      if (!form || form.dataset.summaryPatched === 'true') return;
+      form.dataset.summaryPatched = 'true';
+      form.setAttribute('novalidate', 'novalidate');
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        loadScreen('tenant-portal-dashboard.html');
+      });
+    }
+
+    function disableValidation(doc) {
+      doc.querySelectorAll('form').forEach(form => form.setAttribute('novalidate', 'novalidate'));
+      doc.querySelectorAll('[required]').forEach(field => field.removeAttribute('required'));
+      doc.querySelectorAll('input,textarea,select').forEach(field => {
+        field.setCustomValidity('');
+      });
+    }
+
+    function textOf(node) {
+      return (node.textContent || '').replace(/\s+/g, ' ').trim();
+    }
+
+    function routePrimaryAction(current, label) {
+      if (current === 'tenant-portal-login.html' && label === 'Sign in') return 'tenant-portal-dashboard.html';
+      if (current === 'tenant-portal-role-create.html' && label === 'Create role') return 'tenant-portal-role-list.html';
+      if (current === 'tenant-portal-role-edit.html' && label === 'Save changes') return 'tenant-portal-role-list.html';
+      if (current === 'tenant-portal-role-permissions.html' && label === 'Save permissions') return 'tenant-portal-role-view.html';
+      if (current === 'tenant-portal-user-create.html' && label === 'Create user') return 'tenant-portal-user-list.html';
+      if (current === 'tenant-portal-user-edit.html' && label === 'Save changes') return 'tenant-portal-user-list.html';
+      return '';
+    }
+
+    function showEarnDisplayList(doc) {
+      const list = doc.getElementById('list-view');
+      const config = doc.getElementById('config-view');
+      if (!list || !config) return false;
+      config.classList.remove('active');
+      list.classList.add('active');
+      return true;
+    }
+
+    function patchForgotPasswordQuickMode(doc) {
+      const sendCode = doc.getElementById('send-code');
+      const verify = doc.getElementById('verify');
+      const confirm = doc.getElementById('confirm');
+      if (!sendCode || sendCode.dataset.summaryPatched === 'true') return;
+
+      sendCode.dataset.summaryPatched = 'true';
+      sendCode.addEventListener('click', () => {
+        const email = doc.getElementById('email');
+        if (email && !email.value) email.value = 'tenant.admin@example.com';
+      }, true);
+
+      verify.addEventListener('click', () => {
+        const otp = doc.getElementById('otp');
+        if (otp) otp.value = '123456';
+      }, true);
+
+      confirm.addEventListener('click', () => {
+        const password = doc.getElementById('new-password');
+        const confirmPassword = doc.getElementById('confirm-password');
+        if (password) password.value = 'Password@123';
+        if (confirmPassword) confirmPassword.value = 'Password@123';
+      }, true);
+    }
+
+    function patchQuickActions(doc, current) {
+      if (doc.body.dataset.summaryQuickActions === 'true') return;
+      doc.body.dataset.summaryQuickActions = 'true';
+
+      doc.addEventListener('click', event => {
+        const button = event.target.closest('button');
+        if (!button) return;
+
+        const label = textOf(button);
+        const route = routePrimaryAction(current, label);
+        if (route) {
+          event.preventDefault();
+          event.stopPropagation();
+          loadScreen(route);
+          return;
+        }
+
+        if (current === 'tenant-portal-earn-display.html' && label.startsWith('Save ')) {
+          event.preventDefault();
+          event.stopPropagation();
+          showEarnDisplayList(doc);
+          return;
+        }
+
+        if (current === 'tenant-portal-profile.html' && label === 'Save') {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }, true);
+
+      doc.addEventListener('submit', event => {
+        const label = textOf(doc.activeElement);
+        const route = routePrimaryAction(current, label);
+        event.preventDefault();
+        if (route) loadScreen(route);
+      }, true);
+    }
+
+    function patchBlankLinks(doc) {
+      const fallback = {
+        'Dashboard': 'tenant-portal-dashboard.html',
+        'Assigned Brands': 'tenant-portal-assigned-brands.html',
+        'Brands': 'tenant-portal-assigned-brands.html',
+        'Earn display': 'tenant-portal-earn-display.html',
+        'Transactions': 'tenant-portal-transaction-list.html',
+        'Roles': 'tenant-portal-role-list.html',
+        'Accounts': 'tenant-portal-user-list.html',
+        'Profile': 'tenant-portal-profile.html',
+        'Logout': 'tenant-portal-login.html'
+      };
+
+      doc.querySelectorAll('a[href="#"]').forEach(link => {
+        const text = link.textContent.replace(/[▦◇◫▤⚙⌃•]/g, '').trim();
+        const target = Object.keys(fallback).find(key => text.includes(key));
+        if (!target) return;
+        link.setAttribute('href', fallback[target]);
+      });
+    }
+
+    function addLogoutMenuItem(doc) {
+      const profileLink = Array.from(doc.querySelectorAll('nav a')).find(link => textOf(link) === 'Profile');
+      if (!profileLink || doc.querySelector('nav a[data-summary-logout="true"]')) return;
+
+      const logoutLink = doc.createElement('a');
+      logoutLink.href = 'tenant-portal-login.html';
+      logoutLink.textContent = 'Logout';
+      logoutLink.dataset.summaryLogout = 'true';
+      logoutLink.addEventListener('click', event => {
+        event.preventDefault();
+        loadScreen('tenant-portal-login.html');
+      });
+
+      profileLink.insertAdjacentElement('afterend', logoutLink);
+    }
+
+    frame.addEventListener('load', () => {
+      let doc;
+      try {
+        doc = frame.contentDocument;
+      } catch (error) {
+        return;
+      }
+
+      const current = fileName(frame.contentWindow.location.pathname);
+      disableValidation(doc);
+      if (current === 'tenant-portal-login.html') {
+        patchLoginNavigation(doc);
+      }
+      if (current === 'tenant-portal-forgot-password.html') {
+        patchForgotPasswordQuickMode(doc);
+      }
+      patchQuickActions(doc, current);
+      patchBlankLinks(doc);
+      addLogoutMenuItem(doc);
+    });
+  </script>
+</body>
+</html>

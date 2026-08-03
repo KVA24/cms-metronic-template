@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480">
+  <defs>
+    <style>
+      .box{fill:#fff;stroke:#cfd8e3;stroke-width:1.5}
+      .primary{fill:#eef8f8;stroke:#8fd2d8;stroke-width:1.5}
+      .warn{fill:#fff7df;stroke:#e7bd55;stroke-width:1.5}
+      .danger{fill:#fff1f3;stroke:#ef9aa5;stroke-width:1.5}
+      .text{font-family:Arial,Helvetica,sans-serif;font-size:14px;fill:#17212f;font-weight:700}
+      .small{font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#667085}
+      .label{font-family:Arial,Helvetica,sans-serif;font-size:11px;fill:#475467;font-weight:700}
+      .arrow{stroke:#667085;stroke-width:1.8;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#667085"/>
+    </marker>
+  </defs>
+
+  <!-- Main flow -->
+  <rect x="20" y="40" width="150" height="80" rx="8" class="primary"/>
+  <text x="54" y="72" class="text">Brand System</text>
+  <text x="45" y="96" class="small">Order / Refund event</text>
+
+  <path d="M170 80 H210" class="arrow"/>
+
+  <rect x="210" y="40" width="160" height="80" rx="8" class="box"/>
+  <text x="257" y="72" class="text">Order API</text>
+  <text x="238" y="96" class="small">Validate request</text>
+
+  <path d="M370 80 H410" class="arrow"/>
+
+  <rect x="410" y="40" width="190" height="80" rx="8" class="primary"/>
+  <text x="449" y="72" class="text">Transaction / Order</text>
+  <text x="455" y="96" class="small">Create Pending Order</text>
+
+  <path d="M600 80 H640" class="arrow"/>
+
+  <rect x="640" y="40" width="190" height="80" rx="8" class="box"/>
+  <text x="697" y="72" class="text">Order Item</text>
+  <text x="681" y="96" class="small">Một hoặc nhiều item</text>
+
+  <path d="M830 80 H870" class="arrow"/>
+
+  <rect x="870" y="40" width="290" height="80" rx="8" class="warn"/>
+  <text x="937" y="72" class="text">Commission Resolution</text>
+  <text x="909" y="96" class="small">Brand commission · Tenant share</text>
+
+  <!-- Refund branch -->
+  <path d="M735 120 V180 H515 V220" class="arrow"/>
+  <text x="616" y="172" class="label">REFUND</text>
+
+  <rect x="400" y="220" width="230" height="80" rx="8" class="box"/>
+  <text x="450" y="252" class="text">Adjustment History</text>
+  <text x="444" y="276" class="small">Before / After values</text>
+
+  <!-- Exception branch -->
+  <path d="M1080 120 V220" class="arrow"/>
+  <text x="1090" y="174" class="label">FAILED</text>
+
+  <rect x="930" y="220" width="230" height="80" rx="8" class="danger"/>
+  <text x="1015" y="252" class="text">Exception</text>
+  <text x="967" y="276" class="small">Update rule · Retry</text>
+
+  <!-- Aggregation -->
+  <path d="M970 120 V170 H750 V360" class="arrow"/>
+  <text x="846" y="162" class="label">SUCCESS</text>
+
+  <path d="M515 300 V400 H630" class="arrow"/>
+  <path d="M1045 300 V330 H840 V360" class="arrow"/>
+  <text x="918" y="322" class="label">RETRY SUCCESS</text>
+
+  <rect x="630" y="360" width="260" height="80" rx="8" class="primary"/>
+  <text x="696" y="392" class="text">Order Aggregation</text>
+  <text x="663" y="416" class="small">Amounts · Status · Updated</text>
+
+  <path d="M890 400 H950" class="arrow"/>
+
+  <rect x="950" y="360" width="210" height="80" rx="8" class="box"/>
+  <text x="1013" y="392" class="text">CMS / Portal</text>
+  <text x="997" y="416" class="small">List · Detail · History</text>
+</svg>

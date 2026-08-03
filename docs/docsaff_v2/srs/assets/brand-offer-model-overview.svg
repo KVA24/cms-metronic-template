@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="300" viewBox="0 0 1040 300">
+  <defs><style>.box{fill:#fff;stroke:#cfd8e3;stroke-width:1.5;rx:8}.head{fill:#eef8f8;stroke:#8fd2d8;stroke-width:1.5;rx:8}.text{font-family:Arial,Helvetica,sans-serif;font-size:14px;fill:#17212f;font-weight:700}.small{font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#667085}.arrow{stroke:#667085;stroke-width:2;fill:none;marker-end:url(#arrow)}</style><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#667085"/></marker></defs>
+  <rect x="24" y="112" width="140" height="76" class="head"/><text x="54" y="145" class="text">Admin/Ops</text><text x="48" y="166" class="small">CMS user</text>
+  <path d="M164 150 H224" class="arrow"/>
+  <rect x="224" y="42" width="210" height="216" class="box"/><text x="304" y="74" class="text">CMS</text><text x="260" y="112" class="small">Brand Management</text><text x="260" y="145" class="small">Category Mapping &amp; Commission</text><text x="260" y="178" class="small">Offer Management</text><text x="260" y="211" class="small">Audit actions</text>
+  <path d="M434 150 H494" class="arrow"/>
+  <rect x="494" y="42" width="230" height="216" class="box"/><text x="556" y="74" class="text">Affiliate Platform</text><text x="530" y="112" class="small">Brand Repository</text><text x="530" y="145" class="small">Offer Repository</text><text x="530" y="178" class="small">Commission Rule Repository</text><text x="530" y="211" class="small">Audit Log</text>
+  <path d="M724 150 H784" class="arrow"/>
+  <rect x="784" y="78" width="220" height="144" class="box"/><text x="826" y="112" class="text">Runtime</text><text x="820" y="145" class="small">Order Success Handler</text><text x="820" y="178" class="small">Commission Calculation</text>
+</svg>
