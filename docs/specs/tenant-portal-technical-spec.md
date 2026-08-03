@@ -335,7 +335,7 @@ The ADMIN Foundation checkpoint is mandatory. Role/Account tasks and Assigned Br
 - [x] T5–T11: Dashboard, Roles, Permissions, Accounts and Profile
 - [x] T12–T15: Assigned Brands, visibility and Earn Display
 - [x] T16–T17: Transaction list, export, detail and history
-- [ ] T18: Traceability and final regression
+- [x] T18: Traceability and final regression
 
 ### 18.3 Phase T1 — TENANT access foundation
 
@@ -391,14 +391,14 @@ The ADMIN Foundation checkpoint is mandatory. Role/Account tasks and Assigned Br
 | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | ------------------------------------------------------- | ------------------------------ | ---- |
 | T16 ✅ | Implement Tenant Transaction list/filter/sort/pagination and mock export lifecycle scoped by session Tenant. Only Tenant-approved financial fields are projected. | TA, ADMIN A21  | `features/tenant/transactions/{model,api,hooks,ui}`     | TP-TXN-001 list/export/scope   | M    |
 | T17 ✅ | Implement Transaction detail/items/history for seeded Pending/Confirmed/Cancelled and item statuses; cross-Tenant IDs are denied.                                 | T16, ADMIN A22 | Transaction detail/service/model/test files             | Status and isolation matrix    | M    |
-| T18    | Complete TP AC-to-test/manual traceability, full four-role/locale/responsive regression and focused spec fixes.                                                   | T2–T17         | `docs/specs/*`, `tests/tenant-*.test.ts`, focused fixes | Traceability script; full gate | M    |
+| T18 ✅ | Complete TP AC-to-test/manual traceability, full four-role/locale/responsive regression and focused spec fixes.                                                   | T2–T17         | `docs/specs/*`, `tests/tenant-*.test.ts`, focused fixes | Traceability script; full gate | M    |
 
 #### Checkpoint Done — TENANT Portal
 
-- [ ] All nine TP use cases, including TP-ROLE-001, are implemented and traceable.
-- [ ] Tenant isolation is verified for lists, details, mutations and export requests.
-- [ ] `npm run lint && npm test && npm run build` passes.
-- [ ] ADMIN A26 legacy cleanup may now begin.
+- [x] All nine TP use cases, including TP-ROLE-001, are implemented and traceable.
+- [x] Tenant isolation is verified for lists, details, mutations and export requests.
+- [x] `npm run lint && npm test && npm run build` passes.
+- [x] ADMIN A26 legacy cleanup may now begin.
 
 ## 19. Risks and mitigations
 

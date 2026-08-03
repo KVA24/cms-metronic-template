@@ -132,6 +132,7 @@ export function TenantTransactionListPage() {
           <label className="space-y-1 text-sm">
             <span>{t('TENANT_TRANSACTIONS.DATE_FROM')}</span>
             <Input
+              name="transactionDateFrom"
               type="date"
               value={draft.dateFrom ?? ''}
               onChange={(event) =>
@@ -142,6 +143,7 @@ export function TenantTransactionListPage() {
           <label className="space-y-1 text-sm">
             <span>{t('TENANT_TRANSACTIONS.DATE_TO')}</span>
             <Input
+              name="transactionDateTo"
               type="date"
               aria-invalid={dateError}
               value={draft.dateTo ?? ''}
@@ -158,6 +160,7 @@ export function TenantTransactionListPage() {
           <label className="space-y-1 text-sm">
             <span>{t('TENANT_TRANSACTIONS.KEYWORD')}</span>
             <Input
+              name="transactionKeyword"
               maxLength={100}
               value={draft.search ?? ''}
               onChange={(event) =>
@@ -168,6 +171,7 @@ export function TenantTransactionListPage() {
           <label className="space-y-1 text-sm">
             <span>{t('TENANT_TRANSACTIONS.BRAND')}</span>
             <select
+              name="transactionBrand"
               className="h-9 w-full rounded-md border border-input bg-background px-3"
               value={draft.brandId ?? ''}
               onChange={(event) =>
@@ -185,6 +189,7 @@ export function TenantTransactionListPage() {
           <label className="space-y-1 text-sm">
             <span>{t('TENANT_TRANSACTIONS.STATUS')}</span>
             <select
+              name="transactionStatus"
               className="h-9 w-full rounded-md border border-input bg-background px-3"
               value={draft.status ?? ''}
               onChange={(event) =>
