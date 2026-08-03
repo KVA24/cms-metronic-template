@@ -1,14 +1,22 @@
-import type { AuthSession, TenantRole } from '../../../../shared/contracts';
+import type {
+  AuthSession,
+  PermissionCode,
+  TenantRole,
+} from '../../../../shared/contracts';
 import { mockData } from '../../../../shared/mocks/mock-data';
 import type {
+  TenantRoleCreateInput,
   TenantRoleDetail,
   TenantRoleListItem,
   TenantRoleListResult,
   TenantRoleQuery,
+  TenantRoleUpdateInput,
 } from '../model/tenant-role';
+import { tenantRoleCreateSchema } from '../model/tenant-role';
 import {
   getAssignedUserCount,
   getPermissionCoverage,
+  wouldRemoveLastTenantAdministrator,
 } from '../model/tenant-role-permissions';
 
 function assertAccess(session: AuthSession, permission: 'roles.view') {
@@ -21,6 +29,49 @@ function assertAccess(session: AuthSession, permission: 'roles.view') {
   }
   const tenant = mockData.tenants.find(({ id }) => id === session.tenantId);
   if (!tenant || tenant.status !== 'ACTIVE') throw new Error('FORBIDDEN');
+}
+
+function assertMutationAccess(
+  session: AuthSession,
+  permission: 'roles.create' | 'roles.edit' | 'roles.delete_disable',
+) {
+  if (
+    session.portalType !== 'TENANT' ||
+    !session.tenantId ||
+    !session.permissions.includes(permission)
+  ) {
+    throw new Error('FORBIDDEN');
+  }
+  const tenant = mockData.tenants.find(({ id }) => id === session.tenantId);
+  if (!tenant || tenant.status !== 'ACTIVE') throw new Error('FORBIDDEN');
+}
+
+function findCustomRole(session: AuthSession, roleId: string) {
+  const role = mockData.tenantRoles.find(
+    ({ id, tenantId }) => id === roleId && tenantId === session.tenantId,
+  );
+  if (!role) throw new Error('ROLE_NOT_FOUND');
+  if (role.type === 'SYSTEM') throw new Error('SYSTEM_ROLE_IMMUTABLE');
+  return role;
+}
+
+function writeAudit(
+  session: AuthSession,
+  action: string,
+  roleId: string,
+  before?: TenantRole,
+  after?: TenantRole,
+) {
+  mockData.auditRecords.push({
+    id: `audit-tenant-role-${mockData.auditRecords.length + 1}`,
+    actorId: session.user.id,
+    action,
+    entityType: 'TENANT_ROLE',
+    entityId: roleId,
+    occurredAt: '2026-08-03T10:00:00.000Z',
+    before: before ? structuredClone(before) : undefined,
+    after: after ? structuredClone(after) : undefined,
+  });
 }
 
 function project(session: AuthSession, role: TenantRole): TenantRoleListItem {
@@ -48,19 +99,22 @@ export const tenantRoleService = {
   ): Promise<TenantRoleListResult> {
     assertAccess(session, 'roles.view');
     const keyword = query.search?.trim().toLocaleLowerCase() ?? '';
-    const roles = mockData.tenantRoles
-      .filter(({ tenantId }) => tenantId === session.tenantId)
-      .filter((role) => !query.status || role.status === query.status)
-      .filter(
-        ({ code, name, description }) =>
-          !keyword ||
-          [code, name, description].some((value) =>
-            value.toLocaleLowerCase().includes(keyword),
-          ),
+    const roles: TenantRole[] = [];
+    for (const role of mockData.tenantRoles) {
+      if (role.tenantId !== session.tenantId) continue;
+      if (query.status && role.status !== query.status) continue;
+      if (
+        keyword &&
+        ![role.code, role.name, role.description].some((value) =>
+          value.toLocaleLowerCase().includes(keyword),
+        )
       )
-      .sort((left, right) =>
-        left.code.localeCompare(right.code, undefined, { sensitivity: 'base' }),
-      );
+        continue;
+      roles.push(role);
+    }
+    roles.sort((left, right) =>
+      left.code.localeCompare(right.code, undefined, { sensitivity: 'base' }),
+    );
     const page = Math.max(1, query.page);
     const pageSize = Math.max(1, query.pageSize);
     const totalPages = Math.max(1, Math.ceil(roles.length / pageSize));
@@ -95,5 +149,92 @@ export const tenantRoleService = {
       updatedAt: role.updatedAt,
       version: role.version,
     });
+  },
+
+  async create(
+    session: AuthSession,
+    input: TenantRoleCreateInput,
+  ): Promise<TenantRoleDetail> {
+    assertMutationAccess(session, 'roles.create');
+    const parsed = tenantRoleCreateSchema.parse({
+      ...input,
+      code: input.code.trim().toUpperCase(),
+    });
+    if (
+      mockData.tenantRoles.some(
+        ({ tenantId, code }) =>
+          tenantId === session.tenantId &&
+          code.toLocaleLowerCase() === parsed.code.toLocaleLowerCase(),
+      )
+    ) {
+      throw new Error('ROLE_ID_EXISTS');
+    }
+    const role: TenantRole = {
+      id: `role-${session.tenantId!.replace('tenant-', '')}-${parsed.code.toLocaleLowerCase()}`,
+      tenantId: session.tenantId!,
+      code: parsed.code,
+      name: parsed.name,
+      description: parsed.description,
+      type: 'CUSTOM',
+      status: parsed.status,
+      permissions: [] as PermissionCode[],
+      createdBy: session.user.id,
+      createdAt: '2026-08-03T10:00:00.000Z',
+      updatedBy: session.user.id,
+      updatedAt: '2026-08-03T10:00:00.000Z',
+      version: 1,
+    };
+    mockData.tenantRoles.push(role);
+    writeAudit(session, 'CREATE_TENANT_ROLE', role.id, undefined, role);
+    return this.getDetail(session, role.id);
+  },
+
+  async update(
+    session: AuthSession,
+    roleId: string,
+    input: TenantRoleUpdateInput,
+  ): Promise<TenantRoleDetail> {
+    assertMutationAccess(session, 'roles.edit');
+    const role = findCustomRole(session, roleId);
+    const parsed = tenantRoleCreateSchema.omit({ code: true }).parse(input);
+    if (role.version !== input.version)
+      throw new Error('ROLE_VERSION_CONFLICT');
+    if (
+      parsed.status === 'INACTIVE' &&
+      wouldRemoveLastTenantAdministrator(
+        role,
+        [],
+        mockData.tenantRoles,
+        mockData.authAccounts,
+      )
+    ) {
+      throw new Error('LAST_TENANT_ADMIN');
+    }
+    const before = structuredClone(role);
+    Object.assign(role, {
+      ...parsed,
+      updatedBy: session.user.id,
+      updatedAt: '2026-08-03T10:05:00.000Z',
+      version: role.version + 1,
+    });
+    if (role.status === 'INACTIVE') {
+      for (const account of mockData.authAccounts) {
+        if (account.tenantRoleId === role.id) {
+          account.sessionRevokedAt = role.updatedAt;
+        }
+      }
+    }
+    writeAudit(session, 'UPDATE_TENANT_ROLE', role.id, before, role);
+    return this.getDetail(session, role.id);
+  },
+
+  async delete(session: AuthSession, roleId: string): Promise<void> {
+    assertMutationAccess(session, 'roles.delete_disable');
+    const role = findCustomRole(session, roleId);
+    if (getAssignedUserCount(role.id, mockData.authAccounts) > 0) {
+      throw new Error('ROLE_IN_USE');
+    }
+    mockData.tenantRoles.splice(mockData.tenantRoles.indexOf(role), 1);
+    writeAudit(session, 'DELETE_TENANT_ROLE', role.id, role);
   },
 };

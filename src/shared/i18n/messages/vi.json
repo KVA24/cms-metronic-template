@@ -287,6 +287,34 @@
     "COVERAGE": "module có đầy đủ quyền",
     "CREATED": "Ngày tạo",
     "UPDATED": "Cập nhật",
+    "FORM": {
+      "CREATE_TITLE": "Thêm vai trò",
+      "EDIT_TITLE": "Chỉnh sửa vai trò",
+      "CREATE": "Tạo vai trò",
+      "SAVE": "Lưu thay đổi",
+      "CREATE_SUCCESS": "Tạo vai trò thành công.",
+      "UPDATE_SUCCESS": "Cập nhật vai trò thành công.",
+      "DISCARD": "Bỏ các thay đổi vai trò chưa lưu?",
+      "INACTIVE_WARNING": "{{count}} tài khoản được gán sẽ mất quyền truy cập hiệu lực và session hiện tại bị thu hồi."
+    },
+    "DELETE": {
+      "TITLE": "Xóa vai trò?",
+      "DESCRIPTION": "Xóa {{code}} — {{name}}? Vai trò chỉ bị xóa sau khi bạn xác nhận.",
+      "CONFIRM": "Xóa vai trò",
+      "SUCCESS": "Xóa vai trò thành công",
+      "IN_USE": "Vai trò đang được sử dụng và không thể xóa.",
+      "ERROR": "Không thể xóa vai trò."
+    },
+    "ERRORS": {
+      "ROLE_ID_REQUIRED": "Mã vai trò là bắt buộc.",
+      "ROLE_ID_FORMAT": "Mã vai trò chỉ gồm chữ hoa, số và dấu gạch ngang.",
+      "ROLE_ID_EXISTS": "Mã vai trò đã tồn tại.",
+      "ROLE_NAME_REQUIRED": "Tên vai trò là bắt buộc.",
+      "ROLE_NAME_MAX": "Tên vai trò không được vượt quá 100 ký tự.",
+      "ROLE_REMARK_MAX": "Mô tả không được vượt quá 500 ký tự.",
+      "ROLE_VERSION_CONFLICT": "Vai trò đã thay đổi. Hãy tải lại và thử lại.",
+      "LAST_TENANT_ADMIN": "Thao tác này sẽ loại bỏ quản trị viên Tenant cuối cùng."
+    },
     "TYPES": { "SYSTEM": "Hệ thống", "CUSTOM": "Tùy chỉnh" }
   },
   "ADMIN_DASHBOARD": {

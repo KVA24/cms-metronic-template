@@ -287,6 +287,34 @@
     "COVERAGE": "modules with full permission coverage",
     "CREATED": "Created",
     "UPDATED": "Updated",
+    "FORM": {
+      "CREATE_TITLE": "Add role",
+      "EDIT_TITLE": "Edit role",
+      "CREATE": "Create role",
+      "SAVE": "Save changes",
+      "CREATE_SUCCESS": "Role created successfully.",
+      "UPDATE_SUCCESS": "Role updated successfully.",
+      "DISCARD": "Discard unsaved role changes?",
+      "INACTIVE_WARNING": "{{count}} assigned account(s) will lose effective access and their current sessions will be revoked."
+    },
+    "DELETE": {
+      "TITLE": "Delete role?",
+      "DESCRIPTION": "Delete {{code}} — {{name}}? The role is not removed until you confirm.",
+      "CONFIRM": "Delete role",
+      "SUCCESS": "Role deleted successfully",
+      "IN_USE": "This role is currently in use and cannot be deleted.",
+      "ERROR": "The role could not be deleted."
+    },
+    "ERRORS": {
+      "ROLE_ID_REQUIRED": "Role ID is required.",
+      "ROLE_ID_FORMAT": "Role ID may contain uppercase letters, numbers and hyphens only.",
+      "ROLE_ID_EXISTS": "Role ID already exists.",
+      "ROLE_NAME_REQUIRED": "Role Name is required.",
+      "ROLE_NAME_MAX": "Role Name must not exceed 100 characters.",
+      "ROLE_REMARK_MAX": "Remark must not exceed 500 characters.",
+      "ROLE_VERSION_CONFLICT": "This role changed. Reload and try again.",
+      "LAST_TENANT_ADMIN": "This change would remove the final Tenant administrator."
+    },
     "TYPES": { "SYSTEM": "System", "CUSTOM": "Custom" }
   },
   "ADMIN_DASHBOARD": {

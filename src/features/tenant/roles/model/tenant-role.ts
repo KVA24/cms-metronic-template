@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import type {
   PageQuery,
   PageResult,
@@ -40,3 +41,27 @@ export const TENANT_ROLE_DEFAULT_QUERY: TenantRoleQuery = {
   sortBy: 'code',
   sortDirection: 'asc',
 };
+
+export const tenantRoleCreateSchema = z.object({
+  code: z
+    .string()
+    .trim()
+    .min(1, 'ROLE_ID_REQUIRED')
+    .regex(/^[A-Z0-9-]+$/, 'ROLE_ID_FORMAT'),
+  name: z
+    .string()
+    .trim()
+    .min(1, 'ROLE_NAME_REQUIRED')
+    .max(100, 'ROLE_NAME_MAX'),
+  description: z.string().trim().max(500, 'ROLE_REMARK_MAX'),
+  status: z.enum(['ACTIVE', 'INACTIVE']),
+});
+
+export type TenantRoleCreateInput = z.infer<typeof tenantRoleCreateSchema>;
+
+export interface TenantRoleUpdateInput {
+  name: string;
+  description: string;
+  status: TenantRole['status'];
+  version: number;
+}

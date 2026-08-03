@@ -1,7 +1,11 @@
 import type { AuthSession } from '@/shared/contracts';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { tenantRoleService } from '../api/tenant-role-service';
-import type { TenantRoleQuery } from '../model/tenant-role';
+import type {
+  TenantRoleCreateInput,
+  TenantRoleQuery,
+  TenantRoleUpdateInput,
+} from '../model/tenant-role';
 
 export const tenantRoleKeys = {
   all: ['tenant-roles'] as const,
@@ -33,4 +37,30 @@ export function useTenantRoleDetail(
     enabled: Boolean(session && roleId),
     retry: false,
   });
+}
+
+export function useTenantRoleMutations(session: AuthSession | null) {
+  const queryClient = useQueryClient();
+  const refresh = () =>
+    queryClient.invalidateQueries({ queryKey: tenantRoleKeys.all });
+  const create = useMutation({
+    mutationFn: (input: TenantRoleCreateInput) =>
+      tenantRoleService.create(session!, input),
+    onSuccess: refresh,
+  });
+  const update = useMutation({
+    mutationFn: ({
+      roleId,
+      input,
+    }: {
+      roleId: string;
+      input: TenantRoleUpdateInput;
+    }) => tenantRoleService.update(session!, roleId, input),
+    onSuccess: refresh,
+  });
+  const remove = useMutation({
+    mutationFn: (roleId: string) => tenantRoleService.delete(session!, roleId),
+    onSuccess: refresh,
+  });
+  return { create, update, remove };
 }

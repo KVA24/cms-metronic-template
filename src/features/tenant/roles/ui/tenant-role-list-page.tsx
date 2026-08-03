@@ -5,6 +5,14 @@ import { Alert, AlertDescription, AlertIcon } from '@/shared/ui/atoms/alert';
 import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent } from '@/shared/ui/atoms/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/shared/ui/atoms/dialog';
 import { Input } from '@/shared/ui/atoms/input';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
@@ -18,9 +26,14 @@ import {
 import { Container } from '@/shared/ui/molecules/container';
 import { AlertCircle, ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useTenantRoles } from '../hooks/use-tenant-roles';
+import { toast } from 'sonner';
+import {
+  useTenantRoleMutations,
+  useTenantRoles,
+} from '../hooks/use-tenant-roles';
 import {
   TENANT_ROLE_DEFAULT_QUERY,
+  type TenantRoleListItem,
   type TenantRoleQuery,
 } from '../model/tenant-role';
 
@@ -30,11 +43,30 @@ export function TenantRoleListPage() {
   const [query, setQuery] = useState(TENANT_ROLE_DEFAULT_QUERY);
   const [draft, setDraft] = useState(query);
   const roles = useTenantRoles(session, query);
+  const mutations = useTenantRoleMutations(session);
+  const [selectedRole, setSelectedRole] = useState<TenantRoleListItem | null>(
+    null,
+  );
   const canCreate = session?.permissions.includes('roles.create');
 
   const apply = () => setQuery({ ...draft, page: 1 });
   const selectClassName =
     'h-9 w-full rounded-md border border-input bg-background px-3 text-sm';
+  const confirmDelete = async () => {
+    if (!selectedRole) return;
+    try {
+      await mutations.remove.mutateAsync(selectedRole.id);
+      toast.success(t('TENANT_ROLES.DELETE.SUCCESS'));
+      setSelectedRole(null);
+    } catch (error) {
+      const code = error instanceof Error ? error.message : 'UNKNOWN';
+      toast.error(
+        code === 'ROLE_IN_USE'
+          ? t('TENANT_ROLES.DELETE.IN_USE')
+          : t('TENANT_ROLES.DELETE.ERROR'),
+      );
+    }
+  };
 
   return (
     <Container width="fluid" className="space-y-5 pb-8">
@@ -173,6 +205,7 @@ export function TenantRoleListPage() {
                             <button
                               type="button"
                               className="text-destructive hover:underline"
+                              onClick={() => setSelectedRole(role)}
                             >
                               {t('COMMON.DELETE')}
                             </button>
@@ -216,6 +249,36 @@ export function TenantRoleListPage() {
           </CardContent>
         </Card>
       )}
+      <Dialog
+        open={Boolean(selectedRole)}
+        onOpenChange={(open) => !open && setSelectedRole(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t('TENANT_ROLES.DELETE.TITLE')}</DialogTitle>
+            <DialogDescription>
+              {t('TENANT_ROLES.DELETE.DESCRIPTION', {
+                code: selectedRole?.code,
+                name: selectedRole?.name,
+              })}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setSelectedRole(null)}>
+              {t('COMMON.CANCEL')}
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={confirmDelete}
+              disabled={mutations.remove.isPending}
+            >
+              {mutations.remove.isPending
+                ? t('COMMON.DELETING')
+                : t('TENANT_ROLES.DELETE.CONFIRM')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Container>
   );
 }

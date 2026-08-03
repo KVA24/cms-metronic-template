@@ -167,6 +167,9 @@ const TenantRoleListPage = lazy(() =>
 const TenantRoleDetailPage = lazy(() =>
   import('@/features/tenant/roles/ui/tenant-role-detail-page').then((m) => ({ default: m.TenantRoleDetailPage })),
 );
+const TenantRoleFormPage = lazy(() =>
+  import('@/features/tenant/roles/ui/tenant-role-form-page').then((m) => ({ default: m.TenantRoleFormPage })),
+);
 const AccountManagementPage = lazy(() =>
   import('@/features/account').then((m) => ({ default: m.AccountPage })),
 );
@@ -236,9 +239,9 @@ export function AppRoutingSetup() {
             <Route path="/tenant/transactions" element={<TenantRoutePlaceholderPage />} />
             <Route path="/tenant/transactions/:transactionId" element={<TenantRoutePlaceholderPage />} />
             <Route path="/tenant/account/roles" element={<TenantRoleListPage />} />
-            <Route path="/tenant/account/roles/new" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/account/roles/new" element={<TenantRoleFormPage mode="create" />} />
             <Route path="/tenant/account/roles/:roleId" element={<TenantRoleDetailPage />} />
-            <Route path="/tenant/account/roles/:roleId/edit" element={<TenantRoutePlaceholderPage />} />
+            <Route path="/tenant/account/roles/:roleId/edit" element={<TenantRoleFormPage mode="edit" />} />
             <Route path="/tenant/account/roles/:roleId/permissions" element={<TenantRoutePlaceholderPage />} />
             <Route path="/tenant/account/users" element={<TenantRoutePlaceholderPage />} />
             <Route path="/tenant/account/users/new" element={<TenantRoutePlaceholderPage />} />
