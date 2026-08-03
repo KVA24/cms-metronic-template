@@ -166,6 +166,8 @@ export const adminTenantAccountService = {
       roleCode: parsed.roleCode,
       roles: [{ roleCode: parsed.roleCode, roleName: parsed.roleCode }],
       failedLoginCount: 0,
+      lockedAt: null,
+      sessionRevokedAt: null,
       createdSource: 'CMS',
       createdBy: actorId,
       createdAt: at,

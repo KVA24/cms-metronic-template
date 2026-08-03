@@ -18,11 +18,13 @@ export const mockAuthService = {
     const account = mockData.authAccounts.find(
       (item) =>
         item.username.toLowerCase() === normalizedUsername &&
-        item.password === input.password &&
         item.portalType === input.portalType,
     );
 
-    if (!account) fail('INVALID_CREDENTIALS');
+    if (!account) {
+      const belongsToOtherPortal = mockData.authAccounts.some((item) => item.username.toLowerCase() === normalizedUsername);
+      fail(input.portalType === 'TENANT' && !belongsToOtherPortal ? 'USERNAME_NOT_FOUND' : 'INVALID_CREDENTIALS');
+    }
     if (account.status === 'INACTIVE') fail('ACCOUNT_INACTIVE');
     if (account.status === 'LOCKED') fail('ACCOUNT_LOCKED');
 
@@ -31,6 +33,24 @@ export const mockAuthService = {
         (item) => item.id === account.tenantId,
       );
       if (!tenant || tenant.status !== 'ACTIVE') fail('TENANT_INACTIVE');
+      const role = mockData.tenantRoles.find(
+        (item) => item.tenantId === account.tenantId && item.code === account.roleCode,
+      );
+      if (!role || role.status !== 'ACTIVE') fail('ROLE_INACTIVE');
+      if (account.password !== input.password) {
+        account.failedLoginCount += 1;
+        if (account.failedLoginCount >= 5) {
+          account.status = 'LOCKED';
+          account.lockedAt = '2026-08-03T23:00:00.000Z';
+          account.sessionRevokedAt = account.lockedAt;
+          mockData.auditRecords.push({ id: `audit-auth-${mockData.auditRecords.length + 1}`, actorId: account.id, action: 'LOCK_TENANT_ACCOUNT', entityType: 'TENANT_ACCOUNT', entityId: account.id, occurredAt: account.lockedAt });
+          fail('ACCOUNT_LOCKED');
+        }
+        fail('INVALID_PASSWORD');
+      }
+      account.failedLoginCount = 0;
+    } else if (account.password !== input.password) {
+      fail('INVALID_CREDENTIALS');
     }
 
     const user: AuthUser = {

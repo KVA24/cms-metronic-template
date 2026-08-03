@@ -1,4 +1,5 @@
 import { type ExceptionResolutionItem, type MockData } from '../contracts';
+import { getPermissionsForRole, type TenantRoleCode } from '../permissions';
 
 const seedData: MockData = {
   authAccounts: [
@@ -30,6 +31,10 @@ const seedData: MockData = {
       'TENANT_FINANCE',
       'tenant-bamboo',
     ),
+  ],
+  tenantRoles: [
+    ...createSystemTenantRoles('tenant-lotus'),
+    ...createSystemTenantRoles('tenant-bamboo'),
   ],
   tenants: [
     {
@@ -565,6 +570,8 @@ function createAuthAccount(
     roles: [{ roleCode, roleName: roleCode }],
     phone: '',
     failedLoginCount: 0,
+    lockedAt: null,
+    sessionRevokedAt: null,
     createdSource: id === 'tenant-marketing' ? 'TENANT_PORTAL' : 'CMS',
     createdBy: tenantId ? 'cms-admin' : 'system',
     createdAt: '2026-07-01T08:00:00.000Z',
@@ -572,6 +579,25 @@ function createAuthAccount(
     updatedAt: '2026-07-01T08:00:00.000Z',
     version: 1,
   };
+}
+
+function createSystemTenantRoles(tenantId: string): MockData['tenantRoles'] {
+  const roles: TenantRoleCode[] = ['TENANT_ADMIN', 'TENANT_MARKETING_OPS', 'TENANT_VIEWER', 'TENANT_FINANCE'];
+  return roles.map((code) => ({
+    id: `role-${tenantId.replace('tenant-', '')}-${code.toLowerCase().replace('tenant_', '').replaceAll('_', '-')}`,
+    tenantId,
+    code,
+    name: code.replace('TENANT_', '').replaceAll('_', ' '),
+    description: `System role ${code}`,
+    type: 'SYSTEM',
+    status: 'ACTIVE',
+    permissions: [...getPermissionsForRole(code)],
+    createdBy: 'system',
+    createdAt: '2026-07-01T08:00:00.000Z',
+    updatedBy: 'system',
+    updatedAt: '2026-07-01T08:00:00.000Z',
+    version: 1,
+  }));
 }
 
 function createTransactionItem(

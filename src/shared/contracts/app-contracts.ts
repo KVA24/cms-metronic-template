@@ -52,7 +52,25 @@ export interface MockAuthAccount extends AuthUser {
   roleCode: SystemRoleCode;
   phone: string;
   failedLoginCount: number;
+  lockedAt: string | null;
+  sessionRevokedAt: string | null;
   createdSource: 'CMS' | 'TENANT_PORTAL';
+  createdBy: string;
+  createdAt: string;
+  updatedBy: string;
+  updatedAt: string;
+  version: number;
+}
+
+export interface TenantRole {
+  id: string;
+  tenantId: string;
+  code: string;
+  name: string;
+  description: string;
+  type: 'SYSTEM' | 'CUSTOM';
+  status: 'ACTIVE' | 'INACTIVE';
+  permissions: PermissionCode[];
   createdBy: string;
   createdAt: string;
   updatedBy: string;
@@ -398,6 +416,7 @@ export interface CategoryDependencySummary {
 
 export interface MockData {
   authAccounts: MockAuthAccount[];
+  tenantRoles: TenantRole[];
   tenants: Tenant[];
   brands: Brand[];
   brandCategoryMappings: BrandCategoryMapping[];
