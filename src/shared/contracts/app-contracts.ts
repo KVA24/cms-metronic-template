@@ -1,6 +1,9 @@
+import type { PermissionCode, SystemRoleCode } from '../permissions';
+
 export type PortalType = 'ADMIN' | 'TENANT';
 export type UiLocale = 'en' | 'vi';
 export type EntityStatus = 'DRAFT' | 'ACTIVE' | 'INACTIVE';
+export type AccountStatus = 'ACTIVE' | 'INACTIVE' | 'LOCKED';
 
 export interface PageQuery {
   page: number;
@@ -28,6 +31,40 @@ export interface AppError {
   code: string;
   messageKey: string;
   fieldErrors?: Record<string, string>;
+}
+
+export interface AuthUser {
+  id: string;
+  username: string;
+  displayName: string;
+  email: string;
+  status: AccountStatus;
+  tenantId?: string;
+  roles: Array<{
+    roleCode: SystemRoleCode;
+    roleName: string;
+  }>;
+}
+
+export interface MockAuthAccount extends AuthUser {
+  portalType: PortalType;
+  password: string;
+  roleCode: SystemRoleCode;
+}
+
+export interface AuthSession {
+  portalType: PortalType;
+  user: AuthUser;
+  roleCode: SystemRoleCode;
+  permissions: PermissionCode[];
+  tenantId?: string;
+  locale: UiLocale;
+}
+
+export interface AuthLoginInput {
+  portalType: PortalType;
+  username: string;
+  password: string;
 }
 
 export interface Tenant {
@@ -84,6 +121,7 @@ export interface AuditRecord {
 }
 
 export interface MockData {
+  authAccounts: MockAuthAccount[];
   tenants: Tenant[];
   brands: Brand[];
   offers: Offer[];

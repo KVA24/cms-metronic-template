@@ -1,6 +1,36 @@
-import { type MockData } from '@/shared/contracts';
+import { type MockData } from '../contracts';
 
 const seedData: MockData = {
+  authAccounts: [
+    createAuthAccount('cms-admin', 'admin@cms.test', 'CMS_ADMIN'),
+    createAuthAccount('cms-finance', 'finance@cms.test', 'CMS_FINANCE'),
+    createAuthAccount('cms-cskh', 'cskh@cms.test', 'CMS_CSKH'),
+    createAuthAccount('cms-operation', 'operation@cms.test', 'CMS_OPERATION'),
+    createAuthAccount(
+      'tenant-admin',
+      'admin@lotus.test',
+      'TENANT_ADMIN',
+      'tenant-lotus',
+    ),
+    createAuthAccount(
+      'tenant-marketing',
+      'marketing@lotus.test',
+      'TENANT_MARKETING_OPS',
+      'tenant-lotus',
+    ),
+    createAuthAccount(
+      'tenant-viewer',
+      'viewer@lotus.test',
+      'TENANT_VIEWER',
+      'tenant-lotus',
+    ),
+    createAuthAccount(
+      'tenant-finance',
+      'finance@bamboo.test',
+      'TENANT_FINANCE',
+      'tenant-bamboo',
+    ),
+  ],
   tenants: [
     {
       id: 'tenant-lotus',
@@ -101,6 +131,28 @@ const seedData: MockData = {
   auditRecords: [],
 };
 
+function createAuthAccount(
+  id: string,
+  username: string,
+  roleCode: MockData['authAccounts'][number]['roleCode'],
+  tenantId?: string,
+): MockData['authAccounts'][number] {
+  const portalType = tenantId ? 'TENANT' : 'ADMIN';
+
+  return {
+    id,
+    username,
+    displayName: username.split('@')[0],
+    email: username,
+    status: 'ACTIVE',
+    portalType,
+    password: tenantId ? 'Tenant123!' : 'Admin123!',
+    roleCode,
+    tenantId,
+    roles: [{ roleCode, roleName: roleCode }],
+  };
+}
+
 function cloneSeed(): MockData {
   return structuredClone(seedData);
 }
@@ -110,6 +162,11 @@ export const mockData = cloneSeed();
 export function resetMockData(): void {
   const freshData = cloneSeed();
 
+  mockData.authAccounts.splice(
+    0,
+    mockData.authAccounts.length,
+    ...freshData.authAccounts,
+  );
   mockData.tenants.splice(0, mockData.tenants.length, ...freshData.tenants);
   mockData.brands.splice(0, mockData.brands.length, ...freshData.brands);
   mockData.offers.splice(0, mockData.offers.length, ...freshData.offers);
