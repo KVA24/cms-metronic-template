@@ -1,10 +1,15 @@
 import assert from 'node:assert/strict';
 import { beforeEach, describe, it } from 'node:test';
 import { adminBrandService } from '../src/features/admin/brands/api/admin-brand-service';
+import { adminBrandMappingService } from '../src/features/admin/brands/api/admin-brand-mapping-service';
 import {
   adminBrandSchema,
   ADMIN_BRAND_DEFAULT_QUERY,
 } from '../src/features/admin/brands/model/admin-brand';
+import {
+  adminBrandMappingRowSchema,
+  ADMIN_BRAND_MAPPING_DEFAULT_QUERY,
+} from '../src/features/admin/brands/model/admin-brand-mapping';
 import { mockData, resetMockData } from '../src/shared/mocks/mock-data';
 
 const validBrandInput = {
@@ -269,6 +274,127 @@ describe('ADMIN brand detail, edit and deactivate service', () => {
           'CMS_FINANCE',
           'cms-finance',
         ),
+      /FORBIDDEN/,
+    );
+  });
+});
+
+const validMappingInput = {
+  categoryId: 'category-travel',
+  brandCategoryCode: 'TRAVEL_NEW',
+  brandCategoryName: 'Travel new',
+  isDefault: false,
+  commissionType: 'PERCENTAGE' as const,
+  commissionValue: 7.25,
+  effectiveFrom: '2026-08-03',
+  effectiveTo: '',
+  status: 'DRAFT' as const,
+};
+
+describe('ADMIN Brand Category Mapping & Commission service', () => {
+  beforeEach(() => resetMockData());
+
+  it('validates code, conditional commission and effective period fields', () => {
+    assert.equal(adminBrandMappingRowSchema.safeParse(validMappingInput).success, true);
+    assert.equal(adminBrandMappingRowSchema.safeParse({ ...validMappingInput, brandCategoryCode: 'bad code' }).success, false);
+    assert.equal(adminBrandMappingRowSchema.safeParse({ ...validMappingInput, commissionValue: 100.001 }).success, false);
+    assert.equal(adminBrandMappingRowSchema.safeParse({ ...validMappingInput, commissionType: 'FIXED_AMOUNT', commissionValue: 0 }).success, false);
+    assert.equal(adminBrandMappingRowSchema.safeParse({ ...validMappingInput, effectiveTo: '2026-08-02' }).success, false);
+  });
+
+  it('lists mappings with filters and a computed effective state', async () => {
+    const result = await adminBrandMappingService.listMappings(
+      'brand-foodnest',
+      { ...ADMIN_BRAND_MAPPING_DEFAULT_QUERY, keyword: 'food', status: 'ACTIVE' },
+      'CMS_OPERATION',
+    );
+
+    assert.equal(result.items.length, 1);
+    assert.equal(result.items[0]?.categoryName, 'Ẩm thực');
+    assert.equal(result.items[0]?.effectiveState, 'CURRENT');
+    assert.equal(result.items[0]?.canEdit, true);
+  });
+
+  it('saves multiple valid rows only after every row passes', async () => {
+    const saved = await adminBrandMappingService.saveBatch(
+      'brand-stylehub',
+      [
+        validMappingInput,
+        { ...validMappingInput, categoryId: 'category-food-dining', brandCategoryCode: 'FOOD_NEW', commissionType: 'FIXED_AMOUNT', commissionValue: 25000 },
+      ],
+      'CMS_ADMIN',
+      'cms-admin',
+    );
+
+    assert.equal(saved.length, 2);
+    assert.equal(mockData.brandCategoryMappings.filter(({ brandId }) => brandId === 'brand-stylehub').length, 3);
+    assert.equal(mockData.auditRecords.at(-1)?.action, 'SAVE_BRAND_CATEGORY_MAPPINGS');
+  });
+
+  it('rolls back the complete batch when one row is invalid', async () => {
+    const before = structuredClone(mockData.brandCategoryMappings);
+    await assert.rejects(
+      () => adminBrandMappingService.saveBatch(
+        'brand-stylehub',
+        [validMappingInput, { ...validMappingInput, brandCategoryCode: 'invalid code' }],
+        'CMS_ADMIN',
+        'cms-admin',
+      ),
+      /MAPPING_BATCH_INVALID/,
+    );
+    assert.deepEqual(mockData.brandCategoryMappings, before);
+  });
+
+  it('rejects overlapping Active codes and leaves stored mappings unchanged', async () => {
+    const before = structuredClone(mockData.brandCategoryMappings);
+    await assert.rejects(
+      () => adminBrandMappingService.saveBatch(
+        'brand-foodnest',
+        [{ ...validMappingInput, categoryId: 'category-food-dining', brandCategoryCode: 'food', status: 'ACTIVE' }],
+        'CMS_ADMIN',
+        'cms-admin',
+      ),
+      /BRAND_CATEGORY_CODE_DUPLICATE/,
+    );
+    assert.deepEqual(mockData.brandCategoryMappings, before);
+  });
+
+  it('atomically moves the default and keeps exactly one for an Active Brand', async () => {
+    const saved = await adminBrandMappingService.saveBatch(
+      'brand-foodnest',
+      [{ ...validMappingInput, isDefault: true, status: 'ACTIVE' }],
+      'CMS_OPERATION',
+      'cms-operation',
+    );
+    const activeDefaults = mockData.brandCategoryMappings.filter(
+      ({ brandId, status, isDefault }) => brandId === 'brand-foodnest' && status === 'ACTIVE' && isDefault,
+    );
+
+    assert.equal(saved[0]?.isDefault, true);
+    assert.deepEqual(activeDefaults.map(({ brandCategoryCode }) => brandCategoryCode), ['TRAVEL_NEW']);
+  });
+
+  it('does not allow the only default of an Active Brand to become inactive', async () => {
+    const current = mockData.brandCategoryMappings.find(({ id }) => id === 'mapping-foodnest-food')!;
+    await assert.rejects(
+      () => adminBrandMappingService.saveBatch(
+        'brand-foodnest',
+        [{ ...validMappingInput, id: current.id, categoryId: current.categoryId, brandCategoryCode: current.brandCategoryCode, isDefault: true, status: 'INACTIVE' }],
+        'CMS_ADMIN',
+        'cms-admin',
+      ),
+      /BRAND_DEFAULT_CATEGORY_REQUIRED/,
+    );
+    assert.equal(current.status, 'ACTIVE');
+  });
+
+  it('enforces view and edit permissions in the service', async () => {
+    await assert.rejects(
+      () => adminBrandMappingService.listMappings('brand-foodnest', ADMIN_BRAND_MAPPING_DEFAULT_QUERY, 'CMS_CSKH'),
+      /FORBIDDEN/,
+    );
+    await assert.rejects(
+      () => adminBrandMappingService.saveBatch('brand-foodnest', [validMappingInput], 'CMS_FINANCE', 'cms-finance'),
       /FORBIDDEN/,
     );
   });

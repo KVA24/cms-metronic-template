@@ -70,6 +70,11 @@ const AdminBrandDetailPage = lazy(() =>
     default: m.AdminBrandDetailPage,
   })),
 );
+const AdminBrandMappingPage = lazy(() =>
+  import('@/features/admin/brands/ui/admin-brand-mapping-page').then((m) => ({
+    default: m.AdminBrandMappingPage,
+  })),
+);
 const AccountManagementPage = lazy(() =>
   import('@/features/account').then((m) => ({ default: m.AccountPage })),
 );
@@ -114,6 +119,7 @@ export function AppRoutingSetup() {
             />
             <Route path="/admin/brands" element={<AdminBrandListPage />} />
             <Route path="/admin/brands/new" element={<AdminBrandCreatePage />} />
+            <Route path="/admin/brands/:brandId/categories" element={<AdminBrandMappingPage />} />
             <Route path="/admin/brands/:brandId" element={<AdminBrandDetailPage />} />
             <Route
               path="/auth/welcome-message"
