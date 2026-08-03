@@ -1007,6 +1007,7 @@
     "BRAND_ORDER_ID": "Brand Order ID",
     "CREATED": "Phát sinh",
     "RETRY": "Retry",
+    "RETRY_NAMED": "Thử lại Exception {{id}}",
     "VIEW_NAMED": "Xem Exception {{id}}",
     "EMPTY": "Không có Exception phù hợp bộ lọc.",
     "RANGE": "{{from}}–{{to}} trên {{total}}",
@@ -1027,6 +1028,25 @@
       "DATE_RANGE_INVALID": "Ngày phát sinh đến không được trước ngày phát sinh từ.",
       "EXPORT_ERROR": "Không thể hoàn tất export Exception."
     }
+  },
+  "ADMIN_EXCEPTION_DETAIL": {
+    "TITLE": "Chi tiết Exception",
+    "BACK": "Quay lại danh sách Exception",
+    "RETRY": "Thử lại",
+    "RETRYING": "Đang thử lại…",
+    "RETRY_TITLE": "Thử lại Exception này?",
+    "RETRY_DESCRIPTION": "Lệnh mock sẽ retry {{id}} và chuyển sang Đã xử lý. Không chạy remediation backend thật.",
+    "CONFIRM_RETRY": "Xác nhận thử lại",
+    "RETRY_SUCCESS": "Mock retry đã hoàn tất và Exception được chuyển sang Đã xử lý.",
+    "CLASSIFICATION": "Phân loại & tham chiếu",
+    "DIAGNOSTICS": "Thông tin chẩn đoán",
+    "EXCEPTION_ID": "Exception ID", "GROUP": "Nhóm", "TYPE": "Loại", "REQUEST_ID": "Request ID", "ORDER_ID": "Order ID", "BRAND_ORDER_ID": "Brand Order ID", "CLICK_ID": "Click ID", "TENANT": "Tenant", "BRAND": "Brand", "CREATED": "Phát sinh", "RESOLVED": "Đã xử lý", "RETRY_COUNT": "Số lần retry",
+    "ENDPOINT": "Endpoint", "AUTH_METHOD": "Phương thức xác thực", "FAILURE_MESSAGE": "Thông báo lỗi", "CLICK_AT": "Thời điểm click", "ORDER_SUCCESS_AT": "Thời điểm Order thành công",
+    "CHECK": "Bước kiểm tra", "RESULT": "Kết quả", "MESSAGE": "Thông tin", "ITEM": "Item", "QUANTITY": "Số lượng", "FINAL_AMOUNT": "Giá trị cuối", "BRAND_SOURCE": "Nguồn Brand Commission", "GROSS_COMMISSION": "Gross Commission", "TENANT_SOURCE": "Nguồn Tenant Share", "TENANT_SHARE": "Tenant Share", "ISSUE": "Vấn đề",
+    "EVENT_TYPE": "Loại event", "EVENT_AT": "Thời điểm event", "REASON": "Lý do", "ITEM_CODES": "Mã Item", "TRANSACTION_STATUS": "Trạng thái Transaction",
+    "ITEM_COUNT": "Số Item", "FAILURE_CODE": "Mã lỗi", "FAILED_OPERATION": "Thao tác lỗi", "ROLLBACK_RESULT": "Kết quả rollback",
+    "RESULTS": { "PASS": "Đạt", "FAILED": "Lỗi", "NOT_EXECUTED": "Chưa thực hiện" },
+    "ERRORS": { "LOAD_ERROR": "Không thể tải chi tiết Exception.", "RETRY_ERROR": "Không thể hoàn tất mock retry." }
   },
   "DASHBOARD": {
     "PAGE": {

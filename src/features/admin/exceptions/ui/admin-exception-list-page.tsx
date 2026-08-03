@@ -5,6 +5,7 @@ import { useAuthSession } from '@/shared/stores/auth-store';
 import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent } from '@/shared/ui/atoms/card';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/shared/ui/atoms/dialog';
 import { Input } from '@/shared/ui/atoms/input';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/atoms/table';
@@ -12,7 +13,7 @@ import { Container } from '@/shared/ui/molecules/container';
 import { ChevronLeft, ChevronRight, Download, Eye, RotateCcw, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
-import { useAdminExceptionFilters, useAdminExceptions, useExportAdminExceptions } from '../hooks/use-admin-exceptions';
+import { useAdminExceptionFilters, useAdminExceptions, useExportAdminExceptions, useRetryAdminException } from '../hooks/use-admin-exceptions';
 import { ADMIN_EXCEPTION_DEFAULT_QUERY, EXCEPTION_GROUPS, validateExceptionDateRange, type AdminExceptionQuery } from '../model/admin-exception';
 
 const selectClassName = 'h-10 w-full rounded-md border border-input bg-background px-3 text-sm';
@@ -25,9 +26,11 @@ export function AdminExceptionListPage() {
   const [query, setQuery] = useState(ADMIN_EXCEPTION_DEFAULT_QUERY);
   const [filters, setFilters] = useState(query);
   const [dateError, setDateError] = useState('');
+  const [retryId, setRetryId] = useState('');
   const result = useAdminExceptions(query, roleCode);
   const options = useAdminExceptionFilters(roleCode);
   const exportMutation = useExportAdminExceptions();
+  const retryMutation = useRetryAdminException();
   const setFilter = <K extends keyof AdminExceptionQuery>(field: K, value: AdminExceptionQuery[K]) => setFilters((current) => ({ ...current, [field]: value }));
   const apply = (event: FormEvent) => {
     event.preventDefault();
@@ -40,6 +43,11 @@ export function AdminExceptionListPage() {
     if (!session || exportMutation.isPending) return;
     try { const request = await exportMutation.mutateAsync({ query, roleCode, actorId: session.user.id }); toast.success(t('ADMIN_EXCEPTIONS.EXPORT_SUCCESS', { file: request.fileName, rows: request.rowCount })); }
     catch { toast.error(t('ADMIN_EXCEPTIONS.ERRORS.EXPORT_ERROR')); }
+  };
+  const retryException = async () => {
+    if (!session || !retryId || retryMutation.isPending) return;
+    try { await retryMutation.mutateAsync({ exceptionId: retryId, roleCode, actorId: session.user.id }); setRetryId(''); toast.success(t('ADMIN_EXCEPTION_DETAIL.RETRY_SUCCESS')); }
+    catch { toast.error(t('ADMIN_EXCEPTION_DETAIL.ERRORS.RETRY_ERROR')); }
   };
   if (result.isLoading || options.isLoading) return <Container className="space-y-4 py-6"><Skeleton className="h-12 w-72" /><Skeleton className="h-96 w-full" /></Container>;
   if (!result.data || !options.data || result.error || options.error) return <Container className="py-8 text-sm text-destructive">{t('ADMIN_EXCEPTIONS.ERRORS.LOAD_ERROR')}</Container>;
@@ -55,8 +63,9 @@ export function AdminExceptionListPage() {
       <label className="space-y-1"><span className="text-sm font-medium">{t('ADMIN_EXCEPTIONS.DATE_TO')}</span><Input id="exception-date-to" name="dateTo" type="date" value={filters.dateTo} onChange={(event) => setFilter('dateTo', event.target.value)} />{dateError && <p className="text-xs text-destructive" role="alert">{t(`ADMIN_EXCEPTIONS.ERRORS.${dateError}`)}</p>}</label>
       <div className="flex items-end gap-2 lg:col-span-3"><Button type="submit" variant="mono"><Search />{t('COMMON.APPLY')}</Button><Button type="button" variant="outline" onClick={reset}><RotateCcw />{t('COMMON.RESET')}</Button></div>
     </form></CardContent></Card>
-    <Card><CardContent className="space-y-4 overflow-x-auto pt-6">{result.data.items.length === 0 ? <div className="py-12 text-center text-sm text-muted-foreground">{t('ADMIN_EXCEPTIONS.EMPTY')}</div> : <Table><TableHeader><TableRow><TableHead>{t('ADMIN_EXCEPTIONS.EXCEPTION_ID')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.ORDER_ID')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.BRAND_ORDER_ID')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.TENANT')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.BRAND')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.GROUP')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.TYPE')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.SEVERITY')}</TableHead><TableHead>{t('COMMON.STATUS_1')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.CREATED')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.RETRY')}</TableHead><TableHead>{t('COMMON.ACTIONS')}</TableHead></TableRow></TableHeader><TableBody>{result.data.items.map((item) => <TableRow key={item.id}><TableCell className="font-medium">{item.id}</TableCell><TableCell>{item.orderId ?? '-'}</TableCell><TableCell>{item.brandOrderId ?? '-'}</TableCell><TableCell>{item.tenantName ?? '-'}</TableCell><TableCell>{item.brandName ?? '-'}</TableCell><TableCell>{t(`ADMIN_EXCEPTIONS.GROUPS.${item.group}`)}</TableCell><TableCell className="font-mono text-xs">{item.type}</TableCell><TableCell><Badge variant={item.severity === 'HIGH' ? 'destructive' : item.severity === 'MEDIUM' ? 'warning' : 'secondary'} appearance="light">{t(`ADMIN_EXCEPTIONS.SEVERITIES.${item.severity}`)}</Badge></TableCell><TableCell><Badge variant={item.status === 'RESOLVED' ? 'success' : 'warning'} appearance="light">{t(`ADMIN_EXCEPTIONS.STATUS.${item.status}`)}</Badge></TableCell><TableCell>{dateFormatter.format(new Date(item.createdAt))}</TableCell><TableCell>{item.retryCount}</TableCell><TableCell><Button size="icon" variant="outline" asChild><Link aria-label={t('ADMIN_EXCEPTIONS.VIEW_NAMED', { id: item.id })} to={`/admin/exceptions/${item.id}`}><Eye /></Link></Button></TableCell></TableRow>)}</TableBody></Table>}
+    <Card><CardContent className="space-y-4 overflow-x-auto pt-6">{result.data.items.length === 0 ? <div className="py-12 text-center text-sm text-muted-foreground">{t('ADMIN_EXCEPTIONS.EMPTY')}</div> : <Table><TableHeader><TableRow><TableHead>{t('ADMIN_EXCEPTIONS.EXCEPTION_ID')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.ORDER_ID')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.BRAND_ORDER_ID')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.TENANT')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.BRAND')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.GROUP')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.TYPE')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.SEVERITY')}</TableHead><TableHead>{t('COMMON.STATUS_1')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.CREATED')}</TableHead><TableHead>{t('ADMIN_EXCEPTIONS.RETRY')}</TableHead><TableHead>{t('COMMON.ACTIONS')}</TableHead></TableRow></TableHeader><TableBody>{result.data.items.map((item) => <TableRow key={item.id}><TableCell className="font-medium">{item.id}</TableCell><TableCell>{item.orderId ?? '-'}</TableCell><TableCell>{item.brandOrderId ?? '-'}</TableCell><TableCell>{item.tenantName ?? '-'}</TableCell><TableCell>{item.brandName ?? '-'}</TableCell><TableCell>{t(`ADMIN_EXCEPTIONS.GROUPS.${item.group}`)}</TableCell><TableCell className="font-mono text-xs">{item.type}</TableCell><TableCell><Badge variant={item.severity === 'HIGH' ? 'destructive' : item.severity === 'MEDIUM' ? 'warning' : 'secondary'} appearance="light">{t(`ADMIN_EXCEPTIONS.SEVERITIES.${item.severity}`)}</Badge></TableCell><TableCell><Badge variant={item.status === 'RESOLVED' ? 'success' : 'warning'} appearance="light">{t(`ADMIN_EXCEPTIONS.STATUS.${item.status}`)}</Badge></TableCell><TableCell>{dateFormatter.format(new Date(item.createdAt))}</TableCell><TableCell>{item.retryCount}</TableCell><TableCell><div className="flex gap-2"><Button size="icon" variant="outline" asChild><Link aria-label={t('ADMIN_EXCEPTIONS.VIEW_NAMED', { id: item.id })} to={`/admin/exceptions/${item.id}`}><Eye /></Link></Button>{result.data.canRetry && item.status === 'OPEN' && <Button size="icon" variant="outline" aria-label={t('ADMIN_EXCEPTIONS.RETRY_NAMED', { id: item.id })} onClick={() => setRetryId(item.id)}><RotateCcw /></Button>}</div></TableCell></TableRow>)}</TableBody></Table>}
       <div className="flex items-center justify-between text-sm text-muted-foreground"><span>{t('ADMIN_EXCEPTIONS.RANGE', { from: result.data.totalItems ? (result.data.page - 1) * result.data.pageSize + 1 : 0, to: Math.min(result.data.page * result.data.pageSize, result.data.totalItems), total: result.data.totalItems })}</span><div className="flex gap-2"><Button size="icon" variant="outline" aria-label={t('ADMIN_EXCEPTIONS.PREVIOUS')} disabled={result.data.page <= 1} onClick={() => setQuery((current) => ({ ...current, page: current.page - 1 }))}><ChevronLeft /></Button><Button size="icon" variant="outline" aria-label={t('ADMIN_EXCEPTIONS.NEXT')} disabled={result.data.page >= result.data.totalPages} onClick={() => setQuery((current) => ({ ...current, page: current.page + 1 }))}><ChevronRight /></Button></div></div>
     </CardContent></Card>
+    <Dialog open={Boolean(retryId)} onOpenChange={(open) => { if (!open) setRetryId(''); }}><DialogContent><DialogHeader><DialogTitle>{t('ADMIN_EXCEPTION_DETAIL.RETRY_TITLE')}</DialogTitle><DialogDescription>{t('ADMIN_EXCEPTION_DETAIL.RETRY_DESCRIPTION', { id: retryId })}</DialogDescription></DialogHeader><DialogFooter><DialogClose asChild><Button variant="outline">{t('COMMON.CANCEL')}</Button></DialogClose><Button variant="mono" disabled={retryMutation.isPending} onClick={retryException}>{retryMutation.isPending ? t('ADMIN_EXCEPTION_DETAIL.RETRYING') : t('ADMIN_EXCEPTION_DETAIL.CONFIRM_RETRY')}</Button></DialogFooter></DialogContent></Dialog>
   </Container>;
 }

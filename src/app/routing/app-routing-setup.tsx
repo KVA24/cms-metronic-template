@@ -150,6 +150,11 @@ const AdminExceptionListPage = lazy(() =>
     default: m.AdminExceptionListPage,
   })),
 );
+const AdminExceptionDetailPage = lazy(() =>
+  import('@/features/admin/exceptions/ui/admin-exception-detail-page').then((m) => ({
+    default: m.AdminExceptionDetailPage,
+  })),
+);
 const AccountManagementPage = lazy(() =>
   import('@/features/account').then((m) => ({ default: m.AccountPage })),
 );
@@ -211,6 +216,7 @@ export function AppRoutingSetup() {
             <Route path="/admin/transactions" element={<AdminTransactionListPage />} />
             <Route path="/admin/transactions/:transactionId" element={<AdminTransactionDetailPage />} />
             <Route path="/admin/exceptions" element={<AdminExceptionListPage />} />
+            <Route path="/admin/exceptions/:exceptionId" element={<AdminExceptionDetailPage />} />
             <Route
               path="/auth/welcome-message"
               element={<AuthWelcomeMessagePage />}

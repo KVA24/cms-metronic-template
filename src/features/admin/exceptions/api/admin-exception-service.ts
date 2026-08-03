@@ -1,5 +1,6 @@
 import { mockData } from '../../../../shared/mocks/mock-data';
 import { hasPermission, type AdminRoleCode } from '../../../../shared/permissions';
+import type { PlatformException } from '../../../../shared/contracts';
 import { validateExceptionDateRange, type AdminExceptionQuery } from '../model/admin-exception';
 
 function assertPermission(roleCode: AdminRoleCode, permission: 'exceptions.view' | 'exceptions.export' | 'exceptions.retry') {
@@ -44,6 +45,40 @@ export const adminExceptionService = {
   async getFilterOptions(roleCode: AdminRoleCode) {
     assertPermission(roleCode, 'exceptions.view');
     return structuredClone({ tenants: mockData.tenants, brands: mockData.brands });
+  },
+
+  async getDetail(exceptionId: string, roleCode: AdminRoleCode) {
+    assertPermission(roleCode, 'exceptions.view');
+    const exception = mockData.exceptions.find(({ id }) => id === exceptionId);
+    if (!exception) throw new Error('EXCEPTION_NOT_FOUND');
+    const tenant = exception.tenantId ? mockData.tenants.find(({ id }) => id === exception.tenantId) ?? null : null;
+    const brand = exception.brandId ? mockData.brands.find(({ id }) => id === exception.brandId) ?? null : null;
+    const relatedTransaction = exception.orderId ? mockData.transactions.find(({ id }) => id === exception.orderId) ?? null : null;
+    return structuredClone({ exception, tenant, brand, relatedTransaction, canRetry: exception.status === 'OPEN' && hasPermission(roleCode, 'exceptions.retry') });
+  },
+
+  async retry(exceptionId: string, roleCode: AdminRoleCode, actorId: string, outcome: 'SUCCESS' | 'FAILED') {
+    assertPermission(roleCode, 'exceptions.retry');
+    const exception = mockData.exceptions.find(({ id }) => id === exceptionId);
+    if (!exception) throw new Error('EXCEPTION_NOT_FOUND');
+    if (exception.status === 'RESOLVED') throw new Error('ALREADY_RESOLVED');
+    const before = structuredClone(exception) as PlatformException;
+    exception.retryCount += 1;
+    if (outcome === 'SUCCESS') {
+      exception.status = 'RESOLVED';
+      exception.resolvedAt = '2026-08-03T22:45:00.000Z';
+    }
+    mockData.auditRecords.push({
+      id: `audit-exception-${mockData.auditRecords.length + 1}`,
+      actorId,
+      action: `RETRY_EXCEPTION_${outcome}`,
+      entityType: 'EXCEPTION',
+      entityId: exception.id,
+      occurredAt: '2026-08-03T22:45:00.000Z',
+      before,
+      after: structuredClone(exception),
+    });
+    return structuredClone(exception);
   },
 
   async requestExport(query: AdminExceptionQuery, roleCode: AdminRoleCode, actorId: string) {

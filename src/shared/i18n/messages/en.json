@@ -1007,6 +1007,7 @@
     "BRAND_ORDER_ID": "Brand Order ID",
     "CREATED": "Occurred",
     "RETRY": "Retry",
+    "RETRY_NAMED": "Retry Exception {{id}}",
     "VIEW_NAMED": "View Exception {{id}}",
     "EMPTY": "No Exceptions match the current filters.",
     "RANGE": "{{from}}–{{to}} of {{total}}",
@@ -1027,6 +1028,25 @@
       "DATE_RANGE_INVALID": "Occurred To cannot be earlier than Occurred From.",
       "EXPORT_ERROR": "The Exception export could not be completed."
     }
+  },
+  "ADMIN_EXCEPTION_DETAIL": {
+    "TITLE": "Exception Detail",
+    "BACK": "Back to Exceptions",
+    "RETRY": "Retry",
+    "RETRYING": "Retrying…",
+    "RETRY_TITLE": "Retry this Exception?",
+    "RETRY_DESCRIPTION": "This mock call will retry {{id}} and mark it Resolved. No real backend remediation is run.",
+    "CONFIRM_RETRY": "Confirm Retry",
+    "RETRY_SUCCESS": "The mock retry completed and the Exception is now Resolved.",
+    "CLASSIFICATION": "Classification & References",
+    "DIAGNOSTICS": "Diagnostics",
+    "EXCEPTION_ID": "Exception ID", "GROUP": "Group", "TYPE": "Type", "REQUEST_ID": "Request ID", "ORDER_ID": "Order ID", "BRAND_ORDER_ID": "Brand Order ID", "CLICK_ID": "Click ID", "TENANT": "Tenant", "BRAND": "Brand", "CREATED": "Occurred", "RESOLVED": "Resolved", "RETRY_COUNT": "Retry Count",
+    "ENDPOINT": "Endpoint", "AUTH_METHOD": "Authentication Method", "FAILURE_MESSAGE": "Failure Message", "CLICK_AT": "Click Time", "ORDER_SUCCESS_AT": "Order Success Time",
+    "CHECK": "Check", "RESULT": "Result", "MESSAGE": "Message", "ITEM": "Item", "QUANTITY": "Quantity", "FINAL_AMOUNT": "Final Amount", "BRAND_SOURCE": "Brand Commission Source", "GROSS_COMMISSION": "Gross Commission", "TENANT_SOURCE": "Tenant Share Source", "TENANT_SHARE": "Tenant Share", "ISSUE": "Issue",
+    "EVENT_TYPE": "Event Type", "EVENT_AT": "Event Time", "REASON": "Reason", "ITEM_CODES": "Item Codes", "TRANSACTION_STATUS": "Transaction Status",
+    "ITEM_COUNT": "Item Count", "FAILURE_CODE": "Failure Code", "FAILED_OPERATION": "Failed Operation", "ROLLBACK_RESULT": "Rollback Result",
+    "RESULTS": { "PASS": "Pass", "FAILED": "Failed", "NOT_EXECUTED": "Not Executed" },
+    "ERRORS": { "LOAD_ERROR": "Exception detail could not be loaded.", "RETRY_ERROR": "The mock retry could not be completed." }
   },
   "DASHBOARD": {
     "PAGE": {
