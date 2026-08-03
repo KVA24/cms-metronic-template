@@ -313,7 +313,21 @@
       "ROLE_NAME_MAX": "Role Name must not exceed 100 characters.",
       "ROLE_REMARK_MAX": "Remark must not exceed 500 characters.",
       "ROLE_VERSION_CONFLICT": "This role changed. Reload and try again.",
-      "LAST_TENANT_ADMIN": "This change would remove the final Tenant administrator."
+      "LAST_TENANT_ADMIN": "This change would remove the final Tenant administrator.",
+      "INVALID_PERMISSION_SELECTION": "Invalid permission selection."
+    },
+    "PERMISSIONS_PAGE": {
+      "TITLE": "Role permissions",
+      "SAVE": "Save permissions",
+      "SUCCESS": "Permissions saved successfully",
+      "DISCARD": "Discard unsaved permission changes?",
+      "NOTE": "Permissions apply only inside the current Tenant. Full is derived and is never stored as a permission.",
+      "SYSTEM_NOTE": "System Role permissions are managed by the Platform and shown read-only.",
+      "MODULE": "Module",
+      "FULL": "Full",
+      "NOT_APPLICABLE": "Not applicable",
+      "ACTIONS": { "VIEW": "View", "CREATE": "Create", "EDIT": "Edit", "DELETE_DISABLE": "Delete / Disable", "EXPORT": "Export", "PERMISSIONS": "Permissions" },
+      "MODULES": { "DASHBOARD": "Dashboard", "BRANDS": "Assigned Brands", "EARN_DISPLAY": "Earn display", "TRANSACTIONS": "Transactions", "ROLES": "Roles", "USERS": "Accounts", "PROFILE": "Profile" }
     },
     "TYPES": { "SYSTEM": "System", "CUSTOM": "Custom" }
   },

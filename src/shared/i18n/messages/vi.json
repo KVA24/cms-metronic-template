@@ -313,7 +313,21 @@
       "ROLE_NAME_MAX": "Tên vai trò không được vượt quá 100 ký tự.",
       "ROLE_REMARK_MAX": "Mô tả không được vượt quá 500 ký tự.",
       "ROLE_VERSION_CONFLICT": "Vai trò đã thay đổi. Hãy tải lại và thử lại.",
-      "LAST_TENANT_ADMIN": "Thao tác này sẽ loại bỏ quản trị viên Tenant cuối cùng."
+      "LAST_TENANT_ADMIN": "Thao tác này sẽ loại bỏ quản trị viên Tenant cuối cùng.",
+      "INVALID_PERMISSION_SELECTION": "Lựa chọn quyền không hợp lệ."
+    },
+    "PERMISSIONS_PAGE": {
+      "TITLE": "Phân quyền vai trò",
+      "SAVE": "Lưu quyền",
+      "SUCCESS": "Lưu quyền thành công",
+      "DISCARD": "Bỏ các thay đổi quyền chưa lưu?",
+      "NOTE": "Quyền chỉ áp dụng trong Tenant hiện tại. Full là trạng thái dẫn xuất và không được lưu như một quyền.",
+      "SYSTEM_NOTE": "Quyền của vai trò hệ thống do Platform quản lý và chỉ được xem.",
+      "MODULE": "Module",
+      "FULL": "Đầy đủ",
+      "NOT_APPLICABLE": "Không áp dụng",
+      "ACTIONS": { "VIEW": "Xem", "CREATE": "Tạo", "EDIT": "Sửa", "DELETE_DISABLE": "Xóa / Vô hiệu", "EXPORT": "Xuất", "PERMISSIONS": "Phân quyền" },
+      "MODULES": { "DASHBOARD": "Tổng quan", "BRANDS": "Thương hiệu được gán", "EARN_DISPLAY": "Nội dung Earn", "TRANSACTIONS": "Giao dịch", "ROLES": "Vai trò", "USERS": "Tài khoản", "PROFILE": "Hồ sơ" }
     },
     "TYPES": { "SYSTEM": "Hệ thống", "CUSTOM": "Tùy chỉnh" }
   },

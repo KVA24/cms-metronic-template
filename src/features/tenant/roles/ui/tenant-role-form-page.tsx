@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from '@/shared/hooks/use-translations';
 import { useAuthSession } from '@/shared/stores/auth-store';
 import { Alert, AlertDescription, AlertIcon } from '@/shared/ui/atoms/alert';
@@ -35,7 +35,7 @@ export function TenantRoleFormPage({ mode }: { mode: 'create' | 'edit' }) {
   const detail = useTenantRoleDetail(session, mode === 'edit' ? roleId : '');
   const mutations = useTenantRoleMutations(session);
   const [form, setForm] = useState(initialValue);
-  const [initial, setInitial] = useState(initialValue);
+  const initialRef = useRef(initialValue);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -47,14 +47,11 @@ export function TenantRoleFormPage({ mode }: { mode: 'create' | 'edit' }) {
         status: detail.data.status,
       };
       setForm(value);
-      setInitial(value);
+      initialRef.current = value;
     }
   }, [detail.data, mode]);
 
-  const dirty = useMemo(
-    () => JSON.stringify(form) !== JSON.stringify(initial),
-    [form, initial],
-  );
+  const dirty = JSON.stringify(form) !== JSON.stringify(initialRef.current);
   const cancel = () => {
     if (!dirty || window.confirm(t('TENANT_ROLES.FORM.DISCARD'))) {
       navigate('/tenant/account/roles');

@@ -65,3 +65,8 @@ export interface TenantRoleUpdateInput {
   status: TenantRole['status'];
   version: number;
 }
+
+export interface TenantRolePermissionInput {
+  permissions: PermissionCode[];
+  version: number;
+}

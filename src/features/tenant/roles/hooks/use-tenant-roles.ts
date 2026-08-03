@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { tenantRoleService } from '../api/tenant-role-service';
 import type {
   TenantRoleCreateInput,
+  TenantRolePermissionInput,
   TenantRoleQuery,
   TenantRoleUpdateInput,
 } from '../model/tenant-role';
@@ -62,5 +63,15 @@ export function useTenantRoleMutations(session: AuthSession | null) {
     mutationFn: (roleId: string) => tenantRoleService.delete(session!, roleId),
     onSuccess: refresh,
   });
-  return { create, update, remove };
+  const savePermissions = useMutation({
+    mutationFn: ({
+      roleId,
+      input,
+    }: {
+      roleId: string;
+      input: TenantRolePermissionInput;
+    }) => tenantRoleService.savePermissions(session!, roleId, input),
+    onSuccess: refresh,
+  });
+  return { create, update, remove, savePermissions };
 }

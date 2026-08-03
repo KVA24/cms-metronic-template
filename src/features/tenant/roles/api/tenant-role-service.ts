@@ -9,6 +9,7 @@ import type {
   TenantRoleDetail,
   TenantRoleListItem,
   TenantRoleListResult,
+  TenantRolePermissionInput,
   TenantRoleQuery,
   TenantRoleUpdateInput,
 } from '../model/tenant-role';
@@ -16,6 +17,7 @@ import { tenantRoleCreateSchema } from '../model/tenant-role';
 import {
   getAssignedUserCount,
   getPermissionCoverage,
+  isValidTenantPermissionSet,
   wouldRemoveLastTenantAdministrator,
 } from '../model/tenant-role-permissions';
 
@@ -39,6 +41,18 @@ function assertMutationAccess(
     session.portalType !== 'TENANT' ||
     !session.tenantId ||
     !session.permissions.includes(permission)
+  ) {
+    throw new Error('FORBIDDEN');
+  }
+  const tenant = mockData.tenants.find(({ id }) => id === session.tenantId);
+  if (!tenant || tenant.status !== 'ACTIVE') throw new Error('FORBIDDEN');
+}
+
+function assertPermissionAccess(session: AuthSession) {
+  if (
+    session.portalType !== 'TENANT' ||
+    !session.tenantId ||
+    !session.permissions.includes('roles.permissions')
   ) {
     throw new Error('FORBIDDEN');
   }
@@ -236,5 +250,52 @@ export const tenantRoleService = {
     }
     mockData.tenantRoles.splice(mockData.tenantRoles.indexOf(role), 1);
     writeAudit(session, 'DELETE_TENANT_ROLE', role.id, role);
+  },
+
+  async savePermissions(
+    session: AuthSession,
+    roleId: string,
+    input: TenantRolePermissionInput,
+  ): Promise<TenantRoleDetail> {
+    assertPermissionAccess(session);
+    const role = findCustomRole(session, roleId);
+    if (role.version !== input.version)
+      throw new Error('ROLE_VERSION_CONFLICT');
+    if (
+      new Set(input.permissions).size !== input.permissions.length ||
+      !isValidTenantPermissionSet(input.permissions) ||
+      (input.permissions.includes('transactions.export') &&
+        !input.permissions.includes('transactions.view'))
+    ) {
+      throw new Error('INVALID_PERMISSION_SELECTION');
+    }
+    if (
+      wouldRemoveLastTenantAdministrator(
+        role,
+        input.permissions,
+        mockData.tenantRoles,
+        mockData.authAccounts,
+      )
+    ) {
+      throw new Error('LAST_TENANT_ADMIN');
+    }
+    const before = structuredClone(role);
+    role.permissions = [...input.permissions];
+    role.updatedBy = session.user.id;
+    role.updatedAt = '2026-08-03T10:10:00.000Z';
+    role.version += 1;
+    for (const account of mockData.authAccounts) {
+      if (account.tenantRoleId === role.id) {
+        account.sessionRevokedAt = role.updatedAt;
+      }
+    }
+    writeAudit(
+      session,
+      'UPDATE_TENANT_ROLE_PERMISSIONS',
+      role.id,
+      before,
+      role,
+    );
+    return this.getDetail(session, role.id);
   },
 };
