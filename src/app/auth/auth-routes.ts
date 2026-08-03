@@ -1,5 +1,5 @@
 import { createElement, lazy } from 'react';
-import { RouteObject } from 'react-router-dom';
+import { Navigate, RouteObject } from 'react-router-dom';
 import { BrandedLayout } from './layouts/branded';
 import { ClassicLayout } from './layouts/classic';
 
@@ -43,8 +43,15 @@ export const authRoutes: RouteObject[] = [
     element: createElement(BrandedLayout),
     children: [
       {
-        path: 'signin',
+        path: 'login',
         element: createElement(SignInPage),
+      },
+      {
+        path: 'signin',
+        element: createElement(Navigate, {
+          to: '/auth/login?portal=admin',
+          replace: true,
+        }),
       },
       {
         path: 'signup',

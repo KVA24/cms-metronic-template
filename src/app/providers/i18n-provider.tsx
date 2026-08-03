@@ -7,14 +7,9 @@ import {
   useState,
   type PropsWithChildren,
 } from 'react';
-import {
-  I18N_CONFIG_KEY,
-  I18N_DEFAULT_LANGUAGE,
-  I18N_LANGUAGES,
-} from '@/shared/i18n/config';
+import { I18N_DEFAULT_LANGUAGE, I18N_LANGUAGES } from '@/shared/i18n/config';
 import i18n from '@/shared/i18n/i18n';
 import { I18nProviderProps, type Language } from '@/shared/i18n/types';
-import { getData, setData } from '@/shared/lib/storage';
 import { DirectionProvider as RadixDirectionProvider } from '@radix-ui/react-direction';
 
 const getInitialLanguage = () => {
@@ -27,39 +22,7 @@ const getInitialLanguage = () => {
       (lang) => lang.code === langParam,
     );
     if (matchedLanguage) {
-      setData(I18N_CONFIG_KEY, matchedLanguage);
       return matchedLanguage;
-    }
-  }
-
-  const storedData = getData(I18N_CONFIG_KEY);
-
-  // Handle legacy string format (e.g., "en") or new object format
-  if (storedData) {
-    // If it's a string, find the matching language object
-    if (typeof storedData === 'string') {
-      const matchedLanguage = I18N_LANGUAGES.find(
-        (lang) => lang.code === storedData,
-      );
-      if (matchedLanguage) {
-        // Update storage to new format
-        setData(I18N_CONFIG_KEY, matchedLanguage);
-        return matchedLanguage;
-      }
-    }
-    // If it's already an object with a code property, validate it
-    else if (
-      typeof storedData === 'object' &&
-      storedData !== null &&
-      'code' in storedData
-    ) {
-      const currentLanguage = storedData as Language;
-      const isValid = I18N_LANGUAGES.some(
-        (lang) => lang.code === currentLanguage.code,
-      );
-      if (isValid) {
-        return currentLanguage;
-      }
     }
   }
 
@@ -87,7 +50,6 @@ const I18nProvider = ({ children }: PropsWithChildren) => {
   }, [currenLanguage.code]);
 
   const changeLanguage = useCallback((language: Language) => {
-    setData(I18N_CONFIG_KEY, language);
     setCurrenLanguage(language);
     i18n.changeLanguage(language.code);
   }, []);

@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react';
+import {
+  getPortalFromSearchParam,
+  getSafePortalRedirect,
+  isPathAllowedForPortal,
+} from '@/shared/auth';
+import type { PortalType } from '@/shared/contracts';
+import { useTranslations } from '@/shared/hooks/use-translations';
+import { I18N_LANGUAGES } from '@/shared/i18n/config';
 import logger from '@/shared/lib/logger';
 import {
-  clearRememberedUsername,
-  loadRememberedUsername,
-  saveRememberedUsername,
-} from '@/shared/lib/remember-me';
-import { safeRedirect } from '@/shared/lib/safe-redirect';
-import {
   useAuthActions,
+  useAuthSession,
   useAuthStatus,
-  useAuthUser,
 } from '@/shared/stores/auth-store';
 import { Alert, AlertIcon, AlertTitle } from '@/shared/ui/atoms/alert';
 import { Button } from '@/shared/ui/atoms/button';
-import { Checkbox } from '@/shared/ui/atoms/checkbox';
 import {
   Form,
   FormControl,
@@ -24,299 +25,233 @@ import {
 } from '@/shared/ui/atoms/form';
 import { Input } from '@/shared/ui/atoms/input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  AlertCircle,
-  Check,
-  Eye,
-  EyeOff,
-  LoaderCircleIcon,
-} from 'lucide-react';
+import { AlertCircle, Eye, EyeOff, LoaderCircleIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLanguage } from '@/app/providers/i18n-provider';
 import { getSigninSchema, SigninSchemaType } from '../forms/signin-schema';
 
-export function SignInPage() {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+const errorTranslationKeys: Record<string, string> = {
+  INVALID_CREDENTIALS: 'AUTH.SIGNIN.ERROR.INVALID_CREDENTIALS',
+  ACCOUNT_INACTIVE: 'AUTH.SIGNIN.ERROR.ACCOUNT_INACTIVE',
+  ACCOUNT_LOCKED: 'AUTH.SIGNIN.ERROR.ACCOUNT_LOCKED',
+  TENANT_INACTIVE: 'AUTH.SIGNIN.ERROR.TENANT_INACTIVE',
+};
 
-  // Zustand store
-  const user = useAuthUser();
+export function SignInPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { t } = useTranslations();
+  const { currenLanguage, changeLanguage } = useLanguage();
+  const session = useAuthSession();
   const { isAuthenticated, isLoading } = useAuthStatus();
   const { login } = useAuthActions();
-
+  const portalType = getPortalFromSearchParam(searchParams.get('portal'));
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [isLoadingCredentials, setIsLoadingCredentials] = useState(true);
+  const [errorCode, setErrorCode] = useState<string | null>(null);
 
-  // Redirect if already authenticated
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      const nextPath = safeRedirect(searchParams.get('next'));
-      navigate(nextPath, { replace: true });
-    }
-  }, [isAuthenticated, user, navigate, searchParams]);
-
-  // Check for success message from password reset or error messages
-  useEffect(() => {
-    const pwdReset = searchParams.get('pwd_reset');
-    const errorParam = searchParams.get('error');
-    const errorDescription = searchParams.get('error_description');
-
-    if (pwdReset === 'success') {
-      setSuccessMessage(
-        'Your password has been successfully reset. You can now sign in with your new password.',
-      );
-    }
-
-    if (errorParam) {
-      switch (errorParam) {
-        case 'auth_callback_failed':
-          setError(
-            errorDescription || 'Authentication failed. Please try again.',
-          );
-          break;
-        case 'auth_callback_error':
-          setError(
-            errorDescription ||
-              'An error occurred during authentication. Please try again.',
-          );
-          break;
-        case 'auth_token_error':
-          setError(
-            errorDescription ||
-              'Failed to set authentication session. Please try again.',
-          );
-          break;
-        default:
-          setError(
-            errorDescription || 'Authentication error. Please try again.',
-          );
-          break;
-      }
-    }
-  }, [searchParams]);
-
-  const form = useForm<SigninSchemaType>({
-    resolver: zodResolver(getSigninSchema()),
-    defaultValues: {
-      username: '',
-      password: '',
-      otpCode: '',
-      rememberMe: false,
-    },
+  const schema = getSigninSchema({
+    usernameRequired: t('AUTH.SIGNIN.ERROR.USERNAME_REQUIRED'),
+    passwordRequired: t('AUTH.SIGNIN.ERROR.PASSWORD_REQUIRED'),
   });
 
-  // Load the remembered username on mount. Passwords are never persisted.
+  const form = useForm<SigninSchemaType>({
+    resolver: zodResolver(schema),
+    defaultValues: { username: '', password: '' },
+  });
+
   useEffect(() => {
-    const rememberedUsername = loadRememberedUsername();
-    if (rememberedUsername) {
-      form.setValue('username', rememberedUsername);
-      form.setValue('rememberMe', true);
+    if (isAuthenticated && session) {
+      navigate(
+        getSafePortalRedirect(searchParams.get('next'), session.portalType),
+        { replace: true },
+      );
     }
-    setIsLoadingCredentials(false);
-  }, [form]);
+  }, [isAuthenticated, navigate, searchParams, session]);
+
+  const handlePortalChange = (value: string) => {
+    const nextPortal = value as PortalType;
+    const nextParams = new URLSearchParams(searchParams);
+    const nextPath = nextParams.get('next');
+    nextParams.set('portal', nextPortal.toLowerCase());
+    if (nextPath && !isPathAllowedForPortal(nextPath, nextPortal)) {
+      nextParams.delete('next');
+    }
+    setSearchParams(nextParams, { replace: true });
+    setErrorCode(null);
+    form.clearErrors();
+  };
 
   async function onSubmit(values: SigninSchemaType) {
     try {
-      setError(null);
-      logger.log('Attempting to sign in with username:', values.username);
-
-      // Sign in using Zustand store (which calls the API)
-      // reCAPTCHA token is now automatically added by the axios interceptor
-      await login({
-        portalType: 'ADMIN',
-        username: values.username,
-        password: values.password,
+      setErrorCode(null);
+      await login({ portalType, ...values });
+      navigate(getSafePortalRedirect(searchParams.get('next'), portalType), {
+        replace: true,
       });
-
-      // Handle Remember Me
-      if (values.rememberMe) {
-        saveRememberedUsername(values.username);
-      } else {
-        clearRememberedUsername();
-      }
-
-      // Get the 'next' parameter from URL if it exists
-      const nextPath = safeRedirect(searchParams.get('next'));
-
-      // Navigate to the next path
-      navigate(nextPath, { replace: true });
-    } catch (err) {
-      logger.error('Sign-in error:', err);
-
-      // Error is already set in store, but we also set local error for display
-      setError(
-        err instanceof Error
-          ? err.message
-          : 'An unexpected error occurred. Please try again.',
-      );
+    } catch (caughtError) {
+      logger.error('Sign-in error:', caughtError);
+      const code =
+        caughtError instanceof Error ? caughtError.message : 'UNKNOWN';
+      setErrorCode(code);
     }
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="block w-full space-y-5"
+    <div className="space-y-5">
+      <div
+        className="flex items-center justify-end gap-1"
+        aria-label={t('AUTH.SIGNIN.LANGUAGE')}
       >
-        <div className="text-center space-y-1 pb-3">
-          <h1 className="text-2xl font-semibold tracking-tight">Sign In</h1>
-          <p className="text-sm text-muted-foreground">
-            Welcome back! Log in with your credentials.
-          </p>
-        </div>
-
-        {error && (
-          <Alert
-            variant="destructive"
-            appearance="light"
-            onClose={() => setError(null)}
+        {I18N_LANGUAGES.map((language) => (
+          <Button
+            key={language.code}
+            type="button"
+            variant={
+              currenLanguage.code === language.code ? 'secondary' : 'ghost'
+            }
+            size="sm"
+            aria-pressed={currenLanguage.code === language.code}
+            onClick={() => changeLanguage(language)}
           >
-            <AlertIcon>
-              <AlertCircle />
-            </AlertIcon>
-            <AlertTitle>{error}</AlertTitle>
-          </Alert>
-        )}
+            {language.code.toUpperCase()}
+          </Button>
+        ))}
+      </div>
 
-        {successMessage && (
-          <Alert appearance="light" onClose={() => setSuccessMessage(null)}>
-            <AlertIcon>
-              <Check />
-            </AlertIcon>
-            <AlertTitle>{successMessage}</AlertTitle>
-          </Alert>
-        )}
+      <div className="space-y-1 text-center">
+        <h1 className="text-2xl font-semibold tracking-tight">
+          {t('AUTH.SIGNIN.TITLE')}
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          {t('AUTH.SIGNIN.DESCRIPTION')}
+        </p>
+      </div>
 
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter your username"
-                  type="text"
-                  autoComplete="username"
-                  disabled={isLoadingCredentials}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <div
+        className="grid w-full grid-cols-2 gap-2 rounded-lg bg-accent p-1"
+        role="tablist"
+        aria-label={t('AUTH.SIGNIN.PORTAL')}
+      >
+        {(['ADMIN', 'TENANT'] as const).map((portal) => (
+          <Button
+            key={portal}
+            type="button"
+            role="tab"
+            aria-selected={portalType === portal}
+            variant={portalType === portal ? 'secondary' : 'ghost'}
+            className="text-foreground"
+            onClick={() => handlePortalChange(portal)}
+          >
+            {t(`AUTH.SIGNIN.${portal}`)}
+          </Button>
+        ))}
+      </div>
 
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex justify-between items-center gap-2.5">
-                <FormLabel>Password</FormLabel>
-              </div>
-              <div className="relative">
+      {errorCode && (
+        <Alert
+          variant="destructive"
+          appearance="light"
+          onClose={() => setErrorCode(null)}
+        >
+          <AlertIcon>
+            <AlertCircle />
+          </AlertIcon>
+          <AlertTitle>
+            {t(errorTranslationKeys[errorCode] ?? 'AUTH.SIGNIN.ERROR.DEFAULT')}
+          </AlertTitle>
+        </Alert>
+      )}
+
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-5"
+          noValidate
+        >
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('AUTH.SIGNIN.USERNAME')}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Enter your password"
-                    type={passwordVisible ? 'text' : 'password'}
-                    autoComplete="current-password"
-                    disabled={isLoadingCredentials}
+                    placeholder={t('AUTH.SIGNIN.USERNAME_PLACEHOLDER')}
+                    type="email"
+                    autoComplete="username"
                     {...field}
                   />
                 </FormControl>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  mode="icon"
-                  aria-label={
-                    passwordVisible ? 'Hide password' : 'Show password'
-                  }
-                  onClick={() => setPasswordVisible(!passwordVisible)}
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                >
-                  {passwordVisible ? (
-                    <EyeOff className="text-muted-foreground" />
-                  ) : (
-                    <Eye className="text-muted-foreground" />
-                  )}
-                </Button>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="otpCode"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>OTP</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter OTP"
-                  type="text"
-                  autoComplete="one-time-code"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="rememberMe"
-          render={({ field }) => (
-            <FormItem className="flex flex-col space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('AUTH.SIGNIN.PASSWORD')}</FormLabel>
+                <div className="relative">
                   <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
+                    <Input
+                      placeholder={t('AUTH.SIGNIN.PASSWORD_PLACEHOLDER')}
+                      type={passwordVisible ? 'text' : 'password'}
+                      autoComplete="current-password"
+                      className="pr-10"
+                      {...field}
                     />
                   </FormControl>
-                  <FormLabel className="text-sm font-normal cursor-pointer">
-                    Remember me
-                  </FormLabel>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    mode="icon"
+                    aria-label={t(
+                      passwordVisible
+                        ? 'AUTH.SIGNIN.HIDE_PASSWORD'
+                        : 'AUTH.SIGNIN.SHOW_PASSWORD',
+                    )}
+                    onClick={() => setPasswordVisible((visible) => !visible)}
+                    className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                  >
+                    {passwordVisible ? <EyeOff /> : <Eye />}
+                  </Button>
                 </div>
-                {/*<Link*/}
-                {/*  to="/auth/reset-password"*/}
-                {/*  className="text-sm font-semibold text-foreground hover:text-primary"*/}
-                {/*>*/}
-                {/*  Forgot Password?*/}
-                {/*</Link>*/}
-              </div>
-            </FormItem>
-          )}
-        />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? (
-            <span className="flex items-center gap-2">
-              <LoaderCircleIcon className="h-4 w-4 animate-spin" /> Signing
-              in...
-            </span>
-          ) : (
-            'Sign In'
+          {portalType === 'TENANT' && (
+            <div className="text-right">
+              <Link
+                className="text-sm font-medium text-primary hover:underline"
+                to="/auth/tenant/forgot-password"
+              >
+                {t('AUTH.SIGNIN.FORGOT_PASSWORD')}
+              </Link>
+            </div>
           )}
-        </Button>
 
-        {/*<div className="text-center text-sm text-muted-foreground">*/}
-        {/*  Don't have an account?{' '}*/}
-        {/*  <Link*/}
-        {/*    to="/auth/signup"*/}
-        {/*    className="text-sm font-semibold text-foreground hover:text-primary"*/}
-        {/*  >*/}
-        {/*    Sign Up*/}
-        {/*  </Link>*/}
-        {/*</div>*/}
-      </form>
-    </Form>
+          <Button
+            type="submit"
+            variant="mono"
+            className="w-full"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <span className="flex items-center gap-2">
+                <LoaderCircleIcon className="h-4 w-4 animate-spin" />
+                {t('AUTH.SIGNIN.SIGNING_IN')}
+              </span>
+            ) : (
+              t('AUTH.SIGNIN.SUBMIT')
+            )}
+          </Button>
+        </form>
+      </Form>
+    </div>
   );
 }

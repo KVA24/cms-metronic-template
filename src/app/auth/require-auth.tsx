@@ -1,4 +1,12 @@
-import { useAuthStatus, useAuthUser } from '@/shared/stores/auth-store';
+import {
+  getPortalForPath,
+  getPortalLoginPath,
+} from '@/shared/auth/portal-routing';
+import {
+  useAuthSession,
+  useAuthStatus,
+  useAuthUser,
+} from '@/shared/stores/auth-store';
 import { ScreenLoader } from '@/shared/ui/molecules/screen-loader';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
@@ -9,6 +17,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
  */
 export const RequireAuth = () => {
   const user = useAuthUser();
+  const session = useAuthSession();
   const { isAuthenticated, isLoading, isInitialized } = useAuthStatus();
   const location = useLocation();
 
@@ -21,12 +30,23 @@ export const RequireAuth = () => {
   }
 
   // If no in-memory session or user, redirect to login
-  if (!isAuthenticated || !user) {
+  if (!isAuthenticated || !user || !session) {
+    const requestedPortal = getPortalForPath(location.pathname) ?? 'ADMIN';
     return (
       <Navigate
-        to={`/auth/signin?next=${encodeURIComponent(location.pathname)}`}
+        to={getPortalLoginPath(
+          requestedPortal,
+          `${location.pathname}${location.search}`,
+        )}
         replace
       />
+    );
+  }
+
+  const requestedPortal = getPortalForPath(location.pathname);
+  if (requestedPortal && session.portalType !== requestedPortal) {
+    return (
+      <Navigate to={`/${session.portalType.toLowerCase()}/dashboard`} replace />
     );
   }
 

@@ -11,8 +11,7 @@ export function AuthRouting() {
   return (
     <Suspense fallback={<SuspenseLoading />}>
       <Routes>
-        {/* Index route to redirect to sign-in */}
-        <Route index element={<Navigate to="signin" replace />} />
+        <Route index element={<Navigate to="login?portal=admin" replace />} />
 
         {authRoutes.map((route) => {
           // Extract auth/ from the path to avoid double prefixing

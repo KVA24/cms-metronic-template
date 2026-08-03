@@ -1,11 +1,18 @@
 import { z } from 'zod';
 
-export const getSigninSchema = () => {
+interface SigninValidationMessages {
+  usernameRequired?: string;
+  passwordRequired?: string;
+}
+
+export const getSigninSchema = (messages: SigninValidationMessages = {}) => {
   return z.object({
-    username: z.string().min(1, { message: 'Username is required.' }),
-    otpCode: z.string().regex(/^\d{6}$/, 'Must be 6 digits'),
-    password: z.string().min(1, { message: 'Password is required.' }),
-    rememberMe: z.boolean().optional(),
+    username: z.string().min(1, {
+      message: messages.usernameRequired ?? 'Username is required.',
+    }),
+    password: z.string().min(1, {
+      message: messages.passwordRequired ?? 'Password is required.',
+    }),
   });
 };
 
