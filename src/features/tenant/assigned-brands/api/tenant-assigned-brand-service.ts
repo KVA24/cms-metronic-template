@@ -139,7 +139,10 @@ function project(
     showOnLanding: assignment.showOnLanding,
     effectivelyVisible,
     isHot: Boolean(assignment.isHot && effectivelyVisible),
-    earnConfigured: false,
+    earnConfigured: mockData.earnDisplays.some(
+      ({ tenantId, brandId }) =>
+        tenantId === session.tenantId && brandId === brand.id,
+    ),
     updatedBy: assignment.updatedBy ?? brand.updatedBy,
     updatedAt: assignment.updatedAt ?? brand.updatedAt,
     version: assignment.version ?? 1,

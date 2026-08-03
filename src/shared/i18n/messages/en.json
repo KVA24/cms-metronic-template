@@ -318,6 +318,25 @@
       "ERROR": "Unable to update. The data may have changed; please refresh."
     }
   },
+  "TENANT_EARN_DISPLAY": {
+    "TITLE": "Earn/cashback display",
+    "DESCRIPTION": "Configure localized landing content for assigned Brands, Categories and Offers.",
+    "KEYWORD": "Keyword",
+    "KEYWORD_PLACEHOLDER": "Brand code or name",
+    "CONFIGURATION": "Configuration",
+    "ALL_STATUSES": "All statuses",
+    "CONFIGURED": "Configured",
+    "NOT_CONFIGURED": "Not configured",
+    "BRAND_CODE": "Brand Code",
+    "BRAND_NAME": "Brand Name",
+    "BRAND_STATUS": "Brand status",
+    "TEXT_EN": "Display text EN",
+    "TEXT_VI": "Display text VN",
+    "CONFIGURE": "Configure",
+    "EMPTY": "No assigned Brands found.",
+    "ERROR": "Unable to load earn display configurations.",
+    "PAGE": "Page {{page}} of {{total}} · {{count}} Brands"
+  },
   "TENANT_PROFILE": {
     "TITLE": "My Profile",
     "DESCRIPTION": "Update your own Tenant profile and security credentials.",

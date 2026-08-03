@@ -218,6 +218,24 @@ export interface TenantBrandAssignment {
   version?: number;
 }
 
+export type EarnDisplayTargetType = 'BRAND' | 'CATEGORY' | 'OFFER';
+
+export interface TenantEarnDisplay {
+  id: string;
+  tenantId: string;
+  brandId: string;
+  targetType: EarnDisplayTargetType;
+  targetId: string | null;
+  textEn: string;
+  textVi: string;
+  displayStatus: 'ACTIVE' | 'INACTIVE';
+  effectiveFrom: string | null;
+  effectiveTo: string | null;
+  updatedBy: string;
+  updatedAt: string;
+  version: number;
+}
+
 export interface TenantRevenueShareOverride {
   id: string;
   type: 'CATEGORY' | 'OFFER';
@@ -486,6 +504,7 @@ export interface MockData {
   brandCategoryMappings: BrandCategoryMapping[];
   offers: Offer[];
   tenantBrandAssignments: TenantBrandAssignment[];
+  earnDisplays: TenantEarnDisplay[];
   tenantRevenueShares: TenantRevenueShare[];
   configurations: Configuration[];
   transactions: Transaction[];

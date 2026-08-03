@@ -116,77 +116,120 @@ const AdminTenantAccountPage = lazy(() =>
   })),
 );
 const AdminTenantAssignmentPage = lazy(() =>
-  import('@/features/admin/tenants/ui/admin-tenant-assignment-page').then((m) => ({
-    default: m.AdminTenantAssignmentPage,
-  })),
+  import('@/features/admin/tenants/ui/admin-tenant-assignment-page').then(
+    (m) => ({
+      default: m.AdminTenantAssignmentPage,
+    }),
+  ),
 );
 const AdminTenantRevenueListPage = lazy(() =>
-  import('@/features/admin/tenants/ui/admin-tenant-revenue-list-page').then((m) => ({
-    default: m.AdminTenantRevenueListPage,
-  })),
+  import('@/features/admin/tenants/ui/admin-tenant-revenue-list-page').then(
+    (m) => ({
+      default: m.AdminTenantRevenueListPage,
+    }),
+  ),
 );
 const AdminTenantRevenueFormPage = lazy(() =>
-  import('@/features/admin/tenants/ui/admin-tenant-revenue-form-page').then((m) => ({
-    default: m.AdminTenantRevenueFormPage,
-  })),
+  import('@/features/admin/tenants/ui/admin-tenant-revenue-form-page').then(
+    (m) => ({
+      default: m.AdminTenantRevenueFormPage,
+    }),
+  ),
 );
 const AdminConfigurationPage = lazy(() =>
-  import('@/features/admin/configuration/ui/admin-configuration-page').then((m) => ({
-    default: m.AdminConfigurationPage,
-  })),
+  import('@/features/admin/configuration/ui/admin-configuration-page').then(
+    (m) => ({
+      default: m.AdminConfigurationPage,
+    }),
+  ),
 );
 const AdminTransactionListPage = lazy(() =>
-  import('@/features/admin/transactions/ui/admin-transaction-list-page').then((m) => ({
-    default: m.AdminTransactionListPage,
-  })),
+  import('@/features/admin/transactions/ui/admin-transaction-list-page').then(
+    (m) => ({
+      default: m.AdminTransactionListPage,
+    }),
+  ),
 );
 const AdminTransactionDetailPage = lazy(() =>
-  import('@/features/admin/transactions/ui/admin-transaction-detail-page').then((m) => ({
-    default: m.AdminTransactionDetailPage,
-  })),
+  import('@/features/admin/transactions/ui/admin-transaction-detail-page').then(
+    (m) => ({
+      default: m.AdminTransactionDetailPage,
+    }),
+  ),
 );
 const AdminExceptionListPage = lazy(() =>
-  import('@/features/admin/exceptions/ui/admin-exception-list-page').then((m) => ({
-    default: m.AdminExceptionListPage,
-  })),
+  import('@/features/admin/exceptions/ui/admin-exception-list-page').then(
+    (m) => ({
+      default: m.AdminExceptionListPage,
+    }),
+  ),
 );
 const AdminExceptionDetailPage = lazy(() =>
-  import('@/features/admin/exceptions/ui/admin-exception-detail-page').then((m) => ({
-    default: m.AdminExceptionDetailPage,
-  })),
+  import('@/features/admin/exceptions/ui/admin-exception-detail-page').then(
+    (m) => ({
+      default: m.AdminExceptionDetailPage,
+    }),
+  ),
 );
 const TenantRoutePlaceholderPage = lazy(() =>
-  import('@/features/tenant/access/ui/tenant-route-placeholder-page').then((m) => ({ default: m.TenantRoutePlaceholderPage })),
+  import('@/features/tenant/access/ui/tenant-route-placeholder-page').then(
+    (m) => ({ default: m.TenantRoutePlaceholderPage }),
+  ),
 );
 const TenantDashboardPage = lazy(() =>
-  import('@/features/tenant/dashboard/ui/tenant-dashboard-page').then((m) => ({ default: m.TenantDashboardPage })),
+  import('@/features/tenant/dashboard/ui/tenant-dashboard-page').then((m) => ({
+    default: m.TenantDashboardPage,
+  })),
 );
 const TenantAssignedBrandPage = lazy(() =>
-  import('@/features/tenant/assigned-brands/ui/tenant-assigned-brand-page').then((m) => ({ default: m.TenantAssignedBrandPage })),
+  import('@/features/tenant/assigned-brands/ui/tenant-assigned-brand-page').then(
+    (m) => ({ default: m.TenantAssignedBrandPage }),
+  ),
+);
+const TenantEarnDisplayListPage = lazy(() =>
+  import('@/features/tenant/earn-display/ui/tenant-earn-display-list-page').then(
+    (m) => ({ default: m.TenantEarnDisplayListPage }),
+  ),
 );
 const TenantRoleListPage = lazy(() =>
-  import('@/features/tenant/roles/ui/tenant-role-list-page').then((m) => ({ default: m.TenantRoleListPage })),
+  import('@/features/tenant/roles/ui/tenant-role-list-page').then((m) => ({
+    default: m.TenantRoleListPage,
+  })),
 );
 const TenantRoleDetailPage = lazy(() =>
-  import('@/features/tenant/roles/ui/tenant-role-detail-page').then((m) => ({ default: m.TenantRoleDetailPage })),
+  import('@/features/tenant/roles/ui/tenant-role-detail-page').then((m) => ({
+    default: m.TenantRoleDetailPage,
+  })),
 );
 const TenantRoleFormPage = lazy(() =>
-  import('@/features/tenant/roles/ui/tenant-role-form-page').then((m) => ({ default: m.TenantRoleFormPage })),
+  import('@/features/tenant/roles/ui/tenant-role-form-page').then((m) => ({
+    default: m.TenantRoleFormPage,
+  })),
 );
 const TenantRolePermissionsPage = lazy(() =>
-  import('@/features/tenant/roles/ui/tenant-role-permissions-page').then((m) => ({ default: m.TenantRolePermissionsPage })),
+  import('@/features/tenant/roles/ui/tenant-role-permissions-page').then(
+    (m) => ({ default: m.TenantRolePermissionsPage }),
+  ),
 );
 const TenantAccountListPage = lazy(() =>
-  import('@/features/tenant/accounts/ui/tenant-account-list-page').then((m) => ({ default: m.TenantAccountListPage })),
+  import('@/features/tenant/accounts/ui/tenant-account-list-page').then(
+    (m) => ({ default: m.TenantAccountListPage }),
+  ),
 );
 const TenantAccountDetailPage = lazy(() =>
-  import('@/features/tenant/accounts/ui/tenant-account-detail-page').then((m) => ({ default: m.TenantAccountDetailPage })),
+  import('@/features/tenant/accounts/ui/tenant-account-detail-page').then(
+    (m) => ({ default: m.TenantAccountDetailPage }),
+  ),
 );
 const TenantAccountFormPage = lazy(() =>
-  import('@/features/tenant/accounts/ui/tenant-account-form-page').then((m) => ({ default: m.TenantAccountFormPage })),
+  import('@/features/tenant/accounts/ui/tenant-account-form-page').then(
+    (m) => ({ default: m.TenantAccountFormPage }),
+  ),
 );
 const TenantProfilePage = lazy(() =>
-  import('@/features/tenant/profile/ui/tenant-profile-page').then((m) => ({ default: m.TenantProfilePage })),
+  import('@/features/tenant/profile/ui/tenant-profile-page').then((m) => ({
+    default: m.TenantProfilePage,
+  })),
 );
 const AccountManagementPage = lazy(() =>
   import('@/features/account').then((m) => ({ default: m.AccountPage })),
@@ -217,7 +260,10 @@ export function AppRoutingSetup() {
             />
             <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
             <Route path="/admin/access/roles" element={<AdminRbacPage />} />
-            <Route path="/admin/categories" element={<AdminCategoryListPage />} />
+            <Route
+              path="/admin/categories"
+              element={<AdminCategoryListPage />}
+            />
             <Route
               path="/admin/categories/new"
               element={<AdminCategoryFormPage mode="create" />}
@@ -231,41 +277,140 @@ export function AppRoutingSetup() {
               element={<AdminCategoryDetailPage />}
             />
             <Route path="/admin/brands" element={<AdminBrandListPage />} />
-            <Route path="/admin/brands/new" element={<AdminBrandCreatePage />} />
-            <Route path="/admin/brands/:brandId/offers" element={<AdminOfferListPage />} />
-            <Route path="/admin/brands/:brandId/offers/new" element={<AdminOfferCreatePage />} />
-            <Route path="/admin/brands/:brandId/offers/:offerId/edit" element={<AdminOfferEditPage />} />
-            <Route path="/admin/brands/:brandId/offers/:offerId" element={<AdminOfferDetailPage />} />
-            <Route path="/admin/brands/:brandId/categories" element={<AdminBrandMappingPage />} />
-            <Route path="/admin/brands/:brandId" element={<AdminBrandDetailPage />} />
+            <Route
+              path="/admin/brands/new"
+              element={<AdminBrandCreatePage />}
+            />
+            <Route
+              path="/admin/brands/:brandId/offers"
+              element={<AdminOfferListPage />}
+            />
+            <Route
+              path="/admin/brands/:brandId/offers/new"
+              element={<AdminOfferCreatePage />}
+            />
+            <Route
+              path="/admin/brands/:brandId/offers/:offerId/edit"
+              element={<AdminOfferEditPage />}
+            />
+            <Route
+              path="/admin/brands/:brandId/offers/:offerId"
+              element={<AdminOfferDetailPage />}
+            />
+            <Route
+              path="/admin/brands/:brandId/categories"
+              element={<AdminBrandMappingPage />}
+            />
+            <Route
+              path="/admin/brands/:brandId"
+              element={<AdminBrandDetailPage />}
+            />
             <Route path="/admin/tenants" element={<AdminTenantListPage />} />
-            <Route path="/admin/tenants/new" element={<AdminTenantCreatePage />} />
-            <Route path="/admin/tenants/:tenantId/accounts" element={<AdminTenantAccountPage />} />
-            <Route path="/admin/tenants/:tenantId/assignments" element={<AdminTenantAssignmentPage />} />
-            <Route path="/admin/tenants/:tenantId/revenue-share/:brandId" element={<AdminTenantRevenueFormPage />} />
-            <Route path="/admin/tenants/:tenantId/revenue-share" element={<AdminTenantRevenueListPage />} />
-            <Route path="/admin/tenants/:tenantId" element={<AdminTenantDetailPage />} />
-            <Route path="/admin/configuration" element={<AdminConfigurationPage />} />
-            <Route path="/admin/transactions" element={<AdminTransactionListPage />} />
-            <Route path="/admin/transactions/:transactionId" element={<AdminTransactionDetailPage />} />
-            <Route path="/admin/exceptions" element={<AdminExceptionListPage />} />
-            <Route path="/admin/exceptions/:exceptionId" element={<AdminExceptionDetailPage />} />
+            <Route
+              path="/admin/tenants/new"
+              element={<AdminTenantCreatePage />}
+            />
+            <Route
+              path="/admin/tenants/:tenantId/accounts"
+              element={<AdminTenantAccountPage />}
+            />
+            <Route
+              path="/admin/tenants/:tenantId/assignments"
+              element={<AdminTenantAssignmentPage />}
+            />
+            <Route
+              path="/admin/tenants/:tenantId/revenue-share/:brandId"
+              element={<AdminTenantRevenueFormPage />}
+            />
+            <Route
+              path="/admin/tenants/:tenantId/revenue-share"
+              element={<AdminTenantRevenueListPage />}
+            />
+            <Route
+              path="/admin/tenants/:tenantId"
+              element={<AdminTenantDetailPage />}
+            />
+            <Route
+              path="/admin/configuration"
+              element={<AdminConfigurationPage />}
+            />
+            <Route
+              path="/admin/transactions"
+              element={<AdminTransactionListPage />}
+            />
+            <Route
+              path="/admin/transactions/:transactionId"
+              element={<AdminTransactionDetailPage />}
+            />
+            <Route
+              path="/admin/exceptions"
+              element={<AdminExceptionListPage />}
+            />
+            <Route
+              path="/admin/exceptions/:exceptionId"
+              element={<AdminExceptionDetailPage />}
+            />
             <Route path="/tenant/dashboard" element={<TenantDashboardPage />} />
-            <Route path="/tenant/assigned-brands" element={<TenantAssignedBrandPage />} />
-            <Route path="/tenant/earn-display" element={<TenantRoutePlaceholderPage />} />
-            <Route path="/tenant/earn-display/:brandId" element={<TenantRoutePlaceholderPage />} />
-            <Route path="/tenant/transactions" element={<TenantRoutePlaceholderPage />} />
-            <Route path="/tenant/transactions/:transactionId" element={<TenantRoutePlaceholderPage />} />
-            <Route path="/tenant/account/roles" element={<TenantRoleListPage />} />
-            <Route path="/tenant/account/roles/new" element={<TenantRoleFormPage mode="create" />} />
-            <Route path="/tenant/account/roles/:roleId" element={<TenantRoleDetailPage />} />
-            <Route path="/tenant/account/roles/:roleId/edit" element={<TenantRoleFormPage mode="edit" />} />
-            <Route path="/tenant/account/roles/:roleId/permissions" element={<TenantRolePermissionsPage />} />
-            <Route path="/tenant/account/users" element={<TenantAccountListPage />} />
-            <Route path="/tenant/account/users/new" element={<TenantAccountFormPage mode="create" />} />
-            <Route path="/tenant/account/users/:userId" element={<TenantAccountDetailPage />} />
-            <Route path="/tenant/account/users/:userId/edit" element={<TenantAccountFormPage mode="edit" />} />
-            <Route path="/tenant/account/profile" element={<TenantProfilePage />} />
+            <Route
+              path="/tenant/assigned-brands"
+              element={<TenantAssignedBrandPage />}
+            />
+            <Route
+              path="/tenant/earn-display"
+              element={<TenantEarnDisplayListPage />}
+            />
+            <Route
+              path="/tenant/earn-display/:brandId"
+              element={<TenantRoutePlaceholderPage />}
+            />
+            <Route
+              path="/tenant/transactions"
+              element={<TenantRoutePlaceholderPage />}
+            />
+            <Route
+              path="/tenant/transactions/:transactionId"
+              element={<TenantRoutePlaceholderPage />}
+            />
+            <Route
+              path="/tenant/account/roles"
+              element={<TenantRoleListPage />}
+            />
+            <Route
+              path="/tenant/account/roles/new"
+              element={<TenantRoleFormPage mode="create" />}
+            />
+            <Route
+              path="/tenant/account/roles/:roleId"
+              element={<TenantRoleDetailPage />}
+            />
+            <Route
+              path="/tenant/account/roles/:roleId/edit"
+              element={<TenantRoleFormPage mode="edit" />}
+            />
+            <Route
+              path="/tenant/account/roles/:roleId/permissions"
+              element={<TenantRolePermissionsPage />}
+            />
+            <Route
+              path="/tenant/account/users"
+              element={<TenantAccountListPage />}
+            />
+            <Route
+              path="/tenant/account/users/new"
+              element={<TenantAccountFormPage mode="create" />}
+            />
+            <Route
+              path="/tenant/account/users/:userId"
+              element={<TenantAccountDetailPage />}
+            />
+            <Route
+              path="/tenant/account/users/:userId/edit"
+              element={<TenantAccountFormPage mode="edit" />}
+            />
+            <Route
+              path="/tenant/account/profile"
+              element={<TenantProfilePage />}
+            />
             <Route
               path="/auth/welcome-message"
               element={<AuthWelcomeMessagePage />}

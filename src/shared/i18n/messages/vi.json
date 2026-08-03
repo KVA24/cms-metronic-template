@@ -318,6 +318,25 @@
       "ERROR": "Không thể cập nhật. Dữ liệu có thể đã thay đổi, vui lòng tải lại."
     }
   },
+  "TENANT_EARN_DISPLAY": {
+    "TITLE": "Hiển thị tích lũy/cashback",
+    "DESCRIPTION": "Cấu hình nội dung landing song ngữ cho Brand, Category và Offer được gán.",
+    "KEYWORD": "Từ khóa",
+    "KEYWORD_PLACEHOLDER": "Mã hoặc tên Brand",
+    "CONFIGURATION": "Cấu hình",
+    "ALL_STATUSES": "Tất cả trạng thái",
+    "CONFIGURED": "Đã cấu hình",
+    "NOT_CONFIGURED": "Chưa cấu hình",
+    "BRAND_CODE": "Mã Brand",
+    "BRAND_NAME": "Tên Brand",
+    "BRAND_STATUS": "Trạng thái Brand",
+    "TEXT_EN": "Nội dung EN",
+    "TEXT_VI": "Nội dung VN",
+    "CONFIGURE": "Cấu hình",
+    "EMPTY": "Không tìm thấy Brand được gán.",
+    "ERROR": "Không thể tải cấu hình nội dung earn.",
+    "PAGE": "Trang {{page}} / {{total}} · {{count}} Brand"
+  },
   "TENANT_PROFILE": {
     "TITLE": "Hồ sơ của tôi",
     "DESCRIPTION": "Cập nhật hồ sơ và thông tin bảo mật của chính bạn trong Tenant.",
