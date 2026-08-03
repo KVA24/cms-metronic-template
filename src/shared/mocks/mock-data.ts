@@ -80,27 +80,33 @@ const seedData: MockData = {
     ),
   ],
   offers: [
-    {
-      id: 'offer-foodnest-new-user',
-      brandId: 'brand-foodnest',
-      code: 'NEWUSER',
-      title: 'New user offer',
-      status: 'ACTIVE',
-    },
-    {
-      id: 'offer-travelgo-summer',
-      brandId: 'brand-travelgo',
-      code: 'SUMMER',
-      title: 'Summer travel offer',
-      status: 'ACTIVE',
-    },
-    {
-      id: 'offer-stylehub-draft',
-      brandId: 'brand-stylehub',
-      code: 'DRAFT01',
-      title: 'Draft fashion offer',
-      status: 'DRAFT',
-    },
+    createOffer(
+      'foodnest-new-user',
+      'brand-foodnest',
+      'NEWUSER',
+      'New user offer',
+      'ACTIVE',
+      'PERCENTAGE',
+      12,
+    ),
+    createOffer(
+      'travelgo-summer',
+      'brand-travelgo',
+      'SUMMER',
+      'Summer travel offer',
+      'ACTIVE',
+      'FIXED_AMOUNT',
+      50000,
+    ),
+    createOffer(
+      'stylehub-draft',
+      'brand-stylehub',
+      'DRAFT01',
+      'Draft fashion offer',
+      'DRAFT',
+      null,
+      null,
+    ),
   ],
   tenantBrandAssignments: [
     {
@@ -144,22 +150,9 @@ const seedData: MockData = {
   ],
   categories: [
     createCategory('travel', 'TRAVEL', 10, 'ACTIVE', 'Du lịch', 'Travel'),
-    createCategory(
-      'food-dining',
-      'FOOD_DINING',
-      20,
-      'ACTIVE',
-      'Ẩm thực',
-    ),
+    createCategory('food-dining', 'FOOD_DINING', 20, 'ACTIVE', 'Ẩm thực'),
     createCategory('hotel', 'HOTEL', 30, 'ACTIVE', 'Khách sạn', 'Hotel'),
-    createCategory(
-      'fashion',
-      'FASHION',
-      40,
-      'DRAFT',
-      'Thời trang',
-      'Fashion',
-    ),
+    createCategory('fashion', 'FASHION', 40, 'DRAFT', 'Thời trang', 'Fashion'),
     createCategory('books', 'BOOKS', 50, 'INACTIVE', 'Sách', 'Books'),
     createCategory(
       'electronics',
@@ -169,22 +162,8 @@ const seedData: MockData = {
       'Điện tử',
       'Electronics',
     ),
-    createCategory(
-      'beauty',
-      'BEAUTY',
-      70,
-      'ACTIVE',
-      'Làm đẹp',
-      'Beauty',
-    ),
-    createCategory(
-      'services',
-      'SERVICES',
-      80,
-      'DRAFT',
-      'Dịch vụ',
-      'Services',
-    ),
+    createCategory('beauty', 'BEAUTY', 70, 'ACTIVE', 'Làm đẹp', 'Beauty'),
+    createCategory('services', 'SERVICES', 80, 'DRAFT', 'Dịch vụ', 'Services'),
   ],
   categoryDependencies: [
     createCategoryDependency('travel', 2, 1, 18),
@@ -275,6 +254,61 @@ function createBrandCategoryMapping(
     createdAt: '2026-07-01T02:00:00.000Z',
     updatedBy: 'cms-admin',
     updatedAt: '2026-07-01T02:00:00.000Z',
+  };
+}
+
+function createOffer(
+  id: string,
+  brandId: string,
+  code: string,
+  title: string,
+  status: MockData['offers'][number]['status'],
+  commissionType: MockData['offers'][number]['commissionType'],
+  commissionValue: number | null,
+): MockData['offers'][number] {
+  const mapped = brandId !== 'brand-stylehub';
+  return {
+    id: `offer-${id}`,
+    brandId,
+    code,
+    title,
+    status,
+    startAt: '2026-07-01T00:00:00.000Z',
+    endAt: null,
+    destinationUrl:
+      status === 'DRAFT'
+        ? ''
+        : `https://${brandId.replace('brand-', '')}.test/offers/${code.toLowerCase()}`,
+    defaultLocale: 'vi-VN',
+    contents: [
+      {
+        locale: 'vi-VN',
+        title,
+        badge: status === 'DRAFT' ? 'Nháp' : 'Nổi bật',
+        description: `${title} description.`,
+        terms: 'Áp dụng điều kiện.',
+      },
+      {
+        locale: 'en-US',
+        title,
+        badge: status === 'DRAFT' ? 'Draft' : 'Featured',
+        description: `${title} description.`,
+        terms: 'Terms apply.',
+      },
+    ],
+    mappingId: mapped ? `OFM-${code}` : null,
+    brandOfferCode: mapped ? code : null,
+    brandOfferTitle: mapped ? `${title} (Brand)` : '',
+    commissionType: mapped ? commissionType : null,
+    commissionValue: mapped ? commissionValue : null,
+    createdBy: 'cms-admin',
+    createdAt: '2026-07-01T02:00:00.000Z',
+    updatedBy: status === 'DRAFT' ? 'cms-operation' : 'cms-admin',
+    updatedAt:
+      status === 'DRAFT'
+        ? '2026-07-20T03:00:00.000Z'
+        : '2026-07-18T03:00:00.000Z',
+    version: 1,
   };
 }
 

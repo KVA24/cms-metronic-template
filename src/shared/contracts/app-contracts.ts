@@ -128,6 +128,29 @@ export interface Offer {
   code: string;
   title: string;
   status: EntityStatus;
+  startAt: string | null;
+  endAt: string | null;
+  destinationUrl: string;
+  defaultLocale: ContentLocale;
+  contents: OfferLocaleContent[];
+  mappingId: string | null;
+  brandOfferCode: string | null;
+  brandOfferTitle: string;
+  commissionType: 'PERCENTAGE' | 'FIXED_AMOUNT' | null;
+  commissionValue: number | null;
+  createdBy: string;
+  createdAt: string;
+  updatedBy: string;
+  updatedAt: string;
+  version: number;
+}
+
+export interface OfferLocaleContent {
+  locale: ContentLocale;
+  title: string;
+  badge: string;
+  description: string;
+  terms: string;
 }
 
 export interface TenantBrandAssignment {

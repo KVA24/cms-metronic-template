@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { beforeEach, describe, it } from 'node:test';
 import { adminBrandService } from '../src/features/admin/brands/api/admin-brand-service';
 import { adminBrandMappingService } from '../src/features/admin/brands/api/admin-brand-mapping-service';
+import { adminOfferService } from '../src/features/admin/brands/api/admin-offer-service';
 import {
   adminBrandSchema,
   ADMIN_BRAND_DEFAULT_QUERY,
@@ -10,6 +11,7 @@ import {
   adminBrandMappingRowSchema,
   ADMIN_BRAND_MAPPING_DEFAULT_QUERY,
 } from '../src/features/admin/brands/model/admin-brand-mapping';
+import { ADMIN_OFFER_DEFAULT_QUERY } from '../src/features/admin/brands/model/admin-offer';
 import { mockData, resetMockData } from '../src/shared/mocks/mock-data';
 
 const validBrandInput = {
@@ -395,6 +397,89 @@ describe('ADMIN Brand Category Mapping & Commission service', () => {
     );
     await assert.rejects(
       () => adminBrandMappingService.saveBatch('brand-foodnest', [validMappingInput], 'CMS_FINANCE', 'cms-finance'),
+      /FORBIDDEN/,
+    );
+  });
+});
+
+describe('ADMIN Brand-scoped Offer list and detail service', () => {
+  beforeEach(() => resetMockData());
+
+  it('lists only Offers in the current Brand with mapping and commission projection', async () => {
+    const result = await adminOfferService.listOffers(
+      'brand-foodnest',
+      ADMIN_OFFER_DEFAULT_QUERY,
+      'CMS_OPERATION',
+      'en-US',
+    );
+
+    assert.deepEqual(result.items.map(({ id }) => id), ['offer-foodnest-new-user']);
+    assert.equal(result.items[0]?.mappingId, 'OFM-NEWUSER');
+    assert.equal(result.items[0]?.commissionConfigured, true);
+    assert.equal(result.items[0]?.canEdit, true);
+    assert.equal(result.brand.name, 'FoodNest');
+  });
+
+  it('searches every specified mapping and title field case-insensitively', async () => {
+    for (const keyword of ['ofm-newuser', 'new user offer', 'newuser', '(brand)']) {
+      const result = await adminOfferService.listOffers(
+        'brand-foodnest',
+        { ...ADMIN_OFFER_DEFAULT_QUERY, keyword },
+        'CMS_ADMIN',
+        'vi-VN',
+      );
+      assert.equal(result.totalItems, 1);
+    }
+  });
+
+  it('filters Offer status and commission configuration with AND semantics', async () => {
+    const configured = await adminOfferService.listOffers(
+      'brand-travelgo',
+      { ...ADMIN_OFFER_DEFAULT_QUERY, status: 'ACTIVE', commissionStatus: 'CONFIGURED' },
+      'CMS_ADMIN',
+      'vi-VN',
+    );
+    const missing = await adminOfferService.listOffers(
+      'brand-stylehub',
+      { ...ADMIN_OFFER_DEFAULT_QUERY, status: 'DRAFT', commissionStatus: 'NOT_CONFIGURED' },
+      'CMS_ADMIN',
+      'vi-VN',
+    );
+
+    assert.equal(configured.totalItems, 1);
+    assert.equal(missing.items[0]?.mappingId, null);
+    assert.equal(missing.items[0]?.brandOfferCode, null);
+  });
+
+  it('returns a read-only aggregate and verifies Brand ownership', async () => {
+    const detail = await adminOfferService.getOffer(
+      'brand-foodnest',
+      'offer-foodnest-new-user',
+      'CMS_OPERATION',
+    );
+    assert.equal(detail.offer.contents.length, 2);
+    assert.equal(detail.mappingInUse, true);
+    assert.equal(detail.canEdit, true);
+    await assert.rejects(
+      () => adminOfferService.getOffer('brand-travelgo', 'offer-foodnest-new-user', 'CMS_ADMIN'),
+      /OFFER_NOT_FOUND/,
+    );
+  });
+
+  it('returns empty, not-found and forbidden states deterministically', async () => {
+    const empty = await adminOfferService.listOffers(
+      'brand-foodnest',
+      { ...ADMIN_OFFER_DEFAULT_QUERY, keyword: 'no-match' },
+      'CMS_ADMIN',
+      'en-US',
+    );
+    assert.equal(empty.totalItems, 0);
+    await assert.rejects(
+      () => adminOfferService.listOffers('missing-brand', ADMIN_OFFER_DEFAULT_QUERY, 'CMS_ADMIN', 'vi-VN'),
+      /BRAND_NOT_FOUND/,
+    );
+    await assert.rejects(
+      () => adminOfferService.listOffers('brand-foodnest', ADMIN_OFFER_DEFAULT_QUERY, 'CMS_CSKH', 'vi-VN'),
       /FORBIDDEN/,
     );
   });
