@@ -286,7 +286,51 @@
     "ERROR": "Không thể tải danh sách tài khoản.",
     "NOT_FOUND": "Không tìm thấy tài khoản trong Tenant này.",
     "EMPTY": "Không tìm thấy tài khoản người dùng",
-    "PAGE": "Trang {{page}} / {{total}} · {{count}} tài khoản"
+    "PAGE": "Trang {{page}} / {{total}} · {{count}} tài khoản",
+    "FORM": {
+      "CREATE_TITLE": "Thêm tài khoản người dùng",
+      "EDIT_TITLE": "Chỉnh sửa tài khoản",
+      "CREATE": "Tạo người dùng",
+      "SAVE": "Lưu thay đổi",
+      "SELECT_ROLE": "Chọn vai trò",
+      "INITIAL_PASSWORD": "Mật khẩu ban đầu",
+      "CONFIRM_PASSWORD": "Xác nhận mật khẩu",
+      "PASSWORD_OPTIONAL": "Để trống cả hai trường mật khẩu để giữ mật khẩu hiện tại.",
+      "DISCARD": "Bỏ các thay đổi tài khoản chưa lưu?",
+      "CREATE_SUCCESS": "Tạo tài khoản thành công.",
+      "UPDATE_SUCCESS": "Cập nhật tài khoản thành công."
+    },
+    "ACTIONS": {
+      "DISABLE": "Vô hiệu hóa tài khoản",
+      "DISABLE_TITLE": "Vô hiệu hóa tài khoản?",
+      "DISABLE_DESCRIPTION": "Vô hiệu hóa {{username}} và thu hồi session hiện tại?",
+      "DISABLE_CONFIRM": "Vô hiệu hóa",
+      "DISABLE_SUCCESS": "Vô hiệu hóa tài khoản thành công.",
+      "UNLOCK": "Mở khóa tài khoản",
+      "UNLOCK_TITLE": "Mở khóa tài khoản?",
+      "UNLOCK_DESCRIPTION": "Mở khóa {{username}} và đặt lại số lần đăng nhập sai?",
+      "UNLOCK_CONFIRM": "Mở khóa",
+      "UNLOCK_SUCCESS": "Mở khóa tài khoản thành công."
+    },
+    "ERRORS": {
+      "USERNAME_REQUIRED": "Tên đăng nhập là bắt buộc.",
+      "USERNAME_LENGTH": "Tên đăng nhập không được vượt quá 50 ký tự.",
+      "USERNAME_INVALID": "Tên đăng nhập chứa ký tự không hợp lệ.",
+      "USERNAME_DUPLICATE": "Tên đăng nhập đã tồn tại.",
+      "FULL_NAME_REQUIRED": "Họ và tên là bắt buộc.",
+      "FULL_NAME_LENGTH": "Họ và tên không được vượt quá 150 ký tự.",
+      "EMAIL_INVALID": "Vui lòng nhập địa chỉ email hợp lệ.",
+      "PHONE_INVALID": "Vui lòng nhập số điện thoại hợp lệ.",
+      "ROLE_REQUIRED": "Vai trò là bắt buộc.",
+      "ROLE_NOT_ACTIVE": "Vai trò đã chọn không còn hoạt động.",
+      "PASSWORD_REQUIRED": "Mật khẩu ban đầu là bắt buộc.",
+      "PASSWORD_POLICY": "Mật khẩu không đáp ứng yêu cầu.",
+      "CONFIRM_PASSWORD_REQUIRED": "Xác nhận mật khẩu là bắt buộc.",
+      "PASSWORD_MISMATCH": "Mật khẩu không khớp.",
+      "ACCOUNT_VERSION_CONFLICT": "Tài khoản đã thay đổi. Hãy tải lại và thử lại.",
+      "LAST_ACTIVE_ADMIN": "Không thể vô hiệu hóa hoặc đổi vai trò Tenant Admin active cuối cùng.",
+      "ACCOUNT_NOT_LOCKED": "Tài khoản này không bị khóa."
+    }
   },
   "TENANT_ROLES": {
     "TITLE": "Vai trò",

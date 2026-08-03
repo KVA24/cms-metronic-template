@@ -22,8 +22,14 @@ export const mockAuthService = {
     );
 
     if (!account) {
-      const belongsToOtherPortal = mockData.authAccounts.some((item) => item.username.toLowerCase() === normalizedUsername);
-      fail(input.portalType === 'TENANT' && !belongsToOtherPortal ? 'USERNAME_NOT_FOUND' : 'INVALID_CREDENTIALS');
+      const belongsToOtherPortal = mockData.authAccounts.some(
+        (item) => item.username.toLowerCase() === normalizedUsername,
+      );
+      fail(
+        input.portalType === 'TENANT' && !belongsToOtherPortal
+          ? 'USERNAME_NOT_FOUND'
+          : 'INVALID_CREDENTIALS',
+      );
     }
     if (account.status === 'INACTIVE') fail('ACCOUNT_INACTIVE');
     if (account.status === 'LOCKED') fail('ACCOUNT_LOCKED');
@@ -34,7 +40,10 @@ export const mockAuthService = {
       );
       if (!tenant || tenant.status !== 'ACTIVE') fail('TENANT_INACTIVE');
       const role = mockData.tenantRoles.find(
-        (item) => item.tenantId === account.tenantId && item.code === account.roleCode,
+        (item) =>
+          item.tenantId === account.tenantId &&
+          (item.id === account.tenantRoleId ||
+            (!account.tenantRoleId && item.code === account.roleCode)),
       );
       if (!role || role.status !== 'ACTIVE') fail('ROLE_INACTIVE');
       if (account.password !== input.password) {
@@ -43,7 +52,14 @@ export const mockAuthService = {
           account.status = 'LOCKED';
           account.lockedAt = '2026-08-03T23:00:00.000Z';
           account.sessionRevokedAt = account.lockedAt;
-          mockData.auditRecords.push({ id: `audit-auth-${mockData.auditRecords.length + 1}`, actorId: account.id, action: 'LOCK_TENANT_ACCOUNT', entityType: 'TENANT_ACCOUNT', entityId: account.id, occurredAt: account.lockedAt });
+          mockData.auditRecords.push({
+            id: `audit-auth-${mockData.auditRecords.length + 1}`,
+            actorId: account.id,
+            action: 'LOCK_TENANT_ACCOUNT',
+            entityType: 'TENANT_ACCOUNT',
+            entityId: account.id,
+            occurredAt: account.lockedAt,
+          });
           fail('ACCOUNT_LOCKED');
         }
         fail('INVALID_PASSWORD');
@@ -67,7 +83,17 @@ export const mockAuthService = {
       portalType: input.portalType,
       user,
       roleCode: account.roleCode,
-      permissions: [...getPermissionsForRole(account.roleCode)],
+      permissions:
+        account.portalType === 'TENANT'
+          ? [
+              ...(mockData.tenantRoles.find(
+                (role) =>
+                  role.tenantId === account.tenantId &&
+                  (role.id === account.tenantRoleId ||
+                    (!account.tenantRoleId && role.code === account.roleCode)),
+              )?.permissions ?? []),
+            ]
+          : [...getPermissionsForRole(account.roleCode)],
       tenantId: account.tenantId,
       locale: 'en',
     };

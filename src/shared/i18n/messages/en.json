@@ -286,7 +286,51 @@
     "ERROR": "Accounts could not be loaded.",
     "NOT_FOUND": "Account was not found in this Tenant.",
     "EMPTY": "No user accounts found",
-    "PAGE": "Page {{page}} of {{total}} · {{count}} accounts"
+    "PAGE": "Page {{page}} of {{total}} · {{count}} accounts",
+    "FORM": {
+      "CREATE_TITLE": "Add user account",
+      "EDIT_TITLE": "Edit user account",
+      "CREATE": "Create user",
+      "SAVE": "Save changes",
+      "SELECT_ROLE": "Select a role",
+      "INITIAL_PASSWORD": "Initial password",
+      "CONFIRM_PASSWORD": "Confirm password",
+      "PASSWORD_OPTIONAL": "Leave both password fields blank to keep the current password.",
+      "DISCARD": "Discard unsaved account changes?",
+      "CREATE_SUCCESS": "User account created successfully.",
+      "UPDATE_SUCCESS": "User account updated successfully."
+    },
+    "ACTIONS": {
+      "DISABLE": "Disable account",
+      "DISABLE_TITLE": "Disable account?",
+      "DISABLE_DESCRIPTION": "Disable {{username}} and revoke its current session?",
+      "DISABLE_CONFIRM": "Disable account",
+      "DISABLE_SUCCESS": "Account disabled successfully.",
+      "UNLOCK": "Unlock account",
+      "UNLOCK_TITLE": "Unlock account?",
+      "UNLOCK_DESCRIPTION": "Unlock {{username}} and reset failed login attempts?",
+      "UNLOCK_CONFIRM": "Unlock account",
+      "UNLOCK_SUCCESS": "Account unlocked successfully."
+    },
+    "ERRORS": {
+      "USERNAME_REQUIRED": "Username is required.",
+      "USERNAME_LENGTH": "Username must not exceed 50 characters.",
+      "USERNAME_INVALID": "Username contains invalid characters.",
+      "USERNAME_DUPLICATE": "Username already exists.",
+      "FULL_NAME_REQUIRED": "Full Name is required.",
+      "FULL_NAME_LENGTH": "Full Name must not exceed 150 characters.",
+      "EMAIL_INVALID": "Please enter a valid email address.",
+      "PHONE_INVALID": "Please enter a valid phone number.",
+      "ROLE_REQUIRED": "Role is required.",
+      "ROLE_NOT_ACTIVE": "Selected role is no longer active.",
+      "PASSWORD_REQUIRED": "Initial password is required.",
+      "PASSWORD_POLICY": "Password does not meet the requirements.",
+      "CONFIRM_PASSWORD_REQUIRED": "Confirm password is required.",
+      "PASSWORD_MISMATCH": "Passwords do not match.",
+      "ACCOUNT_VERSION_CONFLICT": "This account changed. Reload and try again.",
+      "LAST_ACTIVE_ADMIN": "The final Active Tenant Admin cannot be disabled or reassigned.",
+      "ACCOUNT_NOT_LOCKED": "This account is not locked."
+    }
   },
   "TENANT_ROLES": {
     "TITLE": "Roles",

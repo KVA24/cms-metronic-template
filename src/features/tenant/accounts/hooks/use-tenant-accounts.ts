@@ -1,7 +1,11 @@
 import type { AuthSession } from '@/shared/contracts';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { tenantAccountService } from '../api/tenant-account-service';
-import type { TenantAccountQuery } from '../model/tenant-account';
+import type {
+  TenantAccountCreateInput,
+  TenantAccountQuery,
+  TenantAccountUpdateInput,
+} from '../model/tenant-account';
 
 export const tenantAccountKeys = {
   all: ['tenant-accounts'] as const,
@@ -44,4 +48,36 @@ export function useTenantAccountRoles(session: AuthSession | null) {
     enabled: Boolean(session),
     retry: false,
   });
+}
+
+export function useTenantAccountMutations(session: AuthSession | null) {
+  const queryClient = useQueryClient();
+  const refresh = () =>
+    queryClient.invalidateQueries({ queryKey: tenantAccountKeys.all });
+  const create = useMutation({
+    mutationFn: (input: TenantAccountCreateInput) =>
+      tenantAccountService.create(session!, input),
+    onSuccess: refresh,
+  });
+  const update = useMutation({
+    mutationFn: ({
+      accountId,
+      input,
+    }: {
+      accountId: string;
+      input: TenantAccountUpdateInput;
+    }) => tenantAccountService.update(session!, accountId, input),
+    onSuccess: refresh,
+  });
+  const disable = useMutation({
+    mutationFn: (accountId: string) =>
+      tenantAccountService.disable(session!, accountId),
+    onSuccess: refresh,
+  });
+  const unlock = useMutation({
+    mutationFn: (accountId: string) =>
+      tenantAccountService.unlock(session!, accountId),
+    onSuccess: refresh,
+  });
+  return { create, update, disable, unlock };
 }
