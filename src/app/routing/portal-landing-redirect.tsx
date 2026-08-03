@@ -6,17 +6,18 @@ import { Navigate } from 'react-router-dom';
 export function PortalLandingRedirect({
   portalType,
 }: {
-  portalType: PortalType;
+  portalType?: PortalType;
 }) {
   const session = useAuthSession();
+  const targetPortal = portalType ?? session?.portalType;
 
-  if (!session || session.portalType !== portalType) {
+  if (!session || !targetPortal || session.portalType !== targetPortal) {
     return <Navigate to="/error/403" replace />;
   }
 
   return (
     <Navigate
-      to={getFirstPermittedPath(portalType, session.permissions)}
+      to={getFirstPermittedPath(targetPortal, session.permissions)}
       replace
     />
   );

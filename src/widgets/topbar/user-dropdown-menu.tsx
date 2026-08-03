@@ -1,10 +1,12 @@
 import { ReactNode } from 'react';
-import { useTranslations } from '@/shared/hooks';
 import { I18N_LANGUAGES } from '@/shared/i18n/config';
 import { Language } from '@/shared/i18n/types';
 import { toAbsoluteUrl } from '@/shared/lib/helpers';
-import { useAuthActions, useAuthUser } from '@/shared/stores/auth-store';
-import { useChangePasswordDialog } from '@/shared/stores/ui-store';
+import {
+  useAuthActions,
+  useAuthSession,
+  useAuthUser,
+} from '@/shared/stores/auth-store';
 import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import {
@@ -20,19 +22,18 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/atoms/dropdown-menu';
 import UiserveSwitch from '@/shared/ui/molecules/uiverse-switch-mode';
-import { Globe, KeyRound, Moon } from 'lucide-react';
+import { Globe, Moon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/app/providers/i18n-provider';
 
 export function UserDropdownMenu({ trigger }: { trigger: ReactNode }) {
   const user = useAuthUser();
+  const session = useAuthSession();
   const { logout } = useAuthActions();
   const { currenLanguage, changeLanguage } = useLanguage();
   const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
-  const changePasswordDialog = useChangePasswordDialog();
-  const { t } = useTranslations();
 
   // Use display data from currentUser
   const displayName = user?.username || 'User';
@@ -40,6 +41,8 @@ export function UserDropdownMenu({ trigger }: { trigger: ReactNode }) {
   const displayEmail = user?.email || '';
   // const displayAvatar = user?.pic || toAbsoluteUrl('/media/avatars/300-2.png');
   const displayAvatar = toAbsoluteUrl('/media/avatars/300-2.png');
+  const profilePath =
+    session?.portalType === 'TENANT' ? '/tenant/account/profile' : '/';
 
   const handleLanguage = (lang: Language) => {
     changeLanguage(lang);
@@ -63,7 +66,7 @@ export function UserDropdownMenu({ trigger }: { trigger: ReactNode }) {
             />
             <div className="flex flex-col">
               <Link
-                to="/account/home/get-started"
+                to={profilePath}
                 className="text-sm text-mono hover:text-primary font-semibold"
               >
                 {displayName}
@@ -226,17 +229,6 @@ export function UserDropdownMenu({ trigger }: { trigger: ReactNode }) {
 
         <DropdownMenuSeparator />
 
-        {/* Change Password */}
-        <DropdownMenuItem
-          className="flex items-center gap-2"
-          onSelect={() => changePasswordDialog.open()}
-        >
-          <KeyRound />
-          {t('USER.MENU.CHANGE_PASSWORD')}
-        </DropdownMenuItem>
-
-        <DropdownMenuSeparator />
-
         {/* Footer */}
         <DropdownMenuItem
           className="flex items-center gap-2"
@@ -265,7 +257,10 @@ export function UserDropdownMenu({ trigger }: { trigger: ReactNode }) {
             onClick={async () => {
               await logout();
               // Redirect to login without 'next' param to avoid permission issues
-              navigate('/auth/signin', { replace: true });
+              navigate(
+                `/auth/login?portal=${session?.portalType.toLowerCase() ?? 'admin'}`,
+                { replace: true },
+              );
             }}
           >
             Logout

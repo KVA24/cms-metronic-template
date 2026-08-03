@@ -438,7 +438,7 @@ Shared contracts, auth and routing are sequential prerequisites. After the Found
 - [x] A10–A14: Brands, Category Mapping and Offers
 - [x] A15–A19: Tenant administration, accounts, assignments and Revenue Share
 - [x] A20–A24: Configuration, Transactions and Exceptions
-- [ ] A25–A27: traceability, legacy cleanup and final regression
+- [x] A25–A27: traceability, legacy cleanup and final regression
 
 ### 18.3 Phase A — Shared foundation
 
@@ -459,12 +459,12 @@ Shared contracts, auth and routing are sequential prerequisites. After the Found
 
 ### 18.4 Phase B — ADMIN dashboard, RBAC and categories
 
-| Task | Description and acceptance criteria                                                                                                                                 | Dependencies | Likely files                                     | Verify                                  | Size |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------ | --------------------------------------- | ---- |
-| A6 ✅ | Implement ADMIN Reporting Dashboard service/query/page from the CMS mockup. Cards/charts support role financial projection and loading/empty/error states.         | F            | `features/admin/dashboard/{model,api,hooks,ui}`  | Dashboard role/manual checks; build     | M    |
-| A7 ✅ | Implement read-only CMS system-role matrix for `CMS_ADMIN`; all other roles receive 403 and no mutation UI exists.                                                 | F            | `features/admin/rbac/{model,api,hooks,ui}`       | CMS-RBAC-001/002 checks                 | M    |
-| A8 ✅ | Implement Category list service/query/page with filters, sort, pagination, reset and empty/error states.                                                           | F            | `features/admin/categories/{model,api,hooks,ui}` | CMS-CAT-001 verification                | M    |
-| A9 ✅ | Implement Category create/detail/edit/status forms with `vi-VN`/`en-US`, dependency rules and asset metadata. All CMS-CAT-002..005 validations map to Zod/messages. | A8          | Category schema/form/page/service files          | Category CRUD manual flow; unit schemas | M    |
+| Task  | Description and acceptance criteria                                                                                                                                 | Dependencies | Likely files                                     | Verify                                  | Size |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------ | --------------------------------------- | ---- |
+| A6 ✅ | Implement ADMIN Reporting Dashboard service/query/page from the CMS mockup. Cards/charts support role financial projection and loading/empty/error states.          | F            | `features/admin/dashboard/{model,api,hooks,ui}`  | Dashboard role/manual checks; build     | M    |
+| A7 ✅ | Implement read-only CMS system-role matrix for `CMS_ADMIN`; all other roles receive 403 and no mutation UI exists.                                                  | F            | `features/admin/rbac/{model,api,hooks,ui}`       | CMS-RBAC-001/002 checks                 | M    |
+| A8 ✅ | Implement Category list service/query/page with filters, sort, pagination, reset and empty/error states.                                                            | F            | `features/admin/categories/{model,api,hooks,ui}` | CMS-CAT-001 verification                | M    |
+| A9 ✅ | Implement Category create/detail/edit/status forms with `vi-VN`/`en-US`, dependency rules and asset metadata. All CMS-CAT-002..005 validations map to Zod/messages. | A8           | Category schema/form/page/service files          | Category CRUD manual flow; unit schemas | M    |
 
 #### Checkpoint C — Core ADMIN shell
 
@@ -474,9 +474,9 @@ Shared contracts, auth and routing are sequential prerequisites. After the Found
 
 ### 18.5 Phase C — Brands, mappings and offers
 
-| Task | Description and acceptance criteria                                                                                                                          | Dependencies | Likely files                                 | Verify                        | Size |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ | -------------------------------------------- | ----------------------------- | ---- |
-| A10 ✅ | Implement Brand list/filter/pagination and create form with localized content/upload preview.                                                               | A9           | `features/admin/brands/{model,api,hooks,ui}` | CMS-BRAND-001/002 flow        | M    |
+| Task   | Description and acceptance criteria                                                                                                                          | Dependencies | Likely files                                 | Verify                        | Size |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ | -------------------------------------------- | ----------------------------- | ---- |
+| A10 ✅ | Implement Brand list/filter/pagination and create form with localized content/upload preview.                                                                | A9           | `features/admin/brands/{model,api,hooks,ui}` | CMS-BRAND-001/002 flow        | M    |
 | A11 ✅ | Implement Brand detail/edit/deactivate with immutable/dependency constraints and dirty-form confirmation.                                                    | A10          | Brand schema/form/detail/service files       | CMS-BRAND-003/004 flow        | M    |
 | A12 ✅ | Implement Brand Category Mapping & Commission list/batch editor, conditional commission rules and atomic mock save result.                                   | A11          | Mapping model/service/schema/page files      | CMS-BRAND-005 AC tests/manual | M    |
 | A13 ✅ | Implement Brand-scoped Offer list/view with filters, pagination and status badges.                                                                           | A10          | Offer model/service/hooks/list/detail files  | CMS-OFFER-001 flow            | M    |
@@ -490,8 +490,8 @@ Shared contracts, auth and routing are sequential prerequisites. After the Found
 
 ### 18.6 Phase D — Tenant administration
 
-| Task | Description and acceptance criteria                                                                                                                  | Dependencies  | Likely files                                  | Verify                                | Size |
-| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | --------------------------------------------- | ------------------------------------- | ---- |
+| Task   | Description and acceptance criteria                                                                                                                  | Dependencies  | Likely files                                  | Verify                                | Size |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | --------------------------------------------- | ------------------------------------- | ---- |
 | A15 ✅ | Implement Tenant list/filter/pagination and create form with deterministic IDs and validation.                                                       | F             | `features/admin/tenants/{model,api,hooks,ui}` | CMS-TENANT-001/002 flow               | M    |
 | A16 ✅ | Implement Tenant detail/edit/deactivate with dependency confirmation and no impersonation action.                                                    | A15           | Tenant schema/form/detail/service files       | CMS-TENANT-003/004 flow               | M    |
 | A17 ✅ | Implement Tenant Portal account list/view/create/edit/status/delete-or-disable over the shared account array.                                        | A16           | Account model/service/hooks/pages             | CMS-TENANT-USER-001 flow              | M    |
@@ -501,18 +501,18 @@ Shared contracts, auth and routing are sequential prerequisites. After the Found
 #### Checkpoint T — Tenant administration
 
 - [x] Tenant, account, assignment and Revenue Share flows pass SRS acceptance mapping.
-- [ ] Shared data is visible to TENANT service contracts without event/cascade engines.
+- [x] Shared data is visible to TENANT service contracts without event/cascade engines.
 - [x] Lint, tests and build pass.
 
 ### 18.7 Phase E — Configuration, Transactions and Exceptions
 
-| Task | Description and acceptance criteria                                                                                                  | Dependencies | Likely files                                        | Verify                     | Size |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------ | --------------------------------------------------- | -------------------------- | ---- |
+| Task   | Description and acceptance criteria                                                                                                  | Dependencies | Likely files                                        | Verify                     | Size |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------ | ------------ | --------------------------------------------------- | -------------------------- | ---- |
 | A20 ✅ | Implement Configuration search/list and add/edit/delete dialogs with immutable key, masking/logging rules and ADMIN-only permission. | F            | `features/admin/configuration/{model,api,hooks,ui}` | CMS-CONFIG-001..004 flow   | M    |
 | A21 ✅ | Implement Transaction list filters/sort/pagination and mock export request lifecycle with financial projection.                      | F            | `features/admin/transactions/{model,api,hooks,ui}`  | TXN-001/003 role checks    | M    |
 | A22 ✅ | Implement Transaction detail with header, item status/amounts and history from seeded output models.                                 | A21          | Transaction detail/service/model files              | TXN-002 status matrix      | M    |
-| A23  | ✅ Implement Exception list/filter/pagination and mock export across all seven exception groups.                                      | A21          | `features/admin/exceptions/{model,api,hooks,ui}`    | EXC-001 list/export checks | M    |
-| A24  | ✅ Implement discriminated Exception detail variants and mock retry lifecycle; no backend remediation workflow is simulated.          | A23          | Exception detail/service/components files           | EXC-001/002 variant checks | M    |
+| A23    | ✅ Implement Exception list/filter/pagination and mock export across all seven exception groups.                                     | A21          | `features/admin/exceptions/{model,api,hooks,ui}`    | EXC-001 list/export checks | M    |
+| A24    | ✅ Implement discriminated Exception detail variants and mock retry lifecycle; no backend remediation workflow is simulated.         | A23          | Exception detail/service/components files           | EXC-001/002 variant checks | M    |
 
 #### Checkpoint O — Operations
 
@@ -522,17 +522,17 @@ Shared contracts, auth and routing are sequential prerequisites. After the Found
 
 ### 18.8 Phase F — Completion and legacy removal
 
-| Task | Description and acceptance criteria                                                                                                                                           | Dependencies              | Likely files                                                   | Verify                           | Size |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | -------------------------------------------------------------- | -------------------------------- | ---- |
-| A25 ✅ | Add/complete SRS AC-to-test/manual traceability ledger and contract tests for every ADMIN service. No UI-facing AC is unassigned.                                           | A6–A24                    | `docs/specs/*`, `tests/admin-*.test.ts`                        | Traceability script; full test   | M    |
-| A26  | Inventory imports/routes from legacy `src/features/*`; move only genuinely shared pieces and remove replaced business/demo features. No orphan import, route or menu remains. | A25 and TENANT completion | routing/menu, moved shared files, deleted legacy feature files | `rg` dependency audit; full gate | M    |
-| A27  | Run final ADMIN regression across roles, locales, responsive states and non-happy paths; fix only spec deviations and record results.                                         | A26                       | Tests/spec verification records; focused fixes                 | Full gate + manual matrix        | M    |
+| Task   | Description and acceptance criteria                                                                                                                                           | Dependencies              | Likely files                                                   | Verify                           | Size |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | -------------------------------------------------------------- | -------------------------------- | ---- |
+| A25 ✅ | Add/complete SRS AC-to-test/manual traceability ledger and contract tests for every ADMIN service. No UI-facing AC is unassigned.                                             | A6–A24                    | `docs/specs/*`, `tests/admin-*.test.ts`                        | Traceability script; full test   | M    |
+| A26 ✅ | Inventory imports/routes from legacy `src/features/*`; move only genuinely shared pieces and remove replaced business/demo features. No orphan import, route or menu remains. | A25 and TENANT completion | routing/menu, moved shared files, deleted legacy feature files | `rg` dependency audit; full gate | M    |
+| A27 ✅ | Run final ADMIN regression across roles, locales, responsive states and non-happy paths; fix only spec deviations and record results.                                         | A26                       | Tests/spec verification records; focused fixes                 | Full gate + manual matrix        | M    |
 
 #### Checkpoint Done — ADMIN/shared foundation
 
-- [ ] Every ADMIN use case and accepted decision is implemented and traceable.
-- [ ] Legacy business/demo features are removed safely.
-- [ ] `npm run lint && npm test && npm run build` passes from a clean worktree.
+- [x] Every ADMIN use case and accepted decision is implemented and traceable.
+- [x] Legacy business/demo features are removed safely.
+- [x] `npm run lint && npm test && npm run build` passes from a clean worktree.
 - [ ] Human reviews the completed verification ledger.
 
 ## 19. Risks and mitigations

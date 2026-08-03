@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { ChangePasswordDialog } from '@/features/auth/ui/change-password-dialog';
 import { useIsMobile } from '@/shared/hooks/use-mobile';
 import { useScrollPosition } from '@/shared/hooks/use-scroll-position';
 import { toAbsoluteUrl } from '@/shared/lib/helpers';
@@ -187,7 +186,6 @@ export function Header() {
           )}
         </div>
       </Container>
-      <ChangePasswordDialog />
     </header>
   );
 }
