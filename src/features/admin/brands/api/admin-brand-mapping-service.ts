@@ -152,15 +152,20 @@ export const adminBrandMappingService = {
       brandName: brand.name,
       brandStatus: brand.status,
       items,
-      categories: mockData.categories
-        .filter(({ status }) => status === 'ACTIVE')
-        .map((category) => ({
-          id: category.id,
-          name:
-            category.contents.find(({ locale }) => locale === 'vi-VN')?.name ??
-            category.code,
-          status: category.status,
-        })),
+      categories: mockData.categories.reduce<
+        AdminBrandMappingListResult['categories']
+      >((result, category) => {
+        if (category.status === 'ACTIVE') {
+          result.push({
+            id: category.id,
+            name:
+              category.contents.find(({ locale }) => locale === 'vi-VN')
+                ?.name ?? category.code,
+            status: category.status,
+          });
+        }
+        return result;
+      }, []),
       canEdit,
     });
   },

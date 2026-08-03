@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useTranslations } from '@/shared/hooks/use-translations';
 import type { AdminRoleCode } from '@/shared/permissions';
 import { useAuthSession } from '@/shared/stores/auth-store';
@@ -49,6 +49,11 @@ import {
 const selectClassName =
   'h-10 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 type RowErrors = Record<number, Record<string, string>>;
+type EditableMappingRow = AdminBrandMappingRowInput & { clientId: string };
+const vndFormatter = new Intl.NumberFormat('vi-VN', {
+  style: 'currency',
+  currency: 'VND',
+});
 
 function readQuery(params: URLSearchParams): AdminBrandMappingQuery {
   const commissionType = params.get('commissionType');
@@ -80,7 +85,13 @@ function MappingEditor({
   const { t } = useTranslations();
   const navigate = useNavigate();
   const save = useSaveAdminBrandMappings(brandId);
-  const [rows, setRows] = useState(initialRows);
+  const nextClientId = useRef(initialRows.length + 1);
+  const [rows, setRows] = useState<EditableMappingRow[]>(() =>
+    initialRows.map((row, index) => ({
+      ...row,
+      clientId: row.id ?? `new-mapping-${index + 1}`,
+    })),
+  );
   const [errors, setErrors] = useState<RowErrors>({});
 
   const setField = <K extends keyof AdminBrandMappingRowInput>(
@@ -97,6 +108,14 @@ function MappingEditor({
       ...current,
       [index]: { ...current[index], [field]: '' },
     }));
+  };
+  const addRow = () => {
+    const clientId = `new-mapping-${nextClientId.current}`;
+    nextClientId.current += 1;
+    setRows((current) => [
+      ...current,
+      { ...ADMIN_BRAND_MAPPING_EMPTY_ROW, clientId },
+    ]);
   };
   const submit = async (event: FormEvent) => {
     event.preventDefault();
@@ -149,7 +168,7 @@ function MappingEditor({
   return (
     <form className="space-y-4" onSubmit={submit} noValidate>
       {rows.map((row, index) => (
-        <Card key={row.id ?? index}>
+        <Card key={row.clientId}>
           <CardHeader className="flex-row items-center justify-between">
             <h2 className="font-semibold">
               {t('ADMIN_BRAND_MAPPINGS.ROW', { number: index + 1 })}
@@ -346,12 +365,7 @@ function MappingEditor({
           <Button
             type="button"
             variant="outline"
-            onClick={() =>
-              setRows((current) => [
-                ...current,
-                { ...ADMIN_BRAND_MAPPING_EMPTY_ROW },
-              ])
-            }
+            onClick={addRow}
           >
             <Plus />
             {t('ADMIN_BRAND_MAPPINGS.ADD_ROW')}
@@ -617,10 +631,7 @@ export function AdminBrandMappingPage() {
                       <TableCell>
                         {item.commissionType === 'PERCENTAGE'
                           ? `${item.commissionValue}%`
-                          : new Intl.NumberFormat('vi-VN', {
-                              style: 'currency',
-                              currency: 'VND',
-                            }).format(item.commissionValue)}
+                          : vndFormatter.format(item.commissionValue)}
                       </TableCell>
                       <TableCell>
                         {item.effectiveFrom.slice(0, 10)} →{' '}
