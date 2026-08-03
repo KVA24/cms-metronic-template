@@ -333,7 +333,7 @@ The ADMIN Foundation checkpoint is mandatory. Role/Account tasks and Assigned Br
 
 - [x] T1–T4: TENANT login, recovery, permission seeds, routes and menus
 - [ ] T5–T11: Dashboard, Roles, Permissions, Accounts and Profile
-- [ ] T12–T15: Assigned Brands, visibility and Earn Display
+- [x] T12–T15: Assigned Brands, visibility and Earn Display
 - [ ] T16–T18: Transactions, traceability and final regression
 
 ### 18.3 Phase T1 — TENANT access foundation
@@ -376,12 +376,12 @@ The ADMIN Foundation checkpoint is mandatory. Role/Account tasks and Assigned Br
 | T12 ✅ | Implement Assigned Brand list/filter/pagination and expanded Category/Commission and Offer tabs from ADMIN-managed shared arrays. Unassigned master records never appear.                        | TA, ADMIN A18 | `features/tenant/assigned-brands/{model,api,hooks,ui}` | TP-BRAND-001 scope/list       | M    |
 | T13 ✅ | Implement Brand landing, Hot and Offer visibility confirmations/mutations. Tenant master and Revenue Share fields remain read-only; ADMIN view reflects saved array values.                      | T12           | Visibility service/hooks/dialog/page files             | Cross-portal visibility check | M    |
 | T14 ✅ | Implement Earn Display list with Brand/Category/Offer target projection, filters, locale/status/effective information and empty/error states.                                                    | T12           | `features/tenant/earn-display/{model,api,hooks,ui}`    | TP-EARN-001 list              | M    |
-| T15    | Implement Brand/Category/Offer earn-display create/edit form with target XOR, localized values, effective dates and preview metadata. Display priority is shown but not calculated by an engine. | T13–T14       | Earn schema/form/service/page/tests                    | Earn validation/CRUD flow     | M    |
+| T15 ✅ | Implement Brand/Category/Offer earn-display create/edit form with target XOR, localized values, effective dates and preview metadata. Display priority is shown but not calculated by an engine. | T13–T14       | Earn schema/form/service/page/tests                    | Earn validation/CRUD flow     | M    |
 
 #### Checkpoint TC — Tenant merchandising
 
-- [ ] Assigned scope and visibility remain consistent between ADMIN and TENANT in one runtime.
-- [ ] Earn Display supports all three levels and locale/fallback rules.
+- [x] Assigned scope and visibility remain consistent between ADMIN and TENANT in one runtime.
+- [x] Earn Display supports all three levels and locale/fallback rules.
 - [ ] Lint, tests and build pass.
 
 ### 18.6 Phase T4 — Transactions and completion

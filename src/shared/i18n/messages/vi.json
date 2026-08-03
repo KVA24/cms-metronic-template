@@ -335,7 +335,64 @@
     "CONFIGURE": "Cấu hình",
     "EMPTY": "Không tìm thấy Brand được gán.",
     "ERROR": "Không thể tải cấu hình nội dung earn.",
-    "PAGE": "Trang {{page}} / {{total}} · {{count}} Brand"
+    "PAGE": "Trang {{page}} / {{total}} · {{count}} Brand",
+    "BACK": "Quay lại danh sách Earn Display",
+    "PRIORITY": "Thứ tự ưu tiên hiển thị",
+    "LOCALE_NOTE": "Landing tiếng Anh dùng text EN, tiếng Việt dùng text VN và không fallback chéo ngôn ngữ.",
+    "PREVIEW": "Trạng thái xem trước",
+    "DISPLAYED": "Đang được hiển thị",
+    "NOT_DISPLAYED": "Hiện không hiển thị",
+    "TARGET": "Đối tượng cấu hình",
+    "CATEGORY_CODE": "Mã Category",
+    "CATEGORY_NAME": "Tên Category",
+    "OFFER_CODE": "Mã Offer",
+    "OFFER_NAME": "Tên Offer",
+    "LEVELS": {
+      "BRAND": "Hiển thị Brand",
+      "CATEGORY": "Hiển thị Category",
+      "OFFER": "Hiển thị Offer"
+    },
+    "FORM": {
+      "TEXT_EN": "Nội dung earn/cashback EN",
+      "TEXT_VI": "Nội dung earn/cashback VN",
+      "MAX_LENGTH": "Tối đa 160 ký tự.",
+      "STATUS": "Trạng thái hiển thị",
+      "FROM": "Hiệu lực từ",
+      "TO": "Hiệu lực đến",
+      "SAVE": "Lưu cấu hình"
+    },
+    "SUCCESS": {
+      "BRAND": "Đã lưu cấu hình nội dung Brand.",
+      "CATEGORY": "Đã lưu cấu hình nội dung Category.",
+      "OFFER": "Đã lưu cấu hình nội dung Offer."
+    },
+    "UNAVAILABLE": {
+      "INACTIVE": "Đối tượng đang Inactive và không thể cấu hình.",
+      "EXPIRED": "Offer đã hết hạn và không thể cấu hình."
+    },
+    "UNSAVED": {
+      "TITLE": "Thay đổi chưa lưu",
+      "DESCRIPTION": "Bạn có thể lưu trước khi rời, bỏ thay đổi hoặc tiếp tục ở lại form.",
+      "STAY": "Ở lại",
+      "DISCARD": "Bỏ thay đổi",
+      "SAVE_CONTINUE": "Lưu và tiếp tục"
+    },
+    "ERRORS": {
+      "TEXT_EN_REQUIRED": "Nội dung earn/cashback EN là bắt buộc.",
+      "TEXT_VI_REQUIRED": "Nội dung earn/cashback VN là bắt buộc.",
+      "TEXT_EN_TOO_LONG": "Nội dung earn/cashback EN không được vượt quá 160 ký tự.",
+      "TEXT_VI_TOO_LONG": "Nội dung earn/cashback VN không được vượt quá 160 ký tự.",
+      "EFFECTIVE_FROM_INVALID": "Ngày bắt đầu không hợp lệ.",
+      "EFFECTIVE_TO_INVALID": "Ngày kết thúc không hợp lệ.",
+      "EFFECTIVE_PERIOD_INVALID": "Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.",
+      "VERSION_CONFLICT": "Cấu hình đã thay đổi. Vui lòng thử lại.",
+      "TARGET_XOR_INVALID": "Chỉ được chọn đúng một đối tượng cấu hình hợp lệ.",
+      "TARGET_NOT_FOUND": "Đối tượng đã chọn nằm ngoài phạm vi Brand.",
+      "TARGET_NOT_ACTIVE": "Đối tượng đã chọn đang Inactive.",
+      "TARGET_EXPIRED": "Offer đã chọn đã hết hạn.",
+      "FORBIDDEN": "Bạn không có quyền lưu cấu hình này.",
+      "SAVE_ERROR": "Không thể lưu cấu hình."
+    }
   },
   "TENANT_PROFILE": {
     "TITLE": "Hồ sơ của tôi",

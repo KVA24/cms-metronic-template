@@ -191,6 +191,11 @@ const TenantEarnDisplayListPage = lazy(() =>
     (m) => ({ default: m.TenantEarnDisplayListPage }),
   ),
 );
+const TenantEarnDisplayBrandPage = lazy(() =>
+  import('@/features/tenant/earn-display/ui/tenant-earn-display-brand-page').then(
+    (m) => ({ default: m.TenantEarnDisplayBrandPage }),
+  ),
+);
 const TenantRoleListPage = lazy(() =>
   import('@/features/tenant/roles/ui/tenant-role-list-page').then((m) => ({
     default: m.TenantRoleListPage,
@@ -361,7 +366,7 @@ export function AppRoutingSetup() {
             />
             <Route
               path="/tenant/earn-display/:brandId"
-              element={<TenantRoutePlaceholderPage />}
+              element={<TenantEarnDisplayBrandPage />}
             />
             <Route
               path="/tenant/transactions"

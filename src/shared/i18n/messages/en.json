@@ -335,7 +335,64 @@
     "CONFIGURE": "Configure",
     "EMPTY": "No assigned Brands found.",
     "ERROR": "Unable to load earn display configurations.",
-    "PAGE": "Page {{page}} of {{total}} · {{count}} Brands"
+    "PAGE": "Page {{page}} of {{total}} · {{count}} Brands",
+    "BACK": "Back to Earn Display list",
+    "PRIORITY": "Display priority",
+    "LOCALE_NOTE": "Landing locale uses EN text for English and VN text for Vietnamese, without cross-locale fallback.",
+    "PREVIEW": "Preview status",
+    "DISPLAYED": "Currently displayed",
+    "NOT_DISPLAYED": "Not currently displayed",
+    "TARGET": "Configuration target",
+    "CATEGORY_CODE": "Category Code",
+    "CATEGORY_NAME": "Category Name",
+    "OFFER_CODE": "Offer Code",
+    "OFFER_NAME": "Offer Name",
+    "LEVELS": {
+      "BRAND": "Brand display",
+      "CATEGORY": "Category display",
+      "OFFER": "Offer display"
+    },
+    "FORM": {
+      "TEXT_EN": "Earn/cashback display text EN",
+      "TEXT_VI": "Earn/cashback display text VN",
+      "MAX_LENGTH": "Maximum 160 characters.",
+      "STATUS": "Display Status",
+      "FROM": "Effective From",
+      "TO": "Effective To",
+      "SAVE": "Save configuration"
+    },
+    "SUCCESS": {
+      "BRAND": "Brand earn/cashback display configuration saved successfully.",
+      "CATEGORY": "Category earn/cashback display configuration saved successfully.",
+      "OFFER": "Offer earn/cashback display configuration saved successfully."
+    },
+    "UNAVAILABLE": {
+      "INACTIVE": "This target is inactive and cannot be configured.",
+      "EXPIRED": "This Offer has expired and cannot be configured."
+    },
+    "UNSAVED": {
+      "TITLE": "Unsaved changes",
+      "DESCRIPTION": "Save your changes before leaving, discard them, or stay on this form.",
+      "STAY": "Stay",
+      "DISCARD": "Discard changes",
+      "SAVE_CONTINUE": "Save and continue"
+    },
+    "ERRORS": {
+      "TEXT_EN_REQUIRED": "Earn/cashback display text EN is required.",
+      "TEXT_VI_REQUIRED": "Earn/cashback display text VN is required.",
+      "TEXT_EN_TOO_LONG": "Earn/cashback display text EN must not exceed 160 characters.",
+      "TEXT_VI_TOO_LONG": "Earn/cashback display text VN must not exceed 160 characters.",
+      "EFFECTIVE_FROM_INVALID": "Effective From is invalid.",
+      "EFFECTIVE_TO_INVALID": "Effective To is invalid.",
+      "EFFECTIVE_PERIOD_INVALID": "Effective To must be greater than or equal to Effective From.",
+      "VERSION_CONFLICT": "Earn/cashback display configuration has changed. Please try again.",
+      "TARGET_XOR_INVALID": "Select exactly one valid configuration target.",
+      "TARGET_NOT_FOUND": "The selected target is outside this Brand scope.",
+      "TARGET_NOT_ACTIVE": "The selected target is inactive.",
+      "TARGET_EXPIRED": "The selected Offer has expired.",
+      "FORBIDDEN": "You do not have permission to save this configuration.",
+      "SAVE_ERROR": "The configuration could not be saved."
+    }
   },
   "TENANT_PROFILE": {
     "TITLE": "My Profile",

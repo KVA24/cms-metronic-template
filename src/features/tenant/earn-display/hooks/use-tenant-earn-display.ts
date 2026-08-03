@@ -1,5 +1,5 @@
 import type { AuthSession } from '@/shared/contracts';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { tenantEarnDisplayService } from '../api/tenant-earn-display-service';
 import type { TenantEarnDisplayQuery } from '../model/tenant-earn-display';
 
@@ -20,5 +20,29 @@ export function useTenantEarnDisplayList(
     queryFn: () => tenantEarnDisplayService.list(session!, query),
     enabled: Boolean(session),
     retry: false,
+  });
+}
+
+export function useTenantEarnDisplayBrand(
+  session: AuthSession | null,
+  brandId: string,
+) {
+  return useQuery({
+    queryKey: tenantEarnDisplayKeys.brand(session, brandId),
+    queryFn: () => tenantEarnDisplayService.getBrandContext(session!, brandId),
+    enabled: Boolean(session && brandId),
+    retry: false,
+  });
+}
+
+export function useTenantEarnDisplaySave(session: AuthSession | null) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: tenantEarnDisplayService.save.bind(
+      tenantEarnDisplayService,
+      session!,
+    ),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: tenantEarnDisplayKeys.all }),
   });
 }
