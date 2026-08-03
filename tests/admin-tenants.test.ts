@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict';
 import { beforeEach, describe, it } from 'node:test';
 import { adminTenantService } from '../src/features/admin/tenants/api/admin-tenant-service';
+import { adminTenantAccountService } from '../src/features/admin/tenants/api/admin-tenant-account-service';
+import {
+  ADMIN_TENANT_ACCOUNT_DEFAULT_QUERY,
+  adminTenantAccountCreateSchema,
+} from '../src/features/admin/tenants/model/admin-tenant-account';
 import {
   ADMIN_TENANT_DEFAULT_QUERY,
   adminTenantSchema,
@@ -257,6 +262,180 @@ describe('ADMIN Tenant detail, edit and deactivate service', () => {
         'tenant-lotus',
         'CMS_FINANCE',
         'cms-finance',
+      ),
+      /FORBIDDEN/,
+    );
+  });
+});
+
+const validAccountInput = {
+  username: 'ops_user',
+  fullName: 'Operations User',
+  email: 'ops.user@lotus.test',
+  phone: '+84901234567',
+  roleCode: 'TENANT_MARKETING_OPS' as const,
+  status: 'ACTIVE' as const,
+  password: 'Tenant123!',
+  confirmPassword: 'Tenant123!',
+};
+
+describe('ADMIN Tenant Portal account service', () => {
+  beforeEach(() => resetMockData());
+
+  it('lists only the current Tenant and supports combined filters', async () => {
+    const result = await adminTenantAccountService.listAccounts(
+      'tenant-lotus',
+      {
+        ...ADMIN_TENANT_ACCOUNT_DEFAULT_QUERY,
+        keyword: 'marketing',
+        roleCode: 'TENANT_MARKETING_OPS',
+        status: 'ACTIVE',
+      },
+      'CMS_OPERATION',
+    );
+    assert.deepEqual(result.items.map(({ username }) => username), [
+      'marketing@lotus.test',
+    ]);
+    assert.equal(result.items.every(({ tenantId }) => tenantId === 'tenant-lotus'), true);
+    assert.equal(result.items[0].createdSource, 'TENANT_PORTAL');
+  });
+
+  it('never exposes a password in list or detail DTOs', async () => {
+    const list = await adminTenantAccountService.listAccounts(
+      'tenant-lotus',
+      ADMIN_TENANT_ACCOUNT_DEFAULT_QUERY,
+      'CMS_ADMIN',
+    );
+    const detail = await adminTenantAccountService.getAccount(
+      'tenant-lotus',
+      list.items[0].id,
+      'CMS_ADMIN',
+    );
+    assert.equal('password' in list.items[0], false);
+    assert.equal('password' in detail, false);
+    await assert.rejects(
+      adminTenantAccountService.getAccount(
+        'tenant-bamboo',
+        list.items[0].id,
+        'CMS_ADMIN',
+      ),
+      /ACCOUNT_NOT_FOUND/,
+    );
+  });
+
+  it('validates username, email, phone and password policy', () => {
+    const result = adminTenantAccountCreateSchema.safeParse({
+      ...validAccountInput,
+      username: 'bad user',
+      email: 'invalid',
+      phone: '+84 90',
+      password: 'weak',
+      confirmPassword: 'different',
+    });
+    assert.equal(result.success, false);
+    if (!result.success)
+      assert.equal(
+        ['USERNAME_INVALID', 'EMAIL_INVALID', 'PHONE_INVALID', 'PASSWORD_POLICY', 'PASSWORD_MISMATCH'].every(
+          (code) => result.error.issues.some(({ message }) => message === code),
+        ),
+        true,
+      );
+  });
+
+  it('enforces first Admin Tenant and per-Tenant normalized username uniqueness', async () => {
+    const bamboo = await adminTenantAccountService.listAccounts(
+      'tenant-bamboo',
+      ADMIN_TENANT_ACCOUNT_DEFAULT_QUERY,
+      'CMS_ADMIN',
+    );
+    assert.equal(bamboo.requiresFirstAdmin, true);
+    await assert.rejects(
+      adminTenantAccountService.createAccount(
+        'tenant-bamboo',
+        validAccountInput,
+        'CMS_ADMIN',
+        'cms-admin',
+      ),
+      /FIRST_ACCOUNT_ADMIN_REQUIRED/,
+    );
+    const created = await adminTenantAccountService.createAccount(
+      'tenant-bamboo',
+      { ...validAccountInput, roleCode: 'TENANT_ADMIN' },
+      'CMS_ADMIN',
+      'cms-admin',
+    );
+    assert.equal(created.roleCode, 'TENANT_ADMIN');
+    await assert.rejects(
+      adminTenantAccountService.createAccount(
+        'tenant-bamboo',
+        { ...validAccountInput, username: ' OPS_USER ' },
+        'CMS_ADMIN',
+        'cms-admin',
+      ),
+      /USERNAME_DUPLICATE/,
+    );
+    const sameUsernameOtherTenant = await adminTenantAccountService.createAccount(
+      'tenant-lotus',
+      validAccountInput,
+      'CMS_ADMIN',
+      'cms-admin',
+    );
+    assert.equal(sameUsernameOtherTenant.tenantId, 'tenant-lotus');
+  });
+
+  it('updates fields, keeps username immutable and audits session invalidation', async () => {
+    const current = mockData.authAccounts.find(({ id }) => id === 'tenant-marketing')!;
+    const updated = await adminTenantAccountService.updateAccount(
+      'tenant-lotus',
+      current.id,
+      {
+        fullName: 'Marketing Lead',
+        email: 'lead@lotus.test',
+        phone: '+84999888777',
+        roleCode: 'TENANT_VIEWER',
+        status: 'LOCKED',
+        password: 'NewTenant123!',
+        confirmPassword: 'NewTenant123!',
+      },
+      current.version,
+      'CMS_OPERATION',
+      'cms-operation',
+    );
+    assert.equal(updated.username, 'marketing@lotus.test');
+    assert.equal(updated.status, 'LOCKED');
+    assert.equal(
+      mockData.auditRecords.at(-1)?.action,
+      'UPDATE_TENANT_ACCOUNT_AND_INVALIDATE_SESSION',
+    );
+  });
+
+  it('blocks disabling the final Active Admin Tenant and soft-disables other users', async () => {
+    await assert.rejects(
+      adminTenantAccountService.disableAccount(
+        'tenant-lotus',
+        'tenant-admin',
+        'CMS_ADMIN',
+        'cms-admin',
+      ),
+      /LAST_ACTIVE_ADMIN/,
+    );
+    const count = mockData.authAccounts.length;
+    const disabled = await adminTenantAccountService.disableAccount(
+      'tenant-lotus',
+      'tenant-viewer',
+      'CMS_OPERATION',
+      'cms-operation',
+    );
+    assert.equal(disabled.status, 'INACTIVE');
+    assert.equal(mockData.authAccounts.length, count);
+  });
+
+  it('enforces account permissions', async () => {
+    await assert.rejects(
+      adminTenantAccountService.listAccounts(
+        'tenant-lotus',
+        ADMIN_TENANT_ACCOUNT_DEFAULT_QUERY,
+        'CMS_FINANCE',
       ),
       /FORBIDDEN/,
     );

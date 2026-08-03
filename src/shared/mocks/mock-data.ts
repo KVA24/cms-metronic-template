@@ -416,6 +416,14 @@ function createAuthAccount(
     roleCode,
     tenantId,
     roles: [{ roleCode, roleName: roleCode }],
+    phone: '',
+    failedLoginCount: 0,
+    createdSource: id === 'tenant-marketing' ? 'TENANT_PORTAL' : 'CMS',
+    createdBy: tenantId ? 'cms-admin' : 'system',
+    createdAt: '2026-07-01T08:00:00.000Z',
+    updatedBy: tenantId ? 'cms-admin' : 'system',
+    updatedAt: '2026-07-01T08:00:00.000Z',
+    version: 1,
   };
 }
 
