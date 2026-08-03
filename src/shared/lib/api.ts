@@ -141,8 +141,8 @@ axiosInstance.interceptors.response.use(
     if (status === 401 && originalRequest) {
       // Skip refresh for login/refresh endpoints - redirect immediately
       if (
-        originalRequest.url?.includes('/api/auth/p/generate-token') ||
-        originalRequest.url?.includes('/api/auth/p/refresh-token')
+        originalRequest.url?.includes('/openapi/auth/p/generate-token') ||
+        originalRequest.url?.includes('/openapi/auth/p/refresh-token')
       ) {
         logger.error('❌ Auth endpoint returned 401, redirecting to login');
         storage.removeItem('access_token');
