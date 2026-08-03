@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import { beforeEach, describe, it } from 'node:test';
 import { adminTenantService } from '../src/features/admin/tenants/api/admin-tenant-service';
 import { adminTenantAccountService } from '../src/features/admin/tenants/api/admin-tenant-account-service';
+import { adminTenantAssignmentService } from '../src/features/admin/tenants/api/admin-tenant-assignment-service';
+import { ADMIN_TENANT_ASSIGNMENT_DEFAULT_QUERY } from '../src/features/admin/tenants/model/admin-tenant-assignment';
 import {
   ADMIN_TENANT_ACCOUNT_DEFAULT_QUERY,
   adminTenantAccountCreateSchema,
@@ -435,6 +437,98 @@ describe('ADMIN Tenant Portal account service', () => {
       adminTenantAccountService.listAccounts(
         'tenant-lotus',
         ADMIN_TENANT_ACCOUNT_DEFAULT_QUERY,
+        'CMS_FINANCE',
+      ),
+      /FORBIDDEN/,
+    );
+  });
+});
+
+describe('ADMIN Tenant Brand/Offer assignment service', () => {
+  beforeEach(() => resetMockData());
+
+  it('projects assignment scope, active Offers and Brand categories', async () => {
+    const result = await adminTenantAssignmentService.listAssignments(
+      'tenant-lotus',
+      ADMIN_TENANT_ASSIGNMENT_DEFAULT_QUERY,
+      'CMS_OPERATION',
+    );
+    const foodnest = result.rows.find(({ brand }) => brand.code === 'FOODNEST')!;
+    assert.equal(foodnest.scope, 'ALL_ACTIVE');
+    assert.deepEqual(foodnest.assignedOfferIds, ['offer-foodnest-new-user']);
+    assert.equal(foodnest.categories.length, 1);
+  });
+
+  it('filters Brand ID/name, status, category and assignment with AND semantics', async () => {
+    const result = await adminTenantAssignmentService.listAssignments(
+      'tenant-lotus',
+      {
+        keyword: 'foodnest',
+        brandStatus: 'ACTIVE',
+        categoryId: 'category-food-dining',
+        assignment: 'ASSIGNED',
+      },
+      'CMS_ADMIN',
+    );
+    assert.deepEqual(result.rows.map(({ brand }) => brand.code), ['FOODNEST']);
+  });
+
+  it('assigns all active Offers by explicit draft and supports a custom pool', async () => {
+    await adminTenantAssignmentService.saveAssignments(
+      'tenant-lotus',
+      [{ brandId: 'brand-travelgo', assigned: true, offerIds: ['offer-travelgo-summer'] }],
+      'CMS_OPERATION',
+      'cms-operation',
+    );
+    let assignment = mockData.tenantBrandAssignments.find(
+      ({ tenantId, brandId }) => tenantId === 'tenant-lotus' && brandId === 'brand-travelgo',
+    );
+    assert.deepEqual(assignment?.offerIds, ['offer-travelgo-summer']);
+    await adminTenantAssignmentService.saveAssignments(
+      'tenant-lotus',
+      [{ brandId: 'brand-travelgo', assigned: true, offerIds: [] }],
+      'CMS_OPERATION',
+      'cms-operation',
+    );
+    assignment = mockData.tenantBrandAssignments.find(
+      ({ tenantId, brandId }) => tenantId === 'tenant-lotus' && brandId === 'brand-travelgo',
+    );
+    assert.deepEqual(assignment?.offerIds, []);
+    assert.equal(mockData.auditRecords.at(-1)?.action, 'SAVE_TENANT_ASSIGNMENTS');
+  });
+
+  it('saves atomically and rejects inactive Tenant, Brand or Offer IDs', async () => {
+    const before = structuredClone(mockData.tenantBrandAssignments);
+    await assert.rejects(
+      adminTenantAssignmentService.saveAssignments(
+        'tenant-lotus',
+        [
+          { brandId: 'brand-travelgo', assigned: true, offerIds: ['offer-travelgo-summer'] },
+          { brandId: 'brand-stylehub', assigned: true, offerIds: [] },
+        ],
+        'CMS_ADMIN',
+        'cms-admin',
+      ),
+      /BRAND_NOT_ACTIVE/,
+    );
+    assert.deepEqual(mockData.tenantBrandAssignments, before);
+    mockData.tenants[0].status = 'INACTIVE';
+    await assert.rejects(
+      adminTenantAssignmentService.saveAssignments(
+        'tenant-lotus',
+        [{ brandId: 'brand-travelgo', assigned: true, offerIds: ['offer-travelgo-summer'] }],
+        'CMS_ADMIN',
+        'cms-admin',
+      ),
+      /TENANT_NOT_ACTIVE/,
+    );
+  });
+
+  it('enforces assignment permissions', async () => {
+    await assert.rejects(
+      adminTenantAssignmentService.listAssignments(
+        'tenant-lotus',
+        ADMIN_TENANT_ASSIGNMENT_DEFAULT_QUERY,
         'CMS_FINANCE',
       ),
       /FORBIDDEN/,

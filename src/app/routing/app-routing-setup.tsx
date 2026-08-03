@@ -115,6 +115,11 @@ const AdminTenantAccountPage = lazy(() =>
     default: m.AdminTenantAccountPage,
   })),
 );
+const AdminTenantAssignmentPage = lazy(() =>
+  import('@/features/admin/tenants/ui/admin-tenant-assignment-page').then((m) => ({
+    default: m.AdminTenantAssignmentPage,
+  })),
+);
 const AccountManagementPage = lazy(() =>
   import('@/features/account').then((m) => ({ default: m.AccountPage })),
 );
@@ -168,6 +173,7 @@ export function AppRoutingSetup() {
             <Route path="/admin/tenants" element={<AdminTenantListPage />} />
             <Route path="/admin/tenants/new" element={<AdminTenantCreatePage />} />
             <Route path="/admin/tenants/:tenantId/accounts" element={<AdminTenantAccountPage />} />
+            <Route path="/admin/tenants/:tenantId/assignments" element={<AdminTenantAssignmentPage />} />
             <Route path="/admin/tenants/:tenantId" element={<AdminTenantDetailPage />} />
             <Route
               path="/auth/welcome-message"

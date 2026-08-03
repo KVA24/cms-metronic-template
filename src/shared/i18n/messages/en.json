@@ -768,6 +768,43 @@
       "SAVE_ERROR": "The Tenant account could not be saved."
     }
   },
+  "ADMIN_TENANT_ASSIGNMENTS": {
+    "TITLE": "Brand / Offer assignment pool",
+    "DESCRIPTION": "Choose the active Brands and Offers that this Tenant may expose in its marketplace.",
+    "SAVE": "Save assignments",
+    "SAVE_SUCCESS": "Assignment pool saved. Tenant Portal reads now use the updated shared data.",
+    "KEYWORD": "Brand ID or name",
+    "BRAND_STATUS": "Brand status",
+    "CATEGORY": "Category",
+    "ASSIGNMENT_STATUS": "Assignment status",
+    "ASSIGNED": "Assigned",
+    "UNASSIGNED": "Not assigned",
+    "CUSTOM": "Custom offers",
+    "EMPTY": "No Brands match the current filters.",
+    "SELECT_ALL": "Select all eligible Brands in this list",
+    "SELECT_BRAND": "Select Brand {{name}}",
+    "BRAND": "Brand",
+    "ACTIVE_OFFERS": "Active Offers",
+    "SCOPE": "Assignment scope",
+    "EDIT_OFFERS": "Edit Offers",
+    "OFFER_TITLE": "Offers for {{name}}",
+    "OFFER_DESCRIPTION": "Only selected Active Offers will belong to this Tenant's assignment pool.",
+    "APPLY_OFFERS": "Apply Offer selection",
+    "SCOPES": {
+      "NOT_ASSIGNED": "Not assigned",
+      "ALL_ACTIVE": "All Active Offers",
+      "CUSTOM": "Custom Offers"
+    },
+    "ERRORS": {
+      "LOAD_ERROR": "Assignments could not be loaded.",
+      "TENANT_NOT_ACTIVE": "Activate the Tenant before assigning Brands.",
+      "BRAND_NOT_ACTIVE": "Inactive or Draft Brands cannot be assigned.",
+      "OFFER_NOT_ACTIVE": "Only Active Offers can be assigned.",
+      "DUPLICATE_BRAND": "A Brand appears more than once in the save request.",
+      "BRAND_NOT_FOUND": "A selected Brand no longer exists.",
+      "SAVE_ERROR": "Assignments could not be saved."
+    }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Dashboard",

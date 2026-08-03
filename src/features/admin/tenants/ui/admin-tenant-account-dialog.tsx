@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { FormEvent, useMemo, useState } from 'react';
 import { useTranslations } from '@/shared/hooks/use-translations';
 import type { AdminRoleCode } from '@/shared/permissions';
 import { useAuthSession } from '@/shared/stores/auth-store';
@@ -52,7 +52,7 @@ export function AdminTenantAccountDialog({
   onModeChange,
 }: {
   tenantId: string;
-  mode: AccountDialogMode;
+  mode: Exclude<AccountDialogMode, null>;
   account: AdminTenantAccountView | null;
   requiresFirstAdmin: boolean;
   canEdit: boolean;
@@ -62,9 +62,6 @@ export function AdminTenantAccountDialog({
   const { t } = useTranslations();
   const create = useCreateAdminTenantAccount(tenantId);
   const update = useUpdateAdminTenantAccount(tenantId);
-  const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState<AccountErrors>({});
-  const [form, setForm] = useState<AccountForm>(emptyForm);
   const initial = useMemo<AccountForm>(() => {
     if (!account) return { ...emptyForm, roleCode: requiresFirstAdmin ? 'TENANT_ADMIN' : 'TENANT_VIEWER' };
     return {
@@ -78,12 +75,9 @@ export function AdminTenantAccountDialog({
       confirmPassword: '',
     } as AccountForm;
   }, [account, requiresFirstAdmin]);
-  useEffect(() => {
-    if (!mode) return;
-    setForm(initial);
-    setErrors({});
-    setShowPassword(false);
-  }, [initial, mode]);
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState<AccountErrors>({});
+  const [form, setForm] = useState<AccountForm>(initial);
   const dirty = JSON.stringify(form) !== JSON.stringify(initial);
   const pending = create.isPending || update.isPending;
   const readOnly = mode === 'view';
@@ -102,7 +96,7 @@ export function AdminTenantAccountDialog({
   };
   const submit = async (event: FormEvent) => {
     event.preventDefault();
-    if (!mode || readOnly || !session || pending) return;
+    if (readOnly || !session || pending) return;
     const parsed = mode === 'create'
       ? adminTenantAccountCreateSchema.safeParse(form)
       : adminTenantAccountEditSchema.safeParse({

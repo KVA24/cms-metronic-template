@@ -768,6 +768,43 @@
       "SAVE_ERROR": "Không thể lưu tài khoản Tenant."
     }
   },
+  "ADMIN_TENANT_ASSIGNMENTS": {
+    "TITLE": "Pool Brand / Offer được gán",
+    "DESCRIPTION": "Chọn Brand và Offer Active mà Tenant được phép hiển thị trên marketplace.",
+    "SAVE": "Lưu assignment",
+    "SAVE_SUCCESS": "Đã lưu pool assignment. Tenant Portal đọc ngay dữ liệu chung mới.",
+    "KEYWORD": "Brand ID hoặc tên",
+    "BRAND_STATUS": "Trạng thái Brand",
+    "CATEGORY": "Category",
+    "ASSIGNMENT_STATUS": "Trạng thái assignment",
+    "ASSIGNED": "Đã assign",
+    "UNASSIGNED": "Chưa assign",
+    "CUSTOM": "Có chỉnh Offer riêng",
+    "EMPTY": "Không có Brand phù hợp bộ lọc.",
+    "SELECT_ALL": "Chọn toàn bộ Brand hợp lệ trong danh sách",
+    "SELECT_BRAND": "Chọn Brand {{name}}",
+    "BRAND": "Brand",
+    "ACTIVE_OFFERS": "Offer Active",
+    "SCOPE": "Phạm vi assignment",
+    "EDIT_OFFERS": "Chỉnh Offer",
+    "OFFER_TITLE": "Offer của {{name}}",
+    "OFFER_DESCRIPTION": "Chỉ các Offer Active được chọn thuộc pool assignment của Tenant này.",
+    "APPLY_OFFERS": "Áp dụng danh sách Offer",
+    "SCOPES": {
+      "NOT_ASSIGNED": "Chưa assign",
+      "ALL_ACTIVE": "Tất cả Offer Active",
+      "CUSTOM": "Offer tùy chọn"
+    },
+    "ERRORS": {
+      "LOAD_ERROR": "Không thể tải assignment.",
+      "TENANT_NOT_ACTIVE": "Hãy kích hoạt Tenant trước khi assign Brand.",
+      "BRAND_NOT_ACTIVE": "Không thể assign Brand Inactive hoặc Draft.",
+      "OFFER_NOT_ACTIVE": "Chỉ có thể assign Offer Active.",
+      "DUPLICATE_BRAND": "Một Brand xuất hiện nhiều lần trong yêu cầu lưu.",
+      "BRAND_NOT_FOUND": "Brand đã chọn không còn tồn tại.",
+      "SAVE_ERROR": "Không thể lưu assignment."
+    }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Bảng Điều Khiển",
