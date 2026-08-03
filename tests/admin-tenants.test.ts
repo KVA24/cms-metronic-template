@@ -167,3 +167,98 @@ describe('ADMIN Tenant create service', () => {
     );
   });
 });
+
+describe('ADMIN Tenant detail, edit and deactivate service', () => {
+  beforeEach(() => resetMockData());
+
+  it('returns dependencies and locks a code once related data exists', async () => {
+    const detail = await adminTenantService.getTenant(
+      'tenant-lotus',
+      'CMS_OPERATION',
+    );
+    assert.deepEqual(detail.dependencies, {
+      accountCount: 3,
+      assignmentCount: 1,
+      transactionCount: 1,
+      canHardDelete: false,
+    });
+    assert.equal(detail.codeLocked, true);
+    assert.equal(detail.canDeactivate, true);
+  });
+
+  it('updates valid data with optimistic versioning and audit', async () => {
+    const current = mockData.tenants[0];
+    const updated = await adminTenantService.updateTenant(
+      current.id,
+      { ...validTenantInput, code: current.code, name: 'Lotus Rewards Plus' },
+      current.version,
+      'CMS_ADMIN',
+      'cms-admin',
+    );
+    assert.equal(updated.name, 'Lotus Rewards Plus');
+    assert.equal(updated.version, 2);
+    assert.equal(mockData.auditRecords.at(-1)?.action, 'UPDATE_TENANT');
+    await assert.rejects(
+      adminTenantService.updateTenant(
+        current.id,
+        { ...validTenantInput, code: current.code },
+        1,
+        'CMS_ADMIN',
+        'cms-admin',
+      ),
+      /VERSION_CONFLICT/,
+    );
+  });
+
+  it('blocks a linked Tenant code change', async () => {
+    const current = mockData.tenants[0];
+    await assert.rejects(
+      adminTenantService.updateTenant(
+        current.id,
+        { ...validTenantInput, code: 'NEW_CODE' },
+        current.version,
+        'CMS_OPERATION',
+        'cms-operation',
+      ),
+      /TENANT_CODE_LOCKED/,
+    );
+  });
+
+  it('soft-deactivates without deleting dependent history', async () => {
+    const before = {
+      accounts: mockData.authAccounts.length,
+      assignments: mockData.tenantBrandAssignments.length,
+      transactions: mockData.transactions.length,
+    };
+    const tenant = await adminTenantService.deactivateTenant(
+      'tenant-lotus',
+      'CMS_OPERATION',
+      'cms-operation',
+    );
+    assert.equal(tenant.status, 'INACTIVE');
+    assert.deepEqual(
+      {
+        accounts: mockData.authAccounts.length,
+        assignments: mockData.tenantBrandAssignments.length,
+        transactions: mockData.transactions.length,
+      },
+      before,
+    );
+    assert.equal(mockData.auditRecords.at(-1)?.action, 'DEACTIVATE_TENANT');
+  });
+
+  it('enforces view and edit permissions', async () => {
+    await assert.rejects(
+      adminTenantService.getTenant('tenant-lotus', 'CMS_FINANCE'),
+      /FORBIDDEN/,
+    );
+    await assert.rejects(
+      adminTenantService.deactivateTenant(
+        'tenant-lotus',
+        'CMS_FINANCE',
+        'cms-finance',
+      ),
+      /FORBIDDEN/,
+    );
+  });
+});

@@ -671,6 +671,7 @@
       "TENANT_CODE_LENGTH": "Tenant code cannot exceed 50 characters.",
       "TENANT_CODE_INVALID": "Use only letters, numbers, underscore or hyphen.",
       "TENANT_CODE_DUPLICATE": "Tenant code already exists.",
+      "TENANT_CODE_LOCKED": "Tenant code cannot change because linked data exists.",
       "TENANT_NAME_REQUIRED": "Tenant name is required.",
       "TENANT_NAME_LENGTH": "Tenant name cannot exceed 255 characters.",
       "ACCOUNT_OWNER_LENGTH": "Account owner cannot exceed 120 characters.",
@@ -679,6 +680,26 @@
       "CONTACT_TITLE_LENGTH": "Contact title cannot exceed 120 characters.",
       "CONTACT_EMAIL_INVALID": "Contact email is invalid.",
       "CONTACT_PHONE_INVALID": "Contact phone is invalid."
+    }
+  },
+  "ADMIN_TENANT_DETAIL": {
+    "NOT_FOUND": "Tenant was not found or cannot be viewed.",
+    "ACCOUNTS": "Portal accounts",
+    "ASSIGNMENTS": "Brand assignments",
+    "TRANSACTIONS": "Transactions",
+    "MANAGE_ACCOUNTS": "Manage accounts",
+    "MANAGE_ASSIGNMENTS": "Manage assignments",
+    "MANAGE_REVENUE": "Manage revenue share",
+    "SAVE": "Save changes",
+    "UPDATE_SUCCESS": "Tenant updated successfully.",
+    "DEACTIVATE": "Deactivate",
+    "DEACTIVATE_TITLE": "Deactivate this Tenant?",
+    "DEACTIVATE_DESCRIPTION": "The public landing and marketplace will be unavailable. {{accounts}} accounts, {{assignments}} assignments and {{transactions}} transactions remain in history.",
+    "CONFIRM_DEACTIVATE": "Deactivate Tenant",
+    "DEACTIVATE_SUCCESS": "Tenant deactivated. Linked history was preserved.",
+    "ERRORS": {
+      "VERSION_CONFLICT": "Tenant was updated elsewhere. Reload before saving.",
+      "SAVE_ERROR": "Tenant could not be updated."
     }
   },
   "DASHBOARD": {

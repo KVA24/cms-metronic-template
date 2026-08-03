@@ -7,6 +7,7 @@ import {
 import {
   adminTenantSchema,
   type AdminTenantInput,
+  type AdminTenantDetailView,
   type AdminTenantListItem,
   type AdminTenantListResult,
   type AdminTenantQuery,
@@ -16,9 +17,49 @@ const mockNow = new Date('2026-08-03T12:00:00.000Z');
 
 function assertPermission(
   roleCode: AdminRoleCode,
-  permission: 'tenants.view' | 'tenants.create',
+  permission: 'tenants.view' | 'tenants.create' | 'tenants.edit',
 ) {
   if (!hasPermission(roleCode, permission)) throw new Error('FORBIDDEN');
+}
+
+function getTenantOrThrow(tenantId: string): Tenant {
+  const tenant = mockData.tenants.find(({ id }) => id === tenantId);
+  if (!tenant) throw new Error('TENANT_NOT_FOUND');
+  return tenant;
+}
+
+function getDependencies(tenantId: string) {
+  const accountCount = mockData.authAccounts.filter(
+    (account) => account.tenantId === tenantId,
+  ).length;
+  const assignmentCount = mockData.tenantBrandAssignments.filter(
+    (assignment) => assignment.tenantId === tenantId,
+  ).length;
+  const transactionCount = mockData.transactions.filter(
+    (transaction) => transaction.tenantId === tenantId,
+  ).length;
+  return {
+    accountCount,
+    assignmentCount,
+    transactionCount,
+    canHardDelete: accountCount + assignmentCount + transactionCount === 0,
+  };
+}
+
+function audit(
+  action: string,
+  tenantId: string,
+  actorId: string,
+  occurredAt: string,
+) {
+  mockData.auditRecords.push({
+    id: `audit-tenant-${mockData.auditRecords.length + 1}`,
+    actorId,
+    action,
+    entityType: 'TENANT',
+    entityId: tenantId,
+    occurredAt,
+  });
 }
 
 function threshold(period: AdminTenantQuery['updatedPeriod']): string | null {
@@ -93,6 +134,23 @@ export const adminTenantService = {
     };
   },
 
+  async getTenant(
+    tenantId: string,
+    roleCode: AdminRoleCode,
+  ): Promise<AdminTenantDetailView> {
+    assertPermission(roleCode, 'tenants.view');
+    const tenant = getTenantOrThrow(tenantId);
+    const dependencies = getDependencies(tenantId);
+    const canEdit = hasPermission(roleCode, 'tenants.edit');
+    return structuredClone({
+      tenant,
+      dependencies,
+      codeLocked: !dependencies.canHardDelete,
+      canEdit,
+      canDeactivate: canEdit && tenant.status !== 'INACTIVE',
+    });
+  },
+
   async createTenant(
     input: AdminTenantInput,
     roleCode: AdminRoleCode,
@@ -117,14 +175,55 @@ export const adminTenantService = {
       version: 1,
     };
     mockData.tenants.push(tenant);
-    mockData.auditRecords.push({
-      id: `audit-tenant-${mockData.auditRecords.length + 1}`,
-      actorId,
-      action: 'CREATE_TENANT',
-      entityType: 'TENANT',
-      entityId: tenant.id,
-      occurredAt: tenant.createdAt,
+    audit('CREATE_TENANT', tenant.id, actorId, tenant.createdAt);
+    return structuredClone(tenant);
+  },
+
+  async updateTenant(
+    tenantId: string,
+    input: AdminTenantInput,
+    expectedVersion: number,
+    roleCode: AdminRoleCode,
+    actorId: string,
+  ): Promise<Tenant> {
+    assertPermission(roleCode, 'tenants.edit');
+    const current = getTenantOrThrow(tenantId);
+    if (current.version !== expectedVersion) throw new Error('VERSION_CONFLICT');
+    const parsed = adminTenantSchema.parse(input);
+    if (parsed.code !== current.code && !getDependencies(tenantId).canHardDelete)
+      throw new Error('TENANT_CODE_LOCKED');
+    if (
+      parsed.code !== current.code &&
+      mockData.tenants.some(
+        (tenant) =>
+          tenant.id !== tenantId &&
+          tenant.code.toLowerCase() === parsed.code.toLowerCase(),
+      )
+    )
+      throw new Error('TENANT_CODE_DUPLICATE');
+    const updatedAt = `2026-08-03T${String(current.version + 12).padStart(2, '0')}:00:00.000Z`;
+    Object.assign(current, parsed, {
+      updatedBy: actorId,
+      updatedAt,
+      version: current.version + 1,
     });
+    audit('UPDATE_TENANT', tenantId, actorId, updatedAt);
+    return structuredClone(current);
+  },
+
+  async deactivateTenant(
+    tenantId: string,
+    roleCode: AdminRoleCode,
+    actorId: string,
+  ): Promise<Tenant> {
+    assertPermission(roleCode, 'tenants.edit');
+    const tenant = getTenantOrThrow(tenantId);
+    const updatedAt = `2026-08-03T${String(tenant.version + 14).padStart(2, '0')}:00:00.000Z`;
+    tenant.status = 'INACTIVE';
+    tenant.updatedBy = actorId;
+    tenant.updatedAt = updatedAt;
+    tenant.version += 1;
+    audit('DEACTIVATE_TENANT', tenantId, actorId, updatedAt);
     return structuredClone(tenant);
   },
 };

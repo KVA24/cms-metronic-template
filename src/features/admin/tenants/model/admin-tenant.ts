@@ -27,6 +27,21 @@ export interface AdminTenantListItem extends Tenant {
 
 export type AdminTenantListResult = PageResult<AdminTenantListItem>;
 
+export interface AdminTenantDependencySummary {
+  accountCount: number;
+  assignmentCount: number;
+  transactionCount: number;
+  canHardDelete: boolean;
+}
+
+export interface AdminTenantDetailView {
+  tenant: Tenant;
+  dependencies: AdminTenantDependencySummary;
+  codeLocked: boolean;
+  canEdit: boolean;
+  canDeactivate: boolean;
+}
+
 const optionalEmail = z.union([
   z.literal(''),
   z.string().trim().email('CONTACT_EMAIL_INVALID'),
@@ -74,6 +89,20 @@ export const ADMIN_TENANT_EMPTY_INPUT: AdminTenantInput = {
   contactEmail: '',
   contactPhone: '',
 };
+
+export function tenantToInput(tenant: Tenant): AdminTenantInput {
+  return {
+    code: tenant.code,
+    name: tenant.name,
+    status: tenant.status,
+    accountOwner: tenant.accountOwner,
+    notes: tenant.notes,
+    contactName: tenant.contactName,
+    contactTitle: tenant.contactTitle,
+    contactEmail: tenant.contactEmail,
+    contactPhone: tenant.contactPhone,
+  };
+}
 
 export const ADMIN_TENANT_DEFAULT_QUERY: AdminTenantQuery = {
   page: 1,

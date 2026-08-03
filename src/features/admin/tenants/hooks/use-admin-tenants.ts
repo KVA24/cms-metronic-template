@@ -12,6 +12,8 @@ export const adminTenantKeys = {
     [...adminTenantKeys.all, 'list', query, roleCode] as const,
   filters: (roleCode: AdminRoleCode) =>
     [...adminTenantKeys.all, 'filters', roleCode] as const,
+  detail: (tenantId: string) =>
+    [...adminTenantKeys.all, 'detail', tenantId] as const,
 };
 
 export function useAdminTenants(
@@ -21,6 +23,18 @@ export function useAdminTenants(
   return useQuery({
     queryKey: adminTenantKeys.list(query, roleCode),
     queryFn: () => adminTenantService.listTenants(query, roleCode),
+    retry: false,
+  });
+}
+
+export function useAdminTenant(
+  tenantId: string | undefined,
+  roleCode: AdminRoleCode,
+) {
+  return useQuery({
+    queryKey: adminTenantKeys.detail(tenantId ?? ''),
+    queryFn: () => adminTenantService.getTenant(tenantId!, roleCode),
+    enabled: Boolean(tenantId),
     retry: false,
   });
 }
@@ -45,6 +59,47 @@ export function useCreateAdminTenant() {
       roleCode: AdminRoleCode;
       actorId: string;
     }) => adminTenantService.createTenant(input, roleCode, actorId),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: adminTenantKeys.all }),
+  });
+}
+
+export function useUpdateAdminTenant(tenantId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      input,
+      expectedVersion,
+      roleCode,
+      actorId,
+    }: {
+      input: AdminTenantInput;
+      expectedVersion: number;
+      roleCode: AdminRoleCode;
+      actorId: string;
+    }) =>
+      adminTenantService.updateTenant(
+        tenantId,
+        input,
+        expectedVersion,
+        roleCode,
+        actorId,
+      ),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: adminTenantKeys.all }),
+  });
+}
+
+export function useDeactivateAdminTenant(tenantId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      roleCode,
+      actorId,
+    }: {
+      roleCode: AdminRoleCode;
+      actorId: string;
+    }) => adminTenantService.deactivateTenant(tenantId, roleCode, actorId),
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: adminTenantKeys.all }),
   });

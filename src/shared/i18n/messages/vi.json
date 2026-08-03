@@ -671,6 +671,7 @@
       "TENANT_CODE_LENGTH": "Tenant code không được quá 50 ký tự.",
       "TENANT_CODE_INVALID": "Chỉ dùng chữ, số, dấu gạch dưới hoặc gạch ngang.",
       "TENANT_CODE_DUPLICATE": "Tenant code đã tồn tại.",
+      "TENANT_CODE_LOCKED": "Không thể đổi Tenant code vì đã có dữ liệu liên kết.",
       "TENANT_NAME_REQUIRED": "Vui lòng nhập Tenant name.",
       "TENANT_NAME_LENGTH": "Tenant name không được quá 255 ký tự.",
       "ACCOUNT_OWNER_LENGTH": "Người phụ trách không được quá 120 ký tự.",
@@ -679,6 +680,26 @@
       "CONTACT_TITLE_LENGTH": "Chức danh không được quá 120 ký tự.",
       "CONTACT_EMAIL_INVALID": "Contact email không hợp lệ.",
       "CONTACT_PHONE_INVALID": "Contact phone không hợp lệ."
+    }
+  },
+  "ADMIN_TENANT_DETAIL": {
+    "NOT_FOUND": "Không tìm thấy Tenant hoặc bạn không có quyền xem.",
+    "ACCOUNTS": "Tài khoản Portal",
+    "ASSIGNMENTS": "Brand đã gán",
+    "TRANSACTIONS": "Giao dịch",
+    "MANAGE_ACCOUNTS": "Quản lý tài khoản",
+    "MANAGE_ASSIGNMENTS": "Quản lý assignment",
+    "MANAGE_REVENUE": "Quản lý revenue share",
+    "SAVE": "Lưu thay đổi",
+    "UPDATE_SUCCESS": "Đã cập nhật Tenant.",
+    "DEACTIVATE": "Ngưng hoạt động",
+    "DEACTIVATE_TITLE": "Ngưng hoạt động Tenant này?",
+    "DEACTIVATE_DESCRIPTION": "Landing public và marketplace sẽ không còn khả dụng. {{accounts}} tài khoản, {{assignments}} assignment và {{transactions}} giao dịch vẫn được giữ trong lịch sử.",
+    "CONFIRM_DEACTIVATE": "Ngưng hoạt động Tenant",
+    "DEACTIVATE_SUCCESS": "Đã ngưng Tenant và giữ nguyên dữ liệu liên kết.",
+    "ERRORS": {
+      "VERSION_CONFLICT": "Tenant đã được cập nhật ở nơi khác. Hãy tải lại trước khi lưu.",
+      "SAVE_ERROR": "Không thể cập nhật Tenant."
     }
   },
   "DASHBOARD": {
