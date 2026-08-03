@@ -148,6 +148,35 @@ const seedData: MockData = {
       isHot: false,
     },
   ],
+  tenantRevenueShares: [
+    {
+      id: 'revenue-lotus-foodnest',
+      tenantId: 'tenant-lotus',
+      brandId: 'brand-foodnest',
+      brandRate: 60,
+      effectiveFrom: '2026-07-01',
+      status: 'ACTIVE',
+      overrides: [
+        {
+          id: 'revenue-override-lotus-food',
+          type: 'CATEGORY',
+          targetId: 'category-food-dining',
+          rate: 65,
+          status: 'ACTIVE',
+        },
+        {
+          id: 'revenue-override-lotus-new-user',
+          type: 'OFFER',
+          targetId: 'offer-foodnest-new-user',
+          rate: 70,
+          status: 'ACTIVE',
+        },
+      ],
+      updatedBy: 'cms-operation',
+      updatedAt: '2026-07-30T08:00:00.000Z',
+      version: 1,
+    },
+  ],
   transactions: [
     {
       id: 'transaction-lotus-pending',

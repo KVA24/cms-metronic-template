@@ -181,6 +181,27 @@ export interface TenantBrandAssignment {
   isHot: boolean;
 }
 
+export interface TenantRevenueShareOverride {
+  id: string;
+  type: 'CATEGORY' | 'OFFER';
+  targetId: string;
+  rate: number;
+  status: EntityStatus;
+}
+
+export interface TenantRevenueShare {
+  id: string;
+  tenantId: string;
+  brandId: string;
+  brandRate: number | null;
+  effectiveFrom: string | null;
+  status: EntityStatus;
+  overrides: TenantRevenueShareOverride[];
+  updatedBy: string;
+  updatedAt: string;
+  version: number;
+}
+
 export type TransactionStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED';
 
 export interface Transaction {
@@ -249,6 +270,7 @@ export interface MockData {
   brandCategoryMappings: BrandCategoryMapping[];
   offers: Offer[];
   tenantBrandAssignments: TenantBrandAssignment[];
+  tenantRevenueShares: TenantRevenueShare[];
   transactions: Transaction[];
   categories: Category[];
   categoryDependencies: CategoryDependencySummary[];

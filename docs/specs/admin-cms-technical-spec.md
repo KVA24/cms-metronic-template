@@ -436,7 +436,7 @@ Shared contracts, auth and routing are sequential prerequisites. After the Found
 - [ ] A1–A5: shared contracts, permissions, auth, routing and menus
 - [x] A6–A9: ADMIN Dashboard, RBAC and Categories
 - [x] A10–A14: Brands, Category Mapping and Offers
-- [ ] A15–A19: Tenant administration, accounts, assignments and Revenue Share
+- [x] A15–A19: Tenant administration, accounts, assignments and Revenue Share
 - [ ] A20–A24: Configuration, Transactions and Exceptions
 - [ ] A25–A27: traceability, legacy cleanup and final regression
 
@@ -496,13 +496,13 @@ Shared contracts, auth and routing are sequential prerequisites. After the Found
 | A16 ✅ | Implement Tenant detail/edit/deactivate with dependency confirmation and no impersonation action.                                                    | A15           | Tenant schema/form/detail/service files       | CMS-TENANT-003/004 flow               | M    |
 | A17 ✅ | Implement Tenant Portal account list/view/create/edit/status/delete-or-disable over the shared account array.                                        | A16           | Account model/service/hooks/pages             | CMS-TENANT-USER-001 flow              | M    |
 | A18 ✅ | Implement Brand/Offer assignment pool and visibility editor using Brand/Offer shared arrays. TENANT reads reflect saved changes in the same runtime. | A11, A14, A16 | Assignment model/service/hooks/page files     | CMS-TENANT-VIS-001 cross-portal check | M    |
-| A19  | Implement Tenant Revenue Share list and default/category/offer override form with direct validation only.                                            | A18           | Revenue model/service/schema/pages            | CMS-TENANT-RS-001/002 flow            | M    |
+| A19 ✅ | Implement Tenant Revenue Share list and default/category/offer override form with direct validation only.                                            | A18           | Revenue model/service/schema/pages            | CMS-TENANT-RS-001/002 flow            | M    |
 
 #### Checkpoint T — Tenant administration
 
-- [ ] Tenant, account, assignment and Revenue Share flows pass SRS acceptance mapping.
+- [x] Tenant, account, assignment and Revenue Share flows pass SRS acceptance mapping.
 - [ ] Shared data is visible to TENANT service contracts without event/cascade engines.
-- [ ] Lint, tests and build pass.
+- [x] Lint, tests and build pass.
 
 ### 18.7 Phase E — Configuration, Transactions and Exceptions
 

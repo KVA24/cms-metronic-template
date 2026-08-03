@@ -3,6 +3,15 @@ import { beforeEach, describe, it } from 'node:test';
 import { adminTenantService } from '../src/features/admin/tenants/api/admin-tenant-service';
 import { adminTenantAccountService } from '../src/features/admin/tenants/api/admin-tenant-account-service';
 import { adminTenantAssignmentService } from '../src/features/admin/tenants/api/admin-tenant-assignment-service';
+import {
+  adminTenantRevenueService,
+  resolveTenantShareRate,
+} from '../src/features/admin/tenants/api/admin-tenant-revenue-service';
+import {
+  ADMIN_TENANT_REVENUE_DEFAULT_QUERY,
+  adminTenantRevenueSchema,
+  revenueToInput,
+} from '../src/features/admin/tenants/model/admin-tenant-revenue';
 import { ADMIN_TENANT_ASSIGNMENT_DEFAULT_QUERY } from '../src/features/admin/tenants/model/admin-tenant-assignment';
 import {
   ADMIN_TENANT_ACCOUNT_DEFAULT_QUERY,
@@ -529,6 +538,122 @@ describe('ADMIN Tenant Brand/Offer assignment service', () => {
       adminTenantAssignmentService.listAssignments(
         'tenant-lotus',
         ADMIN_TENANT_ASSIGNMENT_DEFAULT_QUERY,
+        'CMS_FINANCE',
+      ),
+      /FORBIDDEN/,
+    );
+  });
+});
+
+describe('ADMIN Tenant Revenue Share service', () => {
+  beforeEach(() => resetMockData());
+
+  it('lists only assigned Brands and projects configured state/counts', async () => {
+    const result = await adminTenantRevenueService.listRevenueShares(
+      'tenant-lotus',
+      ADMIN_TENANT_REVENUE_DEFAULT_QUERY,
+      'CMS_OPERATION',
+    );
+    assert.deepEqual(result.items.map(({ brand }) => brand.code), ['FOODNEST']);
+    assert.equal(result.items[0].configured, true);
+    assert.equal(result.items[0].categoryOverrideCount, 1);
+    assert.equal(result.items[0].offerOverrideCount, 1);
+  });
+
+  it('allows a blank Brand rate and rejects invalid or duplicate Active overrides', () => {
+    assert.equal(adminTenantRevenueSchema.safeParse({ brandRate: null, effectiveFrom: '', status: 'DRAFT', overrides: [] }).success, true);
+    const invalid = adminTenantRevenueSchema.safeParse({
+      brandRate: 101,
+      effectiveFrom: '',
+      status: 'ACTIVE',
+      overrides: [
+        { clientId: 'a', type: 'CATEGORY', targetId: 'category-food-dining', rate: 60, status: 'ACTIVE' },
+        { clientId: 'b', type: 'CATEGORY', targetId: 'category-food-dining', rate: 70, status: 'ACTIVE' },
+      ],
+    });
+    assert.equal(invalid.success, false);
+    if (!invalid.success)
+      assert.equal(invalid.error.issues.some(({ message }) => message === 'DUPLICATE_ACTIVE_OVERRIDE'), true);
+  });
+
+  it('creates and updates direct typed configuration with audit and optimistic lock', async () => {
+    mockData.tenantBrandAssignments.push({
+      id: 'assignment-lotus-travelgo',
+      tenantId: 'tenant-lotus',
+      brandId: 'brand-travelgo',
+      offerIds: ['offer-travelgo-summer'],
+      showOnLanding: true,
+      isHot: false,
+    });
+    const created = await adminTenantRevenueService.saveRevenueShare(
+      'tenant-lotus',
+      'brand-travelgo',
+      {
+        brandRate: null,
+        effectiveFrom: '',
+        status: 'DRAFT',
+        overrides: [{ clientId: 'new-1', type: 'OFFER', targetId: 'offer-travelgo-summer', rate: 55, status: 'ACTIVE' }],
+      },
+      null,
+      'CMS_ADMIN',
+      'cms-admin',
+    );
+    assert.equal(created.brandRate, null);
+    assert.equal(created.version, 1);
+    assert.equal(mockData.auditRecords.at(-1)?.action, 'SAVE_TENANT_REVENUE_SHARE');
+    await assert.rejects(
+      adminTenantRevenueService.saveRevenueShare(
+        'tenant-lotus',
+        'brand-travelgo',
+        revenueToInput(created),
+        null,
+        'CMS_ADMIN',
+        'cms-admin',
+      ),
+      /VERSION_CONFLICT/,
+    );
+  });
+
+  it('validates override ownership and assigned visibility', async () => {
+    await assert.rejects(
+      adminTenantRevenueService.getRevenueShare(
+        'tenant-lotus',
+        'brand-travelgo',
+        'CMS_ADMIN',
+      ),
+      /BRAND_NOT_ASSIGNED/,
+    );
+    await assert.rejects(
+      adminTenantRevenueService.saveRevenueShare(
+        'tenant-lotus',
+        'brand-foodnest',
+        {
+          brandRate: 50,
+          effectiveFrom: '',
+          status: 'ACTIVE',
+          overrides: [{ clientId: 'bad', type: 'OFFER', targetId: 'offer-travelgo-summer', rate: 50, status: 'ACTIVE' }],
+        },
+        1,
+        'CMS_ADMIN',
+        'cms-admin',
+      ),
+      /TARGET_INVALID/,
+    );
+  });
+
+  it('resolves Offer then Category then Brand then All Tenant default', () => {
+    const config = mockData.tenantRevenueShares[0];
+    assert.equal(resolveTenantShareRate(config, 'category-food-dining', 'offer-foodnest-new-user', 40), 70);
+    assert.equal(resolveTenantShareRate(config, 'category-food-dining', null, 40), 65);
+    assert.equal(resolveTenantShareRate(config, null, null, 40), 60);
+    assert.equal(resolveTenantShareRate(null, null, null, 40), 40);
+  });
+
+  it('enforces revenue share permissions', async () => {
+    await assert.rejects(
+      adminTenantRevenueService.listRevenueShares(
+        'tenant-lotus',
+        ADMIN_TENANT_REVENUE_DEFAULT_QUERY,
         'CMS_FINANCE',
       ),
       /FORBIDDEN/,

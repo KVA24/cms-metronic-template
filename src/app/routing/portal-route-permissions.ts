@@ -52,6 +52,10 @@ const portalRoutePermissions: readonly PortalRoutePermission[] = [
     permissions: ['tenants.assignments.view'],
   },
   {
+    path: '/admin/tenants/:tenantId/revenue-share/:brandId',
+    permissions: ['tenants.revenue_share.edit'],
+  },
+  {
     path: '/admin/tenants/:tenantId/revenue-share',
     permissions: ['tenants.revenue_share.view'],
   },

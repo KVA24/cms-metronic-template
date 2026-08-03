@@ -104,7 +104,9 @@ export const adminTenantService = {
             (count, assignment) => count + assignment.offerIds.length,
             0,
           ),
-          revenueShareCount: 0,
+          revenueShareCount: mockData.tenantRevenueShares.filter(
+            ({ tenantId }) => tenantId === tenant.id,
+          ).length,
           canEdit,
         });
         return result;
