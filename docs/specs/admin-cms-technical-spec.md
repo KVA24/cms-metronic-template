@@ -1,6 +1,6 @@
 # ADMIN CMS Technical Specification
 
-> Status: Phase 1 approved — Phase 2/3 plan awaiting review
+> Status: Phase 2/3 approved — implementation in progress
 >
 > Scope owner: ADMIN CMS and shared application foundation
 >
@@ -442,13 +442,13 @@ Shared contracts, auth and routing are sequential prerequisites. After the Found
 
 ### 18.3 Phase A — Shared foundation
 
-| Task | Description and acceptance criteria                                                                                                                                                            | Dependencies | Likely files                                                                                      | Verify                                        | Size |
-| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------- | --------------------------------------------- | ---- |
-| A1   | Add core portal/list/error/file/audit types and deterministic typed mock arrays. No repository/mock-server abstraction; refresh resets data.                                                   | None         | `src/shared/contracts/*`, `src/shared/mocks/*`, `tests/mock-contracts.test.ts`                    | `npm test -- mock-contracts`; `npm run build` | M    |
-| A2   | Add approved ADMIN/TENANT permission catalogs, role matrices and financial projection helpers. Role permissions, module visibility and field projection match §11.                             | A1           | `src/shared/permissions/*`, `tests/rbac.test.ts`                                                  | `npm test -- rbac`; manual matrix review      | M    |
-| A3   | Replace persisted demo auth behavior with typed in-memory `AuthSession`; implement portal-aware mock login/logout and safe redirect. Wrong-tab credentials and cross-portal `next` are denied. | A1–A2        | `src/shared/auth/*`, `src/app/auth/*`, `tests/safe-redirect.test.ts`                              | Auth/unit tests; refresh manual check         | M    |
-| A4   | Implement `/auth/login?portal=...` tabs, EN/VI switcher and ADMIN/TENANT namespace guards. ADMIN has no recovery/registration link.                                                            | A3           | `src/app/auth/pages/*`, `src/app/routing/*`, i18n message files                                   | Role login/manual 403; `npm run build`        | M    |
-| A5   | Replace sidebar/menu composition with portal- and permission-filtered menus plus first-permitted landing logic. Direct unauthorized routes do not call feature services.                       | A2–A4        | `src/shared/config/menu.config.tsx`, `src/shared/lib/rbac/*`, layout/sidebar files, routing tests | Menu/route tests; manual keyboard check       | M    |
+| Task  | Description and acceptance criteria                                                                                                                                                            | Dependencies | Likely files                                                                                      | Verify                                                         | Size |
+| ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ---- |
+| A1 ✅ | Add core portal/list/error/file/audit types and deterministic typed mock arrays. No repository/mock-server abstraction; refresh resets data.                                                   | None         | `src/shared/contracts/*`, `src/shared/mocks/*`, `tests/mock-contracts.test.ts`                    | `npx tsx --test tests/mock-contracts.test.ts`; `npm run build` | M    |
+| A2    | Add approved ADMIN/TENANT permission catalogs, role matrices and financial projection helpers. Role permissions, module visibility and field projection match §11.                             | A1           | `src/shared/permissions/*`, `tests/rbac.test.ts`                                                  | `npm test -- rbac`; manual matrix review                       | M    |
+| A3    | Replace persisted demo auth behavior with typed in-memory `AuthSession`; implement portal-aware mock login/logout and safe redirect. Wrong-tab credentials and cross-portal `next` are denied. | A1–A2        | `src/shared/auth/*`, `src/app/auth/*`, `tests/safe-redirect.test.ts`                              | Auth/unit tests; refresh manual check                          | M    |
+| A4    | Implement `/auth/login?portal=...` tabs, EN/VI switcher and ADMIN/TENANT namespace guards. ADMIN has no recovery/registration link.                                                            | A3           | `src/app/auth/pages/*`, `src/app/routing/*`, i18n message files                                   | Role login/manual 403; `npm run build`                         | M    |
+| A5    | Replace sidebar/menu composition with portal- and permission-filtered menus plus first-permitted landing logic. Direct unauthorized routes do not call feature services.                       | A2–A4        | `src/shared/config/menu.config.tsx`, `src/shared/lib/rbac/*`, layout/sidebar files, routing tests | Menu/route tests; manual keyboard check                        | M    |
 
 #### Checkpoint F — Foundation
 

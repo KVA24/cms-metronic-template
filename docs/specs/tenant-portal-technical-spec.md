@@ -1,6 +1,6 @@
 # TENANT Portal Technical Specification
 
-> Status: Phase 1 approved — Phase 2/3 plan awaiting review
+> Status: Phase 2/3 approved — implementation in progress
 >
 > Scope owner: TENANT Portal
 >
