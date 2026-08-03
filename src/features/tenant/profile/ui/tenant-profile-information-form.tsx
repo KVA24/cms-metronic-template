@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { AuthSession } from '@/shared/contracts';
 import { useTranslations } from '@/shared/hooks/use-translations';
 import { useAuthActions } from '@/shared/stores/auth-store';
@@ -40,15 +40,6 @@ export function TenantProfileInformationForm({
       phone: profile.phone,
     },
   });
-
-  useEffect(() => {
-    form.reset({
-      fullName: profile.fullName,
-      email: profile.email,
-      phone: profile.phone,
-    });
-    setAvatar(null);
-  }, [form, profile]);
 
   const errorText = (name: keyof InformationFormValue) => {
     const message = form.formState.errors[name]?.message;

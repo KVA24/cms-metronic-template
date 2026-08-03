@@ -39,7 +39,11 @@ export function TenantProfilePage() {
           {t('TENANT_PROFILE.DESCRIPTION')}
         </p>
       </header>
-      <TenantProfileInformationForm session={session} profile={profile.data} />
+      <TenantProfileInformationForm
+        key={`profile-${profile.data.version}`}
+        session={session}
+        profile={profile.data}
+      />
       <TenantProfilePasswordForm
         session={session}
         version={profile.data.version}

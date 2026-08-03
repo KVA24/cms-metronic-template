@@ -212,6 +212,10 @@ export interface TenantBrandAssignment {
   offerIds: string[];
   showOnLanding: boolean;
   isHot: boolean;
+  offerVisibility?: Record<string, boolean>;
+  updatedBy?: string;
+  updatedAt?: string;
+  version?: number;
 }
 
 export interface TenantRevenueShareOverride {
