@@ -1,4 +1,4 @@
-import { type MockData } from '../contracts';
+import { type ExceptionResolutionItem, type MockData } from '../contracts';
 
 const seedData: MockData = {
   authAccounts: [
@@ -291,6 +291,32 @@ const seedData: MockData = {
     { id: 'history-lotus-refund', transactionId: 'transaction-lotus-cancelled', transactionItemId: 'item-lotus-cancelled-1', requestId: 'request-refund-001', eventType: 'ITEM_REFUNDED', eventAt: '2026-07-19T03:00:00.000Z', processingResult: 'APPLIED', createdBy: 'brand-system' },
   ],
   exportRequests: [],
+  exceptions: [
+    {
+      id: 'exception-auth-001', group: 'REQUEST_AUTHENTICATION', type: 'auth_fail', severity: 'HIGH', status: 'OPEN', requestId: 'request-auth-001', orderId: null, brandOrderId: 'FN-FAILED-001', clickId: null, tenantId: null, brandId: 'brand-foodnest', retryCount: 0, message: 'Signature verification failed.', createdAt: '2026-07-28T08:00:00.000Z', resolvedAt: null,
+      details: { endpoint: 'POST /orders/success', authenticationMethod: 'HMAC signature', failureMessage: 'Request signature is invalid or expired.', checks: [{ name: 'Credential lookup', result: 'PASS', message: 'Credential identifier matched FoodNest.' }, { name: 'Credential status', result: 'PASS', message: 'Credential is Active.' }, { name: 'Signature verification', result: 'FAILED', message: 'Signature mismatch.' }] },
+    },
+    {
+      id: 'exception-click-001', group: 'CLICK_ELIGIBILITY', type: 'click_id_invalid', severity: 'MEDIUM', status: 'OPEN', requestId: 'request-click-001', orderId: null, brandOrderId: 'TG-FAILED-001', clickId: 'click-unknown', tenantId: null, brandId: 'brand-travelgo', retryCount: 1, message: 'Click record was not found.', createdAt: '2026-07-27T08:00:00.000Z', resolvedAt: null,
+      details: { clickAt: null, checks: [{ name: 'Request validation', result: 'PASS', message: 'Order payload is valid.' }, { name: 'Click lookup', result: 'FAILED', message: 'Click ID does not exist.' }, { name: 'Eligibility', result: 'NOT_EXECUTED', message: 'Click must be resolved first.' }] },
+    },
+    {
+      id: 'exception-brand-commission-001', group: 'BRAND_COMMISSION', type: 'brand_commission_source_missing', severity: 'HIGH', status: 'OPEN', requestId: 'request-commission-001', orderId: null, brandOrderId: 'FN-FAILED-002', clickId: 'click-lotus-003', tenantId: 'tenant-lotus', brandId: 'brand-foodnest', retryCount: 0, message: 'One item has no Brand commission source.', createdAt: '2026-07-26T08:00:00.000Z', resolvedAt: null,
+      details: { orderSuccessAt: '2026-07-26T07:59:00.000Z', items: [createExceptionItem('FN-MISSING-1', 'Unknown food item', false, 'Brand commission source not found.')] },
+    },
+    {
+      id: 'exception-tenant-share-001', group: 'TENANT_SHARE', type: 'tenant_share_source_missing', severity: 'HIGH', status: 'RESOLVED', requestId: 'request-share-001', orderId: 'transaction-lotus-pending', brandOrderId: 'FN-2026-001', clickId: 'click-lotus-001', tenantId: 'tenant-lotus', brandId: 'brand-foodnest', retryCount: 1, message: 'Tenant Share rule was supplied and retry completed.', createdAt: '2026-07-20T08:00:00.000Z', resolvedAt: '2026-07-21T08:00:00.000Z',
+      details: { orderSuccessAt: '2026-07-15T03:00:00.000Z', items: [createExceptionItem('FN-ITEM-1', 'Meal combo', true, '')] },
+    },
+    {
+      id: 'exception-cancel-refund-001', group: 'CANCEL_REFUND', type: 'cancel_refund_item_unmatched', severity: 'MEDIUM', status: 'OPEN', requestId: 'request-refund-failed-001', orderId: 'transaction-lotus-pending', brandOrderId: 'FN-2026-001', clickId: null, tenantId: 'tenant-lotus', brandId: 'brand-foodnest', retryCount: 2, message: 'Refund item does not belong to the Order.', createdAt: '2026-07-29T08:00:00.000Z', resolvedAt: null,
+      details: { eventType: 'ITEM_REFUNDED', eventAt: '2026-07-29T07:59:00.000Z', reason: 'Customer request', itemCodes: ['FN-NOT-FOUND'], checks: [{ name: 'Request validation', result: 'PASS', message: 'Event payload is valid.' }, { name: 'Event ordering', result: 'PASS', message: 'Event ordering is valid.' }, { name: 'Order match', result: 'PASS', message: 'Order matched.' }, { name: 'Item match', result: 'FAILED', message: 'Item not found in Order.' }, { name: 'Atomic update', result: 'NOT_EXECUTED', message: 'No item was changed.' }], transactionStatus: 'PENDING', finalAmount: 500_000, grossCommission: 50_000, tenantShare: 35_000 },
+    },
+    {
+      id: 'exception-persistence-001', group: 'TRANSACTION_PERSISTENCE', type: 'persistence_fail', severity: 'HIGH', status: 'OPEN', requestId: 'request-persistence-001', orderId: null, brandOrderId: 'TG-FAILED-002', clickId: 'click-bamboo-002', tenantId: 'tenant-bamboo', brandId: 'brand-travelgo', retryCount: 0, message: 'Database commit timed out and all staged data was rolled back.', createdAt: '2026-07-30T08:00:00.000Z', resolvedAt: null,
+      details: { itemCount: 2, failureCode: 'DB_COMMIT_TIMEOUT', failedOperation: 'Commit database transaction', rollbackResult: 'No Transaction retained', checks: [{ name: 'Generate Order ID', result: 'PASS', message: 'Temporary ID generated.' }, { name: 'Order header insert', result: 'PASS', message: 'Header staged.' }, { name: 'Order Item insert', result: 'PASS', message: 'Items staged.' }, { name: 'Commission snapshot insert', result: 'PASS', message: 'Snapshots staged.' }, { name: 'Status & totals initialization', result: 'PASS', message: 'Totals staged.' }, { name: 'Database commit', result: 'FAILED', message: 'Commit timeout.' }, { name: 'Reporting publication', result: 'NOT_EXECUTED', message: 'Commit must succeed first.' }] },
+    },
+  ],
   categories: [
     createCategory('travel', 'TRAVEL', 10, 'ACTIVE', 'Du lịch', 'Travel'),
     createCategory('food-dining', 'FOOD_DINING', 20, 'ACTIVE', 'Ẩm thực'),
@@ -590,6 +616,31 @@ function createTransactionItem(
   };
 }
 
+function createExceptionItem(
+  code: string,
+  name: string,
+  valid: boolean,
+  issue: string,
+): ExceptionResolutionItem {
+  return {
+    code,
+    name,
+    quantity: 1,
+    originalAmount: 300_000,
+    finalAmount: 300_000,
+    brandCommissionSource: valid ? 'OFFER' : null,
+    brandCommissionValue: valid ? 10 : null,
+    brandMappingReference: valid ? 'offer-foodnest-new-user' : null,
+    grossCommission: valid ? 30_000 : null,
+    tenantShareSource: valid ? 'OFFER' : null,
+    tenantShareValue: valid ? 70 : null,
+    tenantShareReference: valid ? 'revenue-override-lotus-new-user' : null,
+    tenantShare: valid ? 21_000 : null,
+    validationResult: valid ? 'PASS' : 'FAILED',
+    issue,
+  };
+}
+
 function cloneSeed(): MockData {
   return structuredClone(seedData);
 }
@@ -646,6 +697,11 @@ export function resetMockData(): void {
     0,
     mockData.exportRequests.length,
     ...freshData.exportRequests,
+  );
+  mockData.exceptions.splice(
+    0,
+    mockData.exceptions.length,
+    ...freshData.exceptions,
   );
   mockData.categories.splice(
     0,

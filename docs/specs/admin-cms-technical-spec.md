@@ -511,7 +511,7 @@ Shared contracts, auth and routing are sequential prerequisites. After the Found
 | A20 ✅ | Implement Configuration search/list and add/edit/delete dialogs with immutable key, masking/logging rules and ADMIN-only permission. | F            | `features/admin/configuration/{model,api,hooks,ui}` | CMS-CONFIG-001..004 flow   | M    |
 | A21 ✅ | Implement Transaction list filters/sort/pagination and mock export request lifecycle with financial projection.                      | F            | `features/admin/transactions/{model,api,hooks,ui}`  | TXN-001/003 role checks    | M    |
 | A22 ✅ | Implement Transaction detail with header, item status/amounts and history from seeded output models.                                 | A21          | Transaction detail/service/model files              | TXN-002 status matrix      | M    |
-| A23  | Implement Exception list/filter/pagination and mock export across all seven exception groups.                                        | A21          | `features/admin/exceptions/{model,api,hooks,ui}`    | EXC-001 list/export checks | M    |
+| A23  | ✅ Implement Exception list/filter/pagination and mock export across all seven exception groups.                                      | A21          | `features/admin/exceptions/{model,api,hooks,ui}`    | EXC-001 list/export checks | M    |
 | A24  | Implement discriminated Exception detail variants and mock retry lifecycle; no backend remediation workflow is simulated.            | A23          | Exception detail/service/components files           | EXC-001/002 variant checks | M    |
 
 #### Checkpoint O — Operations

@@ -988,6 +988,46 @@
       "LOAD_ERROR": "Không thể tải chi tiết Transaction."
     }
   },
+  "ADMIN_EXCEPTIONS": {
+    "TITLE": "Exception",
+    "DESCRIPTION": "Theo dõi lỗi xử lý Order/event cho toàn bộ các nhóm chi tiết Exception chuẩn.",
+    "KEYWORD": "Exception, Order hoặc Brand Order ID",
+    "TENANT": "Tenant",
+    "BRAND": "Brand",
+    "GROUP": "Nhóm Exception",
+    "TYPE": "Loại Exception",
+    "SEVERITY": "Mức độ",
+    "DATE_FROM": "Phát sinh từ",
+    "DATE_TO": "Phát sinh đến",
+    "EXPORT": "Export CSV",
+    "EXPORTING": "Đang chuẩn bị export…",
+    "EXPORT_SUCCESS": "{{file}} đã sẵn sàng với {{rows}} dòng.",
+    "EXCEPTION_ID": "Exception ID",
+    "ORDER_ID": "Order ID",
+    "BRAND_ORDER_ID": "Brand Order ID",
+    "CREATED": "Phát sinh",
+    "RETRY": "Retry",
+    "VIEW_NAMED": "Xem Exception {{id}}",
+    "EMPTY": "Không có Exception phù hợp bộ lọc.",
+    "RANGE": "{{from}}–{{to}} trên {{total}}",
+    "PREVIOUS": "Trang trước",
+    "NEXT": "Trang sau",
+    "GROUPS": {
+      "REQUEST_AUTHENTICATION": "Request & Authentication",
+      "CLICK_ELIGIBILITY": "Click & Eligibility",
+      "BRAND_COMMISSION": "Brand Commission",
+      "TENANT_SHARE": "Tenant Share",
+      "CANCEL_REFUND": "Cancel/Refund",
+      "TRANSACTION_PERSISTENCE": "Transaction Persistence"
+    },
+    "STATUS": { "OPEN": "Đang mở", "RESOLVED": "Đã xử lý" },
+    "SEVERITIES": { "HIGH": "Cao", "MEDIUM": "Trung bình", "LOW": "Thấp" },
+    "ERRORS": {
+      "LOAD_ERROR": "Không thể tải Exception.",
+      "DATE_RANGE_INVALID": "Ngày phát sinh đến không được trước ngày phát sinh từ.",
+      "EXPORT_ERROR": "Không thể hoàn tất export Exception."
+    }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Bảng Điều Khiển",

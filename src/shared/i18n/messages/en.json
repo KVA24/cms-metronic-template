@@ -988,6 +988,46 @@
       "LOAD_ERROR": "Transaction detail could not be loaded."
     }
   },
+  "ADMIN_EXCEPTIONS": {
+    "TITLE": "Exceptions",
+    "DESCRIPTION": "Review failed Order and event processing across every canonical Exception detail group.",
+    "KEYWORD": "Exception, Order or Brand Order ID",
+    "TENANT": "Tenant",
+    "BRAND": "Brand",
+    "GROUP": "Exception Group",
+    "TYPE": "Exception Type",
+    "SEVERITY": "Severity",
+    "DATE_FROM": "Occurred From",
+    "DATE_TO": "Occurred To",
+    "EXPORT": "Export CSV",
+    "EXPORTING": "Preparing export…",
+    "EXPORT_SUCCESS": "{{file}} is ready with {{rows}} rows.",
+    "EXCEPTION_ID": "Exception ID",
+    "ORDER_ID": "Order ID",
+    "BRAND_ORDER_ID": "Brand Order ID",
+    "CREATED": "Occurred",
+    "RETRY": "Retry",
+    "VIEW_NAMED": "View Exception {{id}}",
+    "EMPTY": "No Exceptions match the current filters.",
+    "RANGE": "{{from}}–{{to}} of {{total}}",
+    "PREVIOUS": "Previous page",
+    "NEXT": "Next page",
+    "GROUPS": {
+      "REQUEST_AUTHENTICATION": "Request & Authentication",
+      "CLICK_ELIGIBILITY": "Click & Eligibility",
+      "BRAND_COMMISSION": "Brand Commission",
+      "TENANT_SHARE": "Tenant Share",
+      "CANCEL_REFUND": "Cancel/Refund",
+      "TRANSACTION_PERSISTENCE": "Transaction Persistence"
+    },
+    "STATUS": { "OPEN": "Open", "RESOLVED": "Resolved" },
+    "SEVERITIES": { "HIGH": "High", "MEDIUM": "Medium", "LOW": "Low" },
+    "ERRORS": {
+      "LOAD_ERROR": "Exceptions could not be loaded.",
+      "DATE_RANGE_INVALID": "Occurred To cannot be earlier than Occurred From.",
+      "EXPORT_ERROR": "The Exception export could not be completed."
+    }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Dashboard",

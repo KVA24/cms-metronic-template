@@ -290,6 +290,62 @@ export interface MockExportRequest {
   requestedAt: string;
 }
 
+export type ExceptionGroup =
+  | 'REQUEST_AUTHENTICATION'
+  | 'CLICK_ELIGIBILITY'
+  | 'BRAND_COMMISSION'
+  | 'TENANT_SHARE'
+  | 'CANCEL_REFUND'
+  | 'TRANSACTION_PERSISTENCE';
+
+export interface ExceptionCheck {
+  name: string;
+  result: 'PASS' | 'FAILED' | 'NOT_EXECUTED';
+  message: string;
+}
+
+export interface ExceptionResolutionItem {
+  code: string;
+  name: string;
+  quantity: number;
+  originalAmount: number;
+  finalAmount: number;
+  brandCommissionSource: TransactionItem['brandCommissionSource'] | null;
+  brandCommissionValue: number | null;
+  brandMappingReference: string | null;
+  grossCommission: number | null;
+  tenantShareSource: TransactionItem['tenantShareSource'] | null;
+  tenantShareValue: number | null;
+  tenantShareReference: string | null;
+  tenantShare: number | null;
+  validationResult: 'PASS' | 'FAILED';
+  issue: string;
+}
+
+interface PlatformExceptionBase {
+  id: string;
+  type: string;
+  severity: 'HIGH' | 'MEDIUM' | 'LOW';
+  status: 'OPEN' | 'RESOLVED';
+  requestId: string | null;
+  orderId: string | null;
+  brandOrderId: string | null;
+  clickId: string | null;
+  tenantId: string | null;
+  brandId: string | null;
+  retryCount: number;
+  message: string;
+  createdAt: string;
+  resolvedAt: string | null;
+}
+
+export type PlatformException =
+  | (PlatformExceptionBase & { group: 'REQUEST_AUTHENTICATION'; details: { endpoint: string; authenticationMethod: string; failureMessage: string; checks: ExceptionCheck[] } })
+  | (PlatformExceptionBase & { group: 'CLICK_ELIGIBILITY'; details: { clickAt: string | null; checks: ExceptionCheck[] } })
+  | (PlatformExceptionBase & { group: 'BRAND_COMMISSION' | 'TENANT_SHARE'; details: { orderSuccessAt: string; items: ExceptionResolutionItem[] } })
+  | (PlatformExceptionBase & { group: 'CANCEL_REFUND'; details: { eventType: 'ORDER_CANCELLED' | 'ITEM_CANCELLED' | 'ITEM_REFUNDED'; eventAt: string; reason: string; itemCodes: string[]; checks: ExceptionCheck[]; transactionStatus: TransactionStatus | null; finalAmount: number | null; grossCommission: number | null; tenantShare: number | null } })
+  | (PlatformExceptionBase & { group: 'TRANSACTION_PERSISTENCE'; details: { itemCount: number; failureCode: string; failedOperation: string; rollbackResult: string; checks: ExceptionCheck[] } });
+
 export interface AuditRecord {
   id: string;
   actorId: string;
@@ -353,6 +409,7 @@ export interface MockData {
   transactionItems: TransactionItem[];
   transactionHistories: TransactionHistory[];
   exportRequests: MockExportRequest[];
+  exceptions: PlatformException[];
   categories: Category[];
   categoryDependencies: CategoryDependencySummary[];
   auditRecords: AuditRecord[];
