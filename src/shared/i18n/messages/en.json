@@ -300,6 +300,39 @@
       "EXCEPTIONS": "Exception Management"
     }
   },
+  "ADMIN_CATEGORIES": {
+    "TITLE": "Category Management",
+    "DESCRIPTION": "Manage the platform category master data used by catalogs, mappings and landing-page filters.",
+    "CREATE": "Create category",
+    "CODE": "Category code",
+    "NAME": "Category name",
+    "UPDATED": "Updated",
+    "LANDING": "Landing page",
+    "VISIBLE": "Visible",
+    "HIDDEN": "Hidden",
+    "ERROR": "Categories could not be loaded.",
+    "EMPTY": "No categories match the selected filters.",
+    "RESULT_COUNT": "{{count}} categories",
+    "SORT_BY": "Sort categories by",
+    "SORT_DIRECTION": "Sort direction",
+    "ASC": "Ascending",
+    "DESC": "Descending",
+    "PAGE_SIZE": "Rows per page",
+    "PAGE": "Page {{page}} of {{total}}",
+    "FALLBACK_VI": "Fallback from vi-VN",
+    "VIEW_CATEGORY": "View {{name}}",
+    "EDIT_CATEGORY": "Edit {{name}}",
+    "FILTERS": {
+      "KEYWORD": "Keyword",
+      "KEYWORD_PLACEHOLDER": "Category code or name"
+    },
+    "SORT": {
+      "displayOrder": "Display order",
+      "code": "Category code",
+      "name": "Category name",
+      "updatedAt": "Last updated"
+    }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Dashboard",

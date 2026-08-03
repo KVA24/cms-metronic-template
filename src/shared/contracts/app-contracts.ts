@@ -120,6 +120,45 @@ export interface AuditRecord {
   occurredAt: string;
 }
 
+export type ContentLocale = 'vi-VN' | 'en-US';
+
+export interface AssetMetadata {
+  id: string;
+  fileName: string;
+  mimeType: 'image/png' | 'image/jpeg' | 'image/svg+xml';
+  sizeBytes: number;
+  url: string;
+}
+
+export interface CategoryLocaleContent {
+  locale: ContentLocale;
+  name: string;
+  description: string;
+  status: 'ACTIVE' | 'INACTIVE';
+}
+
+export interface Category {
+  id: string;
+  code: string;
+  icon: AssetMetadata | null;
+  displayOrder: number;
+  status: EntityStatus;
+  contents: CategoryLocaleContent[];
+  createdBy: string;
+  createdAt: string;
+  updatedBy: string;
+  updatedAt: string;
+}
+
+export interface CategoryDependencySummary {
+  categoryId: string;
+  brandMappingCount: number;
+  tenantConfigCount: number;
+  transactionCount: number;
+  canHardDelete: boolean;
+  canInactive: boolean;
+}
+
 export interface MockData {
   authAccounts: MockAuthAccount[];
   tenants: Tenant[];
@@ -127,5 +166,7 @@ export interface MockData {
   offers: Offer[];
   tenantBrandAssignments: TenantBrandAssignment[];
   transactions: Transaction[];
+  categories: Category[];
+  categoryDependencies: CategoryDependencySummary[];
   auditRecords: AuditRecord[];
 }

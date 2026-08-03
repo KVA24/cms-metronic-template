@@ -128,8 +128,125 @@ const seedData: MockData = {
       createdAt: '2026-07-16T04:00:00.000Z',
     },
   ],
+  categories: [
+    createCategory('travel', 'TRAVEL', 10, 'ACTIVE', 'Du lịch', 'Travel'),
+    createCategory(
+      'food-dining',
+      'FOOD_DINING',
+      20,
+      'ACTIVE',
+      'Ẩm thực',
+    ),
+    createCategory('hotel', 'HOTEL', 30, 'ACTIVE', 'Khách sạn', 'Hotel'),
+    createCategory(
+      'fashion',
+      'FASHION',
+      40,
+      'DRAFT',
+      'Thời trang',
+      'Fashion',
+    ),
+    createCategory('books', 'BOOKS', 50, 'INACTIVE', 'Sách', 'Books'),
+    createCategory(
+      'electronics',
+      'ELECTRONICS',
+      60,
+      'ACTIVE',
+      'Điện tử',
+      'Electronics',
+    ),
+    createCategory(
+      'beauty',
+      'BEAUTY',
+      70,
+      'ACTIVE',
+      'Làm đẹp',
+      'Beauty',
+    ),
+    createCategory(
+      'services',
+      'SERVICES',
+      80,
+      'DRAFT',
+      'Dịch vụ',
+      'Services',
+    ),
+  ],
+  categoryDependencies: [
+    createCategoryDependency('travel', 2, 1, 18),
+    createCategoryDependency('food-dining', 1, 1, 9),
+    createCategoryDependency('hotel', 1, 0, 4),
+    createCategoryDependency('fashion', 0, 0, 0),
+    createCategoryDependency('books', 1, 0, 2),
+    createCategoryDependency('electronics', 1, 1, 6),
+    createCategoryDependency('beauty', 1, 0, 3),
+    createCategoryDependency('services', 0, 0, 0),
+  ],
   auditRecords: [],
 };
+
+function createCategory(
+  id: string,
+  code: string,
+  displayOrder: number,
+  status: MockData['categories'][number]['status'],
+  viName: string,
+  enName?: string,
+): MockData['categories'][number] {
+  const contents: MockData['categories'][number]['contents'] = [
+    {
+      locale: 'vi-VN',
+      name: viName,
+      description: `Mô tả cho danh mục ${viName}.`,
+      status: 'ACTIVE',
+    },
+  ];
+  if (enName) {
+    contents.push({
+      locale: 'en-US',
+      name: enName,
+      description: `Description for the ${enName} category.`,
+      status: 'ACTIVE',
+    });
+  }
+
+  return {
+    id: `category-${id}`,
+    code,
+    icon: {
+      id: `asset-category-${id}`,
+      fileName: `${id}.svg`,
+      mimeType: 'image/svg+xml',
+      sizeBytes: 2048,
+      url: '/media/app/mini-logo.svg',
+    },
+    displayOrder,
+    status,
+    contents,
+    createdBy: 'cms-admin',
+    createdAt: '2026-07-01T02:00:00.000Z',
+    updatedBy: status === 'DRAFT' ? 'cms-operation' : 'cms-admin',
+    updatedAt: `2026-07-${String(10 + displayOrder / 10).padStart(2, '0')}T03:00:00.000Z`,
+  };
+}
+
+function createCategoryDependency(
+  id: string,
+  brandMappingCount: number,
+  tenantConfigCount: number,
+  transactionCount: number,
+): MockData['categoryDependencies'][number] {
+  const hasDependency =
+    brandMappingCount + tenantConfigCount + transactionCount > 0;
+  return {
+    categoryId: `category-${id}`,
+    brandMappingCount,
+    tenantConfigCount,
+    transactionCount,
+    canHardDelete: !hasDependency,
+    canInactive: true,
+  };
+}
 
 function createAuthAccount(
   id: string,
@@ -179,6 +296,16 @@ export function resetMockData(): void {
     0,
     mockData.transactions.length,
     ...freshData.transactions,
+  );
+  mockData.categories.splice(
+    0,
+    mockData.categories.length,
+    ...freshData.categories,
+  );
+  mockData.categoryDependencies.splice(
+    0,
+    mockData.categoryDependencies.length,
+    ...freshData.categoryDependencies,
   );
   mockData.auditRecords.splice(
     0,

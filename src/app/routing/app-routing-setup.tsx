@@ -40,6 +40,11 @@ const AdminRbacPage = lazy(() =>
     default: m.AdminRbacPage,
   })),
 );
+const AdminCategoryListPage = lazy(() =>
+  import('@/features/admin/categories/ui/admin-category-list-page').then(
+    (m) => ({ default: m.AdminCategoryListPage }),
+  ),
+);
 const AccountManagementPage = lazy(() =>
   import('@/features/account').then((m) => ({ default: m.AccountPage })),
 );
@@ -69,6 +74,7 @@ export function AppRoutingSetup() {
             />
             <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
             <Route path="/admin/access/roles" element={<AdminRbacPage />} />
+            <Route path="/admin/categories" element={<AdminCategoryListPage />} />
             <Route
               path="/auth/welcome-message"
               element={<AuthWelcomeMessagePage />}

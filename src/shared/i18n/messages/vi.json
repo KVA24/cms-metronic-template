@@ -300,6 +300,39 @@
       "EXCEPTIONS": "Quản lý ngoại lệ"
     }
   },
+  "ADMIN_CATEGORIES": {
+    "TITLE": "Quản lý danh mục",
+    "DESCRIPTION": "Quản lý danh mục chuẩn dùng cho catalog, mapping và bộ lọc trên landing page.",
+    "CREATE": "Tạo danh mục",
+    "CODE": "Mã danh mục",
+    "NAME": "Tên danh mục",
+    "UPDATED": "Cập nhật",
+    "LANDING": "Landing page",
+    "VISIBLE": "Hiển thị",
+    "HIDDEN": "Ẩn",
+    "ERROR": "Không thể tải danh sách danh mục.",
+    "EMPTY": "Không có danh mục phù hợp với bộ lọc đã chọn.",
+    "RESULT_COUNT": "{{count}} danh mục",
+    "SORT_BY": "Sắp xếp danh mục theo",
+    "SORT_DIRECTION": "Chiều sắp xếp",
+    "ASC": "Tăng dần",
+    "DESC": "Giảm dần",
+    "PAGE_SIZE": "Số dòng mỗi trang",
+    "PAGE": "Trang {{page}} / {{total}}",
+    "FALLBACK_VI": "Dùng nội dung vi-VN",
+    "VIEW_CATEGORY": "Xem {{name}}",
+    "EDIT_CATEGORY": "Sửa {{name}}",
+    "FILTERS": {
+      "KEYWORD": "Từ khóa",
+      "KEYWORD_PLACEHOLDER": "Mã hoặc tên danh mục"
+    },
+    "SORT": {
+      "displayOrder": "Thứ tự hiển thị",
+      "code": "Mã danh mục",
+      "name": "Tên danh mục",
+      "updatedAt": "Cập nhật gần nhất"
+    }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Bảng Điều Khiển",
