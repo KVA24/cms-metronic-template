@@ -1,5 +1,5 @@
 import type { AuthSession } from '@/shared/contracts';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { tenantAssignedBrandService } from '../api/tenant-assigned-brand-service';
 import type { TenantAssignedBrandQuery } from '../model/tenant-assigned-brand';
 
@@ -38,4 +38,56 @@ export function useTenantAssignedBrandScope(
     enabled: Boolean(session && brandId),
     retry: false,
   });
+}
+
+export function useTenantAssignedBrandMutations(session: AuthSession | null) {
+  const queryClient = useQueryClient();
+  const refresh = () =>
+    queryClient.invalidateQueries({ queryKey: tenantAssignedBrandKeys.all });
+  return {
+    visibility: useMutation({
+      mutationFn: (input: {
+        brandId: string;
+        value: boolean;
+        expectedVersion: number;
+      }) =>
+        tenantAssignedBrandService.setBrandVisibility(
+          session!,
+          input.brandId,
+          input.value,
+          input.expectedVersion,
+        ),
+      onSuccess: refresh,
+    }),
+    hot: useMutation({
+      mutationFn: (input: {
+        brandId: string;
+        value: boolean;
+        expectedVersion: number;
+      }) =>
+        tenantAssignedBrandService.setHot(
+          session!,
+          input.brandId,
+          input.value,
+          input.expectedVersion,
+        ),
+      onSuccess: refresh,
+    }),
+    offerVisibility: useMutation({
+      mutationFn: (input: {
+        brandId: string;
+        offerId: string;
+        value: boolean;
+        expectedVersion: number;
+      }) =>
+        tenantAssignedBrandService.setOfferVisibility(
+          session!,
+          input.brandId,
+          input.offerId,
+          input.value,
+          input.expectedVersion,
+        ),
+      onSuccess: refresh,
+    }),
+  };
 }

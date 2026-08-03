@@ -1,7 +1,16 @@
+import { useMemo, useState } from 'react';
 import type { AuthSession } from '@/shared/contracts';
 import { useTranslations } from '@/shared/hooks/use-translations';
 import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/shared/ui/atoms/dialog';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
   Table,
@@ -11,7 +20,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/shared/ui/atoms/table';
-import { useTenantAssignedBrandScope } from '../hooks/use-tenant-assigned-brands';
+import { toast } from 'sonner';
+import {
+  useTenantAssignedBrandMutations,
+  useTenantAssignedBrandScope,
+} from '../hooks/use-tenant-assigned-brands';
 
 export function TenantAssignedBrandScope({
   session,
@@ -26,21 +39,33 @@ export function TenantAssignedBrandScope({
 }) {
   const { t, language } = useTranslations();
   const scope = useTenantAssignedBrandScope(session, brandId);
+  const mutations = useTenantAssignedBrandMutations(session);
+  const [offerTarget, setOfferTarget] = useState<{
+    id: string;
+    name: string;
+    value: boolean;
+  } | null>(null);
+  const locale = language === 'vi' ? 'vi-VN' : 'en-US';
+  const dateFormatter = useMemo(
+    () => new Intl.DateTimeFormat(locale),
+    [locale],
+  );
+  const currencyFormatter = useMemo(
+    () =>
+      new Intl.NumberFormat(locale, {
+        style: 'currency',
+        currency: 'VND',
+        maximumFractionDigits: 0,
+      }),
+    [locale],
+  );
   const date = (value: string | null) =>
-    value
-      ? new Intl.DateTimeFormat(language === 'vi' ? 'vi-VN' : 'en-US').format(
-          new Date(value),
-        )
-      : '—';
+    value ? dateFormatter.format(new Date(value)) : '—';
   const commission = (type: string | null, value: number | null) => {
     if (!type || value === null) return '—';
     return type === 'PERCENTAGE'
       ? `${value}%`
-      : new Intl.NumberFormat(language === 'vi' ? 'vi-VN' : 'en-US', {
-          style: 'currency',
-          currency: 'VND',
-          maximumFractionDigits: 0,
-        }).format(value);
+      : currencyFormatter.format(value);
   };
 
   if (scope.isLoading) return <Skeleton className="h-48 w-full" />;
@@ -50,6 +75,22 @@ export function TenantAssignedBrandScope({
         {t('TENANT_ASSIGNED_BRANDS.ERROR')}
       </p>
     );
+
+  const confirmOffer = async () => {
+    if (!offerTarget) return;
+    try {
+      await mutations.offerVisibility.mutateAsync({
+        brandId,
+        offerId: offerTarget.id,
+        value: offerTarget.value,
+        expectedVersion: scope.data.brand.version,
+      });
+      toast.success(t('TENANT_ASSIGNED_BRANDS.ACTIONS.SUCCESS'));
+      setOfferTarget(null);
+    } catch {
+      toast.error(t('TENANT_ASSIGNED_BRANDS.ACTIONS.ERROR'));
+    }
+  };
 
   return (
     <div className="rounded-lg border bg-muted/20 p-4">
@@ -155,16 +196,26 @@ export function TenantAssignedBrandScope({
                   {commission(offer.commissionType, offer.commissionValue)}
                 </TableCell>
                 <TableCell>
-                  <Badge
-                    variant={
-                      offer.configuredVisibility ? 'success' : 'secondary'
+                  <Button
+                    size="sm"
+                    variant={offer.configuredVisibility ? 'primary' : 'outline'}
+                    disabled={!offer.canToggle}
+                    aria-label={t(
+                      'TENANT_ASSIGNED_BRANDS.ACTIONS.OFFER_LABEL',
+                      { name: offer.name },
+                    )}
+                    onClick={() =>
+                      setOfferTarget({
+                        id: offer.id,
+                        name: offer.name,
+                        value: !offer.configuredVisibility,
+                      })
                     }
-                    appearance="light"
                   >
                     {t(
                       `TENANT_ASSIGNED_BRANDS.${offer.configuredVisibility ? 'ON' : 'OFF'}`,
                     )}
-                  </Badge>
+                  </Button>
                 </TableCell>
                 <TableCell>{date(offer.effectiveFrom)}</TableCell>
                 <TableCell>{date(offer.effectiveTo)}</TableCell>
@@ -183,6 +234,38 @@ export function TenantAssignedBrandScope({
           </TableBody>
         </Table>
       )}
+      <Dialog
+        open={Boolean(offerTarget)}
+        onOpenChange={(open) => !open && setOfferTarget(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {t('TENANT_ASSIGNED_BRANDS.ACTIONS.CONFIRM_TITLE')}
+            </DialogTitle>
+            <DialogDescription>
+              {t('TENANT_ASSIGNED_BRANDS.ACTIONS.CONFIRM_DESCRIPTION', {
+                action: t('TENANT_ASSIGNED_BRANDS.ACTIONS.OFFER'),
+                state: t(
+                  `TENANT_ASSIGNED_BRANDS.${offerTarget?.value ? 'ON' : 'OFF'}`,
+                ),
+                name: offerTarget?.name,
+              })}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setOfferTarget(null)}>
+              {t('COMMON.CANCEL')}
+            </Button>
+            <Button
+              disabled={mutations.offerVisibility.isPending}
+              onClick={confirmOffer}
+            >
+              {t('COMMON.CONFIRM')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

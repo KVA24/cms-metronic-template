@@ -28,6 +28,12 @@ function assertAccess(session: AuthSession) {
   if (!tenant || tenant.status !== 'ACTIVE') throw new Error('FORBIDDEN');
 }
 
+function assertEdit(session: AuthSession) {
+  assertAccess(session);
+  if (!session.permissions.includes('brands.edit'))
+    throw new Error('FORBIDDEN');
+}
+
 function assignments(session: AuthSession) {
   return mockData.tenantBrandAssignments.filter(
     ({ tenantId }) => tenantId === session.tenantId,
@@ -64,6 +70,48 @@ function offers(assignment: TenantBrandAssignment) {
   );
 }
 
+function eligibleBrand(assignment: TenantBrandAssignment, brand: Brand) {
+  return (
+    brand.status === 'ACTIVE' &&
+    (mappings(brand.id).some(({ status }) => status === 'ACTIVE') ||
+      offers(assignment).some(activeOffer))
+  );
+}
+
+function assertVersion(
+  assignment: TenantBrandAssignment,
+  expectedVersion: number,
+) {
+  if ((assignment.version ?? 1) !== expectedVersion)
+    throw new Error('VERSION_CONFLICT');
+}
+
+function recordMutation(
+  session: AuthSession,
+  assignment: TenantBrandAssignment,
+  action: string,
+  before: Record<string, unknown>,
+) {
+  assignment.updatedBy = session.user.id;
+  assignment.updatedAt = '2026-08-03T21:00:00.000Z';
+  assignment.version = (assignment.version ?? 1) + 1;
+  mockData.auditRecords.push({
+    id: `audit-tenant-brand-${mockData.auditRecords.length + 1}`,
+    actorId: session.user.id,
+    action,
+    entityType: 'TENANT_BRAND_ASSIGNMENT',
+    entityId: assignment.id,
+    occurredAt: assignment.updatedAt,
+    before,
+    after: {
+      showOnLanding: assignment.showOnLanding,
+      isHot: assignment.isHot,
+      offerVisibility: structuredClone(assignment.offerVisibility ?? {}),
+      version: assignment.version,
+    },
+  });
+}
+
 function project(
   session: AuthSession,
   assignment: TenantBrandAssignment,
@@ -71,12 +119,10 @@ function project(
 ): TenantAssignedBrandItem {
   const brandMappings = mappings(brand.id);
   const brandOffers = offers(assignment);
-  const hasEligibleContent =
-    brandMappings.some(({ status }) => status === 'ACTIVE') ||
-    brandOffers.some(activeOffer);
   const effectivelyVisible =
-    assignment.showOnLanding && brand.status === 'ACTIVE' && hasEligibleContent;
+    assignment.showOnLanding && eligibleBrand(assignment, brand);
   const offerVisibility = assignment.offerVisibility ?? {};
+  const assignedOfferIds = new Set(assignment.offerIds);
   return {
     id: brand.id,
     assignmentId: assignment.id,
@@ -88,7 +134,7 @@ function project(
     categoryCount: brandMappings.length,
     offerCount: brandOffers.length,
     customizedOfferCount: Object.keys(offerVisibility).filter((id) =>
-      assignment.offerIds.includes(id),
+      assignedOfferIds.has(id),
     ).length,
     showOnLanding: assignment.showOnLanding,
     effectivelyVisible,
@@ -236,5 +282,76 @@ export const tenantAssignedBrandService = {
         };
       }),
     });
+  },
+
+  async setBrandVisibility(
+    session: AuthSession,
+    brandId: string,
+    value: boolean,
+    expectedVersion: number,
+  ): Promise<TenantAssignedBrandItem> {
+    assertEdit(session);
+    const { assignment, brand } = assignedContext(session, brandId);
+    assertVersion(assignment, expectedVersion);
+    if (value && !eligibleBrand(assignment, brand))
+      throw new Error('BRAND_NOT_ELIGIBLE');
+    const before = {
+      showOnLanding: assignment.showOnLanding,
+      isHot: assignment.isHot,
+      version: assignment.version ?? 1,
+    };
+    assignment.showOnLanding = value;
+    if (!value) assignment.isHot = false;
+    recordMutation(session, assignment, 'SET_TENANT_BRAND_VISIBILITY', before);
+    return structuredClone(project(session, assignment, brand));
+  },
+
+  async setHot(
+    session: AuthSession,
+    brandId: string,
+    value: boolean,
+    expectedVersion: number,
+  ): Promise<TenantAssignedBrandItem> {
+    assertEdit(session);
+    const { assignment, brand } = assignedContext(session, brandId);
+    assertVersion(assignment, expectedVersion);
+    if (
+      value &&
+      (!assignment.showOnLanding || !eligibleBrand(assignment, brand))
+    )
+      throw new Error('BRAND_NOT_VISIBLE');
+    const before = {
+      showOnLanding: assignment.showOnLanding,
+      isHot: assignment.isHot,
+      version: assignment.version ?? 1,
+    };
+    assignment.isHot = value;
+    recordMutation(session, assignment, 'SET_TENANT_BRAND_HOT', before);
+    return structuredClone(project(session, assignment, brand));
+  },
+
+  async setOfferVisibility(
+    session: AuthSession,
+    brandId: string,
+    offerId: string,
+    value: boolean,
+    expectedVersion: number,
+  ): Promise<TenantAssignedBrandScope> {
+    assertEdit(session);
+    const { assignment } = assignedContext(session, brandId);
+    assertVersion(assignment, expectedVersion);
+    const offer = offers(assignment).find(({ id }) => id === offerId);
+    if (!offer) throw new Error('OFFER_NOT_ASSIGNED');
+    if (!activeOffer(offer)) throw new Error('OFFER_NOT_ELIGIBLE');
+    const before = {
+      offerVisibility: structuredClone(assignment.offerVisibility ?? {}),
+      version: assignment.version ?? 1,
+    };
+    assignment.offerVisibility = {
+      ...assignment.offerVisibility,
+      [offerId]: value,
+    };
+    recordMutation(session, assignment, 'SET_TENANT_OFFER_VISIBILITY', before);
+    return this.getScope(session, brandId);
   },
 };

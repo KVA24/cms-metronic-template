@@ -1,10 +1,18 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslations } from '@/shared/hooks/use-translations';
 import { useAuthSession } from '@/shared/stores/auth-store';
 import { Alert, AlertDescription, AlertIcon } from '@/shared/ui/atoms/alert';
 import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent } from '@/shared/ui/atoms/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/shared/ui/atoms/dialog';
 import { Input } from '@/shared/ui/atoms/input';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
@@ -24,12 +32,24 @@ import {
   ChevronUp,
   RefreshCw,
 } from 'lucide-react';
-import { useTenantAssignedBrands } from '../hooks/use-tenant-assigned-brands';
+import { toast } from 'sonner';
+import {
+  useTenantAssignedBrandMutations,
+  useTenantAssignedBrands,
+} from '../hooks/use-tenant-assigned-brands';
 import {
   TENANT_ASSIGNED_BRAND_DEFAULT_QUERY,
   type TenantAssignedBrandQuery,
 } from '../model/tenant-assigned-brand';
 import { TenantAssignedBrandScope } from './tenant-assigned-brand-scope';
+
+interface PendingAction {
+  type: 'visibility' | 'hot';
+  brandId: string;
+  brandName: string;
+  value: boolean;
+  expectedVersion: number;
+}
 
 export function TenantAssignedBrandPage() {
   const session = useAuthSession();
@@ -40,7 +60,11 @@ export function TenantAssignedBrandPage() {
     brandId: string;
     tab: 'categories' | 'offers';
   } | null>(null);
+  const [pendingAction, setPendingAction] = useState<PendingAction | null>(
+    null,
+  );
   const result = useTenantAssignedBrands(session, query);
+  const mutations = useTenantAssignedBrandMutations(session);
   const selectClassName =
     'h-9 w-full rounded-md border border-input bg-background px-3 text-sm';
   const apply = () => setQuery({ ...draft, page: 1 });
@@ -50,13 +74,32 @@ export function TenantAssignedBrandPage() {
         ? null
         : { brandId, tab },
     );
-  const dateTime = new Intl.DateTimeFormat(
-    language === 'vi' ? 'vi-VN' : 'en-GB',
-    {
-      dateStyle: 'short',
-      timeStyle: 'medium',
-    },
+  const dateTime = useMemo(
+    () =>
+      new Intl.DateTimeFormat(language === 'vi' ? 'vi-VN' : 'en-GB', {
+        dateStyle: 'short',
+        timeStyle: 'medium',
+      }),
+    [language],
   );
+  const confirmAction = async () => {
+    if (!pendingAction) return;
+    const mutation =
+      pendingAction.type === 'visibility'
+        ? mutations.visibility
+        : mutations.hot;
+    try {
+      await mutation.mutateAsync({
+        brandId: pendingAction.brandId,
+        value: pendingAction.value,
+        expectedVersion: pendingAction.expectedVersion,
+      });
+      toast.success(t('TENANT_ASSIGNED_BRANDS.ACTIONS.SUCCESS'));
+      setPendingAction(null);
+    } catch {
+      toast.error(t('TENANT_ASSIGNED_BRANDS.ACTIONS.ERROR'));
+    }
+  };
 
   return (
     <Container width="fluid" className="space-y-5 pb-8">
@@ -245,23 +288,59 @@ export function TenantAssignedBrandPage() {
                         </Button>
                       </TableCell>
                       <TableCell>
-                        <Badge
-                          variant={
-                            brand.showOnLanding ? 'success' : 'secondary'
+                        <Button
+                          size="sm"
+                          variant={brand.showOnLanding ? 'primary' : 'outline'}
+                          disabled={!brand.canEdit}
+                          aria-label={t(
+                            'TENANT_ASSIGNED_BRANDS.ACTIONS.LANDING_LABEL',
+                            { name: brand.name },
+                          )}
+                          onClick={() =>
+                            setPendingAction({
+                              type: 'visibility',
+                              brandId: brand.id,
+                              brandName: brand.name,
+                              value: !brand.showOnLanding,
+                              expectedVersion: brand.version,
+                            })
                           }
-                          appearance="light"
                         >
                           {t(
                             `TENANT_ASSIGNED_BRANDS.${brand.showOnLanding ? 'ON' : 'OFF'}`,
                           )}
-                        </Badge>
+                        </Button>
                       </TableCell>
                       <TableCell>
                         {t(
                           `TENANT_ASSIGNED_BRANDS.${brand.earnConfigured ? 'CONFIGURED' : 'NOT_CONFIGURED'}`,
                         )}
                       </TableCell>
-                      <TableCell>{brand.isHot ? '🔥' : '—'}</TableCell>
+                      <TableCell>
+                        <Button
+                          size="sm"
+                          variant={brand.isHot ? 'primary' : 'outline'}
+                          disabled={!brand.canEdit || !brand.effectivelyVisible}
+                          aria-label={t(
+                            'TENANT_ASSIGNED_BRANDS.ACTIONS.HOT_LABEL',
+                            { name: brand.name },
+                          )}
+                          onClick={() =>
+                            setPendingAction({
+                              type: 'hot',
+                              brandId: brand.id,
+                              brandName: brand.name,
+                              value: !brand.isHot,
+                              expectedVersion: brand.version,
+                            })
+                          }
+                        >
+                          {brand.isHot ? '🔥 ' : ''}
+                          {t(
+                            `TENANT_ASSIGNED_BRANDS.${brand.isHot ? 'ON' : 'OFF'}`,
+                          )}
+                        </Button>
+                      </TableCell>
                       <TableCell>
                         <p>{dateTime.format(new Date(brand.updatedAt))}</p>
                         <p className="text-xs text-muted-foreground">
@@ -313,6 +392,42 @@ export function TenantAssignedBrandPage() {
           </CardContent>
         </Card>
       )}
+      <Dialog
+        open={Boolean(pendingAction)}
+        onOpenChange={(open) => !open && setPendingAction(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {t('TENANT_ASSIGNED_BRANDS.ACTIONS.CONFIRM_TITLE')}
+            </DialogTitle>
+            <DialogDescription>
+              {t('TENANT_ASSIGNED_BRANDS.ACTIONS.CONFIRM_DESCRIPTION', {
+                action: t(
+                  `TENANT_ASSIGNED_BRANDS.ACTIONS.${pendingAction?.type === 'hot' ? 'HOT' : 'LANDING'}`,
+                ),
+                state: t(
+                  `TENANT_ASSIGNED_BRANDS.${pendingAction?.value ? 'ON' : 'OFF'}`,
+                ),
+                name: pendingAction?.brandName,
+              })}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setPendingAction(null)}>
+              {t('COMMON.CANCEL')}
+            </Button>
+            <Button
+              disabled={
+                mutations.visibility.isPending || mutations.hot.isPending
+              }
+              onClick={confirmAction}
+            >
+              {t('COMMON.CONFIRM')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Container>
   );
 }

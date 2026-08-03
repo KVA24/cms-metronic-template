@@ -1,5 +1,8 @@
 import { mockData } from '../../../../shared/mocks/mock-data';
-import { hasPermission, type AdminRoleCode } from '../../../../shared/permissions';
+import {
+  hasPermission,
+  type AdminRoleCode,
+} from '../../../../shared/permissions';
 import type {
   AdminTenantAssignmentDraft,
   AdminTenantAssignmentQuery,
@@ -29,9 +32,15 @@ function categoryView(brandId: string) {
   return mockData.brandCategoryMappings
     .filter((mapping) => mapping.brandId === brandId)
     .flatMap((mapping) => {
-      const category = mockData.categories.find(({ id }) => id === mapping.categoryId);
-      const content = category?.contents.find(({ locale }) => locale === 'vi-VN');
-      return category ? [{ id: category.id, name: content?.name ?? category.code }] : [];
+      const category = mockData.categories.find(
+        ({ id }) => id === mapping.categoryId,
+      );
+      const content = category?.contents.find(
+        ({ locale }) => locale === 'vi-VN',
+      );
+      return category
+        ? [{ id: category.id, name: content?.name ?? category.code }]
+        : [];
     });
 }
 
@@ -44,36 +53,60 @@ export const adminTenantAssignmentService = {
     assertPermission(roleCode, 'tenants.assignments.view');
     const tenant = getTenant(tenantId);
     const keyword = query.keyword.trim().toLowerCase();
-    const rows = mockData.brands.reduce<AdminTenantAssignmentRow[]>((result, brand) => {
-      const assignment = mockData.tenantBrandAssignments.find(
-        (item) => item.tenantId === tenantId && item.brandId === brand.id,
-      );
-      const offers = activeOffers(brand.id);
-      const assignedOfferIds = assignment?.offerIds.filter((id) =>
-        offers.some((offer) => offer.id === id),
-      ) ?? [];
-      const assigned = Boolean(assignment);
-      const scope = !assigned
-        ? 'NOT_ASSIGNED'
-        : assignedOfferIds.length === offers.length
-          ? 'ALL_ACTIVE'
-          : 'CUSTOM';
-      const categories = categoryView(brand.id);
-      if (keyword && ![brand.id, brand.name].some((value) => value.toLowerCase().includes(keyword))) return result;
-      if (query.brandStatus !== 'ALL' && brand.status !== query.brandStatus) return result;
-      if (query.categoryId && !categories.some(({ id }) => id === query.categoryId)) return result;
-      if (query.assignment === 'ASSIGNED' && !assigned) return result;
-      if (query.assignment === 'UNASSIGNED' && assigned) return result;
-      if (query.assignment === 'CUSTOM' && scope !== 'CUSTOM') return result;
-      result.push({ brand, categories, activeOffers: offers, assigned, assignedOfferIds, scope });
-      return result;
-    }, []);
+    const rows = mockData.brands.reduce<AdminTenantAssignmentRow[]>(
+      (result, brand) => {
+        const assignment = mockData.tenantBrandAssignments.find(
+          (item) => item.tenantId === tenantId && item.brandId === brand.id,
+        );
+        const offers = activeOffers(brand.id);
+        const assignedOfferIds =
+          assignment?.offerIds.filter((id) =>
+            offers.some((offer) => offer.id === id),
+          ) ?? [];
+        const assigned = Boolean(assignment);
+        const scope = !assigned
+          ? 'NOT_ASSIGNED'
+          : assignedOfferIds.length === offers.length
+            ? 'ALL_ACTIVE'
+            : 'CUSTOM';
+        const categories = categoryView(brand.id);
+        if (
+          keyword &&
+          ![brand.id, brand.name].some((value) =>
+            value.toLowerCase().includes(keyword),
+          )
+        )
+          return result;
+        if (query.brandStatus !== 'ALL' && brand.status !== query.brandStatus)
+          return result;
+        if (
+          query.categoryId &&
+          !categories.some(({ id }) => id === query.categoryId)
+        )
+          return result;
+        if (query.assignment === 'ASSIGNED' && !assigned) return result;
+        if (query.assignment === 'UNASSIGNED' && assigned) return result;
+        if (query.assignment === 'CUSTOM' && scope !== 'CUSTOM') return result;
+        result.push({
+          brand,
+          categories,
+          activeOffers: offers,
+          assigned,
+          assignedOfferIds,
+          scope,
+        });
+        return result;
+      },
+      [],
+    );
     return structuredClone({
       tenant,
       rows,
       categories: mockData.categories.map((category) => ({
         id: category.id,
-        name: category.contents.find(({ locale }) => locale === 'vi-VN')?.name ?? category.code,
+        name:
+          category.contents.find(({ locale }) => locale === 'vi-VN')?.name ??
+          category.code,
       })),
       canEdit: hasPermission(roleCode, 'tenants.assignments.edit'),
     });
@@ -112,16 +145,33 @@ export const adminTenantAssignmentService = {
         return;
       }
       const next = {
-        id: index >= 0
-          ? mockData.tenantBrandAssignments[index].id
-          : `assignment-${tenantId.replace('tenant-', '')}-${draft.brandId.replace('brand-', '')}`,
+        id:
+          index >= 0
+            ? mockData.tenantBrandAssignments[index].id
+            : `assignment-${tenantId.replace('tenant-', '')}-${draft.brandId.replace('brand-', '')}`,
         tenantId,
         brandId: draft.brandId,
         offerIds: draft.offerIds,
-        showOnLanding: index >= 0
-          ? mockData.tenantBrandAssignments[index].showOnLanding
-          : true,
-        isHot: index >= 0 ? mockData.tenantBrandAssignments[index].isHot : false,
+        showOnLanding:
+          index >= 0
+            ? mockData.tenantBrandAssignments[index].showOnLanding
+            : true,
+        isHot:
+          index >= 0 ? mockData.tenantBrandAssignments[index].isHot : false,
+        offerVisibility:
+          index >= 0
+            ? mockData.tenantBrandAssignments[index].offerVisibility
+            : undefined,
+        updatedBy:
+          index >= 0
+            ? mockData.tenantBrandAssignments[index].updatedBy
+            : actorId,
+        updatedAt:
+          index >= 0
+            ? mockData.tenantBrandAssignments[index].updatedAt
+            : '2026-08-03T20:00:00.000Z',
+        version:
+          index >= 0 ? mockData.tenantBrandAssignments[index].version : 1,
       };
       if (index >= 0) mockData.tenantBrandAssignments[index] = next;
       else mockData.tenantBrandAssignments.push(next);
@@ -135,7 +185,9 @@ export const adminTenantAssignmentService = {
       occurredAt: '2026-08-03T20:00:00.000Z',
     });
     return structuredClone(
-      mockData.tenantBrandAssignments.filter((item) => item.tenantId === tenantId),
+      mockData.tenantBrandAssignments.filter(
+        (item) => item.tenantId === tenantId,
+      ),
     );
   },
 };

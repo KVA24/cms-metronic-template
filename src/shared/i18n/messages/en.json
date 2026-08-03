@@ -267,7 +267,11 @@
   "TENANT_ASSIGNED_BRANDS": {
     "TITLE": "Assigned Brands",
     "DESCRIPTION": "Review the Brand, Category, commission and Offer scope assigned by the Platform.",
-    "METRICS": { "ASSIGNED": "Assigned Brands", "VISIBLE": "Visible on landing", "COVERAGE": "Landing Coverage" },
+    "METRICS": {
+      "ASSIGNED": "Assigned Brands",
+      "VISIBLE": "Visible on landing",
+      "COVERAGE": "Landing Coverage"
+    },
     "KEYWORD": "Keyword",
     "KEYWORD_PLACEHOLDER": "Brand code or name",
     "CATEGORY": "Category",
@@ -300,7 +304,19 @@
     "NO_OFFERS": "No Offer is assigned for this Brand",
     "EMPTY": "No assigned Brands found",
     "ERROR": "Unable to refresh Brand data. Please try again.",
-    "PAGE": "Page {{page}} of {{total}} · {{count}} Brands"
+    "PAGE": "Page {{page}} of {{total}} · {{count}} Brands",
+    "ACTIONS": {
+      "LANDING": "landing visibility",
+      "HOT": "Brand Hot",
+      "OFFER": "Offer visibility",
+      "LANDING_LABEL": "Change landing visibility for {{name}}",
+      "HOT_LABEL": "Change Hot status for {{name}}",
+      "OFFER_LABEL": "Change visibility for Offer {{name}}",
+      "CONFIRM_TITLE": "Confirm visibility change",
+      "CONFIRM_DESCRIPTION": "Are you sure you want to turn {{state}} {{action}} for {{name}}?",
+      "SUCCESS": "Visibility configuration updated.",
+      "ERROR": "Unable to update. The data may have changed; please refresh."
+    }
   },
   "TENANT_PROFILE": {
     "TITLE": "My Profile",
@@ -464,8 +480,23 @@
       "MODULE": "Module",
       "FULL": "Full",
       "NOT_APPLICABLE": "Not applicable",
-      "ACTIONS": { "VIEW": "View", "CREATE": "Create", "EDIT": "Edit", "DELETE_DISABLE": "Delete / Disable", "EXPORT": "Export", "PERMISSIONS": "Permissions" },
-      "MODULES": { "DASHBOARD": "Dashboard", "BRANDS": "Assigned Brands", "EARN_DISPLAY": "Earn display", "TRANSACTIONS": "Transactions", "ROLES": "Roles", "USERS": "Accounts", "PROFILE": "Profile" }
+      "ACTIONS": {
+        "VIEW": "View",
+        "CREATE": "Create",
+        "EDIT": "Edit",
+        "DELETE_DISABLE": "Delete / Disable",
+        "EXPORT": "Export",
+        "PERMISSIONS": "Permissions"
+      },
+      "MODULES": {
+        "DASHBOARD": "Dashboard",
+        "BRANDS": "Assigned Brands",
+        "EARN_DISPLAY": "Earn display",
+        "TRANSACTIONS": "Transactions",
+        "ROLES": "Roles",
+        "USERS": "Accounts",
+        "PROFILE": "Profile"
+      }
     },
     "TYPES": { "SYSTEM": "System", "CUSTOM": "Custom" }
   },
@@ -1276,21 +1307,89 @@
     "RETRY_SUCCESS": "The mock retry completed and the Exception is now Resolved.",
     "CLASSIFICATION": "Classification & References",
     "DIAGNOSTICS": "Diagnostics",
-    "EXCEPTION_ID": "Exception ID", "GROUP": "Group", "TYPE": "Type", "REQUEST_ID": "Request ID", "ORDER_ID": "Order ID", "BRAND_ORDER_ID": "Brand Order ID", "CLICK_ID": "Click ID", "TENANT": "Tenant", "BRAND": "Brand", "CREATED": "Occurred", "RESOLVED": "Resolved", "RETRY_COUNT": "Retry Count",
-    "ENDPOINT": "Endpoint", "AUTH_METHOD": "Authentication Method", "FAILURE_MESSAGE": "Failure Message", "CLICK_AT": "Click Time", "ORDER_SUCCESS_AT": "Order Success Time",
-    "CHECK": "Check", "RESULT": "Result", "MESSAGE": "Message", "ITEM": "Item", "QUANTITY": "Quantity", "FINAL_AMOUNT": "Final Amount", "BRAND_SOURCE": "Brand Commission Source", "GROSS_COMMISSION": "Gross Commission", "TENANT_SOURCE": "Tenant Share Source", "TENANT_SHARE": "Tenant Share", "ISSUE": "Issue",
-    "EVENT_TYPE": "Event Type", "EVENT_AT": "Event Time", "REASON": "Reason", "ITEM_CODES": "Item Codes", "TRANSACTION_STATUS": "Transaction Status",
-    "ITEM_COUNT": "Item Count", "FAILURE_CODE": "Failure Code", "FAILED_OPERATION": "Failed Operation", "ROLLBACK_RESULT": "Rollback Result",
-    "RESULTS": { "PASS": "Pass", "FAILED": "Failed", "NOT_EXECUTED": "Not Executed" },
-    "ERRORS": { "LOAD_ERROR": "Exception detail could not be loaded.", "RETRY_ERROR": "The mock retry could not be completed." }
+    "EXCEPTION_ID": "Exception ID",
+    "GROUP": "Group",
+    "TYPE": "Type",
+    "REQUEST_ID": "Request ID",
+    "ORDER_ID": "Order ID",
+    "BRAND_ORDER_ID": "Brand Order ID",
+    "CLICK_ID": "Click ID",
+    "TENANT": "Tenant",
+    "BRAND": "Brand",
+    "CREATED": "Occurred",
+    "RESOLVED": "Resolved",
+    "RETRY_COUNT": "Retry Count",
+    "ENDPOINT": "Endpoint",
+    "AUTH_METHOD": "Authentication Method",
+    "FAILURE_MESSAGE": "Failure Message",
+    "CLICK_AT": "Click Time",
+    "ORDER_SUCCESS_AT": "Order Success Time",
+    "CHECK": "Check",
+    "RESULT": "Result",
+    "MESSAGE": "Message",
+    "ITEM": "Item",
+    "QUANTITY": "Quantity",
+    "FINAL_AMOUNT": "Final Amount",
+    "BRAND_SOURCE": "Brand Commission Source",
+    "GROSS_COMMISSION": "Gross Commission",
+    "TENANT_SOURCE": "Tenant Share Source",
+    "TENANT_SHARE": "Tenant Share",
+    "ISSUE": "Issue",
+    "EVENT_TYPE": "Event Type",
+    "EVENT_AT": "Event Time",
+    "REASON": "Reason",
+    "ITEM_CODES": "Item Codes",
+    "TRANSACTION_STATUS": "Transaction Status",
+    "ITEM_COUNT": "Item Count",
+    "FAILURE_CODE": "Failure Code",
+    "FAILED_OPERATION": "Failed Operation",
+    "ROLLBACK_RESULT": "Rollback Result",
+    "RESULTS": {
+      "PASS": "Pass",
+      "FAILED": "Failed",
+      "NOT_EXECUTED": "Not Executed"
+    },
+    "ERRORS": {
+      "LOAD_ERROR": "Exception detail could not be loaded.",
+      "RETRY_ERROR": "The mock retry could not be completed."
+    }
   },
   "TENANT_RECOVERY": {
-    "EMAIL_TITLE": "Forgot Password", "EMAIL_DESCRIPTION": "Enter the email registered to your Tenant Portal account.", "EMAIL": "Email", "SEND_CODE": "Send Code", "SENDING": "Sending…",
-    "OTP_TITLE": "Verify OTP", "OTP_DESCRIPTION": "Enter the six-digit code for this password reset request.", "OTP": "OTP", "DEMO_OTP": "Demo OTP: {{otp}} (valid for 5 minutes)", "VERIFY": "Verify", "RESEND": "Resend Code", "RESEND_SUCCESS": "A new demo OTP is ready.",
-    "RESET_TITLE": "Create New Password", "RESET_DESCRIPTION": "Use at least 8 characters with uppercase, lowercase, number and symbol.", "NEW_PASSWORD": "New Password", "CONFIRM_PASSWORD": "Confirm New Password", "CONFIRM": "Confirm",
-    "SUCCESS_TITLE": "Password Reset Successfully", "SUCCESS_DESCRIPTION": "You can now sign in with your new password.", "BACK_TO_SIGN_IN": "Back to Sign In",
-    "VALIDATION": { "EMAIL_INVALID": "Please enter a valid email address.", "OTP_INVALID": "Enter a valid 6-digit OTP.", "PASSWORD_POLICY": "Password does not meet the required policy.", "CONFIRM_PASSWORD_REQUIRED": "Confirm new password is required.", "PASSWORD_MISMATCH": "Passwords do not match." },
-    "ERRORS": { "EMAIL_NOT_FOUND": "No Tenant Portal account uses this email.", "OTP_INVALID": "Invalid OTP.", "OTP_EXPIRED": "OTP has expired. Please request a new code.", "OTP_NOT_VERIFIED": "Verify the OTP before creating a new password.", "RESET_REQUEST_INVALID": "This password reset request is invalid or already used.", "RESET_ERROR": "Password recovery could not be completed." }
+    "EMAIL_TITLE": "Forgot Password",
+    "EMAIL_DESCRIPTION": "Enter the email registered to your Tenant Portal account.",
+    "EMAIL": "Email",
+    "SEND_CODE": "Send Code",
+    "SENDING": "Sending…",
+    "OTP_TITLE": "Verify OTP",
+    "OTP_DESCRIPTION": "Enter the six-digit code for this password reset request.",
+    "OTP": "OTP",
+    "DEMO_OTP": "Demo OTP: {{otp}} (valid for 5 minutes)",
+    "VERIFY": "Verify",
+    "RESEND": "Resend Code",
+    "RESEND_SUCCESS": "A new demo OTP is ready.",
+    "RESET_TITLE": "Create New Password",
+    "RESET_DESCRIPTION": "Use at least 8 characters with uppercase, lowercase, number and symbol.",
+    "NEW_PASSWORD": "New Password",
+    "CONFIRM_PASSWORD": "Confirm New Password",
+    "CONFIRM": "Confirm",
+    "SUCCESS_TITLE": "Password Reset Successfully",
+    "SUCCESS_DESCRIPTION": "You can now sign in with your new password.",
+    "BACK_TO_SIGN_IN": "Back to Sign In",
+    "VALIDATION": {
+      "EMAIL_INVALID": "Please enter a valid email address.",
+      "OTP_INVALID": "Enter a valid 6-digit OTP.",
+      "PASSWORD_POLICY": "Password does not meet the required policy.",
+      "CONFIRM_PASSWORD_REQUIRED": "Confirm new password is required.",
+      "PASSWORD_MISMATCH": "Passwords do not match."
+    },
+    "ERRORS": {
+      "EMAIL_NOT_FOUND": "No Tenant Portal account uses this email.",
+      "OTP_INVALID": "Invalid OTP.",
+      "OTP_EXPIRED": "OTP has expired. Please request a new code.",
+      "OTP_NOT_VERIFIED": "Verify the OTP before creating a new password.",
+      "RESET_REQUEST_INVALID": "This password reset request is invalid or already used.",
+      "RESET_ERROR": "Password recovery could not be completed."
+    }
   },
   "TENANT_ACCESS": { "ROUTE_READY": "Tenant Portal Route Ready" },
   "DASHBOARD": {
