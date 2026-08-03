@@ -394,6 +394,73 @@
       "SAVE_ERROR": "Không thể lưu cấu hình."
     }
   },
+  "TENANT_TRANSACTIONS": {
+    "TITLE": "Giao dịch",
+    "DESCRIPTION": "Theo dõi giao dịch và phần chia sẻ Tenant được tính cho các Brand đã gán.",
+    "DATE_FROM": "Ngày giao dịch từ",
+    "DATE_TO": "Ngày giao dịch đến",
+    "DATE_ERROR": "Ngày giao dịch đến không được sớm hơn ngày giao dịch từ.",
+    "KEYWORD": "Order ID hoặc Brand Order ID",
+    "BRAND": "Brand",
+    "STATUS": "Trạng thái đơn",
+    "EXPORT": "Xuất dữ liệu",
+    "EXPORT_SUCCESS": "{{file}} đã sẵn sàng với {{rows}} dòng.",
+    "EXPORT_ERROR": "Không thể hoàn thành yêu cầu xuất dữ liệu.",
+    "LOAD_ERROR": "Không thể tải danh sách giao dịch.",
+    "EMPTY": "Không có giao dịch phù hợp với bộ lọc.",
+    "ORDER_ID": "Order ID",
+    "BRAND_ORDER": "Brand Order ID",
+    "ORDER_DATE": "Ngày đặt hàng",
+    "USER_ID": "User ID",
+    "MEMBER_REF": "Mã thành viên",
+    "CUSTOMER_REF": "Mã khách hàng",
+    "ESTIMATED": "Tenant Share dự kiến",
+    "ACTUAL": "Tenant Share thực tế",
+    "CONFIRMED_DATE": "Ngày xác nhận",
+    "VIEW": "Xem giao dịch {{id}}",
+    "RANGE": "{{from}}–{{to}} / {{total}}",
+    "DETAIL": {
+      "TITLE": "Chi tiết giao dịch",
+      "BACK": "Quay lại danh sách giao dịch",
+      "LOAD_ERROR": "Không thể tải giao dịch hoặc giao dịch nằm ngoài phạm vi Tenant.",
+      "SUMMARY": "Tổng quan đơn hàng",
+      "ITEMS": "Sản phẩm và Tenant Share",
+      "ITEM_CODE": "Mã sản phẩm",
+      "ITEM_NAME": "Tên sản phẩm",
+      "QTY": "Số lượng",
+      "ORIGINAL": "Giá trị ban đầu",
+      "FINAL": "Giá trị cuối",
+      "SHARE_SOURCE": "Nguồn Tenant Share",
+      "SHARE_VALUE": "Tỷ lệ Tenant Share",
+      "SHARE_REFERENCE": "Tham chiếu Tenant Share",
+      "SHARE": "Tenant Share",
+      "ITEM_STATUS": "Trạng thái sản phẩm",
+      "HISTORY": "Lịch sử xử lý",
+      "NO_HISTORY": "Chưa có lịch sử xử lý.",
+      "SOURCES": {
+        "OFFER": "Ghi đè theo Offer",
+        "CATEGORY": "Ghi đè theo Category",
+        "TENANT_BRAND_DEFAULT": "Mặc định Tenant–Brand",
+        "ALL_TENANT_DEFAULT": "Mặc định toàn Tenant"
+      },
+      "ITEM_STATUSES": {
+        "PENDING": "Đang chờ",
+        "CONFIRMED": "Đã xác nhận",
+        "REFUNDED": "Đã hoàn"
+      },
+      "EVENTS": {
+        "ORDER_RECORDED": "Đơn {{order}} của {{brand}} đã được ghi nhận.",
+        "ITEM_CONFIRMED": "Sản phẩm {{item}} đã được xác nhận.",
+        "ITEM_REFUNDED": "Sản phẩm {{item}} đã được hoàn.",
+        "RETRY_APPLIED": "Đã xử lý lại sản phẩm {{item}}."
+      },
+      "RESULTS": {
+        "APPLIED": "Đã áp dụng",
+        "REJECTED": "Bị từ chối",
+        "FAILED": "Thất bại"
+      }
+    }
+  },
   "TENANT_PROFILE": {
     "TITLE": "Hồ sơ của tôi",
     "DESCRIPTION": "Cập nhật hồ sơ và thông tin bảo mật của chính bạn trong Tenant.",

@@ -171,11 +171,6 @@ const AdminExceptionDetailPage = lazy(() =>
     }),
   ),
 );
-const TenantRoutePlaceholderPage = lazy(() =>
-  import('@/features/tenant/access/ui/tenant-route-placeholder-page').then(
-    (m) => ({ default: m.TenantRoutePlaceholderPage }),
-  ),
-);
 const TenantDashboardPage = lazy(() =>
   import('@/features/tenant/dashboard/ui/tenant-dashboard-page').then((m) => ({
     default: m.TenantDashboardPage,
@@ -194,6 +189,16 @@ const TenantEarnDisplayListPage = lazy(() =>
 const TenantEarnDisplayBrandPage = lazy(() =>
   import('@/features/tenant/earn-display/ui/tenant-earn-display-brand-page').then(
     (m) => ({ default: m.TenantEarnDisplayBrandPage }),
+  ),
+);
+const TenantTransactionListPage = lazy(() =>
+  import('@/features/tenant/transactions/ui/tenant-transaction-list-page').then(
+    (m) => ({ default: m.TenantTransactionListPage }),
+  ),
+);
+const TenantTransactionDetailPage = lazy(() =>
+  import('@/features/tenant/transactions/ui/tenant-transaction-detail-page').then(
+    (m) => ({ default: m.TenantTransactionDetailPage }),
   ),
 );
 const TenantRoleListPage = lazy(() =>
@@ -370,11 +375,11 @@ export function AppRoutingSetup() {
             />
             <Route
               path="/tenant/transactions"
-              element={<TenantRoutePlaceholderPage />}
+              element={<TenantTransactionListPage />}
             />
             <Route
               path="/tenant/transactions/:transactionId"
-              element={<TenantRoutePlaceholderPage />}
+              element={<TenantTransactionDetailPage />}
             />
             <Route
               path="/tenant/account/roles"

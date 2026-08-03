@@ -332,9 +332,10 @@ The ADMIN Foundation checkpoint is mandatory. Role/Account tasks and Assigned Br
 ### 18.2 Master execution checklist
 
 - [x] T1–T4: TENANT login, recovery, permission seeds, routes and menus
-- [ ] T5–T11: Dashboard, Roles, Permissions, Accounts and Profile
+- [x] T5–T11: Dashboard, Roles, Permissions, Accounts and Profile
 - [x] T12–T15: Assigned Brands, visibility and Earn Display
-- [ ] T16–T18: Transactions, traceability and final regression
+- [x] T16–T17: Transaction list, export, detail and history
+- [ ] T18: Traceability and final regression
 
 ### 18.3 Phase T1 — TENANT access foundation
 
@@ -382,15 +383,15 @@ The ADMIN Foundation checkpoint is mandatory. Role/Account tasks and Assigned Br
 
 - [x] Assigned scope and visibility remain consistent between ADMIN and TENANT in one runtime.
 - [x] Earn Display supports all three levels and locale/fallback rules.
-- [ ] Lint, tests and build pass.
+- [x] Lint, tests and build pass.
 
 ### 18.6 Phase T4 — Transactions and completion
 
-| Task | Description and acceptance criteria                                                                                                                               | Dependencies   | Likely files                                            | Verify                         | Size |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | ------------------------------------------------------- | ------------------------------ | ---- |
-| T16  | Implement Tenant Transaction list/filter/sort/pagination and mock export lifecycle scoped by session Tenant. Only Tenant-approved financial fields are projected. | TA, ADMIN A21  | `features/tenant/transactions/{model,api,hooks,ui}`     | TP-TXN-001 list/export/scope   | M    |
-| T17  | Implement Transaction detail/items/history for seeded Pending/Confirmed/Cancelled and item statuses; cross-Tenant IDs are denied.                                 | T16, ADMIN A22 | Transaction detail/service/model/test files             | Status and isolation matrix    | M    |
-| T18  | Complete TP AC-to-test/manual traceability, full four-role/locale/responsive regression and focused spec fixes.                                                   | T2–T17         | `docs/specs/*`, `tests/tenant-*.test.ts`, focused fixes | Traceability script; full gate | M    |
+| Task   | Description and acceptance criteria                                                                                                                               | Dependencies   | Likely files                                            | Verify                         | Size |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | ------------------------------------------------------- | ------------------------------ | ---- |
+| T16 ✅ | Implement Tenant Transaction list/filter/sort/pagination and mock export lifecycle scoped by session Tenant. Only Tenant-approved financial fields are projected. | TA, ADMIN A21  | `features/tenant/transactions/{model,api,hooks,ui}`     | TP-TXN-001 list/export/scope   | M    |
+| T17 ✅ | Implement Transaction detail/items/history for seeded Pending/Confirmed/Cancelled and item statuses; cross-Tenant IDs are denied.                                 | T16, ADMIN A22 | Transaction detail/service/model/test files             | Status and isolation matrix    | M    |
+| T18    | Complete TP AC-to-test/manual traceability, full four-role/locale/responsive regression and focused spec fixes.                                                   | T2–T17         | `docs/specs/*`, `tests/tenant-*.test.ts`, focused fixes | Traceability script; full gate | M    |
 
 #### Checkpoint Done — TENANT Portal
 

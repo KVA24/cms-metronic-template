@@ -394,6 +394,73 @@
       "SAVE_ERROR": "The configuration could not be saved."
     }
   },
+  "TENANT_TRANSACTIONS": {
+    "TITLE": "Transactions",
+    "DESCRIPTION": "Review transactions and the Tenant share calculated for your assigned Brands.",
+    "DATE_FROM": "Transaction date from",
+    "DATE_TO": "Transaction date to",
+    "DATE_ERROR": "Transaction date to cannot be earlier than transaction date from.",
+    "KEYWORD": "Order ID or Brand Order ID",
+    "BRAND": "Brand",
+    "STATUS": "Order status",
+    "EXPORT": "Export",
+    "EXPORT_SUCCESS": "{{file}} is ready with {{rows}} rows.",
+    "EXPORT_ERROR": "The export request could not be completed.",
+    "LOAD_ERROR": "Transactions could not be loaded.",
+    "EMPTY": "No transactions match the current filters.",
+    "ORDER_ID": "Order ID",
+    "BRAND_ORDER": "Brand Order ID",
+    "ORDER_DATE": "Order date",
+    "USER_ID": "User ID",
+    "MEMBER_REF": "Member ref",
+    "CUSTOMER_REF": "Customer ref",
+    "ESTIMATED": "Estimated Tenant share",
+    "ACTUAL": "Actual Tenant share",
+    "CONFIRMED_DATE": "Confirmed date",
+    "VIEW": "View transaction {{id}}",
+    "RANGE": "{{from}}–{{to}} of {{total}}",
+    "DETAIL": {
+      "TITLE": "Transaction detail",
+      "BACK": "Back to transactions",
+      "LOAD_ERROR": "This transaction could not be loaded or is outside your Tenant scope.",
+      "SUMMARY": "Order summary",
+      "ITEMS": "Order items and Tenant share",
+      "ITEM_CODE": "Item code",
+      "ITEM_NAME": "Item name",
+      "QTY": "Quantity",
+      "ORIGINAL": "Original amount",
+      "FINAL": "Final amount",
+      "SHARE_SOURCE": "Tenant share source",
+      "SHARE_VALUE": "Tenant share value",
+      "SHARE_REFERENCE": "Tenant share reference",
+      "SHARE": "Tenant share",
+      "ITEM_STATUS": "Item status",
+      "HISTORY": "Processing history",
+      "NO_HISTORY": "No processing history is available.",
+      "SOURCES": {
+        "OFFER": "Offer override",
+        "CATEGORY": "Category override",
+        "TENANT_BRAND_DEFAULT": "Tenant–Brand default",
+        "ALL_TENANT_DEFAULT": "All-Tenant default"
+      },
+      "ITEM_STATUSES": {
+        "PENDING": "Pending",
+        "CONFIRMED": "Confirmed",
+        "REFUNDED": "Refunded"
+      },
+      "EVENTS": {
+        "ORDER_RECORDED": "Order {{order}} was recorded for {{brand}}.",
+        "ITEM_CONFIRMED": "Item {{item}} was confirmed.",
+        "ITEM_REFUNDED": "Item {{item}} was refunded.",
+        "RETRY_APPLIED": "Processing was retried for item {{item}}."
+      },
+      "RESULTS": {
+        "APPLIED": "Applied",
+        "REJECTED": "Rejected",
+        "FAILED": "Failed"
+      }
+    }
+  },
   "TENANT_PROFILE": {
     "TITLE": "My Profile",
     "DESCRIPTION": "Update your own Tenant profile and security credentials.",
