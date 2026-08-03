@@ -230,7 +230,7 @@ Unknown IDs render a feature-level not-found state. Direct routes without permis
 
 ## 9. Feature contracts and SRS traceability
 
-The SRS remains authoritative for every field, conditional required rule, message, status transition and table column. The implementation spec fixes ownership and service boundaries without duplicating those tables.
+The SRS remains authoritative for every field, conditional required rule, message, status transition and table column. The implementation spec fixes ownership and service boundaries without duplicating those tables. The executable AC assignment and browser evidence are recorded in [ADMIN Verification and Traceability Ledger](admin-verification-ledger.md).
 
 | Feature       | Types                                                                                                   | Required service operations                                                                                         | Authoritative source                                      |
 | ------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
@@ -433,11 +433,11 @@ Shared contracts, auth and routing are sequential prerequisites. After the Found
 
 ### 18.2 Master execution checklist
 
-- [ ] A1–A5: shared contracts, permissions, auth, routing and menus
+- [x] A1–A5: shared contracts, permissions, auth, routing and menus
 - [x] A6–A9: ADMIN Dashboard, RBAC and Categories
 - [x] A10–A14: Brands, Category Mapping and Offers
 - [x] A15–A19: Tenant administration, accounts, assignments and Revenue Share
-- [ ] A20–A24: Configuration, Transactions and Exceptions
+- [x] A20–A24: Configuration, Transactions and Exceptions
 - [ ] A25–A27: traceability, legacy cleanup and final regression
 
 ### 18.3 Phase A — Shared foundation
@@ -524,7 +524,7 @@ Shared contracts, auth and routing are sequential prerequisites. After the Found
 
 | Task | Description and acceptance criteria                                                                                                                                           | Dependencies              | Likely files                                                   | Verify                           | Size |
 | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | -------------------------------------------------------------- | -------------------------------- | ---- |
-| A25  | Add/complete SRS AC-to-test/manual traceability ledger and contract tests for every ADMIN service. No UI-facing AC is unassigned.                                             | A6–A24                    | `docs/specs/*`, `tests/admin-*.test.ts`                        | Traceability script; full test   | M    |
+| A25 ✅ | Add/complete SRS AC-to-test/manual traceability ledger and contract tests for every ADMIN service. No UI-facing AC is unassigned.                                           | A6–A24                    | `docs/specs/*`, `tests/admin-*.test.ts`                        | Traceability script; full test   | M    |
 | A26  | Inventory imports/routes from legacy `src/features/*`; move only genuinely shared pieces and remove replaced business/demo features. No orphan import, route or menu remains. | A25 and TENANT completion | routing/menu, moved shared files, deleted legacy feature files | `rg` dependency audit; full gate | M    |
 | A27  | Run final ADMIN regression across roles, locales, responsive states and non-happy paths; fix only spec deviations and record results.                                         | A26                       | Tests/spec verification records; focused fixes                 | Full gate + manual matrix        | M    |
 
