@@ -1051,6 +1051,14 @@
     "RESULTS": { "PASS": "Đạt", "FAILED": "Lỗi", "NOT_EXECUTED": "Chưa thực hiện" },
     "ERRORS": { "LOAD_ERROR": "Không thể tải chi tiết Exception.", "RETRY_ERROR": "Không thể hoàn tất mock retry." }
   },
+  "TENANT_RECOVERY": {
+    "EMAIL_TITLE": "Quên mật khẩu", "EMAIL_DESCRIPTION": "Nhập email đã đăng ký cho tài khoản Tenant Portal.", "EMAIL": "Email", "SEND_CODE": "Gửi mã", "SENDING": "Đang gửi…",
+    "OTP_TITLE": "Xác thực OTP", "OTP_DESCRIPTION": "Nhập mã 6 chữ số của yêu cầu đặt lại mật khẩu.", "OTP": "OTP", "DEMO_OTP": "OTP demo: {{otp}} (hiệu lực 5 phút)", "VERIFY": "Xác thực", "RESEND": "Gửi lại mã", "RESEND_SUCCESS": "OTP demo mới đã sẵn sàng.",
+    "RESET_TITLE": "Tạo mật khẩu mới", "RESET_DESCRIPTION": "Dùng ít nhất 8 ký tự gồm chữ hoa, chữ thường, số và ký tự đặc biệt.", "NEW_PASSWORD": "Mật khẩu mới", "CONFIRM_PASSWORD": "Xác nhận mật khẩu mới", "CONFIRM": "Xác nhận",
+    "SUCCESS_TITLE": "Đặt lại mật khẩu thành công", "SUCCESS_DESCRIPTION": "Bạn có thể đăng nhập bằng mật khẩu mới.", "BACK_TO_SIGN_IN": "Quay lại đăng nhập",
+    "VALIDATION": { "EMAIL_INVALID": "Vui lòng nhập địa chỉ email hợp lệ.", "OTP_INVALID": "Nhập OTP hợp lệ gồm 6 chữ số.", "PASSWORD_POLICY": "Mật khẩu chưa đáp ứng chính sách bắt buộc.", "CONFIRM_PASSWORD_REQUIRED": "Vui lòng xác nhận mật khẩu mới.", "PASSWORD_MISMATCH": "Mật khẩu không khớp." },
+    "ERRORS": { "EMAIL_NOT_FOUND": "Không có tài khoản Tenant Portal dùng email này.", "OTP_INVALID": "OTP không hợp lệ.", "OTP_EXPIRED": "OTP đã hết hạn. Vui lòng yêu cầu mã mới.", "OTP_NOT_VERIFIED": "Hãy xác thực OTP trước khi tạo mật khẩu mới.", "RESET_REQUEST_INVALID": "Yêu cầu đặt lại mật khẩu không hợp lệ hoặc đã được dùng.", "RESET_ERROR": "Không thể hoàn tất khôi phục mật khẩu." }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Bảng Điều Khiển",

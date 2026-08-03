@@ -36,6 +36,7 @@ const seedData: MockData = {
     ...createSystemTenantRoles('tenant-lotus'),
     ...createSystemTenantRoles('tenant-bamboo'),
   ],
+  passwordResetRequests: [],
   tenants: [
     {
       id: 'tenant-lotus',
@@ -680,6 +681,16 @@ export function resetMockData(): void {
     0,
     mockData.authAccounts.length,
     ...freshData.authAccounts,
+  );
+  mockData.tenantRoles.splice(
+    0,
+    mockData.tenantRoles.length,
+    ...freshData.tenantRoles,
+  );
+  mockData.passwordResetRequests.splice(
+    0,
+    mockData.passwordResetRequests.length,
+    ...freshData.passwordResetRequests,
   );
   mockData.tenants.splice(0, mockData.tenants.length, ...freshData.tenants);
   mockData.brands.splice(0, mockData.brands.length, ...freshData.brands);

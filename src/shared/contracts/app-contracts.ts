@@ -78,6 +78,19 @@ export interface TenantRole {
   version: number;
 }
 
+export interface PasswordResetRequest {
+  id: string;
+  accountId: string;
+  tenantId: string;
+  email: string;
+  otpHash: string;
+  issuedAt: string;
+  expiresAt: string;
+  attempts: number;
+  verifiedAt: string | null;
+  completedAt: string | null;
+}
+
 export interface AuthSession {
   portalType: PortalType;
   user: AuthUser;
@@ -417,6 +430,7 @@ export interface CategoryDependencySummary {
 export interface MockData {
   authAccounts: MockAuthAccount[];
   tenantRoles: TenantRole[];
+  passwordResetRequests: PasswordResetRequest[];
   tenants: Tenant[];
   brands: Brand[];
   brandCategoryMappings: BrandCategoryMapping[];
