@@ -1,9 +1,12 @@
 import type {
   AssetMetadata,
+  Category,
+  CategoryDependencySummary,
   ContentLocale,
   EntityStatus,
   PageResult,
 } from '../../../../shared/contracts';
+import { z } from 'zod';
 
 export type CategoryStatusFilter = EntityStatus | 'ALL';
 export type CategoryLandingFilter = 'ALL' | 'VISIBLE' | 'HIDDEN';
@@ -35,6 +38,91 @@ export interface AdminCategoryListItem {
 }
 
 export type AdminCategoryListResult = PageResult<AdminCategoryListItem>;
+
+const assetMetadataSchema = z.object({
+  id: z.string(),
+  fileName: z.string(),
+  mimeType: z.enum(['image/png', 'image/jpeg', 'image/svg+xml']),
+  sizeBytes: z.number().int().nonnegative(),
+  url: z.string(),
+});
+
+export const adminCategorySchema = z
+  .object({
+    code: z
+      .string()
+      .trim()
+      .min(2, 'CATEGORY_CODE_LENGTH')
+      .max(50, 'CATEGORY_CODE_LENGTH')
+      .regex(/^[A-Za-z0-9_-]+$/, 'CATEGORY_CODE_INVALID')
+      .transform((value) => value.toUpperCase()),
+    displayOrder: z
+      .number()
+      .int('DISPLAY_ORDER_INVALID')
+      .min(0, 'DISPLAY_ORDER_INVALID')
+      .max(9999, 'DISPLAY_ORDER_INVALID'),
+    status: z.enum(['ACTIVE', 'INACTIVE', 'DRAFT']),
+    icon: assetMetadataSchema.nullable(),
+    viName: z
+      .string()
+      .trim()
+      .min(1, 'VI_NAME_REQUIRED')
+      .max(80, 'CATEGORY_NAME_LENGTH'),
+    viDescription: z.string().trim().max(500, 'DESCRIPTION_LENGTH'),
+    enName: z.string().trim().max(80, 'CATEGORY_NAME_LENGTH'),
+    enDescription: z.string().trim().max(500, 'DESCRIPTION_LENGTH'),
+  })
+  .superRefine((value, context) => {
+    if (value.enDescription && !value.enName) {
+      context.addIssue({
+        code: 'custom',
+        path: ['enName'],
+        message: 'EN_NAME_REQUIRED',
+      });
+    }
+  });
+
+export type AdminCategoryInput = z.input<typeof adminCategorySchema>;
+
+export interface AdminCategoryDetailView {
+  category: Category;
+  dependency: CategoryDependencySummary;
+  codeLocked: boolean;
+  canEdit: boolean;
+  canInactive: boolean;
+}
+
+export interface CategoryIconUploadInput {
+  fileName: string;
+  mimeType: string;
+  sizeBytes: number;
+}
+
+export const ADMIN_CATEGORY_EMPTY_INPUT: AdminCategoryInput = {
+  code: '',
+  displayOrder: 0,
+  status: 'DRAFT',
+  icon: null,
+  viName: '',
+  viDescription: '',
+  enName: '',
+  enDescription: '',
+};
+
+export function categoryToInput(category: Category): AdminCategoryInput {
+  const vi = category.contents.find(({ locale }) => locale === 'vi-VN');
+  const en = category.contents.find(({ locale }) => locale === 'en-US');
+  return {
+    code: category.code,
+    displayOrder: category.displayOrder,
+    status: category.status,
+    icon: category.icon,
+    viName: vi?.name ?? '',
+    viDescription: vi?.description ?? '',
+    enName: en?.name ?? '',
+    enDescription: en?.description ?? '',
+  };
+}
 
 export const ADMIN_CATEGORY_DEFAULT_QUERY: AdminCategoryQuery = {
   page: 1,

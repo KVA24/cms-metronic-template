@@ -45,6 +45,16 @@ const AdminCategoryListPage = lazy(() =>
     (m) => ({ default: m.AdminCategoryListPage }),
   ),
 );
+const AdminCategoryDetailPage = lazy(() =>
+  import('@/features/admin/categories/ui/admin-category-detail-page').then(
+    (m) => ({ default: m.AdminCategoryDetailPage }),
+  ),
+);
+const AdminCategoryFormPage = lazy(() =>
+  import('@/features/admin/categories/ui/admin-category-form-page').then(
+    (m) => ({ default: m.AdminCategoryFormPage }),
+  ),
+);
 const AccountManagementPage = lazy(() =>
   import('@/features/account').then((m) => ({ default: m.AccountPage })),
 );
@@ -75,6 +85,18 @@ export function AppRoutingSetup() {
             <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
             <Route path="/admin/access/roles" element={<AdminRbacPage />} />
             <Route path="/admin/categories" element={<AdminCategoryListPage />} />
+            <Route
+              path="/admin/categories/new"
+              element={<AdminCategoryFormPage mode="create" />}
+            />
+            <Route
+              path="/admin/categories/:categoryId/edit"
+              element={<AdminCategoryFormPage mode="edit" />}
+            />
+            <Route
+              path="/admin/categories/:categoryId"
+              element={<AdminCategoryDetailPage />}
+            />
             <Route
               path="/auth/welcome-message"
               element={<AuthWelcomeMessagePage />}
