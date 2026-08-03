@@ -35,6 +35,11 @@ const AdminDashboardPage = lazy(() =>
     default: m.AdminDashboardPage,
   })),
 );
+const AdminRbacPage = lazy(() =>
+  import('@/features/admin/rbac/ui/admin-rbac-page').then((m) => ({
+    default: m.AdminRbacPage,
+  })),
+);
 const AccountManagementPage = lazy(() =>
   import('@/features/account').then((m) => ({ default: m.AccountPage })),
 );
@@ -63,6 +68,7 @@ export function AppRoutingSetup() {
               element={<PortalLandingRedirect portalType="TENANT" />}
             />
             <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+            <Route path="/admin/access/roles" element={<AdminRbacPage />} />
             <Route
               path="/auth/welcome-message"
               element={<AuthWelcomeMessagePage />}

@@ -269,6 +269,37 @@
       "affiliateKeep": "Phần Affiliate giữ lại"
     }
   },
+  "ADMIN_RBAC": {
+    "TITLE": "Vai trò và phân quyền hệ thống",
+    "DESCRIPTION": "Xem cấu hình quyền bất biến của Admin CMS. Việc gán vai trò và thay đổi quyền được quản lý bên ngoài CMS này.",
+    "READ_ONLY": "Ma trận hệ thống chỉ đọc",
+    "ROLE_TABS": "Vai trò hệ thống",
+    "ERROR": "Không thể tải danh sách vai trò hệ thống.",
+    "MATRIX_ERROR": "Không thể tải ma trận phân quyền.",
+    "SEED_VERSION": "Phiên bản cấu hình: {{version}}",
+    "MODULE": "Phân hệ",
+    "FULL": "Toàn quyền",
+    "GRANTED": "Được cấp",
+    "DENIED": "Không được cấp",
+    "NOT_APPLICABLE": "Không áp dụng",
+    "ACTIONS": {
+      "VIEW": "Xem",
+      "CREATE": "Tạo",
+      "EDIT": "Sửa",
+      "DELETE": "Xóa",
+      "EXPORT": "Xuất",
+      "RETRY": "Thử lại"
+    },
+    "MODULES": {
+      "DASHBOARD": "Dashboard",
+      "CATEGORIES": "Quản lý danh mục",
+      "BRANDS": "Quản lý thương hiệu",
+      "TENANTS": "Quản lý đối tác",
+      "CONFIGURATION": "Cấu hình",
+      "TRANSACTIONS": "Quản lý giao dịch",
+      "EXCEPTIONS": "Quản lý ngoại lệ"
+    }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Bảng Điều Khiển",

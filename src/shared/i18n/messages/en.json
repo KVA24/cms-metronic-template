@@ -269,6 +269,37 @@
       "affiliateKeep": "Affiliate keep"
     }
   },
+  "ADMIN_RBAC": {
+    "TITLE": "System roles and permissions",
+    "DESCRIPTION": "Review the immutable permission baseline used by the Admin CMS. Role assignments and permission changes are managed outside this CMS.",
+    "READ_ONLY": "Read-only system matrix",
+    "ROLE_TABS": "System roles",
+    "ERROR": "System roles could not be loaded.",
+    "MATRIX_ERROR": "The permission matrix could not be loaded.",
+    "SEED_VERSION": "Baseline version: {{version}}",
+    "MODULE": "Module",
+    "FULL": "Full",
+    "GRANTED": "Granted",
+    "DENIED": "Not granted",
+    "NOT_APPLICABLE": "Not applicable",
+    "ACTIONS": {
+      "VIEW": "View",
+      "CREATE": "Create",
+      "EDIT": "Edit",
+      "DELETE": "Delete",
+      "EXPORT": "Export",
+      "RETRY": "Retry"
+    },
+    "MODULES": {
+      "DASHBOARD": "Dashboard",
+      "CATEGORIES": "Category Management",
+      "BRANDS": "Brand Management",
+      "TENANTS": "Tenant Management",
+      "CONFIGURATION": "Configuration",
+      "TRANSACTIONS": "Transaction Management",
+      "EXCEPTIONS": "Exception Management"
+    }
+  },
   "DASHBOARD": {
     "PAGE": {
       "TITLE": "Dashboard",
