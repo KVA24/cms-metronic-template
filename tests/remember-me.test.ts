@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { beforeEach, describe, it } from 'node:test';
 import {
-  clearRememberedUsername,
-  loadRememberedUsername,
-  saveRememberedUsername,
+  clearRememberedCredentials,
+  loadRememberedCredentials,
+  saveRememberedCredentials,
 } from '../src/shared/lib/remember-me';
 
 const values = new Map<string, string>();
@@ -18,34 +18,62 @@ Object.defineProperty(globalThis, 'localStorage', {
   },
 });
 
-describe('portal-aware remembered username', () => {
+describe('portal-aware remembered credentials', () => {
   beforeEach(() => values.clear());
 
-  it('stores usernames independently and never stores a password', () => {
-    saveRememberedUsername('ADMIN', 'admin@cms.test');
-    saveRememberedUsername('TENANT', 'admin@lotus.test');
+  it('stores username and password independently for each portal', () => {
+    saveRememberedCredentials('ADMIN', {
+      username: 'admin@cms.test',
+      password: 'Admin123!',
+    });
+    saveRememberedCredentials('TENANT', {
+      username: 'admin@lotus.test',
+      password: 'Tenant123!',
+    });
 
-    assert.equal(loadRememberedUsername('ADMIN'), 'admin@cms.test');
-    assert.equal(loadRememberedUsername('TENANT'), 'admin@lotus.test');
-    assert.equal([...values.values()].includes('Admin123!'), false);
-    assert.equal([...values.values()].includes('Tenant123!'), false);
+    assert.deepEqual(loadRememberedCredentials('ADMIN'), {
+      username: 'admin@cms.test',
+      password: 'Admin123!',
+    });
+    assert.deepEqual(loadRememberedCredentials('TENANT'), {
+      username: 'admin@lotus.test',
+      password: 'Tenant123!',
+    });
   });
 
-  it('clears only the selected portal username', () => {
-    saveRememberedUsername('ADMIN', 'admin@cms.test');
-    saveRememberedUsername('TENANT', 'admin@lotus.test');
+  it('clears only the selected portal credentials', () => {
+    saveRememberedCredentials('ADMIN', {
+      username: 'admin@cms.test',
+      password: 'Admin123!',
+    });
+    saveRememberedCredentials('TENANT', {
+      username: 'admin@lotus.test',
+      password: 'Tenant123!',
+    });
 
-    clearRememberedUsername('TENANT');
+    clearRememberedCredentials('TENANT');
 
-    assert.equal(loadRememberedUsername('ADMIN'), 'admin@cms.test');
-    assert.equal(loadRememberedUsername('TENANT'), null);
+    assert.deepEqual(loadRememberedCredentials('ADMIN'), {
+      username: 'admin@cms.test',
+      password: 'Admin123!',
+    });
+    assert.equal(loadRememberedCredentials('TENANT'), null);
   });
 
-  it('migrates the former shared username key to the active portal', () => {
-    values.set('remembered_username', 'legacy@cms.test');
+  it('migrates a remembered username without inventing a password', () => {
+    values.set('remembered_username_admin', 'legacy@cms.test');
 
-    assert.equal(loadRememberedUsername('ADMIN'), 'legacy@cms.test');
-    assert.equal(values.get('remembered_username'), undefined);
-    assert.equal(values.get('remembered_username_admin'), 'legacy@cms.test');
+    assert.deepEqual(loadRememberedCredentials('ADMIN'), {
+      username: 'legacy@cms.test',
+      password: '',
+    });
+    assert.equal(values.get('remembered_username_admin'), undefined);
+  });
+
+  it('removes malformed stored credentials', () => {
+    values.set('remembered_credentials_admin', '{"username":42}');
+
+    assert.equal(loadRememberedCredentials('ADMIN'), null);
+    assert.equal(values.get('remembered_credentials_admin'), undefined);
   });
 });

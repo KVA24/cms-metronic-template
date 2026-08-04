@@ -1,38 +1,66 @@
 import type { PortalType } from '../contracts';
 import { storage } from './storage';
 
-const STORAGE_KEY = 'remembered_username';
+export interface RememberedCredentials {
+  username: string;
+  password: string;
+}
+
+const CREDENTIALS_KEY = 'remembered_credentials';
+const USERNAME_KEY = 'remembered_username';
 const LEGACY_CREDENTIALS_KEY = 'rm_creds';
 
-function getPortalStorageKey(portalType: PortalType): string {
-  return `${STORAGE_KEY}_${portalType.toLowerCase()}`;
+function getPortalKey(prefix: string, portalType: PortalType): string {
+  return `${prefix}_${portalType.toLowerCase()}`;
 }
 
-export function saveRememberedUsername(
+function isRememberedCredentials(
+  value: unknown,
+): value is RememberedCredentials {
+  if (!value || typeof value !== 'object') return false;
+
+  const credentials = value as Record<string, unknown>;
+  return (
+    typeof credentials.username === 'string' &&
+    typeof credentials.password === 'string'
+  );
+}
+
+// DEMO ONLY: remove password persistence when real authentication is connected.
+export function saveRememberedCredentials(
   portalType: PortalType,
-  username: string,
+  credentials: RememberedCredentials,
 ): void {
-  storage.setItem(getPortalStorageKey(portalType), username);
-  storage.removeItem(STORAGE_KEY);
+  storage.setJSON(getPortalKey(CREDENTIALS_KEY, portalType), credentials);
+  storage.removeItem(getPortalKey(USERNAME_KEY, portalType));
+  storage.removeItem(USERNAME_KEY);
   storage.removeItem(LEGACY_CREDENTIALS_KEY);
 }
 
-export function loadRememberedUsername(portalType: PortalType): string | null {
+export function loadRememberedCredentials(
+  portalType: PortalType,
+): RememberedCredentials | null {
   storage.removeItem(LEGACY_CREDENTIALS_KEY);
-  const portalUsername = storage.getItem(getPortalStorageKey(portalType));
 
-  if (portalUsername) return portalUsername;
+  const portalKey = getPortalKey(CREDENTIALS_KEY, portalType);
+  const storedCredentials = storage.getJSON<unknown>(portalKey);
+  if (isRememberedCredentials(storedCredentials)) return storedCredentials;
+  if (storedCredentials !== null) storage.removeItem(portalKey);
 
-  const legacyUsername = storage.getItem(STORAGE_KEY);
-  if (legacyUsername) {
-    saveRememberedUsername(portalType, legacyUsername);
-  }
+  const portalUsernameKey = getPortalKey(USERNAME_KEY, portalType);
+  const legacyUsername =
+    storage.getItem(portalUsernameKey) ?? storage.getItem(USERNAME_KEY);
 
-  return legacyUsername;
+  if (!legacyUsername) return null;
+
+  const migratedCredentials = { username: legacyUsername, password: '' };
+  saveRememberedCredentials(portalType, migratedCredentials);
+  return migratedCredentials;
 }
 
-export function clearRememberedUsername(portalType: PortalType): void {
-  storage.removeItem(getPortalStorageKey(portalType));
-  storage.removeItem(STORAGE_KEY);
+export function clearRememberedCredentials(portalType: PortalType): void {
+  storage.removeItem(getPortalKey(CREDENTIALS_KEY, portalType));
+  storage.removeItem(getPortalKey(USERNAME_KEY, portalType));
+  storage.removeItem(USERNAME_KEY);
   storage.removeItem(LEGACY_CREDENTIALS_KEY);
 }

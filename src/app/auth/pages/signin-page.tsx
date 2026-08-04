@@ -5,9 +5,9 @@ import { useTranslations } from '@/shared/hooks/use-translations';
 import { I18N_LANGUAGES } from '@/shared/i18n/config';
 import logger from '@/shared/lib/logger';
 import {
-  clearRememberedUsername,
-  loadRememberedUsername,
-  saveRememberedUsername,
+  clearRememberedCredentials,
+  loadRememberedCredentials,
+  saveRememberedCredentials,
 } from '@/shared/lib/remember-me';
 import {
   useAuthActions,
@@ -90,12 +90,12 @@ export function SignInPage() {
   }, [isAuthenticated, navigate, searchParams, session]);
 
   useEffect(() => {
-    const rememberedUsername = loadRememberedUsername(portalType);
+    const rememberedCredentials = loadRememberedCredentials(portalType);
 
     form.reset({
-      username: rememberedUsername ?? '',
-      password: '',
-      rememberMe: Boolean(rememberedUsername),
+      username: rememberedCredentials?.username ?? '',
+      password: rememberedCredentials?.password ?? '',
+      rememberMe: Boolean(rememberedCredentials),
     });
     setPasswordVisible(false);
     setErrorCode(null);
@@ -110,9 +110,12 @@ export function SignInPage() {
         password: values.password,
       });
       if (values.rememberMe) {
-        saveRememberedUsername(portalType, values.username);
+        saveRememberedCredentials(portalType, {
+          username: values.username,
+          password: values.password,
+        });
       } else {
-        clearRememberedUsername(portalType);
+        clearRememberedCredentials(portalType);
       }
       const fallbackPath = getFirstPermittedPath(
         authenticatedSession.portalType,
