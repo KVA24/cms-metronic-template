@@ -176,10 +176,34 @@
     "SIGNIN": {
       "TITLE": "Đăng nhập",
       "DESCRIPTION": "Chào mừng trở lại! Đăng nhập với thông tin của bạn.",
+      "ADMIN_TITLE": "Đăng nhập quản trị",
+      "ADMIN_DESCRIPTION": "Quản lý nền tảng affiliate, vận hành và cấu hình toàn hệ thống.",
+      "TENANT_TITLE": "Đăng nhập đối tác",
+      "TENANT_DESCRIPTION": "Truy cập không gian làm việc để theo dõi hiệu quả, đơn hàng và hoa hồng.",
       "PORTAL": "Chọn cổng đăng nhập",
       "ADMIN": "Quản trị",
       "TENANT": "Đối tác",
       "LANGUAGE": "Ngôn ngữ",
+      "FORM_REGION": "Biểu mẫu đăng nhập",
+      "HOME": "Trang chủ CMS",
+      "PLATFORM": "Nền tảng quản lý affiliate",
+      "COPYRIGHT": "© 2026 Loyalty Gamification CMS",
+      "HERO": {
+        "ADMIN": {
+          "EYEBROW": "Cổng quản trị",
+          "TITLE": "Kiểm soát toàn bộ hệ sinh thái affiliate.",
+          "DESCRIPTION": "Một không gian bảo mật để quản lý đối tác, chiến dịch, hoa hồng và hoạt động của nền tảng.",
+          "TRUST_1": "Quản trị nền tảng tập trung",
+          "TRUST_2": "Phân quyền và quy trình sẵn sàng kiểm toán"
+        },
+        "TENANT": {
+          "EYEBROW": "Cổng đối tác",
+          "TITLE": "Biến mọi quan hệ hợp tác thành tăng trưởng đo lường được.",
+          "DESCRIPTION": "Theo dõi lưu lượng, đơn hàng và hoa hồng trong không gian làm việc tập trung dành cho đội ngũ của bạn.",
+          "TRUST_1": "Theo dõi hiệu quả minh bạch",
+          "TRUST_2": "Truy cập bảo mật vào không gian đối tác"
+        }
+      },
       "USERNAME": "Email",
       "USERNAME_PLACEHOLDER": "email@example.com",
       "PASSWORD": "Mật khẩu",

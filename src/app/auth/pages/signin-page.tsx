@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react';
-import {
-  getPortalFromSearchParam,
-  getSafePortalRedirect,
-  isPathAllowedForPortal,
-} from '@/shared/auth';
+import { getPortalFromSearchParam, getSafePortalRedirect } from '@/shared/auth';
 import { getFirstPermittedPath } from '@/shared/config/menu.config';
-import type { PortalType } from '@/shared/contracts';
 import { useTranslations } from '@/shared/hooks/use-translations';
 import { I18N_LANGUAGES } from '@/shared/i18n/config';
 import logger from '@/shared/lib/logger';
@@ -26,7 +21,14 @@ import {
 } from '@/shared/ui/atoms/form';
 import { Input } from '@/shared/ui/atoms/input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AlertCircle, Eye, EyeOff, LoaderCircleIcon } from 'lucide-react';
+import {
+  AlertCircle,
+  Eye,
+  EyeOff,
+  LoaderCircleIcon,
+  LockKeyhole,
+  Mail,
+} from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useLanguage } from '@/app/providers/i18n-provider';
@@ -43,7 +45,7 @@ const errorTranslationKeys: Record<string, string> = {
 };
 
 export function SignInPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { t } = useTranslations();
   const { currenLanguage, changeLanguage } = useLanguage();
@@ -81,18 +83,10 @@ export function SignInPage() {
     }
   }, [isAuthenticated, navigate, searchParams, session]);
 
-  const handlePortalChange = (value: string) => {
-    const nextPortal = value as PortalType;
-    const nextParams = new URLSearchParams(searchParams);
-    const nextPath = nextParams.get('next');
-    nextParams.set('portal', nextPortal.toLowerCase());
-    if (nextPath && !isPathAllowedForPortal(nextPath, nextPortal)) {
-      nextParams.delete('next');
-    }
-    setSearchParams(nextParams, { replace: true });
+  useEffect(() => {
     setErrorCode(null);
     form.clearErrors();
-  };
+  }, [form, portalType]);
 
   async function onSubmit(values: SigninSchemaType) {
     try {
@@ -119,19 +113,22 @@ export function SignInPage() {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <div
-        className="flex items-center justify-end gap-1"
+        className="flex items-center justify-end gap-0.5"
         aria-label={t('AUTH.SIGNIN.LANGUAGE')}
       >
         {I18N_LANGUAGES.map((language) => (
           <Button
             key={language.code}
             type="button"
-            variant={
-              currenLanguage.code === language.code ? 'secondary' : 'ghost'
-            }
+            variant="ghost"
             size="sm"
+            className={
+              currenLanguage.code === language.code
+                ? 'bg-slate-100 text-slate-900'
+                : 'text-slate-500'
+            }
             aria-pressed={currenLanguage.code === language.code}
             onClick={() => changeLanguage(language)}
           >
@@ -140,33 +137,16 @@ export function SignInPage() {
         ))}
       </div>
 
-      <div className="space-y-1 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          {t('AUTH.SIGNIN.TITLE')}
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          {t('AUTH.SIGNIN.DESCRIPTION')}
+      <div className="space-y-2">
+        <p className="text-xs font-semibold tracking-[0.12em] text-[#095f78] uppercase">
+          {t(`AUTH.SIGNIN.${portalType}`)}
         </p>
-      </div>
-
-      <div
-        className="grid w-full grid-cols-2 gap-2 rounded-lg bg-accent p-1"
-        role="tablist"
-        aria-label={t('AUTH.SIGNIN.PORTAL')}
-      >
-        {(['ADMIN', 'TENANT'] as const).map((portal) => (
-          <Button
-            key={portal}
-            type="button"
-            role="tab"
-            aria-selected={portalType === portal}
-            variant={portalType === portal ? 'secondary' : 'ghost'}
-            className="text-foreground"
-            onClick={() => handlePortalChange(portal)}
-          >
-            {t(`AUTH.SIGNIN.${portal}`)}
-          </Button>
-        ))}
+        <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
+          {t(`AUTH.SIGNIN.${portalType}_TITLE`)}
+        </h1>
+        <p className="text-sm leading-6 text-slate-500">
+          {t(`AUTH.SIGNIN.${portalType}_DESCRIPTION`)}
+        </p>
       </div>
 
       {errorCode && (
@@ -197,12 +177,19 @@ export function SignInPage() {
               <FormItem>
                 <FormLabel>{t('AUTH.SIGNIN.USERNAME')}</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder={t('AUTH.SIGNIN.USERNAME_PLACEHOLDER')}
-                    type="email"
-                    autoComplete="username"
-                    {...field}
-                  />
+                  <div className="relative">
+                    <Mail
+                      aria-hidden="true"
+                      className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400"
+                    />
+                    <Input
+                      placeholder={t('AUTH.SIGNIN.USERNAME_PLACEHOLDER')}
+                      type="email"
+                      autoComplete="username"
+                      className="h-11 pl-10"
+                      {...field}
+                    />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -216,12 +203,16 @@ export function SignInPage() {
               <FormItem>
                 <FormLabel>{t('AUTH.SIGNIN.PASSWORD')}</FormLabel>
                 <div className="relative">
+                  <LockKeyhole
+                    aria-hidden="true"
+                    className="pointer-events-none absolute left-3.5 top-1/2 z-10 size-4 -translate-y-1/2 text-slate-400"
+                  />
                   <FormControl>
                     <Input
                       placeholder={t('AUTH.SIGNIN.PASSWORD_PLACEHOLDER')}
                       type={passwordVisible ? 'text' : 'password'}
                       autoComplete="current-password"
-                      className="pr-10"
+                      className="h-11 pr-10 pl-10"
                       {...field}
                     />
                   </FormControl>
@@ -248,7 +239,7 @@ export function SignInPage() {
           {portalType === 'TENANT' && (
             <div className="text-right">
               <Link
-                className="text-sm font-medium text-primary hover:underline"
+                className="text-sm font-medium text-[#095f78] hover:underline"
                 to="/auth/tenant/forgot-password"
               >
                 {t('AUTH.SIGNIN.FORGOT_PASSWORD')}
@@ -258,8 +249,8 @@ export function SignInPage() {
 
           <Button
             type="submit"
-            variant="mono"
-            className="w-full"
+            variant="primary"
+            className="h-11 w-full bg-[#095f78] hover:bg-[#074759]"
             disabled={isLoading}
           >
             {isLoading ? (

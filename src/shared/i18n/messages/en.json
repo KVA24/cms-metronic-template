@@ -176,10 +176,34 @@
     "SIGNIN": {
       "TITLE": "Sign in",
       "DESCRIPTION": "Welcome back! Log in with your credentials.",
+      "ADMIN_TITLE": "Admin sign in",
+      "ADMIN_DESCRIPTION": "Manage the affiliate platform, operations and system configuration.",
+      "TENANT_TITLE": "Tenant sign in",
+      "TENANT_DESCRIPTION": "Access your workspace to track performance, orders and commissions.",
       "PORTAL": "Select portal",
       "ADMIN": "Admin",
       "TENANT": "Tenant",
       "LANGUAGE": "Language",
+      "FORM_REGION": "Sign-in form",
+      "HOME": "CMS home",
+      "PLATFORM": "Affiliate management platform",
+      "COPYRIGHT": "© 2026 Loyalty Gamification CMS",
+      "HERO": {
+        "ADMIN": {
+          "EYEBROW": "Administration portal",
+          "TITLE": "Control every part of your affiliate ecosystem.",
+          "DESCRIPTION": "One secure workspace for managing tenants, campaigns, commissions and platform operations.",
+          "TRUST_1": "Centralized platform administration",
+          "TRUST_2": "Role-based access and audit-ready workflows"
+        },
+        "TENANT": {
+          "EYEBROW": "Tenant portal",
+          "TITLE": "Turn every partnership into measurable growth.",
+          "DESCRIPTION": "Monitor attributed traffic, orders and commissions from a focused workspace built for your team.",
+          "TRUST_1": "Transparent performance tracking",
+          "TRUST_2": "Secure access to your tenant workspace"
+        }
+      },
       "USERNAME": "Email",
       "USERNAME_PLACEHOLDER": "your@email.com",
       "PASSWORD": "Password",
