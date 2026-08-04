@@ -13,6 +13,7 @@ export const getSigninSchema = (messages: SigninValidationMessages = {}) => {
     password: z.string().min(1, {
       message: messages.passwordRequired ?? 'Password is required.',
     }),
+    rememberMe: z.boolean(),
   });
 };
 

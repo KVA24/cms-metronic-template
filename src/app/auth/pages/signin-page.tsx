@@ -5,12 +5,18 @@ import { useTranslations } from '@/shared/hooks/use-translations';
 import { I18N_LANGUAGES } from '@/shared/i18n/config';
 import logger from '@/shared/lib/logger';
 import {
+  clearRememberedUsername,
+  loadRememberedUsername,
+  saveRememberedUsername,
+} from '@/shared/lib/remember-me';
+import {
   useAuthActions,
   useAuthSession,
   useAuthStatus,
 } from '@/shared/stores/auth-store';
 import { Alert, AlertIcon, AlertTitle } from '@/shared/ui/atoms/alert';
 import { Button } from '@/shared/ui/atoms/button';
+import { Checkbox } from '@/shared/ui/atoms/checkbox';
 import {
   Form,
   FormControl,
@@ -63,7 +69,7 @@ export function SignInPage() {
 
   const form = useForm<SigninSchemaType>({
     resolver: zodResolver(schema),
-    defaultValues: { username: '', password: '' },
+    defaultValues: { username: '', password: '', rememberMe: false },
   });
 
   useEffect(() => {
@@ -84,14 +90,30 @@ export function SignInPage() {
   }, [isAuthenticated, navigate, searchParams, session]);
 
   useEffect(() => {
+    const rememberedUsername = loadRememberedUsername(portalType);
+
+    form.reset({
+      username: rememberedUsername ?? '',
+      password: '',
+      rememberMe: Boolean(rememberedUsername),
+    });
+    setPasswordVisible(false);
     setErrorCode(null);
-    form.clearErrors();
   }, [form, portalType]);
 
   async function onSubmit(values: SigninSchemaType) {
     try {
       setErrorCode(null);
-      const authenticatedSession = await login({ portalType, ...values });
+      const authenticatedSession = await login({
+        portalType,
+        username: values.username,
+        password: values.password,
+      });
+      if (values.rememberMe) {
+        saveRememberedUsername(portalType, values.username);
+      } else {
+        clearRememberedUsername(portalType);
+      }
       const fallbackPath = getFirstPermittedPath(
         authenticatedSession.portalType,
         authenticatedSession.permissions,
@@ -236,16 +258,37 @@ export function SignInPage() {
             )}
           />
 
-          {portalType === 'TENANT' && (
-            <div className="text-right">
+          <div className="flex items-center justify-between gap-4">
+            <FormField
+              control={form.control}
+              name="rememberMe"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center gap-2.5">
+                  <FormControl>
+                    <Checkbox
+                      size="sm"
+                      checked={field.value}
+                      onCheckedChange={(checked) =>
+                        field.onChange(checked === true)
+                      }
+                    />
+                  </FormControl>
+                  <FormLabel className="cursor-pointer text-sm font-normal text-slate-600">
+                    {t('AUTH.SIGNIN.REMEMBER_ME')}
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
+
+            {portalType === 'TENANT' && (
               <Link
-                className="text-sm font-medium text-[#095f78] hover:underline"
+                className="shrink-0 text-sm font-medium text-[#095f78] hover:underline"
                 to="/auth/tenant/forgot-password"
               >
                 {t('AUTH.SIGNIN.FORGOT_PASSWORD')}
               </Link>
-            </div>
-          )}
+            )}
+          </div>
 
           <Button
             type="submit"

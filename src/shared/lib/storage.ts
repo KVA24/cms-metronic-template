@@ -1,4 +1,4 @@
-import logger from '@/shared/lib/logger';
+import logger from './logger';
 
 export const storage = {
   getItem: (key: string): string | null => {

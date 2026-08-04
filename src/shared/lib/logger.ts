@@ -6,7 +6,7 @@
  * calling console methods when enabled, or using no-op when disabled.
  */
 
-const isConsoleEnabled = import.meta.env.VITE_ENABLE_CONSOLE_LOG === 'true';
+const isConsoleEnabled = import.meta.env?.VITE_ENABLE_CONSOLE_LOG === 'true';
 
 // Create bound console methods to preserve stack trace
 const noop = () => {};
