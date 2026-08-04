@@ -14,7 +14,7 @@ export function SidebarMenu() {
   const linkClassName = ({ isActive }: { isActive: boolean }) =>
     cn(
       'flex min-h-8 items-center gap-2 rounded-md px-3 text-sm font-medium text-accent-foreground transition-colors hover:bg-primary/10 hover:text-primary',
-      isActive && 'bg-muted text-primary dark:text-sky-300',
+      isActive && 'text-primary dark:text-primary',
     );
 
   return (
