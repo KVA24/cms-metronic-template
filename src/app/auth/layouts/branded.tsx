@@ -49,7 +49,7 @@ export function BrandedLayout() {
               role="tab"
               aria-selected={portalType === portal}
               className={cn(
-                'flex min-w-28 items-center justify-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:min-w-32',
+                'flex min-w-28 items-center justify-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:min-w-32 cursor-pointer',
                 portalType === portal
                   ? 'bg-[#095f78] text-white shadow-sm'
                   : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900',
@@ -74,14 +74,14 @@ export function BrandedLayout() {
         )}
         aria-label={t('AUTH.SIGNIN.FORM_REGION')}
       >
-        <div className="w-full max-w-[460px] rounded-xl border border-slate-200 bg-white p-6 shadow-[0_18px_44px_rgba(23,33,47,0.12)] sm:p-9">
+        <div className="w-full max-w-115 rounded-xl border border-slate-200 bg-white p-6 shadow-[0_18px_44px_rgba(23,33,47,0.12)] sm:p-9">
           <Outlet />
         </div>
       </section>
 
       <section
         className={cn(
-          'relative hidden min-h-svh overflow-hidden bg-[#0d3d4c] text-white transition-transform duration-700 ease-in-out motion-reduce:transition-none lg:absolute lg:inset-y-0 lg:left-0 lg:flex lg:w-1/2 lg:flex-col lg:justify-between lg:p-12 xl:p-16',
+          'relative hidden min-h-svh overflow-hidden bg-[#0d3d4c] text-white transition-transform duration-700 ease-in-out motion-reduce:transition-none lg:absolute lg:inset-y-0 lg:left-0 lg:flex lg:w-1/2 lg:flex-col lg:justify-between lg:p-12 xl:p-16 xl:pt-28',
           portalType === 'ADMIN' && 'lg:translate-x-full',
         )}
         style={{
@@ -91,7 +91,7 @@ export function BrandedLayout() {
         }}
         aria-label={t(`${portalKey}.EYEBROW`)}
       >
-        <div className="pointer-events-none absolute -left-56 -bottom-56 size-[440px] rounded-full border border-white/10" />
+        <div className="pointer-events-none absolute -left-56 -bottom-56 size-110 rounded-full border border-white/10" />
         <div className="pointer-events-none absolute -right-28 top-28 size-72 rounded-full border border-white/10" />
 
         <Link
@@ -108,7 +108,7 @@ export function BrandedLayout() {
           </span>
           <span>
             <strong className="block text-sm font-semibold">
-              Loyalty Gamification CMS
+              Affiliate System CMS
             </strong>
             <span className="mt-0.5 block text-xs text-white/60">
               {t('AUTH.SIGNIN.PLATFORM')}
