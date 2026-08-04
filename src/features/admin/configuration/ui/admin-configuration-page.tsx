@@ -226,6 +226,7 @@ export function AdminConfigurationPage() {
                           <Button
                             size="icon"
                             variant="outline"
+                            tooltip={t('COMMON.EDIT')}
                             aria-label={t('ADMIN_CONFIGURATION.EDIT_NAMED', {
                               key: item.key,
                             })}
@@ -241,6 +242,7 @@ export function AdminConfigurationPage() {
                           <Button
                             size="icon"
                             variant="outline"
+                            tooltip={t('COMMON.DELETE')}
                             aria-label={t('ADMIN_CONFIGURATION.DELETE_NAMED', {
                               key: item.key,
                             })}

@@ -325,7 +325,12 @@ export function AdminCategoryListPage() {
                     </TableCell>
                     <TableCell>
                       <div className="flex justify-end gap-2">
-                        <Button variant="outline" size="icon" asChild>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          tooltip={t('COMMON.VIEW')}
+                          asChild
+                        >
                           <Link
                             to={`/admin/categories/${category.id}`}
                             aria-label={t('ADMIN_CATEGORIES.VIEW_CATEGORY', {
@@ -336,7 +341,12 @@ export function AdminCategoryListPage() {
                           </Link>
                         </Button>
                         {category.canEdit && (
-                          <Button variant="outline" size="icon" asChild>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            tooltip={t('COMMON.EDIT')}
+                            asChild
+                          >
                             <Link
                               to={`/admin/categories/${category.id}/edit`}
                               aria-label={t('ADMIN_CATEGORIES.EDIT_CATEGORY', {

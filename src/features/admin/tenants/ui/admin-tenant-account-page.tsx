@@ -313,6 +313,7 @@ export function AdminTenantAccountPage() {
                         <Button
                           size="icon"
                           variant="outline"
+                          tooltip={t('COMMON.VIEW')}
                           aria-label={t('ADMIN_TENANT_ACCOUNTS.VIEW_USER', {
                             name: account.username,
                           })}
@@ -322,7 +323,12 @@ export function AdminTenantAccountPage() {
                         </Button>
                         {accounts.data.canEdit && (
                           <>
-                            <Button size="icon" variant="outline" asChild>
+                            <Button
+                              size="icon"
+                              variant="outline"
+                              tooltip={t('COMMON.EDIT')}
+                              asChild
+                            >
                               <Link
                                 to={`/admin/tenants/${tenantId}/accounts/${account.id}/edit`}
                                 aria-label={t(
@@ -337,6 +343,9 @@ export function AdminTenantAccountPage() {
                               <Button
                                 size="icon"
                                 variant="outline"
+                                tooltip={t(
+                                  'ADMIN_TENANT_ACCOUNTS.CONFIRM_DISABLE',
+                                )}
                                 aria-label={t(
                                   'ADMIN_TENANT_ACCOUNTS.DISABLE_USER',
                                   { name: account.username },

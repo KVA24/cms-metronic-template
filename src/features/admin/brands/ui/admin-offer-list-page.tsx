@@ -317,6 +317,7 @@ export function AdminOfferListPage() {
                             size="sm"
                             variant="outline"
                             asChild
+                            tooltip={t('ADMIN_OFFERS.VIEW')}
                             aria-label={`${t('ADMIN_OFFERS.VIEW')} ${item.title}`}
                           >
                             <Link
@@ -330,6 +331,7 @@ export function AdminOfferListPage() {
                               size="sm"
                               variant="outline"
                               asChild
+                              tooltip={t('ADMIN_OFFERS.EDIT')}
                               aria-label={`${t('ADMIN_OFFERS.EDIT')} ${item.title}`}
                             >
                               <Link

@@ -388,12 +388,14 @@ function Button({
   underline,
   asChild = false,
   placeholder = false,
+  tooltip,
   'aria-label': ariaLabel,
   ...props
 }: React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
     selected?: boolean;
     asChild?: boolean;
+    tooltip?: React.ReactNode;
   }) {
   const Comp = asChild ? SlotPrimitive.Slot : 'button';
 
@@ -421,14 +423,15 @@ function Button({
     />
   );
 
-  // Show tooltip if aria-label is provided
-  if (ariaLabel) {
+  const tooltipContent = tooltip ?? ariaLabel;
+
+  if (tooltipContent) {
     return (
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>{buttonElement}</TooltipTrigger>
           <TooltipContent>
-            <p>{ariaLabel}</p>
+            <p>{tooltipContent}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

@@ -703,6 +703,7 @@ export function AdminBrandMappingPage() {
                           <Button
                             size="sm"
                             variant="outline"
+                            tooltip={t('ADMIN_BRAND_MAPPINGS.EDIT')}
                             aria-label={`${t('ADMIN_BRAND_MAPPINGS.EDIT')} ${item.brandCategoryCode}`}
                             onClick={() => setParams({ edit: item.id })}
                           >

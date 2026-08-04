@@ -280,7 +280,12 @@ export function TenantTransactionListPage() {
                         : '—'}
                     </TableCell>
                     <TableCell>
-                      <Button size="icon" variant="outline" asChild>
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        tooltip={t('COMMON.VIEW')}
+                        asChild
+                      >
                         <Link
                           aria-label={t('TENANT_TRANSACTIONS.VIEW', {
                             id: item.id,

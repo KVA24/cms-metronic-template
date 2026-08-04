@@ -278,7 +278,12 @@ export function AdminTenantListPage() {
                     </TableCell>
                     <TableCell>
                       <div className="flex justify-end gap-2">
-                        <Button variant="outline" size="icon" asChild>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          tooltip={t('COMMON.VIEW')}
+                          asChild
+                        >
                           <Link
                             to={`/admin/tenants/${tenant.id}`}
                             aria-label={t('ADMIN_TENANTS.VIEW', {
@@ -289,7 +294,12 @@ export function AdminTenantListPage() {
                           </Link>
                         </Button>
                         {tenant.canEdit && (
-                          <Button variant="outline" size="icon" asChild>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            tooltip={t('COMMON.EDIT')}
+                            asChild
+                          >
                             <Link
                               to={`/admin/tenants/${tenant.id}?edit=true`}
                               aria-label={t('ADMIN_TENANTS.EDIT', {

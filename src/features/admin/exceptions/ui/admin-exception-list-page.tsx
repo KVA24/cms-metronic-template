@@ -352,7 +352,12 @@ export function AdminExceptionListPage() {
                     <TableCell>{item.retryCount}</TableCell>
                     <TableCell>
                       <div className="flex gap-2">
-                        <Button size="icon" variant="outline" asChild>
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          tooltip={t('COMMON.VIEW')}
+                          asChild
+                        >
                           <Link
                             aria-label={t('ADMIN_EXCEPTIONS.VIEW_NAMED', {
                               id: item.id,
@@ -366,6 +371,7 @@ export function AdminExceptionListPage() {
                           <Button
                             size="icon"
                             variant="outline"
+                            tooltip={t('COMMON.RETRY')}
                             aria-label={t('ADMIN_EXCEPTIONS.RETRY_NAMED', {
                               id: item.id,
                             })}

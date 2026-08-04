@@ -335,7 +335,12 @@ export function AdminBrandListPage() {
                     <TableCell>{brand.tenantAssignmentCount}</TableCell>
                     <TableCell>
                       <div className="flex justify-end gap-2">
-                        <Button variant="outline" size="icon" asChild>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          tooltip={t('COMMON.VIEW')}
+                          asChild
+                        >
                           <Link
                             to={`/admin/brands/${brand.id}`}
                             aria-label={t('ADMIN_BRANDS.VIEW_BRAND', {
@@ -346,7 +351,12 @@ export function AdminBrandListPage() {
                           </Link>
                         </Button>
                         {brand.canEdit && (
-                          <Button variant="outline" size="icon" asChild>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            tooltip={t('COMMON.EDIT')}
+                            asChild
+                          >
                             <Link
                               to={`/admin/brands/${brand.id}?edit=true`}
                               aria-label={t('ADMIN_BRANDS.EDIT_BRAND', {

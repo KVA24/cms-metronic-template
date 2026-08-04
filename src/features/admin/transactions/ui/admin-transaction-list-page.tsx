@@ -382,7 +382,12 @@ export function AdminTransactionListPage() {
                       {dateFormatter.format(new Date(item.updatedAt))}
                     </TableCell>
                     <TableCell>
-                      <Button size="icon" variant="outline" asChild>
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        tooltip={t('COMMON.VIEW')}
+                        asChild
+                      >
                         <Link
                           aria-label={t('ADMIN_TRANSACTIONS.VIEW_NAMED', {
                             id: item.id,
