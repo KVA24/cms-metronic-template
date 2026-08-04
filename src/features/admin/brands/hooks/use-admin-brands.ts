@@ -16,7 +16,8 @@ export const adminBrandKeys = {
     locale: ContentLocale,
   ) => [...adminBrandKeys.all, 'list', query, roleCode, locale] as const,
   filters: () => [...adminBrandKeys.all, 'filters'] as const,
-  detail: (brandId: string) => [...adminBrandKeys.all, 'detail', brandId] as const,
+  detail: (brandId: string) =>
+    [...adminBrandKeys.all, 'detail', brandId] as const,
 };
 
 export function useAdminBrands(
@@ -94,7 +95,9 @@ export function useUpdateAdminBrand() {
     onSuccess: (_, { brandId }) =>
       Promise.all([
         queryClient.invalidateQueries({ queryKey: adminBrandKeys.all }),
-        queryClient.invalidateQueries({ queryKey: adminBrandKeys.detail(brandId) }),
+        queryClient.invalidateQueries({
+          queryKey: adminBrandKeys.detail(brandId),
+        }),
       ]),
   });
 }
@@ -114,7 +117,9 @@ export function useDeactivateAdminBrand() {
     onSuccess: (_, { brandId }) =>
       Promise.all([
         queryClient.invalidateQueries({ queryKey: adminBrandKeys.all }),
-        queryClient.invalidateQueries({ queryKey: adminBrandKeys.detail(brandId) }),
+        queryClient.invalidateQueries({
+          queryKey: adminBrandKeys.detail(brandId),
+        }),
       ]),
   });
 }

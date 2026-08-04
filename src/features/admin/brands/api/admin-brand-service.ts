@@ -10,8 +10,8 @@ import {
 } from '../../../../shared/permissions';
 import {
   adminBrandSchema,
-  type AdminBrandInput,
   type AdminBrandDetailView,
+  type AdminBrandInput,
   type AdminBrandListItem,
   type AdminBrandListResult,
   type AdminBrandQuery,
@@ -137,13 +137,20 @@ export const adminBrandService = {
         );
         const categories = mappings.reduce<AdminBrandListItem['categories']>(
           (result, mapping) => {
-            const category = mockData.categories.find(({ id }) => id === mapping.categoryId);
+            const category = mockData.categories.find(
+              ({ id }) => id === mapping.categoryId,
+            );
             if (!category) return result;
             const content =
               category.contents.find(({ locale: value }) => value === locale) ??
-              category.contents.find(({ locale: value }) => value === 'vi-VN') ??
+              category.contents.find(
+                ({ locale: value }) => value === 'vi-VN',
+              ) ??
               category.contents[0];
-            result.push({ id: category.id, name: content?.name ?? category.code });
+            result.push({
+              id: category.id,
+              name: content?.name ?? category.code,
+            });
             return result;
           },
           [],
@@ -157,7 +164,9 @@ export const adminBrandService = {
           logo: brand.logo,
           status: brand.status,
           categories,
-          offerCount: mockData.offers.filter(({ brandId }) => brandId === brand.id).length,
+          offerCount: mockData.offers.filter(
+            ({ brandId }) => brandId === brand.id,
+          ).length,
           tenantAssignmentCount: mockData.tenantBrandAssignments.filter(
             ({ brandId }) => brandId === brand.id,
           ).length,
@@ -173,17 +182,24 @@ export const adminBrandService = {
           brand.contactEmail,
         ].some((value) => value.toLocaleLowerCase(locale).includes(keyword));
         if (keyword && !searchable) return result;
-        if (query.status !== 'ALL' && brand.status !== query.status) return result;
+        if (query.status !== 'ALL' && brand.status !== query.status)
+          return result;
         if (
           query.categoryId &&
           !mappings.some(({ categoryId }) => categoryId === query.categoryId)
         ) {
           return result;
         }
-        if (query.createdFrom && brand.createdAt < `${query.createdFrom}T00:00:00.000Z`) {
+        if (
+          query.createdFrom &&
+          brand.createdAt < `${query.createdFrom}T00:00:00.000Z`
+        ) {
           return result;
         }
-        if (query.createdTo && brand.createdAt > `${query.createdTo}T23:59:59.999Z`) {
+        if (
+          query.createdTo &&
+          brand.createdAt > `${query.createdTo}T23:59:59.999Z`
+        ) {
           return result;
         }
         result.push(item);
@@ -196,7 +212,9 @@ export const adminBrandService = {
     items.sort((left, right) => {
       const leftValue = left[query.sortBy as keyof AdminBrandListItem];
       const rightValue = right[query.sortBy as keyof AdminBrandListItem];
-      return String(leftValue).localeCompare(String(rightValue), locale) * direction;
+      return (
+        String(leftValue).localeCompare(String(rightValue), locale) * direction
+      );
     });
     const totalItems = items.length;
     const totalPages = Math.max(1, Math.ceil(totalItems / query.pageSize));
@@ -219,8 +237,8 @@ export const adminBrandService = {
             result.push({
               id: category.id,
               name:
-                category.contents.find(({ locale }) => locale === 'vi-VN')?.name ??
-                category.code,
+                category.contents.find(({ locale }) => locale === 'vi-VN')
+                  ?.name ?? category.code,
             });
           }
           return result;

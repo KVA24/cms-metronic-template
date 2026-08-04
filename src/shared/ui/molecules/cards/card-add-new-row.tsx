@@ -20,7 +20,7 @@ const CardAddNewRow = ({
 }: IAddNewProps) => {
   return (
     <Link to={`/${path}`}>
-      <Card className="border-2 border-dashed border-primary-clarity bg-center bg-cover bg-no-repeat">
+      <Card className="border-primary-clarity border-2 border-dashed bg-cover bg-center bg-no-repeat">
         <CardContent>
           <div className="flex items-center justify-center gap-5">
             <div className="flex justify-center">
@@ -34,10 +34,10 @@ const CardAddNewRow = ({
               />
             </div>
             <div className="flex flex-col text-start">
-              <span className="text-lg font-semibold text-mono hover:text-primary-active mb-px">
+              <span className="text-mono hover:text-primary-active mb-px text-lg font-semibold">
                 {title}
               </span>
-              <span className="text-sm font-normal text-secondary-foreground">
+              <span className="text-secondary-foreground text-sm font-normal">
                 {subTitle}
               </span>
             </div>

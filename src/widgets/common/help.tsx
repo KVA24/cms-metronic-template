@@ -3,7 +3,7 @@ import { Engage } from '../common/engage';
 
 export function Help() {
   return (
-    <div className="grid lg:grid-cols-2 gap-5 lg:gap-7.5">
+    <div className="grid gap-5 lg:grid-cols-2 lg:gap-7.5">
       <Engage
         title="Questions ?"
         description="Visit our Help Center for detailed assistance on billing, payments, and subscriptions."
@@ -11,7 +11,7 @@ export function Help() {
           <>
             <img
               src={toAbsoluteUrl('/media/illustrations/2.svg')}
-              className="dark:hidden max-h-[150px]"
+              className="max-h-[150px] dark:hidden"
               alt=""
             />
             <img
@@ -30,7 +30,7 @@ export function Help() {
           <>
             <img
               src={toAbsoluteUrl('/media/illustrations/4.svg')}
-              className="dark:hidden max-h-[150px]"
+              className="max-h-[150px] dark:hidden"
               alt=""
             />
             <img

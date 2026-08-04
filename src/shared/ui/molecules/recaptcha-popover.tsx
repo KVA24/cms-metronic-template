@@ -81,7 +81,7 @@ export function RecaptchaPopover({
 
       <Popover.Portal>
         <Popover.Content
-          className="bg-white p-4 rounded-lg shadow-lg z-50"
+          className="z-50 rounded-lg bg-white p-4 shadow-lg"
           sideOffset={5}
           align="end"
           onInteractOutside={(e) => {

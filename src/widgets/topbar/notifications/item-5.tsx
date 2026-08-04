@@ -39,7 +39,7 @@ export default function Item5({
       </Avatar>
 
       <div className="flex flex-col gap-1">
-        <div className="text-sm font-medium mb-px">
+        <div className="mb-px text-sm font-medium">
           <Link to="#" className="hover:text-primary text-mono font-semibold">
             {userName}
           </Link>
@@ -50,9 +50,9 @@ export default function Item5({
           {day}
         </div>
 
-        <span className="flex items-center text-xs font-medium text-muted-foreground">
+        <span className="text-muted-foreground flex items-center text-xs font-medium">
           {date}
-          <span className="rounded-full size-1 bg-mono/30 mx-1.5"></span>
+          <span className="bg-mono/30 mx-1.5 size-1 rounded-full"></span>
           {info}
         </span>
       </div>

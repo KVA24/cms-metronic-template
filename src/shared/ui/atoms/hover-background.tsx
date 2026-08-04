@@ -132,7 +132,7 @@ function HoverBackground({
     >
       {/* Subtle ambient glow */}
       <motion.div
-        className="absolute inset-0 bg-gradient-radial from-white/5 via-transparent to-transparent"
+        className="bg-gradient-radial absolute inset-0 from-white/5 via-transparent to-transparent"
         animate={{
           opacity: [0.3, 0.6, 0.3],
           scale: [1, 1.1, 1],
@@ -149,9 +149,9 @@ function HoverBackground({
         <motion.div
           key={obj.id}
           className={cn(
-            'absolute backdrop-blur-sm border border-white/10',
+            'absolute border border-white/10 backdrop-blur-sm',
             obj.color,
-            obj.shape === 'circle' ? 'rounded-full' : 'rounded-lg rotate-45',
+            obj.shape === 'circle' ? 'rounded-full' : 'rotate-45 rounded-lg',
           )}
           style={{
             left: `${obj.x}%`,
@@ -194,11 +194,11 @@ function HoverBackground({
 
       {/* Floating Particles on Hover */}
       {isHovered && (
-        <div className="absolute inset-0 pointer-events-none">
+        <div className="pointer-events-none absolute inset-0">
           {Array.from({ length: 20 }).map((_, i) => (
             <motion.div
               key={`particle-${i}`}
-              className="absolute w-1 h-1 bg-white/60 rounded-full"
+              className="absolute h-1 w-1 rounded-full bg-white/60"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,

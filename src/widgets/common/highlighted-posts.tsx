@@ -31,30 +31,30 @@ export function HighlightedPosts({ posts }: HighlightedPostsProps) {
               badge={
                 <post.icon
                   size={28}
-                  className="text-xl ps-px text-orange-400"
+                  className="ps-px text-xl text-orange-400"
                 />
               }
             />
           </div>
           <Link
             to={`${post.path}`}
-            className="text-base font-semibold text-mono hover:text-primary"
+            className="text-mono hover:text-primary text-base font-semibold"
           >
             {post.title}
           </Link>
-          <p className="text-sm text-secondary-foreground">{post.summary}</p>
+          <p className="text-secondary-foreground text-sm">{post.summary}</p>
           <Button mode="link" underlined="dashed" asChild>
             <Link to={`${post.path}`}>Learn more</Link>
           </Button>
         </div>
-        <span className="hidden not-last:block not-last:border-b border-b-border"></span>
+        <span className="border-b-border hidden not-last:block not-last:border-b"></span>
       </Fragment>
     );
   };
 
   return (
     <Card>
-      <CardContent className="py-10 flex flex-col gap-5 lg:gap-7.5">
+      <CardContent className="flex flex-col gap-5 py-10 lg:gap-7.5">
         {posts.map((post, index) => {
           return renderItem(post, index);
         })}

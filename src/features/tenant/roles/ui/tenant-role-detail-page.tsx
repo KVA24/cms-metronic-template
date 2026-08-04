@@ -48,7 +48,7 @@ export function TenantRoleDetailPage() {
     <Container width="fluid" className="space-y-5 pb-8">
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <Button asChild variant="ghost" className="-ml-3 mb-2">
+          <Button asChild variant="ghost" className="mb-2 -ml-3">
             <Link to="/tenant/account/roles">
               <ArrowLeft /> {t('COMMON.BACK')}
             </Link>
@@ -119,8 +119,8 @@ export function TenantRoleDetailPage() {
               ],
             ].map(([label, value]) => (
               <div key={label}>
-                <dt className="text-sm text-muted-foreground">{label}</dt>
-                <dd className="mt-1 break-words font-medium">{value}</dd>
+                <dt className="text-muted-foreground text-sm">{label}</dt>
+                <dd className="mt-1 font-medium break-words">{value}</dd>
               </div>
             ))}
           </CardContent>
@@ -135,7 +135,7 @@ export function TenantRoleDetailPage() {
             <p className="text-3xl font-semibold">
               {data.permissionCoverage}/7
             </p>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="text-muted-foreground mt-1 text-sm">
               {t('TENANT_ROLES.COVERAGE')}
             </p>
             <div className="mt-5 flex flex-wrap gap-2">

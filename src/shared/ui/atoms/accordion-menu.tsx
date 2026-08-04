@@ -217,7 +217,7 @@ function AccordionMenuLabel({
       data-slot="accordion-menu-label"
       role="presentation"
       className={cn(
-        'px-2 py-1.5 text-xs font-medium text-muted-foreground',
+        'text-muted-foreground px-2 py-1.5 text-xs font-medium',
         classNames?.label,
         className,
       )}
@@ -239,7 +239,7 @@ function AccordionMenuSeparator({
     <div
       data-slot="accordion-menu-separator"
       role="separator"
-      className={cn('my-1 h-px bg-border', classNames?.separator, className)}
+      className={cn('bg-border my-1 h-px', classNames?.separator, className)}
       {...props}
     />
   );
@@ -406,7 +406,7 @@ function AccordionMenuSubTrigger({
       <AccordionPrimitive.Trigger
         data-slot="accordion-menu-sub-trigger"
         className={cn(
-          'w-full relative flex items-center cursor-pointer select-none text-start rounded-lg gap-2 px-2 py-1.5 text-sm outline-hidden text-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground [&_svg]:pointer-events-none [&_svg:not([role=img]):not([class*=text-])]:opacity-60 [&_svg:not([class*=size-])]:size-4 [&_svg]:shrink-0',
+          'text-foreground hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground relative flex w-full cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-start text-sm outline-hidden transition-colors select-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4 [&_svg:not([role=img]):not([class*=text-])]:opacity-60',
           classNames?.subTrigger,
           className,
         )}
@@ -418,7 +418,7 @@ function AccordionMenuSubTrigger({
           <ChevronDown
             data-slot="accordion-menu-sub-indicator"
             className={cn(
-              'ms-auto size-3.5! shrink-0 text-muted-foreground transition-transform duration-200 [[data-state=open]>&]:-rotate-180',
+              'text-muted-foreground ms-auto size-3.5! shrink-0 transition-transform duration-200 [[data-state=open]>&]:-rotate-180',
             )}
           />
         </>
@@ -435,7 +435,7 @@ function AccordionMenuSubTrigger({
           align="start"
           sideOffset={0}
           collisionPadding={0}
-          className="w-auto min-w-[200px] p-2 !z-[9999] bg-background border-border"
+          className="bg-background border-border !z-[9999] w-auto min-w-[200px] p-2"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={handleMouseLeave}
         >
@@ -497,7 +497,7 @@ function AccordionMenuSubContent({
       data-slot="accordion-menu-sub-content"
       className={cn(
         'ps-5',
-        'overflow-hidden transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down',
+        'data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden transition-all',
         classNames?.subContent,
         className,
       )}

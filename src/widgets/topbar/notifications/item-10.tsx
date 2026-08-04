@@ -21,9 +21,9 @@ export default function Item10() {
         </AvatarIndicator>
       </Avatar>
 
-      <div className="flex flex-col gap-3 grow">
+      <div className="flex grow flex-col gap-3">
         <div className="flex flex-col gap-1">
-          <div className="text-sm font-medium mb-px">
+          <div className="mb-px text-sm font-medium">
             <Link to="#" className="hover:text-primary text-mono font-semibold">
               Nova Hawthorne
             </Link>
@@ -32,23 +32,23 @@ export default function Item10() {
               sent you an meeting invation{' '}
             </span>
           </div>
-          <span className="flex items-center text-xs font-medium text-muted-foreground">
+          <span className="text-muted-foreground flex items-center text-xs font-medium">
             2 days ago
-            <span className="rounded-full size-1 bg-mono/30 mx-1.5"></span>
+            <span className="bg-mono/30 mx-1.5 size-1 rounded-full"></span>
             Dev Team
           </span>
         </div>
 
-        <Card className="shadow-none p-2.5 rounded-lg bg-muted/70">
-          <div className="flex items-center justify-between flex-wrap gap-2.5">
+        <Card className="bg-muted/70 rounded-lg p-2.5 shadow-none">
+          <div className="flex flex-wrap items-center justify-between gap-2.5">
             <div className="flex items-center gap-2.5">
-              <div className="border border-warning-transparent rounded-lg">
-                <div className="flex items-center justify-center border-b border-b-warning-transparent bg-yellow-400/10 rounded-t-lg">
-                  <span className="text-xs text-yellow-400 fw-medium p-1.5">
+              <div className="border-warning-transparent rounded-lg border">
+                <div className="border-b-warning-transparent flex items-center justify-center rounded-t-lg border-b bg-yellow-400/10">
+                  <span className="fw-medium p-1.5 text-xs text-yellow-400">
                     Apr
                   </span>
                 </div>
-                <div className="flex items-center justify-center size-9">
+                <div className="flex size-9 items-center justify-center">
                   <span className="fw-semibold text-mono text-md tracking-tight">
                     12
                   </span>
@@ -58,11 +58,11 @@ export default function Item10() {
               <div className="flex flex-col gap-1.5">
                 <Link
                   to="#"
-                  className="hover:text-primary font-medium text-secondary-foreground text-xs"
+                  className="hover:text-primary text-secondary-foreground text-xs font-medium"
                 >
                   Peparation For Release
                 </Link>
-                <span className="font-medium text-secondary-foreground text-xs">
+                <span className="text-secondary-foreground text-xs font-medium">
                   9:00 PM - 10:00 PM
                 </span>
               </div>

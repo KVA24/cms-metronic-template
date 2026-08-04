@@ -48,7 +48,7 @@ export function DropdownMenu9({ trigger }: { trigger: ReactNode }) {
             }}
           >
             <TrendingUp />
-            <div className="grow flex items-center justify-between gap-2">
+            <div className="flex grow items-center justify-between gap-2">
               <span>Stay Updated</span>
               <Switch size="sm"></Switch>
             </div>

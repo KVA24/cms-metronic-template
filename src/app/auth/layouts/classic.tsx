@@ -15,7 +15,7 @@ export function ClassicLayout() {
           }
         `}
       </style>
-      <div className="flex flex-col items-center justify-center grow bg-center bg-no-repeat page-bg">
+      <div className="page-bg flex grow flex-col items-center justify-center bg-center bg-no-repeat">
         <div className="m-5">
           <Link to="/">
             <img

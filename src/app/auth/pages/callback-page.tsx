@@ -80,10 +80,10 @@ export function CallbackPage() {
   }, [navigate, searchParams, verify]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center">
+    <div className="flex min-h-screen flex-col items-center justify-center p-4 text-center">
       {error ? (
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-destructive">
+          <h2 className="text-destructive text-xl font-semibold">
             Authentication Error
           </h2>
           <p className="text-muted-foreground">{error}</p>

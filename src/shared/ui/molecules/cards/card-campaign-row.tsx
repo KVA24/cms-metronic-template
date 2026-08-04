@@ -21,7 +21,7 @@ const CardCampaignRow = ({
     return (
       <div
         key={statistic.description}
-        className="flex flex-col gap-1.5 border border-dashed border-input rounded-md px-2.5 py-2"
+        className="border-input flex flex-col gap-1.5 rounded-md border border-dashed px-2.5 py-2"
       >
         <span className="text-mono text-sm leading-none font-medium">
           {statistic.total}
@@ -35,9 +35,9 @@ const CardCampaignRow = ({
 
   return (
     <Card className="p-5 lg:p-7.5">
-      <div className="flex items-center flex-wrap justify-between gap-5">
+      <div className="flex flex-wrap items-center justify-between gap-5">
         <div className="flex items-center gap-3.5">
-          <div className="flex items-center justify-center w-[50px]">
+          <div className="flex w-[50px] items-center justify-center">
             {logoDark ? (
               <>
                 <img
@@ -62,22 +62,22 @@ const CardCampaignRow = ({
           <div>
             <Link
               to={url}
-              className="text-lg font-medium text-mono hover:text-primary"
+              className="text-mono hover:text-primary text-lg font-medium"
             >
               {title}
             </Link>
-            <div className="flex items-center text-sm text-secondary-foreground">
+            <div className="text-secondary-foreground flex items-center text-sm">
               {description}
             </div>
           </div>
         </div>
-        <div className="flex items-center flex-wrap justify-between gap-5 lg:gap-12">
-          <div className="flex items-center flex-wrap gap-2 lg:gap-5">
+        <div className="flex flex-wrap items-center justify-between gap-5 lg:gap-12">
+          <div className="flex flex-wrap items-center gap-2 lg:gap-5">
             {statistics.map((statistic) => {
               return renderItem(statistic);
             })}
           </div>
-          <div className="flex justify-center w-20">
+          <div className="flex w-20 justify-center">
             <Badge size="lg" variant={status.variant} appearance="light">
               {status.label}
             </Badge>

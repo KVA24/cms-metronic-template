@@ -23,7 +23,7 @@ export function UserHero({ image, name, info }: UserHeroProps) {
     return info.map((item) => {
       return (
         <div
-          className="flex gap-1.25 items-center"
+          className="flex items-center gap-1.25"
           key={item.email || item.label}
         >
           {item.icon && (
@@ -33,7 +33,7 @@ export function UserHero({ image, name, info }: UserHeroProps) {
             <Link
               to={item.email}
               target="_blank"
-              className="text-secondary-foreground font-medium hover:text-primary"
+              className="text-secondary-foreground hover:text-primary font-medium"
               rel="noreferrer"
             >
               {item.email}
@@ -50,7 +50,7 @@ export function UserHero({ image, name, info }: UserHeroProps) {
 
   return (
     <div
-      className="bg-center bg-cover bg-no-repeat hero-bg"
+      className="hero-bg bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage:
           theme === 'dark'
@@ -59,10 +59,10 @@ export function UserHero({ image, name, info }: UserHeroProps) {
       }}
     >
       <Container>
-        <div className="flex flex-col items-center gap-2 lg:gap-3.5 py-4 lg:pt-5 lg:pb-10">
+        <div className="flex flex-col items-center gap-2 py-4 lg:gap-3.5 lg:pt-5 lg:pb-10">
           {image}
           <div className="flex items-center gap-1.5">
-            <div className="text-lg leading-5 font-semibold text-mono">
+            <div className="text-mono text-lg leading-5 font-semibold">
               {name}
             </div>
             <svg
@@ -79,7 +79,7 @@ export function UserHero({ image, name, info }: UserHeroProps) {
               />
             </svg>
           </div>
-          <div className="flex flex-wrap justify-center gap-1 lg:gap-4.5 text-sm">
+          <div className="flex flex-wrap justify-center gap-1 text-sm lg:gap-4.5">
             {buildInfo(info)}
           </div>
         </div>

@@ -4,16 +4,16 @@ import { Link } from 'react-router-dom';
 
 export function ShareProfileSettings() {
   return (
-    <div className="flex flex-col px-5 gap-4">
-      <h2 className="text-mono font-semibold text-sm">Settings</h2>
+    <div className="flex flex-col gap-4 px-5">
+      <h2 className="text-mono text-sm font-semibold">Settings</h2>
 
-      <div className="flex flex-center justify-between flex-wrap gap-2">
-        <div className="flex flex-center gap-1.5">
+      <div className="flex-center flex flex-wrap justify-between gap-2">
+        <div className="flex-center flex gap-1.5">
           <User size={16} className="text-muted-foreground" />
 
-          <div className="flex flex-center text-secondary-foreground font-medium text-xs">
+          <div className="flex-center text-secondary-foreground flex text-xs font-medium">
             Anyone at
-            <Link to="#" className="text-xs font-medium link mx-1">
+            <Link to="#" className="link mx-1 text-xs font-medium">
               KeenThemes
             </Link>
             can view
@@ -25,11 +25,11 @@ export function ShareProfileSettings() {
         </Button>
       </div>
 
-      <div className="flex flex-center justify-between flex-wrap gap-2 mb-1">
-        <div className="flex flex-center gap-1.5">
+      <div className="flex-center mb-1 flex flex-wrap justify-between gap-2">
+        <div className="flex-center flex gap-1.5">
           <LoaderPinwheel size={16} className="text-muted-foreground" />
 
-          <div className="flex flex-center text-secondary-foreground font-medium text-xs">
+          <div className="flex-center text-secondary-foreground flex text-xs font-medium">
             Anyone with link can edit
           </div>
         </div>

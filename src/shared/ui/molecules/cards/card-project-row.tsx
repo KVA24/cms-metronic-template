@@ -48,9 +48,9 @@ const CardProjectRow = ({
 }: IProjectRowProps) => {
   return (
     <Card className="p-7">
-      <div className="flex items-center flex-wrap justify-between gap-5">
+      <div className="flex flex-wrap items-center justify-between gap-5">
         <div className="flex items-center gap-3.5">
-          <div className="flex items-center justify-center size-14 shrink-0 rounded-lg bg-accent/60">
+          <div className="bg-accent/60 flex size-14 shrink-0 items-center justify-center rounded-lg">
             <img
               src={toAbsoluteUrl(`/media/brand-logos/${logo}`)}
               className=""
@@ -60,17 +60,17 @@ const CardProjectRow = ({
           <div className="flex flex-col">
             <Link
               to="#"
-              className="text-lg text-mono hover:text-primary-active mb-px"
+              className="text-mono hover:text-primary-active mb-px text-lg"
             >
               {name}
             </Link>
-            <span className="text-sm text-secondary-foreground">
+            <span className="text-secondary-foreground text-sm">
               {description}
             </span>
           </div>
         </div>
-        <div className="flex items-center flex-wrap gap-5 lg:gap-20">
-          <div className="flex items-center flex-wrap gap-5 lg:gap-14">
+        <div className="flex flex-wrap items-center gap-5 lg:gap-20">
+          <div className="flex flex-wrap items-center gap-5 lg:gap-14">
             <Badge size="lg" variant={status.variant} appearance="light">
               {status.label}
             </Badge>
@@ -81,7 +81,7 @@ const CardProjectRow = ({
             />
           </div>
           <div className="flex items-center gap-5 lg:gap-14">
-            <div className="flex justify-end w-24">
+            <div className="flex w-24 justify-end">
               <AvatarGroup
                 group={team.group}
                 size={team.size}

@@ -32,17 +32,17 @@ const CardRole = ({
 }: IRoleProps) => {
   return (
     <Card className="flex flex-col gap-5 p-5 lg:p-7.5">
-      <div className="flex items-center flex-wrap justify-between gap-1">
+      <div className="flex flex-wrap items-center justify-between gap-1">
         <div className="flex items-center gap-2.5">
           <HexagonBadge {...badge} />
           <div className="flex flex-col">
             <Link
               to={path}
-              className="text-base font-medium text-mono hover:text-primary-active mb-px"
+              className="text-mono hover:text-primary-active mb-px text-base font-medium"
             >
               {title}
             </Link>
-            <span className="text-sm text-secondary-foreground">
+            <span className="text-secondary-foreground text-sm">
               {subTitle}
             </span>
           </div>
@@ -55,8 +55,8 @@ const CardRole = ({
           }
         />
       </div>
-      <p className="text-sm text-secondary-foreground">{description}</p>
-      <span className="text-sm text-foreground">{team}</span>
+      <p className="text-secondary-foreground text-sm">{description}</p>
+      <span className="text-foreground text-sm">{team}</span>
     </Card>
   );
 };

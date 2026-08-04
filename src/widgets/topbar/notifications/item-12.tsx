@@ -23,7 +23,7 @@ export default function Item12() {
 
       <div className="flex flex-col gap-3.5">
         <div className="flex flex-col gap-1">
-          <div className="text-sm font-medium mb-px">
+          <div className="mb-px text-sm font-medium">
             <Link to="#" className="hover:text-primary text-mono font-semibold">
               Selene Silverleaf
             </Link>
@@ -36,16 +36,16 @@ export default function Item12() {
             </Link>
             <span className="text-secondary-foreground"> project </span>
           </div>
-          <span className="flex items-center text-xs font-medium text-muted-foreground">
+          <span className="text-muted-foreground flex items-center text-xs font-medium">
             4 days ago
-            <span className="rounded-full size-1 bg-mono/30 mx-1.5"></span>
+            <span className="bg-mono/30 mx-1.5 size-1 rounded-full"></span>
             Manager
           </span>
         </div>
 
-        <Card className="shadow-none flex flex-col gap-2.5 p-3.5 rounded-lg">
-          <div className="font-semibold text-mono text-sm">Dashboards</div>
-          <p className="font-medium text-secondary-foreground text-sm mb-1 leading-5">
+        <Card className="flex flex-col gap-2.5 rounded-lg p-3.5 shadow-none">
+          <div className="text-mono text-sm font-semibold">Dashboards</div>
+          <p className="text-secondary-foreground mb-1 text-sm leading-5 font-medium">
             Hello everyone, question regarding the preparation of
             <br />
             new dashboards. The update is coming soon, when will the new themes

@@ -15,14 +15,14 @@ export function TimelineItem({
   removeSpace,
 }: TimelineItemProps) {
   return (
-    <div className="flex items-start relative">
+    <div className="relative flex items-start">
       {line && (
-        <div className="w-9 start-0 top-9 absolute bottom-0 rtl:-translate-x-1/2 translate-x-1/2 border-s border-s-input"></div>
+        <div className="border-s-input absolute start-0 top-9 bottom-0 w-9 translate-x-1/2 border-s rtl:-translate-x-1/2"></div>
       )}
-      <div className="flex items-center justify-center shrink-0 rounded-full bg-accent/60 border border-input size-9 text-secondary-foreground">
+      <div className="bg-accent/60 border-input text-secondary-foreground flex size-9 shrink-0 items-center justify-center rounded-full border">
         <Icon size={16} className="text-base" />
       </div>
-      <div className={`ps-2.5 ${!removeSpace ? 'mb-7' : ''} text-base grow`}>
+      <div className={`ps-2.5 ${!removeSpace ? 'mb-7' : ''} grow text-base`}>
         {children}
       </div>
     </div>

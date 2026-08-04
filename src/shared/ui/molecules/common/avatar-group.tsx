@@ -29,7 +29,7 @@ function AvatarGroup({ size, group, more, className }: AvatarGroupProp) {
             src={toAbsoluteUrl(each.path || `/media/avatars/${each.filename}`)}
             alt=""
             className={cn(
-              ' border-1 border-background hover:z-10',
+              'border-background border-1 hover:z-10',
               each.variant,
             )}
           />
@@ -37,7 +37,7 @@ function AvatarGroup({ size, group, more, className }: AvatarGroupProp) {
         {each.fallback ? (
           <AvatarFallback
             className={cn(
-              'relative border-1 border-background hover:z-10 text-[11px]',
+              'border-background relative border-1 text-[11px] hover:z-10',
               size,
               each.variant,
             )}
@@ -55,7 +55,7 @@ function AvatarGroup({ size, group, more, className }: AvatarGroupProp) {
       {more && (
         <span
           className={cn(
-            'flex items-center cursor-default justify-center relative shrink-0 rounded-full border-1 border-background hover:z-10 font-semibold text-[11px] leading-none',
+            'border-background relative flex shrink-0 cursor-default items-center justify-center rounded-full border-1 text-[11px] leading-none font-semibold hover:z-10',
             avatarSize,
             more.variant,
           )}

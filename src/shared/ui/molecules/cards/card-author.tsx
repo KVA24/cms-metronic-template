@@ -44,10 +44,10 @@ const CardAuthor = ({
     return (
       <Card
         key={work.title}
-        className="mb-5 last:me-5 overflow-hidden rounded-xl"
+        className="mb-5 overflow-hidden rounded-xl last:me-5"
       >
         <div
-          className="bg-cover bg-no-repeat card-rounded-t w-[240px] shrink-0 h-44"
+          className="card-rounded-t h-44 w-[240px] shrink-0 bg-cover bg-no-repeat"
           style={{
             backgroundImage: `url(${toAbsoluteUrl(`/media/images/600x600/${work.image}`)})`,
           }}
@@ -55,13 +55,13 @@ const CardAuthor = ({
         <div className="card-border card-rounded-b px-3.5 pt-5 pb-2.5">
           <Link
             to="#"
-            className="font-medium block text-mono hover:text-primary text-base leading-4 mb-2"
+            className="text-mono hover:text-primary mb-2 block text-base leading-4 font-medium"
           >
             {work.title}
           </Link>
-          <div className="text-sm text-secondary-foreground">
+          <div className="text-secondary-foreground text-sm">
             Token ID:{' '}
-            <span className="text-sm font-medium text-foreground">
+            <span className="text-foreground text-sm font-medium">
               {work.id}
             </span>
           </div>
@@ -73,26 +73,26 @@ const CardAuthor = ({
   return (
     <Card className="overflow-hidden rounded-xl">
       <CardHeader
-        className="p-0 bg-no-repeat bg-cover bg-center card-rounded-t h-40"
+        className="card-rounded-t h-40 bg-cover bg-center bg-no-repeat p-0"
         style={{
           backgroundImage: `url(${toAbsoluteUrl(`/media/images/2600x1200/${bgImage}`)})`,
         }}
       ></CardHeader>
       <CardContent className="mb-7.5 p-0">
-        <div className="flex transform -translate-y-1/2 px-5 lg:px-7.5 gap-1.5">
+        <div className="flex -translate-y-1/2 transform gap-1.5 px-5 lg:px-7.5">
           <AvatarSingle
             className={avatar?.className}
             image={avatar?.image}
             imageClass={avatar?.imageClass}
             badgeClass={avatar?.badgeClass}
           />
-          <div className="flex flex-col justify-end grow">
-            <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex grow flex-col justify-end">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex flex-col justify-end gap-0.5">
                 <div className="flex items-center gap-1.5">
                   <Link
                     to="#"
-                    className="hover:text-primary-active text-base leading-5 font-medium text-mono"
+                    className="hover:text-primary-active text-mono text-base leading-5 font-medium"
                   >
                     {name}
                   </Link>
@@ -121,7 +121,7 @@ const CardAuthor = ({
           </div>
         </div>
         <ScrollArea>
-          <div className="flex gap-5 ms-7.5">
+          <div className="ms-7.5 flex gap-5">
             {works.map((work) => {
               return renderItem(work);
             })}

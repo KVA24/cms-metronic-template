@@ -207,7 +207,7 @@ export function MultiSelect({
                     >
                       {option.label}
                       <X
-                        className="h-3 w-3 cursor-pointer hover:text-destructive"
+                        className="hover:text-destructive h-3 w-3 cursor-pointer"
                         onClick={(e) => handleRemoveItem(e, option.value)}
                       />
                     </Badge>
@@ -220,7 +220,7 @@ export function MultiSelect({
                 </>
               )}
             </div>
-            <div className="flex items-center gap-1 ml-2">
+            <div className="ml-2 flex items-center gap-1">
               {showClearButton && value.length > 0 && (
                 <X
                   className="h-4 w-4 shrink-0 opacity-50 hover:opacity-100"
@@ -276,7 +276,7 @@ export function MultiSelect({
               {option.label}
               {!disabled && (
                 <X
-                  className="h-3 w-3 cursor-pointer hover:text-destructive"
+                  className="hover:text-destructive h-3 w-3 cursor-pointer"
                   onClick={(e) => handleRemoveItem(e, option.value)}
                 />
               )}

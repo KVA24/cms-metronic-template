@@ -55,7 +55,7 @@ const CardCampaign = ({
     return (
       <div
         key={statistic.description}
-        className="flex flex-col gap-1.5 border border-dashed border-input rounded-md px-2.5 py-2"
+        className="border-input flex flex-col gap-1.5 rounded-md border border-dashed px-2.5 py-2"
       >
         <span className="text-mono text-sm leading-none font-medium">
           {statistic.total}
@@ -68,9 +68,9 @@ const CardCampaign = ({
   };
 
   return (
-    <Card className="overflow-hidden grow justify-between">
-      <div className="p-5 mb-5">
-        <div className="flex items-center justify-between mb-5">
+    <Card className="grow justify-between overflow-hidden">
+      <div className="mb-5 p-5">
+        <div className="mb-5 flex items-center justify-between">
           <Badge size="lg" variant={status.variant} appearance="light">
             {status.label}
           </Badge>
@@ -82,7 +82,7 @@ const CardCampaign = ({
             }
           />
         </div>
-        <div className="flex items-center justify-center h-[50px] mb-2">
+        <div className="mb-2 flex h-[50px] items-center justify-center">
           {logoDark ? (
             <>
               <img
@@ -104,16 +104,16 @@ const CardCampaign = ({
             />
           )}
         </div>
-        <div className="text-center mb-7">
+        <div className="mb-7 text-center">
           <Link
             to={url}
-            className="text-lg font-medium text-mono hover:text-primary"
+            className="text-mono hover:text-primary text-lg font-medium"
           >
             {title}
           </Link>
-          <div className="text-sm text-secondary-foreground">{description}</div>
+          <div className="text-secondary-foreground text-sm">{description}</div>
         </div>
-        <div className="flex items-center justify-center flex-wrap gap-2 lg:gap-5">
+        <div className="flex flex-wrap items-center justify-center gap-2 lg:gap-5">
           {statistics.map((statistic) => {
             return renderItem(statistic);
           })}

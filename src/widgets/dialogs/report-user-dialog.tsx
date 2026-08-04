@@ -25,10 +25,10 @@ export function ReportUserDialog({
   const buildNotice = () => {
     return (
       <div className="grid place-items-center gap-1 px-5">
-        <div className="flex justify-center items-center rounded-full">
+        <div className="flex items-center justify-center rounded-full">
           <img
             src={toAbsoluteUrl('/media/avatars/300-1.png')}
-            className="rounded-full max-h-[55px] max-w-full"
+            className="max-h-[55px] max-w-full rounded-full"
             alt=""
           />
         </div>
@@ -36,7 +36,7 @@ export function ReportUserDialog({
         <div className="flex items-center justify-center gap-1">
           <Link
             to="#"
-            className="hover:text-primary-active text-sm leading-5 font-semibold text-mono"
+            className="hover:text-primary-active text-mono text-sm leading-5 font-semibold"
           >
             Jenny Klabber
           </Link>
@@ -88,7 +88,7 @@ export function ReportUserDialog({
 
     return (
       <div className="flex flex-col gap-5 px-5">
-        <div className="text-sm text-mono font-semibold">
+        <div className="text-mono text-sm font-semibold">
           Let us know why you're reporting this person
         </div>
 
@@ -103,7 +103,7 @@ export function ReportUserDialog({
                 <RadioGroupItem value={item.name} id={`${id}-${item.name}`} />
                 <Label htmlFor={`${id}-${item.name}`} variant="secondary">
                   {item.name}
-                  <div className="text-sm font-medium text-secondary-foreground">
+                  <div className="text-secondary-foreground text-sm font-medium">
                     {item.description}
                   </div>
                 </Label>
@@ -117,7 +117,7 @@ export function ReportUserDialog({
 
   const buildFooter = () => {
     return (
-      <div className="text-sm font-medium text-center text-foreground p-x">
+      <div className="text-foreground p-x text-center text-sm font-medium">
         Don't worry, your report is completely anonymous; the person you're{' '}
         <br />
         reporting will not be informed that you've submitted it
@@ -127,7 +127,7 @@ export function ReportUserDialog({
 
   const buildButton = () => {
     return (
-      <div className="flex items-center gap-2.5 justify-end px-5">
+      <div className="flex items-center justify-end gap-2.5 px-5">
         <Button variant="primary">Report this person</Button>
         <Button variant="outline">Cancel</Button>
       </div>
@@ -136,18 +136,18 @@ export function ReportUserDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="p-0 space-y-0 max-w-[600px]">
-        <DialogHeader className="py-5 m-0 px-5">
+      <DialogContent className="max-w-[600px] space-y-0 p-0">
+        <DialogHeader className="m-0 px-5 py-5">
           <DialogTitle>Report User</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <div className="grid gap-5 px-0 pt-1 pb-5">
           {buildNotice()}
-          <div className="border-b border-b-border"></div>
+          <div className="border-b-border border-b"></div>
           {buildOptions()}
-          <div className="border-b border-b-border"></div>
+          <div className="border-b-border border-b"></div>
           {buildFooter()}
-          <div className="border-b border-b-border"></div>
+          <div className="border-b-border border-b"></div>
           {buildButton()}
         </div>
       </DialogContent>

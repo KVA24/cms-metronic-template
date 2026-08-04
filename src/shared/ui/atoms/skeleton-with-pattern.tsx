@@ -44,7 +44,7 @@ function SkeletonWithPattern({
   return (
     <div
       data-slot="skeleton-with-pattern"
-      className={cn('animate-pulse rounded-md bg-accent', className)}
+      className={cn('bg-accent animate-pulse rounded-md', className)}
       style={{
         backgroundImage: `url("data:image/svg+xml,${encodedSvg}")`,
         backgroundSize: '60px 60px',

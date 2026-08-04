@@ -59,7 +59,7 @@ function PermissionCheckbox({
     <input
       ref={ref}
       type="checkbox"
-      className="size-4 accent-primary"
+      className="accent-primary size-4"
       checked={checked}
       disabled={disabled}
       aria-label={label}
@@ -171,7 +171,7 @@ export function TenantRolePermissionsPage() {
     <Container width="fluid" className="space-y-5 pb-8">
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <Button asChild variant="ghost" className="-ml-3 mb-2">
+          <Button asChild variant="ghost" className="mb-2 -ml-3">
             <Link to={`/tenant/account/roles/${roleId}`}>
               <ArrowLeft /> {t('COMMON.BACK')}
             </Link>
@@ -179,7 +179,7 @@ export function TenantRolePermissionsPage() {
           <h1 className="text-2xl font-semibold">
             {t('TENANT_ROLES.PERMISSIONS_PAGE.TITLE')}
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             {detail.data.code} · {detail.data.name}
           </p>
         </div>
@@ -214,7 +214,7 @@ export function TenantRolePermissionsPage() {
       <div className="grid gap-4 sm:grid-cols-3">
         <Card>
           <CardContent className="pt-5">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               {t('TENANT_ROLES.PERMISSION_SUMMARY')}
             </p>
             <p className="mt-2 text-3xl font-semibold">
@@ -224,7 +224,7 @@ export function TenantRolePermissionsPage() {
         </Card>
         <Card>
           <CardContent className="pt-5">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               {t('COMMON.STATUS_1')}
             </p>
             <Badge
@@ -240,7 +240,7 @@ export function TenantRolePermissionsPage() {
         </Card>
         <Card>
           <CardContent className="pt-5">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               {t('TENANT_ROLES.TYPE')}
             </p>
             <Badge

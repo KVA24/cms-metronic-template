@@ -14,13 +14,12 @@ export function SidebarMenu() {
   const linkClassName = ({ isActive }: { isActive: boolean }) =>
     cn(
       'flex min-h-8 items-center gap-2 rounded-md px-3 text-sm font-medium text-accent-foreground transition-colors hover:bg-primary/10 hover:text-primary',
-      isActive &&
-        'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground',
+      isActive && 'bg-muted text-primary dark:text-sky-300',
     );
 
   return (
     <nav
-      className="kt-scrollable-y-hover flex grow shrink-0 px-5 py-5 lg:max-h-[calc(100vh-5.5rem)]"
+      className="kt-scrollable-y-hover flex shrink-0 grow px-5 py-5 lg:max-h-[calc(100vh-5.5rem)]"
       aria-label={t('SIDEBAR.NAVIGATION')}
     >
       <ul className="w-full space-y-1">
@@ -35,7 +34,7 @@ export function SidebarMenu() {
               </NavLink>
             ) : (
               <div className="pt-2">
-                <div className="flex min-h-8 items-center gap-2 px-3 text-xs font-semibold uppercase text-muted-foreground">
+                <div className="text-muted-foreground flex min-h-8 items-center gap-2 px-3 text-xs font-semibold uppercase">
                   {item.icon && (
                     <item.icon aria-hidden="true" className="size-4" />
                   )}

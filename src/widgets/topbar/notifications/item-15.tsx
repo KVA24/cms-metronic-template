@@ -21,9 +21,9 @@ export default function Item15() {
         </AvatarIndicator>
       </Avatar>
 
-      <div className="flex flex-col gap-3.5 grow">
+      <div className="flex grow flex-col gap-3.5">
         <div className="flex flex-col gap-1">
-          <div className="text-sm font-medium mb-px">
+          <div className="mb-px text-sm font-medium">
             <Link to="#" className="hover:text-primary text-mono font-semibold">
               Ava Peterson
             </Link>
@@ -32,14 +32,14 @@ export default function Item15() {
               uploaded attachment{' '}
             </span>
           </div>
-          <span className="flex items-center text-xs font-medium text-muted-foreground">
+          <span className="text-muted-foreground flex items-center text-xs font-medium">
             3 days ago
-            <span className="rounded-full size-1 bg-mono/30 mx-1.5"></span>
+            <span className="bg-mono/30 mx-1.5 size-1 rounded-full"></span>
             ACME
           </span>
         </div>
 
-        <Card className="shadow-none flex items-center justify-between flex-row gap-1.5 p-2.5 rounded-lg bg-muted/70">
+        <Card className="bg-muted/70 flex flex-row items-center justify-between gap-1.5 rounded-lg p-2.5 shadow-none">
           <div className="flex items-center gap-1.5">
             <img
               src={toAbsoluteUrl('/media/file-types/xls.svg')}
@@ -50,11 +50,11 @@ export default function Item15() {
             <div className="flex flex-col gap-0.5">
               <Link
                 to="#"
-                className="hover:text-primary font-medium text-secondary-foreground text-xs"
+                className="hover:text-primary text-secondary-foreground text-xs font-medium"
               >
                 Redesign-2024.xls
               </Link>
-              <span className="font-medium text-muted-foreground text-xs">
+              <span className="text-muted-foreground text-xs font-medium">
                 2.6 MB
               </span>
             </div>

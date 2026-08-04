@@ -19,10 +19,11 @@ const query = { page: 1, pageSize: 5 };
 test('TP-USER-001 lists only accounts in the current Tenant', async () => {
   const result = await tenantAccountService.list(await login(), query);
   assert.equal(result.totalItems, 3);
-  assert.deepEqual(
-    result.items.map(({ username }) => username).sort(),
-    ['admin@lotus.test', 'marketing@lotus.test', 'viewer@lotus.test'],
-  );
+  assert.deepEqual(result.items.map(({ username }) => username).sort(), [
+    'admin@lotus.test',
+    'marketing@lotus.test',
+    'viewer@lotus.test',
+  ]);
   assert.ok(result.items.every(({ roleName }) => roleName.endsWith('Tenant')));
 });
 
@@ -34,7 +35,10 @@ test('TP-USER-001 combines keyword, role and status filters', async () => {
     roleId: 'role-lotus-viewer',
     status: 'ACTIVE',
   });
-  assert.deepEqual(result.items.map(({ id }) => id), ['tenant-viewer']);
+  assert.deepEqual(
+    result.items.map(({ id }) => id),
+    ['tenant-viewer'],
+  );
   const empty = await tenantAccountService.list(session, {
     ...query,
     roleId: 'role-bamboo-finance',
@@ -66,5 +70,8 @@ test('TP-USER-001 hides cross-Tenant IDs as not found', async () => {
 
 test('TP-USER-001 enforces users.view at the service boundary', async () => {
   const marketing = await login('marketing@lotus.test');
-  await assert.rejects(tenantAccountService.list(marketing, query), /FORBIDDEN/);
+  await assert.rejects(
+    tenantAccountService.list(marketing, query),
+    /FORBIDDEN/,
+  );
 });

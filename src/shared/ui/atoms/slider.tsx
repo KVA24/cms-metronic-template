@@ -13,13 +13,13 @@ function Slider({
     <SliderPrimitive.Root
       data-slot="slider"
       className={cn(
-        'relative flex h-4 w-full touch-none select-none items-center',
+        'relative flex h-4 w-full touch-none items-center select-none',
         className,
       )}
       {...props}
     >
-      <SliderPrimitive.Track className="relative h-1.5 w-full overflow-hidden rounded-full bg-accent">
-        <SliderPrimitive.Range className="absolute h-full bg-primary" />
+      <SliderPrimitive.Track className="bg-accent relative h-1.5 w-full overflow-hidden rounded-full">
+        <SliderPrimitive.Range className="bg-primary absolute h-full" />
       </SliderPrimitive.Track>
       {children}
     </SliderPrimitive.Root>
@@ -34,7 +34,7 @@ function SliderThumb({
     <SliderPrimitive.Thumb
       data-slot="slider-thumb"
       className={cn(
-        'box-content block size-4 shrink-0 cursor-pointer rounded-full border-[2px] border-primary bg-primary-foreground shadow-xs shadow-black/5 outline-hidden focus:outline-hidden',
+        'border-primary bg-primary-foreground box-content block size-4 shrink-0 cursor-pointer rounded-full border-[2px] shadow-xs shadow-black/5 outline-hidden focus:outline-hidden',
         className,
       )}
       {...props}

@@ -56,9 +56,33 @@ describe('portal route permissions', () => {
   });
 
   it('enforces direct TENANT routes for all four system roles', () => {
-    assert.equal(canAccessPortalRoute('/tenant/account/roles', getPermissionsForRole('TENANT_ADMIN')), true);
-    assert.equal(canAccessPortalRoute('/tenant/dashboard', getPermissionsForRole('TENANT_MARKETING_OPS')), false);
-    assert.equal(canAccessPortalRoute('/tenant/earn-display/brand-1', getPermissionsForRole('TENANT_VIEWER')), false);
-    assert.equal(canAccessPortalRoute('/tenant/account/users', getPermissionsForRole('TENANT_FINANCE')), false);
+    assert.equal(
+      canAccessPortalRoute(
+        '/tenant/account/roles',
+        getPermissionsForRole('TENANT_ADMIN'),
+      ),
+      true,
+    );
+    assert.equal(
+      canAccessPortalRoute(
+        '/tenant/dashboard',
+        getPermissionsForRole('TENANT_MARKETING_OPS'),
+      ),
+      false,
+    );
+    assert.equal(
+      canAccessPortalRoute(
+        '/tenant/earn-display/brand-1',
+        getPermissionsForRole('TENANT_VIEWER'),
+      ),
+      false,
+    );
+    assert.equal(
+      canAccessPortalRoute(
+        '/tenant/account/users',
+        getPermissionsForRole('TENANT_FINANCE'),
+      ),
+      false,
+    );
   });
 });

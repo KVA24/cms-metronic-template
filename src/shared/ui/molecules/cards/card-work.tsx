@@ -25,38 +25,38 @@ const CardWork = ({
     <Card className="border-0 shadow-sm shadow-black/8">
       <img
         src={toAbsoluteUrl(`/media/images/600x400/${image}`)}
-        className="w-full h-auto rounded-t-xl"
+        className="h-auto w-full rounded-t-xl"
         alt=""
       />
       <div className="card-border card-rounded-b flex flex-col gap-2 px-5 py-4.5">
         <Link
           to="/public-profile/profiles/company"
-          className="text-lg font-medium text-mono hover:text-primary"
+          className="text-mono hover:text-primary text-lg font-medium"
         >
           {title}
         </Link>
-        <div className="flex items-center justify-between grow">
-          <div className="flex items-center grow">
+        <div className="flex grow items-center justify-between">
+          <div className="flex grow items-center">
             <img
               src={toAbsoluteUrl(`/media/avatars/${authorAvatar}`)}
-              className="rounded-full size-7 me-2"
+              className="me-2 size-7 rounded-full"
               alt=""
             />
             <Link
               to="/public-profile/profiles/nft"
-              className="text-sm text-foreground hover:text-primary mb-px"
+              className="text-foreground hover:text-primary mb-px text-sm"
             >
               {authorName}
             </Link>
           </div>
-          <div className="flex gap-3 items-center">
-            <div className="flex gap-1 items-center">
-              <Heart size={16} className="text-base text-muted-foreground" />
-              <span className="text-sm text-foreground py-2">{likes}</span>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1">
+              <Heart size={16} className="text-muted-foreground text-base" />
+              <span className="text-foreground py-2 text-sm">{likes}</span>
             </div>
-            <div className="flex gap-1 items-center">
-              <Mails size={16} className="text-base text-muted-foreground" />
-              <span className="text-sm text-foreground py-2">{comments}</span>
+            <div className="flex items-center gap-1">
+              <Mails size={16} className="text-muted-foreground text-base" />
+              <span className="text-foreground py-2 text-sm">{comments}</span>
             </div>
           </div>
         </div>

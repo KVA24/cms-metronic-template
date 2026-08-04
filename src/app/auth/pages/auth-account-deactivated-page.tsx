@@ -33,7 +33,7 @@ export function AuthAccountDeactivatedPage() {
                 >
                   jaytatum@ktstudio.com
                 </Link>
-                <span className="size-0.75 bg-mono/50 rounded-full"></span>
+                <span className="bg-mono/50 size-0.75 rounded-full"></span>
                 <Button mode="link" asChild>
                   <Link to="/account/members/team-info">Personal Info</Link>
                 </Button>

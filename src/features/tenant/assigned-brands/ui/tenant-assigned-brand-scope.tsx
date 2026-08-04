@@ -71,7 +71,7 @@ export function TenantAssignedBrandScope({
   if (scope.isLoading) return <Skeleton className="h-48 w-full" />;
   if (!scope.data)
     return (
-      <p className="p-6 text-sm text-destructive">
+      <p className="text-destructive p-6 text-sm">
         {t('TENANT_ASSIGNED_BRANDS.ERROR')}
       </p>
     );
@@ -93,7 +93,7 @@ export function TenantAssignedBrandScope({
   };
 
   return (
-    <div className="rounded-lg border bg-muted/20 p-4">
+    <div className="bg-muted/20 rounded-lg border p-4">
       <div className="mb-4 flex gap-2">
         <Button
           size="sm"
@@ -112,7 +112,7 @@ export function TenantAssignedBrandScope({
       </div>
       {tab === 'categories' ? (
         scope.data.categories.length === 0 ? (
-          <p className="py-8 text-center text-sm text-muted-foreground">
+          <p className="text-muted-foreground py-8 text-center text-sm">
             {t('TENANT_ASSIGNED_BRANDS.NO_CATEGORIES')}
           </p>
         ) : (
@@ -164,7 +164,7 @@ export function TenantAssignedBrandScope({
           </Table>
         )
       ) : scope.data.offers.length === 0 ? (
-        <p className="py-8 text-center text-sm text-muted-foreground">
+        <p className="text-muted-foreground py-8 text-center text-sm">
           {t('TENANT_ASSIGNED_BRANDS.NO_OFFERS')}
         </p>
       ) : (
@@ -190,7 +190,7 @@ export function TenantAssignedBrandScope({
               <TableRow key={offer.id}>
                 <TableCell>
                   <p className="font-medium">{offer.name}</p>
-                  <p className="text-xs text-muted-foreground">{offer.code}</p>
+                  <p className="text-muted-foreground text-xs">{offer.code}</p>
                 </TableCell>
                 <TableCell>
                   {commission(offer.commissionType, offer.commissionValue)}

@@ -7,7 +7,7 @@ const ActivitiesVirtualTeam = () => {
   return (
     <TimelineItem icon={BadgeCheck} line={false}>
       <div className="flex flex-col">
-        <div className="text-sm font-medium text-foreground">
+        <div className="text-foreground text-sm font-medium">
           Hosted a virtual{' '}
           <Button mode="link" asChild>
             <Link to="/public-profile/profiles/creator">
@@ -16,7 +16,7 @@ const ActivitiesVirtualTeam = () => {
           </Button>
           , fostering collaboration and strengthening bonds among team members.
         </div>
-        <span className="text-xs font-medium text-muted-foreground">
+        <span className="text-muted-foreground text-xs font-medium">
           1 month ago, 13:56 PM
         </span>
       </div>

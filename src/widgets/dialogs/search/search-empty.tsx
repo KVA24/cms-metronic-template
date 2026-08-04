@@ -3,11 +3,11 @@ import { Button } from '@/shared/ui/atoms/button';
 
 export function SearchEmpty() {
   return (
-    <div className="flex flex-col text-center py-9 gap-5">
+    <div className="flex flex-col gap-5 py-9 text-center">
       <div className="flex justify-center">
         <img
           src={toAbsoluteUrl('/media/illustrations/33.svg')}
-          className="dark:hidden max-h-[113px]"
+          className="max-h-[113px] dark:hidden"
           alt=""
         />
         <img
@@ -17,10 +17,10 @@ export function SearchEmpty() {
         />
       </div>
       <div className="flex flex-col gap-1.5">
-        <h3 className="text-base font-semibold text-mono text-center">
+        <h3 className="text-mono text-center text-base font-semibold">
           Looking for something..
         </h3>
-        <span className="text-sm font-medium text-center text-secondary-foreground">
+        <span className="text-secondary-foreground text-center text-sm font-medium">
           Initiate your digital experience with <br />
           our intuitive dashboard
         </span>

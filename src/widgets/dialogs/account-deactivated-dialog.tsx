@@ -18,7 +18,7 @@ export function AccountDeactivatedDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-full max-w-[500px] max-h-[95%] scrollable-y-auto">
+      <DialogContent className="scrollable-y-auto max-h-[95%] w-full max-w-[500px]">
         <DialogHeader className="justify-end border-0 pt-5">
           <DialogTitle></DialogTitle>
           <DialogDescription></DialogDescription>
@@ -27,7 +27,7 @@ export function AccountDeactivatedDialog({
           <div className="mb-9">
             <img
               src={toAbsoluteUrl('/media/illustrations/23.svg')}
-              className="dark:hidden max-h-[150px]"
+              className="max-h-[150px] dark:hidden"
               alt=""
             />
             <img
@@ -37,11 +37,11 @@ export function AccountDeactivatedDialog({
             />
           </div>
 
-          <h3 className="text-lg font-medium text-mono text-center mb-3">
+          <h3 className="text-mono mb-3 text-center text-lg font-medium">
             Account Deactivated
           </h3>
 
-          <div className="text-sm text-center text-secondary-foreground mb-7">
+          <div className="text-secondary-foreground mb-7 text-center text-sm">
             Your account has been deactivated. Please contact <br />
             support if this is an error or for reactivation.
           </div>

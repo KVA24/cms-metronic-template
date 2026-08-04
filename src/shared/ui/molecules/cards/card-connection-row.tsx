@@ -19,7 +19,7 @@ const CardConnectionRow = ({
     return (
       <div
         key={statistic.description}
-        className="grid grid-cols-1 gap-1.5 border-[0.5px] border-dashed border-input shrink-0 rounded-md px-2.5 py-2"
+        className="border-input grid shrink-0 grid-cols-1 gap-1.5 rounded-md border-[0.5px] border-dashed px-2.5 py-2"
       >
         <span className="text-mono text-sm leading-none font-medium">
           {statistic.total}
@@ -33,7 +33,7 @@ const CardConnectionRow = ({
 
   return (
     <Card className="p-7.5">
-      <div className="flex items-center flex-wrap justify-between gap-5">
+      <div className="flex flex-wrap items-center justify-between gap-5">
         <div className="flex items-center gap-3.5">
           <div className="flex justify-center">
             {avatar && (
@@ -47,10 +47,10 @@ const CardConnectionRow = ({
             )}
           </div>
           <div className="grid">
-            <div className="flex items-center gap-1.5 mb-2.5">
+            <div className="mb-2.5 flex items-center gap-1.5">
               <Link
                 to="#"
-                className="text-base leading-5 font-medium hover:text-primary-active text-mono"
+                className="hover:text-primary-active text-mono text-base leading-5 font-medium"
               >
                 {name}
               </Link>
@@ -68,13 +68,13 @@ const CardConnectionRow = ({
                 />
               </svg>
             </div>
-            <div className="flex items-center flex-wrap gap-x-4">
-              <div className="flex items-center text-sm text-secondary-foreground">
-                <BadgeCheck size={16} className="me-1 text-muted-foreground" />
+            <div className="flex flex-wrap items-center gap-x-4">
+              <div className="text-secondary-foreground flex items-center text-sm">
+                <BadgeCheck size={16} className="text-muted-foreground me-1" />
                 {info}
               </div>
               <div className="flex items-center text-sm">
-                <Mail size={16} className="me-1 text-muted-foreground" />
+                <Mail size={16} className="text-muted-foreground me-1" />
                 <Link
                   to="#"
                   className="text-secondary-foreground hover:text-primary-active"
@@ -85,8 +85,8 @@ const CardConnectionRow = ({
             </div>
           </div>
         </div>
-        <div className="flex items-center flex-wrap gap-5 lg:gap-11">
-          <div className="flex items-center  flex-wrap gap-2 lg:gap-5">
+        <div className="flex flex-wrap items-center gap-5 lg:gap-11">
+          <div className="flex flex-wrap items-center gap-2 lg:gap-5">
             {statistics.map((statistic) => {
               return renderItem(statistic);
             })}
@@ -94,7 +94,7 @@ const CardConnectionRow = ({
           <div>
             <AvatarGroup group={team.group} more={team.more} size={team.size} />
           </div>
-          <div className="text-end w-28">
+          <div className="w-28 text-end">
             {connected ? (
               <Button variant="outline">
                 <Link to="#">

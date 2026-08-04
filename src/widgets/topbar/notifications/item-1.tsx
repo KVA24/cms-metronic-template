@@ -56,15 +56,15 @@ export default function Item1({
             <span className="text-secondary-foreground"> {label} </span>
           </div>
 
-          <span className="flex items-center text-xs font-medium text-muted-foreground">
+          <span className="text-muted-foreground flex items-center text-xs font-medium">
             {time}
-            <span className="rounded-full size-1 bg-mono/30 mx-1.5"></span>
+            <span className="bg-mono/30 mx-1.5 size-1 rounded-full"></span>
             {specialist}
           </span>
         </div>
 
-        <Card className="shadow-none flex flex-col gap-2.5 p-3.5 rounded-lg bg-muted/70">
-          <div className="text-sm font-semibold text-secondary-foreground mb-px">
+        <Card className="bg-muted/70 flex flex-col gap-2.5 rounded-lg p-3.5 shadow-none">
+          <div className="text-secondary-foreground mb-px text-sm font-semibold">
             <Link to="#" className="hover:text-primary text-mono font-semibold">
               @Cody{' '}
             </Link>
@@ -73,8 +73,8 @@ export default function Item1({
             </span>
           </div>
 
-          <div className="relative sm:max-w-full w-full">
-            <ImageIcon className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground size-4" />
+          <div className="relative w-full sm:max-w-full">
+            <ImageIcon className="text-muted-foreground absolute end-3 top-1/2 size-4 -translate-y-1/2" />
             <Input
               type="text"
               placeholder="Reply"

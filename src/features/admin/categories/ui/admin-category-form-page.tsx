@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react';
 import { useTranslations } from '@/shared/hooks/use-translations';
 import type { AdminRoleCode } from '@/shared/permissions';
 import { useAuthSession } from '@/shared/stores/auth-store';
+import { Alert, AlertDescription, AlertIcon } from '@/shared/ui/atoms/alert';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,7 +13,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/shared/ui/atoms/alert-dialog';
-import { Alert, AlertDescription, AlertIcon } from '@/shared/ui/atoms/alert';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent, CardHeader } from '@/shared/ui/atoms/card';
 import { Input } from '@/shared/ui/atoms/input';
@@ -35,8 +35,8 @@ import {
   useUploadAdminCategoryIcon,
 } from '../hooks/use-admin-categories';
 import {
-  adminCategorySchema,
   ADMIN_CATEGORY_EMPTY_INPUT,
+  adminCategorySchema,
   categoryToInput,
   type AdminCategoryInput,
 } from '../model/admin-category';
@@ -51,7 +51,7 @@ function FieldError({ message }: { message?: string }) {
   const { t } = useTranslations();
   if (!message) return null;
   return (
-    <p className="text-xs text-destructive" role="alert">
+    <p className="text-destructive text-xs" role="alert">
       {t(`ADMIN_CATEGORY_FORM.ERRORS.${message}`)}
     </p>
   );
@@ -63,19 +63,27 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
   const { t } = useTranslations();
   const navigate = useNavigate();
   const roleCode = session?.roleCode as AdminRoleCode;
-  const detail = useAdminCategory(mode === 'edit' ? categoryId : undefined, roleCode);
+  const detail = useAdminCategory(
+    mode === 'edit' ? categoryId : undefined,
+    roleCode,
+  );
   const create = useCreateAdminCategory();
   const update = useUpdateAdminCategory();
   const upload = useUploadAdminCategoryIcon();
-  const [form, setForm] = useState<AdminCategoryInput>(ADMIN_CATEGORY_EMPTY_INPUT);
-  const [initialForm, setInitialForm] = useState<AdminCategoryInput>(ADMIN_CATEGORY_EMPTY_INPUT);
+  const [form, setForm] = useState<AdminCategoryInput>(
+    ADMIN_CATEGORY_EMPTY_INPUT,
+  );
+  const [initialForm, setInitialForm] = useState<AdminCategoryInput>(
+    ADMIN_CATEGORY_EMPTY_INPUT,
+  );
   const [activeLocale, setActiveLocale] = useState<'vi-VN' | 'en-US'>('vi-VN');
   const [errors, setErrors] = useState<FieldErrors>({});
   const [previewUrl, setPreviewUrl] = useState<string>();
   const [allowNavigation, setAllowNavigation] = useState(false);
   const [discardOpen, setDiscardOpen] = useState(false);
   const [pendingNavigation, setPendingNavigation] = useState<string>();
-  const [inactiveConfirmation, setInactiveConfirmation] = useState<ParsedCategoryInput>();
+  const [inactiveConfirmation, setInactiveConfirmation] =
+    useState<ParsedCategoryInput>();
   const dirty = useMemo(
     () => JSON.stringify(form) !== JSON.stringify(initialForm),
     [form, initialForm],
@@ -108,9 +116,11 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
     if (!dirty || allowNavigation) return;
 
     const guardLinkNavigation = (event: MouseEvent) => {
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+        return;
       const anchor = (event.target as Element | null)?.closest('a[href]');
-      if (!(anchor instanceof HTMLAnchorElement) || anchor.target === '_blank') return;
+      if (!(anchor instanceof HTMLAnchorElement) || anchor.target === '_blank')
+        return;
       const url = new URL(anchor.href, window.location.href);
       if (url.origin !== window.location.origin) return;
       event.preventDefault();
@@ -120,7 +130,8 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
     };
 
     document.addEventListener('click', guardLinkNavigation, true);
-    return () => document.removeEventListener('click', guardLinkNavigation, true);
+    return () =>
+      document.removeEventListener('click', guardLinkNavigation, true);
   }, [allowNavigation, dirty]);
 
   const setField = <K extends keyof AdminCategoryInput>(
@@ -158,7 +169,10 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
       navigate(`/admin/categories/${saved.id}`, { replace: true });
     } catch (error) {
       const message = error instanceof Error ? error.message : '';
-      if (message === 'CATEGORY_CODE_DUPLICATE' || message === 'CATEGORY_CODE_IMMUTABLE') {
+      if (
+        message === 'CATEGORY_CODE_DUPLICATE' ||
+        message === 'CATEGORY_CODE_IMMUTABLE'
+      ) {
         setErrors({ code: message });
         document.getElementById('code')?.focus();
       } else {
@@ -184,7 +198,9 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
       if (firstField === 'enName' || firstField === 'enDescription') {
         setActiveLocale('en-US');
       }
-      window.setTimeout(() => document.getElementById(String(firstField))?.focus());
+      window.setTimeout(() =>
+        document.getElementById(String(firstField))?.focus(),
+      );
       return;
     }
     setErrors({});
@@ -229,7 +245,10 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
 
   if (mode === 'edit' && detail.isLoading) {
     return (
-      <Container className="space-y-4 py-6 lg:py-8" aria-label={t('COMMON.LOADING')}>
+      <Container
+        className="space-y-4 py-6 lg:py-8"
+        aria-label={t('COMMON.LOADING')}
+      >
         <Skeleton className="h-12 w-72" />
         <Skeleton className="h-[32rem] w-full" />
       </Container>
@@ -240,8 +259,12 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
     return (
       <Container className="py-6 lg:py-8">
         <Alert variant="destructive" appearance="light">
-          <AlertIcon><AlertCircle /></AlertIcon>
-          <AlertDescription>{t('ADMIN_CATEGORY_FORM.NOT_FOUND')}</AlertDescription>
+          <AlertIcon>
+            <AlertCircle />
+          </AlertIcon>
+          <AlertDescription>
+            {t('ADMIN_CATEGORY_FORM.NOT_FOUND')}
+          </AlertDescription>
         </Alert>
       </Container>
     );
@@ -255,22 +278,35 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
     <Container className="space-y-6 py-6 lg:py-8">
       <div>
         <Button variant="outline" size="sm" asChild>
-          <Link to="/admin/categories"><ArrowLeft />{t('ADMIN_CATEGORY_FORM.BACK')}</Link>
+          <Link to="/admin/categories">
+            <ArrowLeft />
+            {t('ADMIN_CATEGORY_FORM.BACK')}
+          </Link>
         </Button>
         <h1 className="mt-3 text-2xl font-semibold tracking-tight">
-          {t(mode === 'create' ? 'ADMIN_CATEGORY_FORM.CREATE_TITLE' : 'ADMIN_CATEGORY_FORM.EDIT_TITLE')}
+          {t(
+            mode === 'create'
+              ? 'ADMIN_CATEGORY_FORM.CREATE_TITLE'
+              : 'ADMIN_CATEGORY_FORM.EDIT_TITLE',
+          )}
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="text-muted-foreground mt-1 text-sm">
           {t('ADMIN_CATEGORY_FORM.DESCRIPTION')}
         </p>
       </div>
 
       <form className="space-y-5" onSubmit={submit} noValidate>
         <Card>
-          <CardHeader><h2 className="text-base font-semibold">{t('ADMIN_CATEGORY_FORM.GENERAL')}</h2></CardHeader>
+          <CardHeader>
+            <h2 className="text-base font-semibold">
+              {t('ADMIN_CATEGORY_FORM.GENERAL')}
+            </h2>
+          </CardHeader>
           <CardContent className="grid gap-5 md:grid-cols-2">
             <label className="space-y-1.5">
-              <span className="text-sm font-medium">{t('ADMIN_CATEGORIES.CODE')} *</span>
+              <span className="text-sm font-medium">
+                {t('ADMIN_CATEGORIES.CODE')} *
+              </span>
               <Input
                 id="code"
                 name="code"
@@ -279,11 +315,17 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
                 aria-invalid={Boolean(errors.code)}
                 onChange={(event) => setField('code', event.target.value)}
               />
-              {detail.data?.codeLocked && <p className="text-xs text-muted-foreground">{t('ADMIN_CATEGORY_FORM.CODE_LOCKED_HINT')}</p>}
+              {detail.data?.codeLocked && (
+                <p className="text-muted-foreground text-xs">
+                  {t('ADMIN_CATEGORY_FORM.CODE_LOCKED_HINT')}
+                </p>
+              )}
               <FieldError message={errors.code} />
             </label>
             <label className="space-y-1.5">
-              <span className="text-sm font-medium">{t('ADMIN_CATEGORY_FORM.DISPLAY_ORDER')}</span>
+              <span className="text-sm font-medium">
+                {t('ADMIN_CATEGORY_FORM.DISPLAY_ORDER')}
+              </span>
               <Input
                 id="displayOrder"
                 name="displayOrder"
@@ -292,34 +334,52 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
                 max={9999}
                 value={form.displayOrder}
                 aria-invalid={Boolean(errors.displayOrder)}
-                onChange={(event) => setField('displayOrder', Number(event.target.value))}
+                onChange={(event) =>
+                  setField('displayOrder', Number(event.target.value))
+                }
               />
               <FieldError message={errors.displayOrder} />
             </label>
             <label className="space-y-1.5">
-              <span className="text-sm font-medium">{t('COMMON.STATUS_1')} *</span>
+              <span className="text-sm font-medium">
+                {t('COMMON.STATUS_1')} *
+              </span>
               <select
                 id="status"
                 name="status"
                 className={selectClassName}
                 value={form.status}
-                onChange={(event) => setField('status', event.target.value as AdminCategoryInput['status'])}
+                onChange={(event) =>
+                  setField(
+                    'status',
+                    event.target.value as AdminCategoryInput['status'],
+                  )
+                }
               >
                 {['ACTIVE', 'DRAFT', 'INACTIVE'].map((status) => (
-                  <option key={status} value={status}>{t(`COMMON.STATUS.${status}`)}</option>
+                  <option key={status} value={status}>
+                    {t(`COMMON.STATUS.${status}`)}
+                  </option>
                 ))}
               </select>
             </label>
             <div className="space-y-1.5">
-              <label className="text-sm font-medium" htmlFor="icon">{t('ADMIN_CATEGORY_FORM.ICON')}</label>
+              <label className="text-sm font-medium" htmlFor="icon">
+                {t('ADMIN_CATEGORY_FORM.ICON')}
+              </label>
               <div className="flex items-center gap-4">
                 <img
-                  src={previewUrl ?? form.icon?.url ?? '/media/app/mini-logo.svg'}
+                  src={
+                    previewUrl ?? form.icon?.url ?? '/media/app/mini-logo.svg'
+                  }
                   alt={t('ADMIN_CATEGORY_FORM.ICON_PREVIEW')}
-                  className="size-16 rounded-lg border bg-muted object-contain p-2"
+                  className="bg-muted size-16 rounded-lg border object-contain p-2"
                 />
                 <Button type="button" variant="outline" asChild>
-                  <label htmlFor="icon" className="cursor-pointer"><ImageUp />{t('ADMIN_CATEGORY_FORM.CHOOSE_ICON')}</label>
+                  <label htmlFor="icon" className="cursor-pointer">
+                    <ImageUp />
+                    {t('ADMIN_CATEGORY_FORM.CHOOSE_ICON')}
+                  </label>
                 </Button>
                 <input
                   id="icon"
@@ -330,7 +390,9 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
                   onChange={uploadIcon}
                 />
               </div>
-              <p className="text-xs text-muted-foreground">{t('ADMIN_CATEGORY_FORM.ICON_HINT')}</p>
+              <p className="text-muted-foreground text-xs">
+                {t('ADMIN_CATEGORY_FORM.ICON_HINT')}
+              </p>
               <FieldError message={errors.icon} />
             </div>
           </CardContent>
@@ -339,10 +401,18 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
         <Card>
           <CardHeader className="gap-3">
             <div>
-              <h2 className="text-base font-semibold">{t('ADMIN_CATEGORY_FORM.LOCALIZED_CONTENT')}</h2>
-              <p className="mt-1 text-sm text-muted-foreground">{t('ADMIN_CATEGORY_FORM.LOCALE_HINT')}</p>
+              <h2 className="text-base font-semibold">
+                {t('ADMIN_CATEGORY_FORM.LOCALIZED_CONTENT')}
+              </h2>
+              <p className="text-muted-foreground mt-1 text-sm">
+                {t('ADMIN_CATEGORY_FORM.LOCALE_HINT')}
+              </p>
             </div>
-            <div className="flex gap-2" role="group" aria-label={t('ADMIN_CATEGORY_FORM.LOCALE_TABS')}>
+            <div
+              className="flex gap-2"
+              role="group"
+              aria-label={t('ADMIN_CATEGORY_FORM.LOCALE_TABS')}
+            >
               {(['vi-VN', 'en-US'] as const).map((locale) => (
                 <Button
                   key={locale}
@@ -366,12 +436,16 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
                 name={localeNameField}
                 value={String(form[localeNameField])}
                 aria-invalid={Boolean(errors[localeNameField])}
-                onChange={(event) => setField(localeNameField, event.target.value)}
+                onChange={(event) =>
+                  setField(localeNameField, event.target.value)
+                }
               />
               <FieldError message={errors[localeNameField]} />
             </label>
             <label className="block space-y-1.5">
-              <span className="text-sm font-medium">{t('COMMON.DESCRIPTION')}</span>
+              <span className="text-sm font-medium">
+                {t('COMMON.DESCRIPTION')}
+              </span>
               <Textarea
                 id={localeDescriptionField}
                 name={localeDescriptionField}
@@ -379,9 +453,11 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
                 maxLength={500}
                 value={String(form[localeDescriptionField])}
                 aria-invalid={Boolean(errors[localeDescriptionField])}
-                onChange={(event) => setField(localeDescriptionField, event.target.value)}
+                onChange={(event) =>
+                  setField(localeDescriptionField, event.target.value)
+                }
               />
-              <div className="flex justify-between text-xs text-muted-foreground">
+              <div className="text-muted-foreground flex justify-between text-xs">
                 <FieldError message={errors[localeDescriptionField]} />
                 <span>{String(form[localeDescriptionField]).length}/500</span>
               </div>
@@ -390,11 +466,20 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
         </Card>
 
         <div className="flex justify-end gap-2">
-          <Button type="button" variant="outline" onClick={() => requestNavigation('/admin/categories')}>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => requestNavigation('/admin/categories')}
+          >
             {t('COMMON.CANCEL')}
           </Button>
-          <Button type="submit" variant="mono" disabled={isPending || upload.isPending}>
-            <Save />{isPending ? t('COMMON.LOADING') : t('COMMON.SAVE')}
+          <Button
+            type="submit"
+            variant="mono"
+            disabled={isPending || upload.isPending}
+          >
+            <Save />
+            {isPending ? t('COMMON.LOADING') : t('COMMON.SAVE')}
           </Button>
         </div>
       </form>
@@ -408,8 +493,12 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{t('ADMIN_CATEGORY_FORM.DISCARD_TITLE')}</AlertDialogTitle>
-            <AlertDialogDescription>{t('ADMIN_CATEGORY_FORM.DISCARD_DESCRIPTION')}</AlertDialogDescription>
+            <AlertDialogTitle>
+              {t('ADMIN_CATEGORY_FORM.DISCARD_TITLE')}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t('ADMIN_CATEGORY_FORM.DISCARD_DESCRIPTION')}
+            </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>
@@ -435,8 +524,12 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{t('ADMIN_CATEGORY_FORM.INACTIVE_TITLE')}</AlertDialogTitle>
-            <AlertDialogDescription>{t('ADMIN_CATEGORY_FORM.INACTIVE_WARNING')}</AlertDialogDescription>
+            <AlertDialogTitle>
+              {t('ADMIN_CATEGORY_FORM.INACTIVE_TITLE')}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t('ADMIN_CATEGORY_FORM.INACTIVE_WARNING')}
+            </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t('COMMON.CANCEL')}</AlertDialogCancel>

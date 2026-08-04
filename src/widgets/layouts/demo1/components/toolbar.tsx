@@ -36,7 +36,7 @@ function ToolbarBreadcrumbs() {
   }
 
   return (
-    <div className="flex [.header_&]:below-lg:hidden items-center gap-1.25 text-xs lg:text-sm font-medium mb-2.5 lg:mb-0">
+    <div className="[.header_&]:below-lg:hidden mb-2.5 flex items-center gap-1.25 text-xs font-medium lg:mb-0 lg:text-sm">
       <div className="breadcrumb flex items-center gap-1">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
@@ -64,7 +64,7 @@ function ToolbarBreadcrumbs() {
                 </span>
               )}
               {!isLast && (
-                <ChevronRight className="size-3.5 muted-foreground" />
+                <ChevronRight className="muted-foreground size-3.5" />
               )}
             </Fragment>
           );
@@ -84,11 +84,11 @@ function ToolbarHeading({ title = '', description }: ToolbarHeadingProps) {
 
   return (
     <div className="flex flex-col justify-center gap-2">
-      <h1 className="text-xl font-medium leading-none text-mono">
+      <h1 className="text-mono text-xl leading-none font-medium">
         {title || itemTitle || 'Untitled'}
       </h1>
       {description && (
-        <div className="flex items-center gap-2 text-sm font-normal text-muted-foreground">
+        <div className="text-muted-foreground flex items-center gap-2 text-sm font-normal">
           {description}
         </div>
       )}

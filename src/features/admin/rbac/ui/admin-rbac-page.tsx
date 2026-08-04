@@ -40,7 +40,10 @@ function PermissionState({
 }) {
   if (state === 'GRANTED') {
     return (
-      <span className="inline-flex text-green-700 dark:text-green-400" title={label}>
+      <span
+        className="inline-flex text-green-700 dark:text-green-400"
+        title={label}
+      >
         <Check aria-hidden="true" className="size-4" />
         <span className="sr-only">{label}</span>
       </span>
@@ -48,14 +51,17 @@ function PermissionState({
   }
   if (state === 'DENIED') {
     return (
-      <span className="inline-flex text-red-700 dark:text-red-400" title={label}>
+      <span
+        className="inline-flex text-red-700 dark:text-red-400"
+        title={label}
+      >
         <X aria-hidden="true" className="size-4" />
         <span className="sr-only">{label}</span>
       </span>
     );
   }
   return (
-    <span className="inline-flex text-muted-foreground" title={label}>
+    <span className="text-muted-foreground inline-flex" title={label}>
       <Minus aria-hidden="true" className="size-4" />
       <span className="sr-only">{label}</span>
     </span>
@@ -66,8 +72,7 @@ export function AdminRbacPage() {
   const session = useAuthSession();
   const { t } = useTranslations();
   const requesterRole = session?.roleCode as AdminRoleCode;
-  const [selectedRole, setSelectedRole] =
-    useState<AdminRoleCode>('CMS_ADMIN');
+  const [selectedRole, setSelectedRole] = useState<AdminRoleCode>('CMS_ADMIN');
   const roles = useAdminSystemRoles(requesterRole);
   const matrix = useAdminRoleMatrix(requesterRole, selectedRole);
   const stateLabels: Record<AdminRbacActionState, string> = {
@@ -83,7 +88,7 @@ export function AdminRbacPage() {
           <h1 className="text-2xl font-semibold tracking-tight">
             {t('ADMIN_RBAC.TITLE')}
           </h1>
-          <p className="mt-1 max-w-3xl text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 max-w-3xl text-sm">
             {t('ADMIN_RBAC.DESCRIPTION')}
           </p>
         </div>
@@ -100,7 +105,9 @@ export function AdminRbacPage() {
         </div>
       ) : roles.error ? (
         <Alert variant="destructive" appearance="light">
-          <AlertIcon><AlertCircle /></AlertIcon>
+          <AlertIcon>
+            <AlertCircle />
+          </AlertIcon>
           <AlertDescription className="flex items-center justify-between gap-4">
             {t('ADMIN_RBAC.ERROR')}
             <Button variant="outline" onClick={() => roles.refetch()}>
@@ -130,7 +137,7 @@ export function AdminRbacPage() {
           <Card className="mt-5">
             <CardHeader className="gap-2">
               <div className="flex flex-wrap items-center gap-2">
-                <h2 className="text-base font-semibold leading-none tracking-tight">
+                <h2 className="text-base leading-none font-semibold tracking-tight">
                   {matrix.data?.role.name ?? selectedRole}
                 </h2>
                 <Badge variant="success" appearance="light">
@@ -145,10 +152,15 @@ export function AdminRbacPage() {
             </CardHeader>
             <CardContent>
               {matrix.isLoading ? (
-                <Skeleton className="h-80 w-full" aria-label={t('COMMON.LOADING')} />
+                <Skeleton
+                  className="h-80 w-full"
+                  aria-label={t('COMMON.LOADING')}
+                />
               ) : matrix.error ? (
                 <Alert variant="destructive" appearance="light">
-                  <AlertIcon><AlertCircle /></AlertIcon>
+                  <AlertIcon>
+                    <AlertCircle />
+                  </AlertIcon>
                   <AlertDescription className="flex items-center justify-between gap-4">
                     {t('ADMIN_RBAC.MATRIX_ERROR')}
                     <Button variant="outline" onClick={() => matrix.refetch()}>
@@ -188,7 +200,11 @@ export function AdminRbacPage() {
                         <TableCell className="text-center">
                           <PermissionState
                             state={module.full ? 'GRANTED' : 'DENIED'}
-                            label={module.full ? stateLabels.GRANTED : stateLabels.DENIED}
+                            label={
+                              module.full
+                                ? stateLabels.GRANTED
+                                : stateLabels.DENIED
+                            }
                           />
                         </TableCell>
                       </TableRow>

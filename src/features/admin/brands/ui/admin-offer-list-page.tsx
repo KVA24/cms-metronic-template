@@ -40,9 +40,7 @@ function formatCommission(
   value: number | null,
 ) {
   if (!type || !value) return null;
-  return type === 'PERCENTAGE'
-    ? `${value}%`
-    : vndFormatter.format(value);
+  return type === 'PERCENTAGE' ? `${value}%` : vndFormatter.format(value);
 }
 
 export function AdminOfferListPage() {
@@ -104,7 +102,7 @@ export function AdminOfferListPage() {
           <h1 className="mt-4 text-2xl font-semibold">
             {t('ADMIN_OFFERS.TITLE')}
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             {t('ADMIN_OFFERS.DESCRIPTION')}
           </p>
         </div>
@@ -125,11 +123,11 @@ export function AdminOfferListPage() {
             alt=""
           />
           <div>
-            <p className="text-xs uppercase text-muted-foreground">
+            <p className="text-muted-foreground text-xs uppercase">
               {t('ADMIN_OFFERS.BRAND_CONTEXT')}
             </p>
             <p className="font-semibold">{data.brand.name}</p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {data.brand.id} · {data.brand.domain}
             </p>
           </div>
@@ -245,7 +243,7 @@ export function AdminOfferListPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b text-left text-xs text-muted-foreground">
+                <tr className="text-muted-foreground border-b text-left text-xs">
                   <th className="p-3">{t('ADMIN_OFFERS.MAPPING_ID')}</th>
                   <th className="p-3">{t('ADMIN_OFFERS.OFFER_TITLE')}</th>
                   <th className="p-3">{t('ADMIN_OFFERS.BRAND_OFFER_CODE')}</th>
@@ -339,7 +337,7 @@ export function AdminOfferListPage() {
                   <tr>
                     <td
                       colSpan={8}
-                      className="h-28 text-center text-muted-foreground"
+                      className="text-muted-foreground h-28 text-center"
                     >
                       {t('ADMIN_OFFERS.EMPTY')}
                     </td>
@@ -350,7 +348,7 @@ export function AdminOfferListPage() {
           </div>
         </CardContent>
       </Card>
-      <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
+      <div className="text-muted-foreground flex flex-wrap items-center justify-between gap-3 text-sm">
         <p>
           {t('ADMIN_OFFERS.SUMMARY', {
             from,

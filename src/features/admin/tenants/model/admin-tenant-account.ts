@@ -1,9 +1,6 @@
-import type {
-  AccountStatus,
-  PageResult,
-} from '../../../../shared/contracts';
-import type { SystemRoleCode } from '../../../../shared/permissions';
 import { z } from 'zod';
+import type { AccountStatus, PageResult } from '../../../../shared/contracts';
+import type { SystemRoleCode } from '../../../../shared/permissions';
 
 export const TENANT_ACCOUNT_ROLES = [
   'TENANT_ADMIN',
@@ -62,7 +59,10 @@ const requiredEmail = z
   .min(1, 'EMAIL_REQUIRED')
   .max(254, 'EMAIL_INVALID')
   .email('EMAIL_INVALID');
-const optionalEmail = z.union([z.literal(''), z.string().trim().email('EMAIL_INVALID')]);
+const optionalEmail = z.union([
+  z.literal(''),
+  z.string().trim().email('EMAIL_INVALID'),
+]);
 const phone = z
   .string()
   .trim()

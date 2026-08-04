@@ -5,10 +5,10 @@ const ActivitiesProductSpecific = () => {
   return (
     <TimelineItem icon={Rocket} line={false}>
       <div className="flex flex-col">
-        <div className="text-sm text-foreground">
+        <div className="text-foreground text-sm">
           Explored niche demo ideas for product-specific solutions.
         </div>
-        <span className="text-xs text-secondary-foreground">
+        <span className="text-secondary-foreground text-xs">
           3 weeks ago, 4:07 PM
         </span>
       </div>

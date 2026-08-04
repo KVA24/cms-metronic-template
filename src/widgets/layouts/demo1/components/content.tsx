@@ -7,7 +7,7 @@ export function Content() {
   const mobile = useIsMobile();
 
   return (
-    <div className="grow content pt-5" role="content">
+    <div className="content grow pt-5" role="content">
       {mobile && (
         <Container>
           <Breadcrumb />

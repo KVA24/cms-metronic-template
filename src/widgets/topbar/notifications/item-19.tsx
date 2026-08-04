@@ -20,9 +20,9 @@ export default function Item19() {
         </AvatarIndicator>
       </Avatar>
 
-      <div className="flex flex-col gap-2.5 grow">
-        <div className="flex flex-col gap-1 mb-1">
-          <div className="text-sm font-medium mb-px">
+      <div className="flex grow flex-col gap-2.5">
+        <div className="mb-1 flex flex-col gap-1">
+          <div className="mb-px text-sm font-medium">
             <Link to="#" className="hover:text-primary text-mono font-semibold">
               Aaron Foster
             </Link>
@@ -31,16 +31,16 @@ export default function Item19() {
               requested to view{' '}
             </span>
           </div>
-          <span className="flex items-center text-xs font-medium text-muted-foreground">
+          <span className="text-muted-foreground flex items-center text-xs font-medium">
             3 day ago
-            <span className="rounded-full size-1 bg-mono/30 mx-1.5"></span>
+            <span className="bg-mono/30 mx-1.5 size-1 rounded-full"></span>
             Larsen Ltd
           </span>
         </div>
 
-        <Card className="kt-card shadow-none flex items-center flex-row gap-1.5 px-2.5 py-1.5 rounded-lg bg-muted/70">
-          <UserRoundCheck size={16} className="text-green-500 text-base" />
-          <span className="font-medium text-green-500 text-sm">
+        <Card className="kt-card bg-muted/70 flex flex-row items-center gap-1.5 rounded-lg px-2.5 py-1.5 shadow-none">
+          <UserRoundCheck size={16} className="text-base text-green-500" />
+          <span className="text-sm font-medium text-green-500">
             You allowed Aaron to view
           </span>
         </Card>

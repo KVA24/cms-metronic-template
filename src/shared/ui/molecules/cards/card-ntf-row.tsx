@@ -10,7 +10,7 @@ const CardNFT2Row = ({ avatar, name, email, info, statistics }: INFT2Props) => {
     return (
       <div
         key={statistic.description}
-        className="grid grid-cols-1 gap-1.5 border border-dashed border-input shrink-0 rounded-md min-w-24 max-w-auto px-2.5 py-2"
+        className="border-input max-w-auto grid min-w-24 shrink-0 grid-cols-1 gap-1.5 rounded-md border border-dashed px-2.5 py-2"
       >
         <span className="text-mono text-sm leading-none font-medium">
           {statistic.total}
@@ -24,7 +24,7 @@ const CardNFT2Row = ({ avatar, name, email, info, statistics }: INFT2Props) => {
 
   return (
     <Card className="p-7.5">
-      <div className="flex items-center flex-wrap justify-between gap-5">
+      <div className="flex flex-wrap items-center justify-between gap-5">
         <div className="flex items-center gap-3.5">
           <AvatarSingle
             className={avatar?.className}
@@ -34,10 +34,10 @@ const CardNFT2Row = ({ avatar, name, email, info, statistics }: INFT2Props) => {
             badgeClass={avatar?.badgeClass}
           />
           <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-1.5 mb-px">
+            <div className="mb-px flex items-center gap-1.5">
               <Link
                 to="#"
-                className="hover:text-primary-active text-base leading-5 font-medium text-mono"
+                className="hover:text-primary-active text-mono text-base leading-5 font-medium"
               >
                 {name}
               </Link>
@@ -58,7 +58,7 @@ const CardNFT2Row = ({ avatar, name, email, info, statistics }: INFT2Props) => {
             <div className="flex flex-wrap items-center gap-3.5">
               <Link
                 to="#"
-                className="text-sm text-secondary-foreground hover:text-primary-active"
+                className="text-secondary-foreground hover:text-primary-active text-sm"
               >
                 {email}
               </Link>
@@ -66,14 +66,14 @@ const CardNFT2Row = ({ avatar, name, email, info, statistics }: INFT2Props) => {
                 {info}{' '}
                 <Copy
                   size={16}
-                  className="ms-1 text-muted-foreground text-base"
+                  className="text-muted-foreground ms-1 text-base"
                 />
               </div>
             </div>
           </div>
         </div>
-        <div className="flex items-center flex-wrap gap-5 lg:gap-12">
-          <div className="flex items-center  flex-wrap gap-2 lg:gap-5">
+        <div className="flex flex-wrap items-center gap-5 lg:gap-12">
+          <div className="flex flex-wrap items-center gap-2 lg:gap-5">
             {statistics.map((statistic) => {
               return renderItem(statistic);
             })}

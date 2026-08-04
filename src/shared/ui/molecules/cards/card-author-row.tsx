@@ -12,10 +12,10 @@ const CardAuthorRow = ({ avatar, name, location, works }: IAuthorProps) => {
     return (
       <div
         key={work.title}
-        className="flex items-center gap-3.5 min-w-66 last:me-5"
+        className="flex min-w-66 items-center gap-3.5 last:me-5"
       >
         <div
-          className="rounded-md bg-no-repeat bg-cover min-w-24 max-w-24 h-12 shrink-0"
+          className="h-12 max-w-24 min-w-24 shrink-0 rounded-md bg-cover bg-no-repeat"
           style={{
             backgroundImage: `url(${toAbsoluteUrl(`/media/images/600x600/${work.image}`)})`,
           }}
@@ -23,13 +23,13 @@ const CardAuthorRow = ({ avatar, name, location, works }: IAuthorProps) => {
         <div className="flex flex-col">
           <Link
             to="#"
-            className="font-medium block text-mono hover:text-primary text-base leading-4 mb-2"
+            className="text-mono hover:text-primary mb-2 block text-base leading-4 font-medium"
           >
             {work.title}
           </Link>
-          <div className="text-sm text-secondary-foreground">
+          <div className="text-secondary-foreground text-sm">
             Token ID:{' '}
-            <span className="text-sm font-medium text-foreground">
+            <span className="text-foreground text-sm font-medium">
               {work.id}
             </span>
           </div>
@@ -40,8 +40,8 @@ const CardAuthorRow = ({ avatar, name, location, works }: IAuthorProps) => {
 
   return (
     <Card>
-      <CardContent className="flex flex-wrap gap-5 items-center justify-between">
-        <div className="flex items-center flex-wrap gap-3.5">
+      <CardContent className="flex flex-wrap items-center justify-between gap-5">
+        <div className="flex flex-wrap items-center gap-3.5">
           <AvatarSingle
             className={avatar?.className}
             image={avatar?.image}
@@ -52,7 +52,7 @@ const CardAuthorRow = ({ avatar, name, location, works }: IAuthorProps) => {
             <div className="flex items-center gap-1.5">
               <Link
                 to="#"
-                className="hover:text-primary-active text-base leading-5 font-medium text-mono"
+                className="hover:text-primary-active text-mono text-base leading-5 font-medium"
               >
                 {name}
               </Link>
@@ -70,19 +70,19 @@ const CardAuthorRow = ({ avatar, name, location, works }: IAuthorProps) => {
                 />
               </svg>
             </div>
-            <span className="flex items-center text-secondary-foreground text-sm">
+            <span className="text-secondary-foreground flex items-center text-sm">
               <MapPin
                 size={16}
-                className="me-1.5 text-md text-muted-foreground"
+                className="text-md text-muted-foreground me-1.5"
               />
               {location}
             </span>
           </div>
         </div>
-        <div className="flex items-center flex-wrap gap-5 lg:gap-12">
+        <div className="flex flex-wrap items-center gap-5 lg:gap-12">
           <Card className="p-2.5">
             <ScrollArea>
-              <div className="flex items-center gap-7.5 w-80 mb-2">
+              <div className="mb-2 flex w-80 items-center gap-7.5">
                 {works.map((work) => {
                   return renderItem(work);
                 })}

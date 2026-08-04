@@ -1,28 +1,28 @@
 import assert from 'node:assert/strict';
 import { beforeEach, describe, it } from 'node:test';
-import { adminTenantService } from '../src/features/admin/tenants/api/admin-tenant-service';
 import { adminTenantAccountService } from '../src/features/admin/tenants/api/admin-tenant-account-service';
 import { adminTenantAssignmentService } from '../src/features/admin/tenants/api/admin-tenant-assignment-service';
 import {
   adminTenantRevenueService,
   resolveTenantShareRate,
 } from '../src/features/admin/tenants/api/admin-tenant-revenue-service';
-import {
-  ADMIN_TENANT_REVENUE_DEFAULT_QUERY,
-  adminTenantRevenueSchema,
-  revenueToInput,
-} from '../src/features/admin/tenants/model/admin-tenant-revenue';
-import { ADMIN_TENANT_ASSIGNMENT_DEFAULT_QUERY } from '../src/features/admin/tenants/model/admin-tenant-assignment';
-import {
-  ADMIN_TENANT_ACCOUNT_DEFAULT_QUERY,
-  adminTenantAccountCreateSchema,
-} from '../src/features/admin/tenants/model/admin-tenant-account';
+import { adminTenantService } from '../src/features/admin/tenants/api/admin-tenant-service';
 import {
   ADMIN_TENANT_DEFAULT_QUERY,
   adminTenantSchema,
   readAdminTenantQuery,
   writeAdminTenantQuery,
 } from '../src/features/admin/tenants/model/admin-tenant';
+import {
+  ADMIN_TENANT_ACCOUNT_DEFAULT_QUERY,
+  adminTenantAccountCreateSchema,
+} from '../src/features/admin/tenants/model/admin-tenant-account';
+import { ADMIN_TENANT_ASSIGNMENT_DEFAULT_QUERY } from '../src/features/admin/tenants/model/admin-tenant-assignment';
+import {
+  ADMIN_TENANT_REVENUE_DEFAULT_QUERY,
+  adminTenantRevenueSchema,
+  revenueToInput,
+} from '../src/features/admin/tenants/model/admin-tenant-revenue';
 import { mockData, resetMockData } from '../src/shared/mocks/mock-data';
 
 const validTenantInput = {
@@ -67,7 +67,10 @@ describe('ADMIN Tenant list service', () => {
         { ...ADMIN_TENANT_DEFAULT_QUERY, keyword },
         'CMS_ADMIN',
       );
-      assert.deepEqual(result.items.map(({ code }) => code), ['LOTUS']);
+      assert.deepEqual(
+        result.items.map(({ code }) => code),
+        ['LOTUS'],
+      );
     }
   });
 
@@ -81,7 +84,10 @@ describe('ADMIN Tenant list service', () => {
       },
       'CMS_ADMIN',
     );
-    assert.deepEqual(result.items.map(({ code }) => code), ['LOTUS']);
+    assert.deepEqual(
+      result.items.map(({ code }) => code),
+      ['LOTUS'],
+    );
   });
 
   it('round-trips supported URL filters and normalizes invalid values', () => {
@@ -108,10 +114,7 @@ describe('ADMIN Tenant list service', () => {
 
   it('fails closed without tenants.view', async () => {
     await assert.rejects(
-      adminTenantService.listTenants(
-        ADMIN_TENANT_DEFAULT_QUERY,
-        'CMS_FINANCE',
-      ),
+      adminTenantService.listTenants(ADMIN_TENANT_DEFAULT_QUERY, 'CMS_FINANCE'),
       /FORBIDDEN/,
     );
   });
@@ -304,10 +307,14 @@ describe('ADMIN Tenant Portal account service', () => {
       },
       'CMS_OPERATION',
     );
-    assert.deepEqual(result.items.map(({ username }) => username), [
-      'marketing@lotus.test',
-    ]);
-    assert.equal(result.items.every(({ tenantId }) => tenantId === 'tenant-lotus'), true);
+    assert.deepEqual(
+      result.items.map(({ username }) => username),
+      ['marketing@lotus.test'],
+    );
+    assert.equal(
+      result.items.every(({ tenantId }) => tenantId === 'tenant-lotus'),
+      true,
+    );
     assert.equal(result.items[0].createdSource, 'TENANT_PORTAL');
   });
 
@@ -346,8 +353,14 @@ describe('ADMIN Tenant Portal account service', () => {
     assert.equal(result.success, false);
     if (!result.success)
       assert.equal(
-        ['USERNAME_INVALID', 'EMAIL_INVALID', 'PHONE_INVALID', 'PASSWORD_POLICY', 'PASSWORD_MISMATCH'].every(
-          (code) => result.error.issues.some(({ message }) => message === code),
+        [
+          'USERNAME_INVALID',
+          'EMAIL_INVALID',
+          'PHONE_INVALID',
+          'PASSWORD_POLICY',
+          'PASSWORD_MISMATCH',
+        ].every((code) =>
+          result.error.issues.some(({ message }) => message === code),
         ),
         true,
       );
@@ -385,17 +398,20 @@ describe('ADMIN Tenant Portal account service', () => {
       ),
       /USERNAME_DUPLICATE/,
     );
-    const sameUsernameOtherTenant = await adminTenantAccountService.createAccount(
-      'tenant-lotus',
-      validAccountInput,
-      'CMS_ADMIN',
-      'cms-admin',
-    );
+    const sameUsernameOtherTenant =
+      await adminTenantAccountService.createAccount(
+        'tenant-lotus',
+        validAccountInput,
+        'CMS_ADMIN',
+        'cms-admin',
+      );
     assert.equal(sameUsernameOtherTenant.tenantId, 'tenant-lotus');
   });
 
   it('updates fields, keeps username immutable and audits session invalidation', async () => {
-    const current = mockData.authAccounts.find(({ id }) => id === 'tenant-marketing')!;
+    const current = mockData.authAccounts.find(
+      ({ id }) => id === 'tenant-marketing',
+    )!;
     const updated = await adminTenantAccountService.updateAccount(
       'tenant-lotus',
       current.id,
@@ -462,7 +478,9 @@ describe('ADMIN Tenant Brand/Offer assignment service', () => {
       ADMIN_TENANT_ASSIGNMENT_DEFAULT_QUERY,
       'CMS_OPERATION',
     );
-    const foodnest = result.rows.find(({ brand }) => brand.code === 'FOODNEST')!;
+    const foodnest = result.rows.find(
+      ({ brand }) => brand.code === 'FOODNEST',
+    )!;
     assert.equal(foodnest.scope, 'ALL_ACTIVE');
     assert.deepEqual(foodnest.assignedOfferIds, ['offer-foodnest-new-user']);
     assert.equal(foodnest.categories.length, 1);
@@ -479,18 +497,28 @@ describe('ADMIN Tenant Brand/Offer assignment service', () => {
       },
       'CMS_ADMIN',
     );
-    assert.deepEqual(result.rows.map(({ brand }) => brand.code), ['FOODNEST']);
+    assert.deepEqual(
+      result.rows.map(({ brand }) => brand.code),
+      ['FOODNEST'],
+    );
   });
 
   it('assigns all active Offers by explicit draft and supports a custom pool', async () => {
     await adminTenantAssignmentService.saveAssignments(
       'tenant-lotus',
-      [{ brandId: 'brand-travelgo', assigned: true, offerIds: ['offer-travelgo-summer'] }],
+      [
+        {
+          brandId: 'brand-travelgo',
+          assigned: true,
+          offerIds: ['offer-travelgo-summer'],
+        },
+      ],
       'CMS_OPERATION',
       'cms-operation',
     );
     let assignment = mockData.tenantBrandAssignments.find(
-      ({ tenantId, brandId }) => tenantId === 'tenant-lotus' && brandId === 'brand-travelgo',
+      ({ tenantId, brandId }) =>
+        tenantId === 'tenant-lotus' && brandId === 'brand-travelgo',
     );
     assert.deepEqual(assignment?.offerIds, ['offer-travelgo-summer']);
     await adminTenantAssignmentService.saveAssignments(
@@ -500,10 +528,14 @@ describe('ADMIN Tenant Brand/Offer assignment service', () => {
       'cms-operation',
     );
     assignment = mockData.tenantBrandAssignments.find(
-      ({ tenantId, brandId }) => tenantId === 'tenant-lotus' && brandId === 'brand-travelgo',
+      ({ tenantId, brandId }) =>
+        tenantId === 'tenant-lotus' && brandId === 'brand-travelgo',
     );
     assert.deepEqual(assignment?.offerIds, []);
-    assert.equal(mockData.auditRecords.at(-1)?.action, 'SAVE_TENANT_ASSIGNMENTS');
+    assert.equal(
+      mockData.auditRecords.at(-1)?.action,
+      'SAVE_TENANT_ASSIGNMENTS',
+    );
   });
 
   it('saves atomically and rejects inactive Tenant, Brand or Offer IDs', async () => {
@@ -512,7 +544,11 @@ describe('ADMIN Tenant Brand/Offer assignment service', () => {
       adminTenantAssignmentService.saveAssignments(
         'tenant-lotus',
         [
-          { brandId: 'brand-travelgo', assigned: true, offerIds: ['offer-travelgo-summer'] },
+          {
+            brandId: 'brand-travelgo',
+            assigned: true,
+            offerIds: ['offer-travelgo-summer'],
+          },
           { brandId: 'brand-stylehub', assigned: true, offerIds: [] },
         ],
         'CMS_ADMIN',
@@ -525,7 +561,13 @@ describe('ADMIN Tenant Brand/Offer assignment service', () => {
     await assert.rejects(
       adminTenantAssignmentService.saveAssignments(
         'tenant-lotus',
-        [{ brandId: 'brand-travelgo', assigned: true, offerIds: ['offer-travelgo-summer'] }],
+        [
+          {
+            brandId: 'brand-travelgo',
+            assigned: true,
+            offerIds: ['offer-travelgo-summer'],
+          },
+        ],
         'CMS_ADMIN',
         'cms-admin',
       ),
@@ -554,26 +596,54 @@ describe('ADMIN Tenant Revenue Share service', () => {
       ADMIN_TENANT_REVENUE_DEFAULT_QUERY,
       'CMS_OPERATION',
     );
-    assert.deepEqual(result.items.map(({ brand }) => brand.code), ['FOODNEST']);
+    assert.deepEqual(
+      result.items.map(({ brand }) => brand.code),
+      ['FOODNEST'],
+    );
     assert.equal(result.items[0].configured, true);
     assert.equal(result.items[0].categoryOverrideCount, 1);
     assert.equal(result.items[0].offerOverrideCount, 1);
   });
 
   it('allows a blank Brand rate and rejects invalid or duplicate Active overrides', () => {
-    assert.equal(adminTenantRevenueSchema.safeParse({ brandRate: null, effectiveFrom: '', status: 'DRAFT', overrides: [] }).success, true);
+    assert.equal(
+      adminTenantRevenueSchema.safeParse({
+        brandRate: null,
+        effectiveFrom: '',
+        status: 'DRAFT',
+        overrides: [],
+      }).success,
+      true,
+    );
     const invalid = adminTenantRevenueSchema.safeParse({
       brandRate: 101,
       effectiveFrom: '',
       status: 'ACTIVE',
       overrides: [
-        { clientId: 'a', type: 'CATEGORY', targetId: 'category-food-dining', rate: 60, status: 'ACTIVE' },
-        { clientId: 'b', type: 'CATEGORY', targetId: 'category-food-dining', rate: 70, status: 'ACTIVE' },
+        {
+          clientId: 'a',
+          type: 'CATEGORY',
+          targetId: 'category-food-dining',
+          rate: 60,
+          status: 'ACTIVE',
+        },
+        {
+          clientId: 'b',
+          type: 'CATEGORY',
+          targetId: 'category-food-dining',
+          rate: 70,
+          status: 'ACTIVE',
+        },
       ],
     });
     assert.equal(invalid.success, false);
     if (!invalid.success)
-      assert.equal(invalid.error.issues.some(({ message }) => message === 'DUPLICATE_ACTIVE_OVERRIDE'), true);
+      assert.equal(
+        invalid.error.issues.some(
+          ({ message }) => message === 'DUPLICATE_ACTIVE_OVERRIDE',
+        ),
+        true,
+      );
   });
 
   it('creates and updates direct typed configuration with audit and optimistic lock', async () => {
@@ -592,7 +662,15 @@ describe('ADMIN Tenant Revenue Share service', () => {
         brandRate: null,
         effectiveFrom: '',
         status: 'DRAFT',
-        overrides: [{ clientId: 'new-1', type: 'OFFER', targetId: 'offer-travelgo-summer', rate: 55, status: 'ACTIVE' }],
+        overrides: [
+          {
+            clientId: 'new-1',
+            type: 'OFFER',
+            targetId: 'offer-travelgo-summer',
+            rate: 55,
+            status: 'ACTIVE',
+          },
+        ],
       },
       null,
       'CMS_ADMIN',
@@ -600,7 +678,10 @@ describe('ADMIN Tenant Revenue Share service', () => {
     );
     assert.equal(created.brandRate, null);
     assert.equal(created.version, 1);
-    assert.equal(mockData.auditRecords.at(-1)?.action, 'SAVE_TENANT_REVENUE_SHARE');
+    assert.equal(
+      mockData.auditRecords.at(-1)?.action,
+      'SAVE_TENANT_REVENUE_SHARE',
+    );
     await assert.rejects(
       adminTenantRevenueService.saveRevenueShare(
         'tenant-lotus',
@@ -631,7 +712,15 @@ describe('ADMIN Tenant Revenue Share service', () => {
           brandRate: 50,
           effectiveFrom: '',
           status: 'ACTIVE',
-          overrides: [{ clientId: 'bad', type: 'OFFER', targetId: 'offer-travelgo-summer', rate: 50, status: 'ACTIVE' }],
+          overrides: [
+            {
+              clientId: 'bad',
+              type: 'OFFER',
+              targetId: 'offer-travelgo-summer',
+              rate: 50,
+              status: 'ACTIVE',
+            },
+          ],
         },
         1,
         'CMS_ADMIN',
@@ -643,8 +732,19 @@ describe('ADMIN Tenant Revenue Share service', () => {
 
   it('resolves Offer then Category then Brand then All Tenant default', () => {
     const config = mockData.tenantRevenueShares[0];
-    assert.equal(resolveTenantShareRate(config, 'category-food-dining', 'offer-foodnest-new-user', 40), 70);
-    assert.equal(resolveTenantShareRate(config, 'category-food-dining', null, 40), 65);
+    assert.equal(
+      resolveTenantShareRate(
+        config,
+        'category-food-dining',
+        'offer-foodnest-new-user',
+        40,
+      ),
+      70,
+    );
+    assert.equal(
+      resolveTenantShareRate(config, 'category-food-dining', null, 40),
+      65,
+    );
     assert.equal(resolveTenantShareRate(config, null, null, 40), 60);
     assert.equal(resolveTenantShareRate(null, null, null, 40), 40);
   });

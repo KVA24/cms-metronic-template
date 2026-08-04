@@ -143,7 +143,7 @@ export function TenantAccountFormPage({ mode }: { mode: 'create' | 'edit' }) {
   return (
     <Container width="fluid" className="max-w-3xl space-y-5 pb-8">
       <header>
-        <Button asChild variant="ghost" className="-ml-3 mb-2">
+        <Button asChild variant="ghost" className="mb-2 -ml-3">
           <Link to="/tenant/account/users">
             <ArrowLeft /> {t('COMMON.BACK')}
           </Link>
@@ -165,7 +165,7 @@ export function TenantAccountFormPage({ mode }: { mode: 'create' | 'edit' }) {
               {...form.register('username')}
             />
             {fieldError('username') && (
-              <span className="text-xs text-destructive">
+              <span className="text-destructive text-xs">
                 {fieldError('username')}
               </span>
             )}
@@ -178,7 +178,7 @@ export function TenantAccountFormPage({ mode }: { mode: 'create' | 'edit' }) {
               {...form.register('fullName')}
             />
             {fieldError('fullName') && (
-              <span className="text-xs text-destructive">
+              <span className="text-destructive text-xs">
                 {fieldError('fullName')}
               </span>
             )}
@@ -193,7 +193,7 @@ export function TenantAccountFormPage({ mode }: { mode: 'create' | 'edit' }) {
                 {...form.register('email')}
               />
               {fieldError('email') && (
-                <span className="text-xs text-destructive">
+                <span className="text-destructive text-xs">
                   {fieldError('email')}
                 </span>
               )}
@@ -206,7 +206,7 @@ export function TenantAccountFormPage({ mode }: { mode: 'create' | 'edit' }) {
                 {...form.register('phone')}
               />
               {fieldError('phone') && (
-                <span className="text-xs text-destructive">
+                <span className="text-destructive text-xs">
                   {fieldError('phone')}
                 </span>
               )}
@@ -231,7 +231,7 @@ export function TenantAccountFormPage({ mode }: { mode: 'create' | 'edit' }) {
                 ))}
               </select>
               {fieldError('roleId') && (
-                <span className="text-xs text-destructive">
+                <span className="text-destructive text-xs">
                   {fieldError('roleId')}
                 </span>
               )}
@@ -270,7 +270,7 @@ export function TenantAccountFormPage({ mode }: { mode: 'create' | 'edit' }) {
                     type="button"
                     variant="ghost"
                     size="icon"
-                    className="absolute right-0 top-0"
+                    className="absolute top-0 right-0"
                     aria-label={t(
                       shown
                         ? 'AUTH.SIGNIN.HIDE_PASSWORD'
@@ -287,7 +287,7 @@ export function TenantAccountFormPage({ mode }: { mode: 'create' | 'edit' }) {
                   </Button>
                 </div>
                 {fieldError(name) && (
-                  <span className="text-xs text-destructive">
+                  <span className="text-destructive text-xs">
                     {fieldError(name)}
                   </span>
                 )}
@@ -295,7 +295,7 @@ export function TenantAccountFormPage({ mode }: { mode: 'create' | 'edit' }) {
             );
           })}
           {mode === 'edit' && (
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {t('TENANT_ACCOUNTS.FORM.PASSWORD_OPTIONAL')}
             </p>
           )}

@@ -26,25 +26,25 @@ export function SearchUsers({
       }}
     >
       <AccordionMenuGroup>
-        <div className="grid gap-2 m-2">
+        <div className="m-2 grid gap-2">
           {items.map((item) => (
             <AccordionMenuItem key={item.name} value={item.name} asChild>
-              <div className="flex justify-between items-center gap-2">
+              <div className="flex items-center justify-between gap-2">
                 {/* User avatar and info */}
                 <div className="flex items-center gap-2.5">
                   <img
                     src={toAbsoluteUrl(`/media/avatars/${item.avatar}`)}
-                    className="rounded-full size-9 shrink-0"
+                    className="size-9 shrink-0 rounded-full"
                     alt={item.name}
                   />
                   <div className="flex flex-col">
                     <Link
                       to="#"
-                      className="text-sm font-semibold text-mono hover:text-primary-active mb-px"
+                      className="text-mono hover:text-primary-active mb-px text-sm font-semibold"
                     >
                       {item.name}
                     </Link>
-                    <span className="text-sm font-normal text-muted-foreground">
+                    <span className="text-muted-foreground text-sm font-normal">
                       {item.email} connections
                     </span>
                   </div>

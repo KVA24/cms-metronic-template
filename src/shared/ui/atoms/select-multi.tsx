@@ -118,7 +118,7 @@ export function MultiSelect<T extends BaseOption>({
             ref={triggerRef}
             role="combobox"
             className={cn(
-              'w-full justify-between overflow-hidden border border-input rounded-md py-1.5 px-2',
+              'border-input w-full justify-between overflow-hidden rounded-md border px-2 py-1.5',
               error && 'border-destructive',
               disabled && 'bg-input-disabled cursor-not-allowed',
             )}
@@ -133,7 +133,7 @@ export function MultiSelect<T extends BaseOption>({
               }
             }}
           >
-            <span className="truncate flex items-center text-sm">
+            <span className="flex items-center truncate text-sm">
               {value.length > 0 ? (
                 isOverflow ? (
                   `${value.length} selected`
@@ -142,7 +142,7 @@ export function MultiSelect<T extends BaseOption>({
                     {value.map((option) => (
                       <span
                         key={option.value}
-                        className="inline-flex items-center gap-1 px-2 bg-gray-100 text-gray-800 rounded text-sm"
+                        className="inline-flex items-center gap-1 rounded bg-gray-100 px-2 text-sm text-gray-800"
                       >
                         <span>{option.label}</span>
                         <button
@@ -154,7 +154,7 @@ export function MultiSelect<T extends BaseOption>({
                               value.filter((v) => v.value !== option.value),
                             );
                           }}
-                          className="hover:bg-gray-300 rounded-full p-1 transition-colors flex items-center justify-center cursor-pointer"
+                          className="flex cursor-pointer items-center justify-center rounded-full p-1 transition-colors hover:bg-gray-300"
                           aria-label={`Remove ${option.label}`}
                         >
                           <XIcon className="size-3 text-gray-500" />
@@ -169,7 +169,7 @@ export function MultiSelect<T extends BaseOption>({
             </span>
             <span
               ref={measureRef}
-              className="absolute invisible whitespace-nowrap"
+              className="invisible absolute whitespace-nowrap"
             >
               {selectedLabels}
             </span>
@@ -185,7 +185,7 @@ export function MultiSelect<T extends BaseOption>({
           {renderOptions()}
         </DropdownMenuContent>
       </DropdownMenu>
-      {error && <p className="text-xs text-destructive mt-1">{error}</p>}
+      {error && <p className="text-destructive mt-1 text-xs">{error}</p>}
     </div>
   );
 }

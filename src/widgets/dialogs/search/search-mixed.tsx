@@ -24,7 +24,7 @@ export function SearchMixed({
 }: SearchMixedProps) {
   return (
     <div className="flex flex-col gap-2.5">
-      <div className="text-xs text-secondary-foreground font-medium pt-2.5 pb-1.5 ps-3">
+      <div className="text-secondary-foreground ps-3 pt-2.5 pb-1.5 text-xs font-medium">
         <span className="ps-2">Settings</span>
 
         <div className="pt-2">
@@ -42,9 +42,9 @@ export function SearchMixed({
         </div>
       </div>
 
-      <div className="border-b border-b-border"></div>
+      <div className="border-b-border border-b"></div>
 
-      <div className="text-xs text-secondary-foreground font-medium pt-2.5 pb-1.5">
+      <div className="text-secondary-foreground pt-2.5 pb-1.5 text-xs font-medium">
         <span className="ps-4">Integrations</span>
 
         <div className="pt-2">
@@ -52,9 +52,9 @@ export function SearchMixed({
         </div>
       </div>
 
-      <div className="border-b border-b-border"></div>
+      <div className="border-b-border border-b"></div>
 
-      <div className="text-xs text-secondary-foreground font-medium pt-2.5 pb-1.5">
+      <div className="text-secondary-foreground pt-2.5 pb-1.5 text-xs font-medium">
         <span className="ps-4">Users</span>
 
         <div className="pt-2">

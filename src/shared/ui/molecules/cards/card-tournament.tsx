@@ -35,14 +35,14 @@ const CardTournament = ({
   };
 
   return (
-    <Card className="shadow-none w-[285px] mb-5">
+    <Card className="mb-5 w-[285px] shadow-none">
       <div
-        className="bg-cover bg-center bg-no-repeat rounded-t-xl h-56 w-[285px]"
+        className="h-56 w-[285px] rounded-t-xl bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: `url(${toAbsoluteUrl(`/media/images/600x600/${image}`)})`,
         }}
       ></div>
-      <div className="card-border card-rounded-b grid gap-6 px-5 pt-3.5 pb-3 mb-4">
+      <div className="card-border card-rounded-b mb-4 grid gap-6 px-5 pt-3.5 pb-3">
         <div className="flex items-center gap-2.5">
           <img
             src={toAbsoluteUrl(`/media/brand-logos/${logo}`)}
@@ -52,12 +52,12 @@ const CardTournament = ({
           <div className="grid grid-cols-1 gap-0.5">
             <Link
               to="#"
-              className="text-mono hover:text-primary-active text-base font-medium mb-px"
+              className="text-mono hover:text-primary-active mb-px text-base font-medium"
             >
               {title}
             </Link>
-            <time className="flex items-center gap-1.5 text-xs text-secondary-foreground">
-              <div className="rounded-full w-1.5 h-1.5 bg-destructive gap-1.5"></div>{' '}
+            <time className="text-secondary-foreground flex items-center gap-1.5 text-xs">
+              <div className="bg-destructive h-1.5 w-1.5 gap-1.5 rounded-full"></div>{' '}
               {time}
             </time>
           </div>
@@ -67,13 +67,13 @@ const CardTournament = ({
             return renderItem(label);
           })}
         </div>
-        <div className="grid gap-1.5 mb-0.5">
+        <div className="mb-0.5 grid gap-1.5">
           <Progress
             value={progress?.value}
             indicatorClassName={progress?.variant}
             className="h-1"
           />
-          <div className="flex items-center place-content-between">
+          <div className="flex place-content-between items-center">
             <span className="text-secondary-foreground text-xs font-medium">
               {progress.slotNumber} slots
             </span>

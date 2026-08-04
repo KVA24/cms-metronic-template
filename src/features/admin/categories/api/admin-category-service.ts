@@ -31,7 +31,9 @@ function isLandingVisible(category: Category): boolean {
   const dependency = mockData.categoryDependencies.find(
     ({ categoryId }) => categoryId === category.id,
   );
-  return category.status === 'ACTIVE' && (dependency?.brandMappingCount ?? 0) > 0;
+  return (
+    category.status === 'ACTIVE' && (dependency?.brandMappingCount ?? 0) > 0
+  );
 }
 
 function assertPermission(

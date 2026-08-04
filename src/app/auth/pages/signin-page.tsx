@@ -205,7 +205,7 @@ export function SignInPage() {
                   <div className="relative">
                     <Mail
                       aria-hidden="true"
-                      className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400"
+                      className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-slate-400"
                     />
                     <Input
                       placeholder={t('AUTH.SIGNIN.USERNAME_PLACEHOLDER')}
@@ -230,7 +230,7 @@ export function SignInPage() {
                 <div className="relative">
                   <LockKeyhole
                     aria-hidden="true"
-                    className="pointer-events-none absolute left-3.5 top-1/2 z-10 size-4 -translate-y-1/2 text-slate-400"
+                    className="pointer-events-none absolute top-1/2 left-3.5 z-10 size-4 -translate-y-1/2 text-slate-400"
                   />
                   <FormControl>
                     <Input
@@ -251,7 +251,7 @@ export function SignInPage() {
                         : 'AUTH.SIGNIN.SHOW_PASSWORD',
                     )}
                     onClick={() => setPasswordVisible((visible) => !visible)}
-                    className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                    className="absolute top-0 right-0 h-full px-3 hover:bg-transparent"
                   >
                     {passwordVisible ? <EyeOff /> : <Eye />}
                   </Button>

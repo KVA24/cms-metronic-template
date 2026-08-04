@@ -57,7 +57,7 @@ const CardProjectExtended = ({
     return (
       <div
         key={statistic.description}
-        className="grid grid-cols-1 content-between gap-1.5 border border-dashed border-input shrink-0 rounded-md px-2.5 py-2 min-w-24 max-w-auto"
+        className="border-input max-w-auto grid min-w-24 shrink-0 grid-cols-1 content-between gap-1.5 rounded-md border border-dashed px-2.5 py-2"
       >
         <span className="text-mono text-sm leading-none font-medium">
           {statistic.total}
@@ -70,9 +70,9 @@ const CardProjectExtended = ({
   };
 
   return (
-    <Card className="overflow-hidden grow justify-between">
-      <div className="p-5 mb-5">
-        <div className="flex items-center justify-between mb-5">
+    <Card className="grow justify-between overflow-hidden">
+      <div className="mb-5 p-5">
+        <div className="mb-5 flex items-center justify-between">
           <Badge size="lg" variant={status.variant} appearance="light">
             {status.label}
           </Badge>
@@ -84,29 +84,29 @@ const CardProjectExtended = ({
             }
           />
         </div>
-        <div className="flex justify-center mb-2">
+        <div className="mb-2 flex justify-center">
           <img
             src={toAbsoluteUrl(`/media/brand-logos/${logo}`)}
             className="min-w-12 shrink-0"
             alt=""
           />
         </div>
-        <div className="text-center mb-7">
+        <div className="mb-7 text-center">
           <Link
             to={url}
-            className="text-lg font-medium text-mono hover:text-primary"
+            className="text-mono hover:text-primary text-lg font-medium"
           >
             {title}
           </Link>
-          <div className="text-sm text-secondary-foreground">{description}</div>
+          <div className="text-secondary-foreground text-sm">{description}</div>
         </div>
-        <div className="grid justify-center gap-1.5 mb-7.5">
-          <span className="text-xs uppercase text-secondary-foreground text-center">
+        <div className="mb-7.5 grid justify-center gap-1.5">
+          <span className="text-secondary-foreground text-center text-xs uppercase">
             team
           </span>
           <AvatarGroup group={team.group} size={team.size} />
         </div>
-        <div className="flex items-center justify-center flex-wrap gap-2 lg:gap-5">
+        <div className="flex flex-wrap items-center justify-center gap-2 lg:gap-5">
           {statistics.map((statistic) => {
             return renderItem(statistic);
           })}

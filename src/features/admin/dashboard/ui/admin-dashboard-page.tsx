@@ -160,7 +160,7 @@ export function AdminDashboardPage() {
           <h1 className="text-2xl font-semibold">
             {t('ADMIN_DASHBOARD.TITLE')}
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             {t('ADMIN_DASHBOARD.DESCRIPTION')}
           </p>
         </div>
@@ -293,7 +293,7 @@ export function AdminDashboardPage() {
         </Alert>
       ) : dashboard.data && dashboard.data.trend.length === 0 ? (
         <Card>
-          <CardContent className="py-16 text-center text-muted-foreground">
+          <CardContent className="text-muted-foreground py-16 text-center">
             {t('ADMIN_DASHBOARD.EMPTY')}
           </CardContent>
         </Card>
@@ -318,7 +318,7 @@ export function AdminDashboardPage() {
             ].map(([label, value]) => (
               <Card key={label}>
                 <CardContent className="py-5">
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {t(`ADMIN_DASHBOARD.METRICS.${label}`)}
                   </p>
                   <p className="mt-2 text-2xl font-semibold">{value}</p>
@@ -328,7 +328,7 @@ export function AdminDashboardPage() {
             {Object.entries(dashboard.data.financial).map(([field, value]) => (
               <Card key={field}>
                 <CardContent className="py-5">
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {t(`ADMIN_DASHBOARD.FINANCIAL.${field}`)}
                   </p>
                   <p className="mt-2 text-2xl font-semibold">
@@ -431,7 +431,7 @@ export function AdminDashboardPage() {
             <CardContent className="overflow-x-auto p-0">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b text-left text-muted-foreground">
+                  <tr className="text-muted-foreground border-b text-left">
                     <th className="px-5 py-3">#</th>
                     <th className="px-5 py-3">{t('SIDEBAR.BRANDS')}</th>
                     <th className="px-5 py-3">

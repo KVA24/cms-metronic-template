@@ -93,7 +93,10 @@ export function AdminTenantCreatePage() {
     options?: { type?: string; required?: boolean; maxLength?: number },
   ) => (
     <label className="space-y-1">
-      <span className="text-sm font-medium">{label}{options?.required && ' *'}</span>
+      <span className="text-sm font-medium">
+        {label}
+        {options?.required && ' *'}
+      </span>
       <Input
         id={name}
         name={name}
@@ -103,7 +106,7 @@ export function AdminTenantCreatePage() {
         onChange={(event) => setField(name, event.target.value)}
       />
       {errors[name] && (
-        <p className="text-xs text-destructive" role="alert">
+        <p className="text-destructive text-xs" role="alert">
           {t(`ADMIN_TENANT_FORM.ERRORS.${errors[name]}`)}
         </p>
       )}
@@ -114,60 +117,135 @@ export function AdminTenantCreatePage() {
     <Container className="space-y-5 py-6 lg:py-8">
       <div>
         <Button variant="outline" size="sm" asChild>
-          <Link to="/admin/tenants"><ArrowLeft />{t('ADMIN_TENANTS.TITLE')}</Link>
+          <Link to="/admin/tenants">
+            <ArrowLeft />
+            {t('ADMIN_TENANTS.TITLE')}
+          </Link>
         </Button>
-        <h1 className="mt-4 text-2xl font-semibold">{t('ADMIN_TENANT_FORM.CREATE_TITLE')}</h1>
-        <p className="mt-1 text-sm text-muted-foreground">{t('ADMIN_TENANT_FORM.CREATE_DESCRIPTION')}</p>
+        <h1 className="mt-4 text-2xl font-semibold">
+          {t('ADMIN_TENANT_FORM.CREATE_TITLE')}
+        </h1>
+        <p className="text-muted-foreground mt-1 text-sm">
+          {t('ADMIN_TENANT_FORM.CREATE_DESCRIPTION')}
+        </p>
       </div>
       <form className="space-y-5" onSubmit={submit} noValidate>
         <Card>
-          <CardHeader><h2 className="font-semibold">{t('ADMIN_TENANT_FORM.BASIC')}</h2></CardHeader>
+          <CardHeader>
+            <h2 className="font-semibold">{t('ADMIN_TENANT_FORM.BASIC')}</h2>
+          </CardHeader>
           <CardContent className="grid gap-4 md:grid-cols-2">
-            {field('code', t('ADMIN_TENANT_FORM.CODE'), { required: true, maxLength: 50 })}
-            {field('name', t('ADMIN_TENANT_FORM.NAME'), { required: true, maxLength: 255 })}
+            {field('code', t('ADMIN_TENANT_FORM.CODE'), {
+              required: true,
+              maxLength: 50,
+            })}
+            {field('name', t('ADMIN_TENANT_FORM.NAME'), {
+              required: true,
+              maxLength: 255,
+            })}
             <label className="space-y-1">
-              <span className="text-sm font-medium">{t('COMMON.STATUS_1')} *</span>
-              <select id="status" name="status" className={selectClassName} value={form.status} onChange={(event) => setField('status', event.target.value as AdminTenantInput['status'])}>
+              <span className="text-sm font-medium">
+                {t('COMMON.STATUS_1')} *
+              </span>
+              <select
+                id="status"
+                name="status"
+                className={selectClassName}
+                value={form.status}
+                onChange={(event) =>
+                  setField(
+                    'status',
+                    event.target.value as AdminTenantInput['status'],
+                  )
+                }
+              >
                 <option value="DRAFT">{t('COMMON.STATUS.DRAFT')}</option>
                 <option value="ACTIVE">{t('COMMON.STATUS.ACTIVE')}</option>
                 <option value="INACTIVE">{t('COMMON.STATUS.INACTIVE')}</option>
               </select>
             </label>
-            {field('accountOwner', t('ADMIN_TENANT_FORM.OWNER'), { maxLength: 120 })}
+            {field('accountOwner', t('ADMIN_TENANT_FORM.OWNER'), {
+              maxLength: 120,
+            })}
             <label className="space-y-1 md:col-span-2">
-              <span className="text-sm font-medium">{t('ADMIN_TENANT_FORM.NOTES')}</span>
-              <Textarea id="notes" name="notes" rows={4} maxLength={2000} value={form.notes} onChange={(event) => setField('notes', event.target.value)} />
-              {errors.notes && <p className="text-xs text-destructive" role="alert">{t(`ADMIN_TENANT_FORM.ERRORS.${errors.notes}`)}</p>}
+              <span className="text-sm font-medium">
+                {t('ADMIN_TENANT_FORM.NOTES')}
+              </span>
+              <Textarea
+                id="notes"
+                name="notes"
+                rows={4}
+                maxLength={2000}
+                value={form.notes}
+                onChange={(event) => setField('notes', event.target.value)}
+              />
+              {errors.notes && (
+                <p className="text-destructive text-xs" role="alert">
+                  {t(`ADMIN_TENANT_FORM.ERRORS.${errors.notes}`)}
+                </p>
+              )}
             </label>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader><h2 className="font-semibold">{t('ADMIN_TENANT_FORM.CONTACT')}</h2></CardHeader>
+          <CardHeader>
+            <h2 className="font-semibold">{t('ADMIN_TENANT_FORM.CONTACT')}</h2>
+          </CardHeader>
           <CardContent className="grid gap-4 md:grid-cols-2">
-            {field('contactName', t('ADMIN_TENANT_FORM.CONTACT_NAME'), { maxLength: 120 })}
-            {field('contactTitle', t('ADMIN_TENANT_FORM.CONTACT_TITLE'), { maxLength: 120 })}
-            {field('contactEmail', t('ADMIN_TENANT_FORM.CONTACT_EMAIL'), { type: 'email', maxLength: 254 })}
-            {field('contactPhone', t('ADMIN_TENANT_FORM.CONTACT_PHONE'), { type: 'tel', maxLength: 30 })}
+            {field('contactName', t('ADMIN_TENANT_FORM.CONTACT_NAME'), {
+              maxLength: 120,
+            })}
+            {field('contactTitle', t('ADMIN_TENANT_FORM.CONTACT_TITLE'), {
+              maxLength: 120,
+            })}
+            {field('contactEmail', t('ADMIN_TENANT_FORM.CONTACT_EMAIL'), {
+              type: 'email',
+              maxLength: 254,
+            })}
+            {field('contactPhone', t('ADMIN_TENANT_FORM.CONTACT_PHONE'), {
+              type: 'tel',
+              maxLength: 30,
+            })}
           </CardContent>
         </Card>
         <div className="flex justify-end gap-2">
-          <Button type="button" variant="outline" onClick={() => dirty ? setDiscardOpen(true) : navigate('/admin/tenants')}>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() =>
+              dirty ? setDiscardOpen(true) : navigate('/admin/tenants')
+            }
+          >
             {t('COMMON.CANCEL')}
           </Button>
           <Button type="submit" variant="mono" disabled={create.isPending}>
-            <Save />{create.isPending ? t('COMMON.LOADING') : t('ADMIN_TENANT_FORM.CREATE')}
+            <Save />
+            {create.isPending
+              ? t('COMMON.LOADING')
+              : t('ADMIN_TENANT_FORM.CREATE')}
           </Button>
         </div>
       </form>
       <AlertDialog open={discardOpen} onOpenChange={setDiscardOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{t('ADMIN_TENANT_FORM.DISCARD_TITLE')}</AlertDialogTitle>
-            <AlertDialogDescription>{t('ADMIN_TENANT_FORM.DISCARD_DESCRIPTION')}</AlertDialogDescription>
+            <AlertDialogTitle>
+              {t('ADMIN_TENANT_FORM.DISCARD_TITLE')}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t('ADMIN_TENANT_FORM.DISCARD_DESCRIPTION')}
+            </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>{t('ADMIN_TENANT_FORM.KEEP_EDITING')}</AlertDialogCancel>
-            <AlertDialogAction onClick={() => { setAllowNavigation(true); navigate('/admin/tenants'); }}>
+            <AlertDialogCancel>
+              {t('ADMIN_TENANT_FORM.KEEP_EDITING')}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                setAllowNavigation(true);
+                navigate('/admin/tenants');
+              }}
+            >
               {t('ADMIN_TENANT_FORM.DISCARD')}
             </AlertDialogAction>
           </AlertDialogFooter>

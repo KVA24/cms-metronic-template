@@ -37,16 +37,24 @@ const SignUpPage = lazy(() =>
   import('./pages/signup-page').then((m) => ({ default: m.SignUpPage })),
 );
 const TenantForgotPasswordPage = lazy(() =>
-  import('@/features/tenant/auth/ui/tenant-forgot-password-page').then((m) => ({ default: m.TenantForgotPasswordPage })),
+  import('@/features/tenant/auth/ui/tenant-forgot-password-page').then((m) => ({
+    default: m.TenantForgotPasswordPage,
+  })),
 );
 const TenantForgotPasswordOtpPage = lazy(() =>
-  import('@/features/tenant/auth/ui/tenant-forgot-password-otp-page').then((m) => ({ default: m.TenantForgotPasswordOtpPage })),
+  import('@/features/tenant/auth/ui/tenant-forgot-password-otp-page').then(
+    (m) => ({ default: m.TenantForgotPasswordOtpPage }),
+  ),
 );
 const TenantForgotPasswordResetPage = lazy(() =>
-  import('@/features/tenant/auth/ui/tenant-forgot-password-reset-page').then((m) => ({ default: m.TenantForgotPasswordResetPage })),
+  import('@/features/tenant/auth/ui/tenant-forgot-password-reset-page').then(
+    (m) => ({ default: m.TenantForgotPasswordResetPage }),
+  ),
 );
 const TenantForgotPasswordSuccessPage = lazy(() =>
-  import('@/features/tenant/auth/ui/tenant-forgot-password-success-page').then((m) => ({ default: m.TenantForgotPasswordSuccessPage })),
+  import('@/features/tenant/auth/ui/tenant-forgot-password-success-page').then(
+    (m) => ({ default: m.TenantForgotPasswordSuccessPage }),
+  ),
 );
 
 export const authRoutes: RouteObject[] = [
@@ -58,10 +66,22 @@ export const authRoutes: RouteObject[] = [
         path: 'login',
         element: createElement(SignInPage),
       },
-      { path: 'tenant/forgot-password', element: createElement(TenantForgotPasswordPage) },
-      { path: 'tenant/forgot-password/otp', element: createElement(TenantForgotPasswordOtpPage) },
-      { path: 'tenant/forgot-password/reset', element: createElement(TenantForgotPasswordResetPage) },
-      { path: 'tenant/forgot-password/success', element: createElement(TenantForgotPasswordSuccessPage) },
+      {
+        path: 'tenant/forgot-password',
+        element: createElement(TenantForgotPasswordPage),
+      },
+      {
+        path: 'tenant/forgot-password/otp',
+        element: createElement(TenantForgotPasswordOtpPage),
+      },
+      {
+        path: 'tenant/forgot-password/reset',
+        element: createElement(TenantForgotPasswordResetPage),
+      },
+      {
+        path: 'tenant/forgot-password/success',
+        element: createElement(TenantForgotPasswordSuccessPage),
+      },
       {
         path: 'signin',
         element: createElement(Navigate, {

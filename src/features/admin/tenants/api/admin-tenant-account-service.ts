@@ -34,7 +34,8 @@ function assertPermission(
 
 function tenantAccounts(tenantId: string) {
   return mockData.authAccounts.filter(
-    (account) => account.portalType === 'TENANT' && account.tenantId === tenantId,
+    (account) =>
+      account.portalType === 'TENANT' && account.tenantId === tenantId,
   );
 }
 
@@ -99,8 +100,8 @@ export const adminTenantAccountService = {
       .filter(
         (account) =>
           (!keyword ||
-            [account.username, account.displayName, account.email].some((value) =>
-              value.toLowerCase().includes(keyword),
+            [account.username, account.displayName, account.email].some(
+              (value) => value.toLowerCase().includes(keyword),
             )) &&
           (query.roleCode === 'ALL' || account.roleCode === query.roleCode) &&
           (query.status === 'ALL' || account.status === query.status),
@@ -164,7 +165,10 @@ export const adminTenantAccountService = {
       status: 'ACTIVE',
       password: parsed.password,
       roleCode: parsed.roleCode,
-      tenantRoleId: mockData.tenantRoles.find(({ tenantId: roleTenantId, code }) => roleTenantId === tenantId && code === parsed.roleCode)?.id,
+      tenantRoleId: mockData.tenantRoles.find(
+        ({ tenantId: roleTenantId, code }) =>
+          roleTenantId === tenantId && code === parsed.roleCode,
+      )?.id,
       roles: [{ roleCode: parsed.roleCode, roleName: parsed.roleCode }],
       failedLoginCount: 0,
       lockedAt: null,
@@ -192,7 +196,8 @@ export const adminTenantAccountService = {
     assertPermission(roleCode, 'tenants.accounts.edit');
     assertTenant(tenantId);
     const account = getAccount(tenantId, accountId);
-    if (account.version !== expectedVersion) throw new Error('VERSION_CONFLICT');
+    if (account.version !== expectedVersion)
+      throw new Error('VERSION_CONFLICT');
     const parsed = adminTenantAccountEditSchema.parse(input);
     const removingActiveAdmin =
       account.roleCode === 'TENANT_ADMIN' &&
@@ -208,7 +213,10 @@ export const adminTenantAccountService = {
     account.email = parsed.email;
     account.phone = parsed.phone;
     account.roleCode = parsed.roleCode;
-    account.tenantRoleId = mockData.tenantRoles.find(({ tenantId: roleTenantId, code }) => roleTenantId === tenantId && code === parsed.roleCode)?.id;
+    account.tenantRoleId = mockData.tenantRoles.find(
+      ({ tenantId: roleTenantId, code }) =>
+        roleTenantId === tenantId && code === parsed.roleCode,
+    )?.id;
     account.roles = [{ roleCode: parsed.roleCode, roleName: parsed.roleCode }];
     account.status = parsed.status;
     if (parsed.status === 'ACTIVE') account.failedLoginCount = 0;

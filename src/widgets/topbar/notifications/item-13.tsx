@@ -20,9 +20,9 @@ export default function Item13() {
         </AvatarIndicator>
       </Avatar>
 
-      <div className="flex flex-col gap-3.5 grow">
+      <div className="flex grow flex-col gap-3.5">
         <div className="flex flex-col gap-1">
-          <div className="text-sm font-medium mb-px">
+          <div className="mb-px text-sm font-medium">
             <Link to="#" className="hover:text-primary text-mono font-semibold">
               Samuel Lee
             </Link>
@@ -38,24 +38,24 @@ export default function Item13() {
             </Link>
           </div>
 
-          <span className="flex items-center text-xs font-medium text-muted-foreground">
+          <span className="text-muted-foreground flex items-center text-xs font-medium">
             22 hours ago
-            <span className="rounded-full size-1 bg-mono/30 mx-1.5"></span>
+            <span className="bg-mono/30 mx-1.5 size-1 rounded-full"></span>
             Dev Team
           </span>
         </div>
 
-        <Card className="shadow-none flex items-center flex-row justify-between gap-1.5 px-2.5 py-2 rounded-lg bg-muted/70">
+        <Card className="bg-muted/70 flex flex-row items-center justify-between gap-1.5 rounded-lg px-2.5 py-2 shadow-none">
           <div className="flex flex-col">
             <Link
               to="#"
-              className="hover:text-primary font-medium text-mono text-xs"
+              className="hover:text-primary text-mono text-xs font-medium"
             >
               Ronald Richards
             </Link>
             <Link
               to="#"
-              className="hover:text-primary text-muted-foreground font-medium text-xs"
+              className="hover:text-primary text-muted-foreground text-xs font-medium"
             >
               ronald.richards@gmail.com
             </Link>
@@ -63,7 +63,7 @@ export default function Item13() {
 
           <Link
             to="#"
-            className="hover:text-primary text-secondary-foreground font-medium text-xs"
+            className="hover:text-primary text-secondary-foreground text-xs font-medium"
           >
             Go to profile
           </Link>

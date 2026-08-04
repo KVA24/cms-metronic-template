@@ -54,18 +54,18 @@ export function AppsDropdownMenu({ trigger }: { trigger: ReactNode }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
       <DropdownMenuContent className="w-[325px] p-0" side="bottom" align="end">
-        <div className="flex items-center justify-between gap-2.5 text-xs text-secondary-foreground font-medium px-5 py-3 border-b border-b-border">
+        <div className="text-secondary-foreground border-b-border flex items-center justify-between gap-2.5 border-b px-5 py-3 text-xs font-medium">
           <span>Apps</span>
           <span>Enabled</span>
         </div>
-        <div className="flex flex-col scrollable-y-auto max-h-[400px] divide-y divide-border">
+        <div className="scrollable-y-auto divide-border flex max-h-[400px] flex-col divide-y">
           {items.map((item) => (
             <div
               key={item.title}
-              className="flex items-center justify-between flex-wrap gap-2 px-5 py-3.5"
+              className="flex flex-wrap items-center justify-between gap-2 px-5 py-3.5"
             >
-              <div className="flex items-center flex-wrap gap-2">
-                <div className="flex items-center justify-center shrink-0 rounded-full bg-accent/60 border border-border size-10">
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="bg-accent/60 border-border flex size-10 shrink-0 items-center justify-center rounded-full border">
                   <img
                     src={toAbsoluteUrl(`/media/brand-logos/${item.logo}`)}
                     className="size-6"
@@ -74,10 +74,10 @@ export function AppsDropdownMenu({ trigger }: { trigger: ReactNode }) {
                 </div>
 
                 <div className="flex flex-col">
-                  <span className="text-sm font-semibold text-mono hover:text-primary-active">
+                  <span className="text-mono hover:text-primary-active text-sm font-semibold">
                     {item.title}
                   </span>
-                  <span className="text-xs font-medium text-secondary-foreground">
+                  <span className="text-secondary-foreground text-xs font-medium">
                     {item.description}
                   </span>
                 </div>
@@ -86,7 +86,7 @@ export function AppsDropdownMenu({ trigger }: { trigger: ReactNode }) {
             </div>
           ))}
         </div>
-        <div className="grid p-5 border-t border-t-border">
+        <div className="border-t-border grid border-t p-5">
           <Button asChild variant="outline" size="sm">
             <Link to="/account/api-keys">Go to Apps</Link>
           </Button>

@@ -104,29 +104,29 @@ export function ChatSheet({ trigger }: { trigger: ReactNode }) {
   return (
     <Sheet>
       <SheetTrigger asChild>{trigger}</SheetTrigger>
-      <SheetContent className="p-0 gap-0 sm:w-[450px] sm:max-w-none inset-5 start-auto h-auto rounded-lg p-0 sm:max-w-none [&_[data-slot=sheet-close]]:top-4.5 [&_[data-slot=sheet-close]]:end-5">
+      <SheetContent className="inset-5 start-auto h-auto gap-0 rounded-lg p-0 sm:w-[450px] sm:max-w-none [&_[data-slot=sheet-close]]:end-5 [&_[data-slot=sheet-close]]:top-4.5">
         <SheetHeader>
-          <div className="flex items-center justify-between p-3 border-b border-border">
+          <div className="border-border flex items-center justify-between border-b p-3">
             <SheetTitle>Chat</SheetTitle>
           </div>
-          <div className="border-b border-border p-3 shadow-xs">
+          <div className="border-border border-b p-3 shadow-xs">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <div className="w-11 h-11 rounded-full bg-accent/60 border border-border flex items-center justify-center">
+                <div className="bg-accent/60 border-border flex h-11 w-11 items-center justify-center rounded-full border">
                   <img
                     src={toAbsoluteUrl('/media/brand-logos/gitlab.svg')}
-                    className="w-7 h-7"
+                    className="h-7 w-7"
                     alt=""
                   />
                 </div>
                 <div>
                   <Link
                     to="#"
-                    className="text-sm font-semibold text-mono hover:text-blue-600"
+                    className="text-mono text-sm font-semibold hover:text-blue-600"
                   >
                     HR Team
                   </Link>
-                  <span className="text-xs italic text-muted-foreground block">
+                  <span className="text-muted-foreground block text-xs italic">
                     Jessy is typing...
                   </span>
                 </div>
@@ -206,16 +206,16 @@ export function ChatSheet({ trigger }: { trigger: ReactNode }) {
               >
                 <div className="flex flex-col gap-1">
                   <div
-                    className="bg-primary text-primary-foreground text-sm font-medium p-3 rounded-lg shadow-xs"
+                    className="bg-primary text-primary-foreground rounded-lg p-3 text-sm font-medium shadow-xs"
                     dangerouslySetInnerHTML={{ __html: message.text }}
                   />
                   <div className="flex items-center justify-end gap-1">
-                    <span className="text-xs text-secondary-foreground">
+                    <span className="text-secondary-foreground text-xs">
                       {message.time}
                     </span>
                     <CheckCheck
                       className={cn(
-                        'w-4 h-4',
+                        'h-4 w-4',
                         message.read
                           ? 'text-green-500'
                           : 'text-muted-foreground',
@@ -247,10 +247,10 @@ export function ChatSheet({ trigger }: { trigger: ReactNode }) {
                 </Avatar>
                 <div className="flex flex-col gap-1">
                   <div
-                    className="bg-accent/50 text-secondary-foreground text-sm font-medium p-3 rounded-lg shadow-xs"
+                    className="bg-accent/50 text-secondary-foreground rounded-lg p-3 text-sm font-medium shadow-xs"
                     dangerouslySetInnerHTML={{ __html: message.text }}
                   />
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-muted-foreground text-xs">
                     {message.time}
                   </span>
                 </div>
@@ -259,7 +259,7 @@ export function ChatSheet({ trigger }: { trigger: ReactNode }) {
           )}
         </SheetBody>
         <SheetFooter className="block p-0 sm:space-x-0">
-          <div className="p-4 bg-accent/50 flex gap-2">
+          <div className="bg-accent/50 flex gap-2 p-4">
             <Avatar className="size-9">
               <AvatarImage
                 src={toAbsoluteUrl('/media/avatars//300-14.png')}
@@ -270,12 +270,12 @@ export function ChatSheet({ trigger }: { trigger: ReactNode }) {
                 <AvatarStatus variant="online" className="size-2.5" />
               </AvatarIndicator>
             </Avatar>
-            <div className="flex-1 flex items-center justify-between gap-0.5">
+            <div className="flex flex-1 items-center justify-between gap-0.5">
               <div className="flex flex-col">
                 <div className="inline-flex gap-0.5 text-sm">
                   <Link
                     to="#"
-                    className="font-semibold text-mono hover:text-primary"
+                    className="text-mono hover:text-primary font-semibold"
                   >
                     Jane Perez
                   </Link>
@@ -283,7 +283,7 @@ export function ChatSheet({ trigger }: { trigger: ReactNode }) {
                     wants to join chat
                   </span>
                 </div>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-muted-foreground text-xs">
                   1 day ago • Design Team
                 </span>
               </div>
@@ -297,10 +297,10 @@ export function ChatSheet({ trigger }: { trigger: ReactNode }) {
               </div>
             </div>
           </div>
-          <div className="p-5 flex items-center gap-2 relative">
+          <div className="relative flex items-center gap-2 p-5">
             <img
               src={toAbsoluteUrl('/media/avatars/300-2.png')}
-              className="w-8 h-8 rounded-full absolute left-7 top-1/2 -translate-y-1/2"
+              className="absolute top-1/2 left-7 h-8 w-8 -translate-y-1/2 rounded-full"
               alt=""
             />
             <Input
@@ -308,9 +308,9 @@ export function ChatSheet({ trigger }: { trigger: ReactNode }) {
               value={emailInput}
               onChange={(e) => setEmailInput(e.target.value)}
               placeholder="Write a message..."
-              className="w-full ps-12 pe-24 py-4 h-auto"
+              className="h-auto w-full py-4 ps-12 pe-24"
             />
-            <div className="absolute end-7 top-1/2 -translate-y-1/2 flex gap-2">
+            <div className="absolute end-7 top-1/2 flex -translate-y-1/2 gap-2">
               <Button size="sm" variant="ghost" mode="icon">
                 <Upload className="size-4!" />
               </Button>

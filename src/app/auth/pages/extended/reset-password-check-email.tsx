@@ -14,12 +14,12 @@ const ResetPasswordCheckEmail = () => {
   );
 
   return (
-    <div className="card max-w-[440px] w-full">
+    <div className="card w-full max-w-[440px]">
       <div className="card-body p-10">
         <div className="flex justify-center py-10">
           <img
             src={toAbsoluteUrl('/media/illustrations/30.svg')}
-            className="dark:hidden max-h-[130px]"
+            className="max-h-[130px] dark:hidden"
             alt=""
           />
           <img
@@ -29,19 +29,19 @@ const ResetPasswordCheckEmail = () => {
           />
         </div>
 
-        <h3 className="text-lg font-medium text-mono text-center mb-3">
+        <h3 className="text-mono mb-3 text-center text-lg font-medium">
           Check your email
         </h3>
-        <div className="text-sm text-center text-secondary-foreground mb-7.5">
+        <div className="text-secondary-foreground mb-7.5 text-center text-sm">
           Please click the link sent to your email{' '}
-          <span className="text-sm text-foreground font-medium hover:text-primary-active">
+          <span className="text-foreground hover:text-primary-active text-sm font-medium">
             {email}
           </span>
           <br />
           to reset your password. Thank you
         </div>
 
-        <div className="flex justify-center mb-5">
+        <div className="mb-5 flex justify-center">
           <Link
             to={
               settings?.layout === 'auth-branded'
@@ -55,7 +55,7 @@ const ResetPasswordCheckEmail = () => {
         </div>
 
         <div className="flex items-center justify-center gap-1">
-          <span className="text-xs text-secondary-foreground">
+          <span className="text-secondary-foreground text-xs">
             Didn’t receive an email?
           </span>
           <Link
@@ -64,7 +64,7 @@ const ResetPasswordCheckEmail = () => {
                 ? '/auth/reset-password/enter-email'
                 : '/auth/classic/reset-password/enter-email'
             }
-            className="text-xs font-medium link"
+            className="link text-xs font-medium"
           >
             Resend
           </Link>

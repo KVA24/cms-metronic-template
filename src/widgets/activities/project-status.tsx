@@ -5,10 +5,10 @@ const ActivitiesProjectStatus = () => {
   return (
     <TimelineItem icon={Rocket} line={false}>
       <div className="flex flex-col">
-        <div className="text-sm text-mono">
+        <div className="text-mono text-sm">
           Completed phase one of client project ahead of schedule.
         </div>
-        <span className="text-xs text-secondary-foreground">
+        <span className="text-secondary-foreground text-xs">
           6 days ago, 10:45 AM
         </span>
       </div>

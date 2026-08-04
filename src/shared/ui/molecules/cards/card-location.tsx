@@ -10,20 +10,20 @@ interface ILocationProps {
 
 const CardLocation = ({ image, title, description }: ILocationProps) => {
   return (
-    <Card className="shadow-none w-[280px] border-0 mb-4">
+    <Card className="mb-4 w-[280px] border-0 shadow-none">
       <img
         src={toAbsoluteUrl(`/media/images/600x400/${image}`)}
-        className="rounded-t-xl max-w-[280px] shrink-0"
+        className="max-w-[280px] shrink-0 rounded-t-xl"
         alt=""
       />
-      <div className="card-border card-rounded-b px-3.5 h-full pt-3 pb-3.5">
+      <div className="card-border card-rounded-b h-full px-3.5 pt-3 pb-3.5">
         <Link
           to="#"
-          className="font-medium block text-mono hover:text-primary text-base mb-2"
+          className="text-mono hover:text-primary mb-2 block text-base font-medium"
         >
           {title}
         </Link>
-        <p className="text-sm text-secondary-foreground">{description}</p>
+        <p className="text-secondary-foreground text-sm">{description}</p>
       </div>
     </Card>
   );

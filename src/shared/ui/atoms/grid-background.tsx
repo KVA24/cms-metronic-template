@@ -153,9 +153,9 @@ function GridBackground({
           <motion.div
             key={beam.id}
             className={cn(
-              'absolute rounded-full backdrop-blur-sm z-20',
+              'absolute z-20 rounded-full backdrop-blur-sm',
               beam.color,
-              beam.direction === 'horizontal' ? 'w-6 h-0.5' : 'w-0.5 h-6',
+              beam.direction === 'horizontal' ? 'h-0.5 w-6' : 'h-6 w-0.5',
               shadow,
             )}
             style={{

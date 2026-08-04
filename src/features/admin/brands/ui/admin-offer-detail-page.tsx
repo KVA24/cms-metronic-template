@@ -19,10 +19,10 @@ const vndFormatter = new Intl.NumberFormat('vi-VN', {
 function Field({ label, value }: { label: string; value: string | number }) {
   return (
     <div>
-      <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+      <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
         {label}
       </dt>
-      <dd className="mt-1 break-words text-sm font-medium">{value}</dd>
+      <dd className="mt-1 text-sm font-medium break-words">{value}</dd>
     </div>
   );
 }
@@ -73,7 +73,7 @@ export function AdminOfferDetailPage() {
             </Link>
           </Button>
           <h1 className="mt-4 text-2xl font-semibold">{offer.title}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             {t('ADMIN_OFFERS.DETAIL_TITLE')}
           </p>
         </div>
@@ -95,7 +95,7 @@ export function AdminOfferDetailPage() {
           />
           <div>
             <p className="font-semibold">{brand.name}</p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {brand.id} · {brand.domain}
             </p>
           </div>
@@ -117,7 +117,7 @@ export function AdminOfferDetailPage() {
             <dl className="grid gap-5 sm:grid-cols-2">
               <Field label={t('ADMIN_OFFERS.OFFER_ID')} value={offer.id} />
               <div>
-                <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                   {t('ADMIN_OFFERS.STATUS')}
                 </dt>
                 <dd className="mt-1">
@@ -188,7 +188,7 @@ export function AdminOfferDetailPage() {
               />
             </dl>
             {mappingInUse && (
-            <p className="mt-5 flex items-start gap-2 rounded-md bg-muted p-3 text-sm text-foreground">
+              <p className="bg-muted text-foreground mt-5 flex items-start gap-2 rounded-md p-3 text-sm">
                 <LockKeyhole className="mt-0.5 size-4 shrink-0" />
                 {t('ADMIN_OFFERS.MAPPING_IN_USE')}
               </p>
@@ -214,10 +214,10 @@ export function AdminOfferDetailPage() {
                 )}
               </div>
               <p className="mt-3 font-medium">{content.title}</p>
-              <p className="mt-3 text-sm text-muted-foreground">
+              <p className="text-muted-foreground mt-3 text-sm">
                 {content.description || '-'}
               </p>
-              <p className="mt-3 whitespace-pre-line text-sm">
+              <p className="mt-3 text-sm whitespace-pre-line">
                 <span className="font-medium">{t('ADMIN_OFFERS.TERMS')}:</span>{' '}
                 {content.terms || '-'}
               </p>

@@ -52,7 +52,7 @@ export function TenantTransactionDetailPage() {
   }
   if (!result.data || result.error) {
     return (
-      <Container width="fluid" className="pb-8 text-sm text-destructive">
+      <Container width="fluid" className="text-destructive pb-8 text-sm">
         {t('TENANT_TRANSACTIONS.DETAIL.LOAD_ERROR')}
       </Container>
     );
@@ -87,7 +87,7 @@ export function TenantTransactionDetailPage() {
         <h1 className="mt-4 text-2xl font-semibold">
           {t('TENANT_TRANSACTIONS.DETAIL.TITLE')}
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">{header.id}</p>
+        <p className="text-muted-foreground mt-1 text-sm">{header.id}</p>
       </header>
 
       <Card>
@@ -99,10 +99,10 @@ export function TenantTransactionDetailPage() {
         <CardContent className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {summary.map(([label, value]) => (
             <div key={label} className="rounded-md border p-3">
-              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                 {t(`TENANT_TRANSACTIONS.${label}`)}
               </p>
-              <p className="mt-1 break-words text-sm font-medium">{value}</p>
+              <p className="mt-1 text-sm font-medium break-words">{value}</p>
             </div>
           ))}
         </CardContent>
@@ -191,7 +191,7 @@ export function TenantTransactionDetailPage() {
         </CardHeader>
         <CardContent>
           {histories.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               {t('TENANT_TRANSACTIONS.DETAIL.NO_HISTORY')}
             </p>
           ) : (
@@ -202,7 +202,7 @@ export function TenantTransactionDetailPage() {
                 );
                 return (
                   <li key={history.id} className="relative">
-                    <span className="absolute -left-[1.55rem] top-1 h-2.5 w-2.5 rounded-full bg-primary" />
+                    <span className="bg-primary absolute top-1 -left-[1.55rem] h-2.5 w-2.5 rounded-full" />
                     <p className="text-sm font-medium">
                       {t(
                         `TENANT_TRANSACTIONS.DETAIL.EVENTS.${history.eventType}`,
@@ -213,7 +213,7 @@ export function TenantTransactionDetailPage() {
                         },
                       )}
                     </p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-muted-foreground text-xs">
                       {formatDate(history.eventAt)} · {history.createdBy} ·{' '}
                       {t(
                         `TENANT_TRANSACTIONS.DETAIL.RESULTS.${history.processingResult}`,

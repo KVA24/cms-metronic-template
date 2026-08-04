@@ -20,19 +20,19 @@ const CardNotification = ({
   actions,
 }: INotificationProps) => {
   return (
-    <CardContent className="border-b border-border flex items-center justify-between py-4 gap-2.5">
+    <CardContent className="border-border flex items-center justify-between gap-2.5 border-b py-4">
       <div className="flex items-center gap-3.5">
         <HexagonBadge
           size="size-[50px]"
-          badge={<Icon size={16} className="text-xl text-muted-foreground" />}
+          badge={<Icon size={16} className="text-muted-foreground text-xl" />}
           stroke="stroke-input"
           fill="fill-muted/30"
         />
         <div className="flex flex-col gap-0.5">
-          <span className="flex items-center gap-1.5 leading-none font-medium text-sm text-mono">
+          <span className="text-mono flex items-center gap-1.5 text-sm leading-none font-medium">
             {title}
           </span>
-          <span className="text-sm text-secondary-foreground">
+          <span className="text-secondary-foreground text-sm">
             {description}
           </span>
         </div>

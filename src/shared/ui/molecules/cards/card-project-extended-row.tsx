@@ -24,7 +24,7 @@ const CardProjectExtendedRow = ({
     return (
       <div
         key={statistic.description}
-        className="grid grid-cols-1 content-between gap-1.5 border border-dashed border-input shrink-0 rounded-md px-2.5 py-2 min-w-24 max-w-auto"
+        className="border-input max-w-auto grid min-w-24 shrink-0 grid-cols-1 content-between gap-1.5 rounded-md border border-dashed px-2.5 py-2"
       >
         <span className="text-mono text-sm leading-none font-semibold">
           {statistic.total}
@@ -38,9 +38,9 @@ const CardProjectExtendedRow = ({
 
   return (
     <Card className="p-7.5">
-      <div className="flex items-center flex-wrap justify-between gap-5">
+      <div className="flex flex-wrap items-center justify-between gap-5">
         <div className="flex items-center gap-3.5">
-          <div className="flex items-center justify-center min-w-12">
+          <div className="flex min-w-12 items-center justify-center">
             <img
               src={toAbsoluteUrl(`/media/brand-logos/${logo}`)}
               className="min-w-12 shrink-0"
@@ -50,18 +50,18 @@ const CardProjectExtendedRow = ({
           <div className="flex flex-col">
             <Link
               to={url}
-              className="text-lg font-medium text-mono hover:text-primary"
+              className="text-mono hover:text-primary text-lg font-medium"
             >
               {title}
             </Link>
-            <div className="text-sm text-secondary-foreground">
+            <div className="text-secondary-foreground text-sm">
               {description}
             </div>
           </div>
         </div>
-        <div className="flex items-center flex-wrap gap-5 lg:gap-12">
-          <div className="flex items-center flex-wrap gap-5 lg:gap-14">
-            <div className="flex items-center lg:justify-center flex-wrap gap-2 lg:gap-5">
+        <div className="flex flex-wrap items-center gap-5 lg:gap-12">
+          <div className="flex flex-wrap items-center gap-5 lg:gap-14">
+            <div className="flex flex-wrap items-center gap-2 lg:justify-center lg:gap-5">
               {statistics.map((statistic) => {
                 return renderItem(statistic);
               })}
@@ -73,7 +73,7 @@ const CardProjectExtendedRow = ({
             </div>
           </div>
           <div className="flex items-center gap-5 lg:gap-14">
-            <div className="grid justify-end  min-w-24">
+            <div className="grid min-w-24 justify-end">
               <AvatarGroup group={team.group} size={team.size} />
             </div>
             <DropdownMenu1

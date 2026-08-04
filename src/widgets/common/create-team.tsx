@@ -38,8 +38,8 @@ export function CreateTeam({
         <div className="flex justify-center">{image}</div>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-3 text-center">
-            <h2 className="text-xl font-semibold text-mono">{title}</h2>
-            <p className="text-sm font-medium text-secondary-foreground">
+            <h2 className="text-mono text-xl font-semibold">{title}</h2>
+            <p className="text-secondary-foreground text-sm font-medium">
               {subTitle}
             </p>
           </div>

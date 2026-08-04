@@ -20,11 +20,11 @@ const ScrollspyMenu = ({ items }: ScrollspyMenuProps) => {
         key={item.target || item.title}
         data-scrollspy-anchor={item.target}
         className={cn(
-          'cursor-pointer flex items-center rounded-lg ps-2.5 pe-2.5 py-1.5 border border-transparent text-accent-foreground hover:text-primary data-[active=true]:bg-accent data-[active=true]:text-primary data-[active=true]:font-medium',
+          'text-accent-foreground hover:text-primary data-[active=true]:bg-accent data-[active=true]:text-primary flex cursor-pointer items-center rounded-lg border border-transparent py-1.5 ps-2.5 pe-2.5 data-[active=true]:font-medium',
           indent ? 'gap-3.5' : 'gap-1.5',
         )}
       >
-        <span className="flex w-1.5 relative before:absolute start-px rtl:-start-[5px] before:top-0 before:size-1.5 before:rounded-full before:-translate-x-2/4 before:-translate-y-2/4 [[data-active=true]>&]:before:bg-primary"></span>
+        <span className="[[data-active=true]>&]:before:bg-primary relative start-px flex w-1.5 before:absolute before:top-0 before:size-1.5 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full rtl:-start-[5px]"></span>
         {item.title}
       </div>
     );
@@ -41,7 +41,7 @@ const ScrollspyMenu = ({ items }: ScrollspyMenuProps) => {
       if (item.children) {
         return (
           <div key={item.target || item.title} className="flex flex-col">
-            <div className="ps-6 pe-2.5 py-2.5 text-sm font-semibold text-mono">
+            <div className="text-mono py-2.5 ps-6 pe-2.5 text-sm font-semibold">
               {item.title}
             </div>
             <div className="flex flex-col">
@@ -56,7 +56,7 @@ const ScrollspyMenu = ({ items }: ScrollspyMenuProps) => {
   };
 
   return (
-    <div className="flex flex-col grow relative before:absolute before:start-[11px] before:top-0 before:bottom-0 before:border-s before:border-border text-sm">
+    <div className="before:border-border relative flex grow flex-col text-sm before:absolute before:start-[11px] before:top-0 before:bottom-0 before:border-s">
       {renderChildren(items)}
     </div>
   );

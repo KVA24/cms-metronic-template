@@ -13,8 +13,14 @@ export function useAdminTenantAssignments(
   roleCode: AdminRoleCode,
 ) {
   return useQuery({
-    queryKey: [...adminTenantKeys.detail(tenantId), 'assignments', query, roleCode],
-    queryFn: () => adminTenantAssignmentService.listAssignments(tenantId, query, roleCode),
+    queryKey: [
+      ...adminTenantKeys.detail(tenantId),
+      'assignments',
+      query,
+      roleCode,
+    ],
+    queryFn: () =>
+      adminTenantAssignmentService.listAssignments(tenantId, query, roleCode),
     retry: false,
   });
 }
@@ -22,16 +28,22 @@ export function useAdminTenantAssignments(
 export function useSaveAdminTenantAssignments(tenantId: string) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ drafts, roleCode, actorId }: {
-      drafts: AdminTenantAssignmentDraft[];
-      roleCode: AdminRoleCode;
-      actorId: string;
-    }) => adminTenantAssignmentService.saveAssignments(
-      tenantId,
+    mutationFn: ({
       drafts,
       roleCode,
       actorId,
-    ),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: adminTenantKeys.all }),
+    }: {
+      drafts: AdminTenantAssignmentDraft[];
+      roleCode: AdminRoleCode;
+      actorId: string;
+    }) =>
+      adminTenantAssignmentService.saveAssignments(
+        tenantId,
+        drafts,
+        roleCode,
+        actorId,
+      ),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: adminTenantKeys.all }),
   });
 }

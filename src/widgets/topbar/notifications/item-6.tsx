@@ -20,9 +20,9 @@ export default function Item6() {
         </AvatarIndicator>
       </Avatar>
 
-      <div className="flex flex-col gap-3.5 grow">
+      <div className="flex grow flex-col gap-3.5">
         <div className="flex flex-col gap-1">
-          <div className="text-sm font-medium mb-px">
+          <div className="mb-px text-sm font-medium">
             <Link to="#" className="hover:text-primary text-mono font-semibold">
               Tyler Hero{' '}
             </Link>
@@ -31,15 +31,15 @@ export default function Item6() {
               wants to view your design project{' '}
             </span>
           </div>
-          <span className="flex items-center text-xs font-medium text-muted-foreground">
+          <span className="text-muted-foreground flex items-center text-xs font-medium">
             3 day ago
-            <span className="rounded-full size-1 bg-mono/30 mx-1.5"></span>
+            <span className="bg-mono/30 mx-1.5 size-1 rounded-full"></span>
             Metronic Launcher mockups
           </span>
         </div>
 
-        <Card className="shadow-none flex items-center flex-row gap-1.5 p-2.5 rounded-lg bg-muted/70">
-          <div className="flex items-center justify-center w-[26px] h-[30px] shrink-0 bg-background rounded-sm border border-border">
+        <Card className="bg-muted/70 flex flex-row items-center gap-1.5 rounded-lg p-2.5 shadow-none">
+          <div className="bg-background border-border flex h-[30px] w-[26px] shrink-0 items-center justify-center rounded-sm border">
             <img
               src={toAbsoluteUrl('/media/file-types/figma.svg')}
               className="h-5"
@@ -49,11 +49,11 @@ export default function Item6() {
 
           <Link
             to="#"
-            className="hover:text-primary font-medium text-secondary-foreground text-xs me-1"
+            className="hover:text-primary text-secondary-foreground me-1 text-xs font-medium"
           >
             Launcher-UIkit.fig
           </Link>
-          <span className="font-medium text-muted-foreground text-xs">
+          <span className="text-muted-foreground text-xs font-medium">
             Edited 2 mins ago
           </span>
         </Card>

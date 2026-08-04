@@ -11,7 +11,7 @@ const HexagonBadge = ({ size, stroke, fill, badge }: HexagonBadgeProps) => {
   return (
     <div className={`relative ${size} shrink-0`}>
       <svg
-        className={`w-full h-full ${stroke} ${fill}`}
+        className={`h-full w-full ${stroke} ${fill}`}
         width="44"
         height="48"
         viewBox="0 0 44 48"
@@ -31,7 +31,7 @@ const HexagonBadge = ({ size, stroke, fill, badge }: HexagonBadgeProps) => {
           stroke=""
         />
       </svg>
-      <div className="absolute leading-none start-2/4 top-2/4 -translate-y-2/4 -translate-x-2/4 rtl:translate-x-2/4">
+      <div className="absolute start-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 leading-none rtl:translate-x-2/4">
         {badge}
       </div>
     </div>

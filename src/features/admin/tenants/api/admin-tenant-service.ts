@@ -6,8 +6,8 @@ import {
 } from '../../../../shared/permissions';
 import {
   adminTenantSchema,
-  type AdminTenantInput,
   type AdminTenantDetailView,
+  type AdminTenantInput,
   type AdminTenantListItem,
   type AdminTenantListResult,
   type AdminTenantQuery,
@@ -130,7 +130,9 @@ export const adminTenantService = {
   async getFilterOptions(roleCode: AdminRoleCode) {
     assertPermission(roleCode, 'tenants.view');
     return {
-      accountOwners: [...new Set(mockData.tenants.map(({ accountOwner }) => accountOwner))]
+      accountOwners: [
+        ...new Set(mockData.tenants.map(({ accountOwner }) => accountOwner)),
+      ]
         .filter(Boolean)
         .sort(),
     };
@@ -190,9 +192,13 @@ export const adminTenantService = {
   ): Promise<Tenant> {
     assertPermission(roleCode, 'tenants.edit');
     const current = getTenantOrThrow(tenantId);
-    if (current.version !== expectedVersion) throw new Error('VERSION_CONFLICT');
+    if (current.version !== expectedVersion)
+      throw new Error('VERSION_CONFLICT');
     const parsed = adminTenantSchema.parse(input);
-    if (parsed.code !== current.code && !getDependencies(tenantId).canHardDelete)
+    if (
+      parsed.code !== current.code &&
+      !getDependencies(tenantId).canHardDelete
+    )
       throw new Error('TENANT_CODE_LOCKED');
     if (
       parsed.code !== current.code &&

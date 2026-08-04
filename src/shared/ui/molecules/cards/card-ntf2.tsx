@@ -40,7 +40,7 @@ const CardNFT2 = ({
     return (
       <div
         key={statistic.description}
-        className="grid grid-cols-1 gap-1.5 border-[0.5px] border-dashed border-input rounded-md px-2.5 py-2 shrink-0 max-w-auto"
+        className="border-input max-w-auto grid shrink-0 grid-cols-1 gap-1.5 rounded-md border-[0.5px] border-dashed px-2.5 py-2"
       >
         <span className="text-mono text-sm leading-none font-medium">
           {statistic.total}
@@ -55,12 +55,12 @@ const CardNFT2 = ({
   return (
     <Card className="overflow-hidden rounded-xl">
       <CardHeader
-        className="card-rounded-t flex justify-end items-start relative p-0 bg-no-repeat bg-cover bg-center h-[120px]"
+        className="card-rounded-t relative flex h-[120px] items-start justify-end bg-cover bg-center bg-no-repeat p-0"
         style={{
           backgroundImage: `url(${toAbsoluteUrl(`/media/images/2600x1200/${bgImage}`)})`,
         }}
       >
-        <div className="mt-2.5 me-2.5">
+        <div className="me-2.5 mt-2.5">
           <DropdownMenu4
             trigger={
               <Button variant="ghost" mode="icon" size="md">
@@ -71,7 +71,7 @@ const CardNFT2 = ({
         </div>
       </CardHeader>
       <CardContent className="pt-0">
-        <div className="flex justify-center transform -translate-y-1/2">
+        <div className="flex -translate-y-1/2 transform justify-center">
           <AvatarSingle
             className={avatar?.className}
             fallback={avatar?.fallback}
@@ -80,10 +80,10 @@ const CardNFT2 = ({
             badgeClass={avatar?.badgeClass}
           />
         </div>
-        <div className="flex items-center justify-center gap-1.5 mb-px -mt-7.5">
+        <div className="-mt-7.5 mb-px flex items-center justify-center gap-1.5">
           <Link
             to="#"
-            className="hover:text-primary-active text-base leading-5 font-medium text-mono"
+            className="hover:text-primary-active text-mono text-base leading-5 font-medium"
           >
             {name}
           </Link>
@@ -101,19 +101,19 @@ const CardNFT2 = ({
             />
           </svg>
         </div>
-        <div className="flex flex-wrap justify-center items-center gap-3.5 mb-7">
+        <div className="mb-7 flex flex-wrap items-center justify-center gap-3.5">
           <Link
             to="#"
-            className="text-xs text-secondary-foreground hover:text-primary-active"
+            className="text-secondary-foreground hover:text-primary-active text-xs"
           >
             {email}
           </Link>
           <div className="flex items-center text-xs font-medium text-green-500">
             {info}{' '}
-            <Copy size={16} className="ms-1 text-muted-foreground text-base" />
+            <Copy size={16} className="text-muted-foreground ms-1 text-base" />
           </div>
         </div>
-        <div className="flex items-center justify-center flex-wrap gap-2 lg:gap-5 mb-3">
+        <div className="mb-3 flex flex-wrap items-center justify-center gap-2 lg:gap-5">
           {statistics.map((statistic) => {
             return renderItem(statistic);
           })}

@@ -50,7 +50,7 @@ type SetOfferField = <K extends keyof AdminOfferInput>(
 function FieldError({ message }: { message?: string }) {
   const { t } = useTranslations();
   return message ? (
-    <p className="text-xs text-destructive" role="alert">
+    <p className="text-destructive text-xs" role="alert">
       {t(`ADMIN_OFFER_FORM.ERRORS.${message}`)}
     </p>
   ) : null;
@@ -278,7 +278,7 @@ function MappingFields({
             onChange={(event) => setField('brandOfferCode', event.target.value)}
           />
           {codeLocked && (
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {t('ADMIN_OFFER_FORM.CODE_LOCKED')}
             </p>
           )}
@@ -490,7 +490,7 @@ export function AdminOfferFormPage({ mode }: { mode: 'create' | 'edit' }) {
     );
   if (!brand.data || (mode === 'edit' && !detail.data) || !brandId)
     return (
-      <Container className="py-6 text-sm text-destructive">
+      <Container className="text-destructive py-6 text-sm">
         {t('ADMIN_BRAND_DETAIL.NOT_FOUND')}
       </Container>
     );
@@ -511,10 +511,10 @@ export function AdminOfferFormPage({ mode }: { mode: 'create' | 'edit' }) {
               : 'ADMIN_OFFER_FORM.EDIT_TITLE',
           )}
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="text-muted-foreground mt-1 text-sm">
           {t('ADMIN_OFFER_FORM.DESCRIPTION')}
         </p>
-        <p className="mt-2 text-xs text-muted-foreground">
+        <p className="text-muted-foreground mt-2 text-xs">
           {t('ADMIN_OFFER_FORM.REQUIRED_NOTE')}
         </p>
       </div>
@@ -527,14 +527,14 @@ export function AdminOfferFormPage({ mode }: { mode: 'create' | 'edit' }) {
           />
           <div>
             <p className="font-semibold">{brand.data.brand.name}</p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {brand.data.brand.id}
               {mode === 'edit' && ` · ${detail.data?.offer.id}`}
             </p>
           </div>
         </CardContent>
       </Card>
-      <p className="flex gap-2 rounded-md border bg-muted p-3 text-sm">
+      <p className="bg-muted flex gap-2 rounded-md border p-3 text-sm">
         <Info className="size-4 shrink-0" />
         {t('ADMIN_OFFER_FORM.ATTRIBUTION_NOTICE')}
       </p>

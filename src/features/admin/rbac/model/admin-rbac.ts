@@ -20,10 +20,7 @@ export type AdminRbacActionCode =
   | 'EXPORT'
   | 'RETRY';
 
-export type AdminRbacActionState =
-  | 'GRANTED'
-  | 'DENIED'
-  | 'NOT_APPLICABLE';
+export type AdminRbacActionState = 'GRANTED' | 'DENIED' | 'NOT_APPLICABLE';
 
 export interface AdminSystemRole {
   id: string;
@@ -37,9 +34,7 @@ export interface AdminSystemRole {
 
 export interface AdminRbacModuleDefinition {
   code: AdminRbacModuleCode;
-  permissions: Partial<
-    Record<AdminRbacActionCode, readonly PermissionCode[]>
-  >;
+  permissions: Partial<Record<AdminRbacActionCode, readonly PermissionCode[]>>;
 }
 
 export interface AdminRbacModuleView {

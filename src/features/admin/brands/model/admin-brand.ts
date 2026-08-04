@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import type {
   AssetMetadata,
   Brand,
@@ -5,7 +6,6 @@ import type {
   EntityStatus,
   PageResult,
 } from '../../../../shared/contracts';
-import { z } from 'zod';
 
 export type AdminBrandStatusFilter = EntityStatus | 'ALL';
 export type AdminBrandSortBy = 'updatedAt' | 'code' | 'name' | 'createdAt';
@@ -105,17 +105,11 @@ export const adminBrandSchema = z
     notes: z.string().trim().max(1000, 'NOTES_LENGTH'),
     viDisplayName: z.string().trim().max(120, 'DISPLAY_NAME_LENGTH'),
     viTagline: z.string().trim().max(160, 'TAGLINE_LENGTH'),
-    viShortDescription: z
-      .string()
-      .trim()
-      .max(500, 'SHORT_DESCRIPTION_LENGTH'),
+    viShortDescription: z.string().trim().max(500, 'SHORT_DESCRIPTION_LENGTH'),
     viTerms: z.string().trim().max(2000, 'TERMS_LENGTH'),
     enDisplayName: z.string().trim().max(120, 'DISPLAY_NAME_LENGTH'),
     enTagline: z.string().trim().max(160, 'TAGLINE_LENGTH'),
-    enShortDescription: z
-      .string()
-      .trim()
-      .max(500, 'SHORT_DESCRIPTION_LENGTH'),
+    enShortDescription: z.string().trim().max(500, 'SHORT_DESCRIPTION_LENGTH'),
     enTerms: z.string().trim().max(2000, 'TERMS_LENGTH'),
   })
   .superRefine((value, context) => {

@@ -20,9 +20,9 @@ export default function Item16() {
         </AvatarIndicator>
       </Avatar>
 
-      <div className="flex flex-col gap-3 grow">
+      <div className="flex grow flex-col gap-3">
         <div className="flex flex-col gap-1">
-          <div className="text-sm font-medium mb-px">
+          <div className="mb-px text-sm font-medium">
             <Link to="#" className="hover:text-primary text-mono font-semibold">
               Ethan Parker
             </Link>
@@ -35,20 +35,20 @@ export default function Item16() {
             </Link>
             <span className="text-secondary-foreground"> project</span>
           </div>
-          <span className="flex items-center text-xs font-medium text-muted-foreground">
+          <span className="text-muted-foreground flex items-center text-xs font-medium">
             3 days ago
-            <span className="rounded-full size-1 bg-mono/30 mx-1.5"></span>
+            <span className="bg-mono/30 mx-1.5 size-1 rounded-full"></span>
             Web Designer
           </span>
         </div>
 
-        <div className="kt-card shadow-none p-3.5 gap-3.5 rounded-lg bg-muted/70">
-          <div className="flex items-center justify-between flex-wrap gap-2.5">
+        <div className="kt-card bg-muted/70 gap-3.5 rounded-lg p-3.5 shadow-none">
+          <div className="flex flex-wrap items-center justify-between gap-2.5">
             <div className="flex flex-col gap-1">
-              <span className="font-medium text-mono text-xs">
+              <span className="text-mono text-xs font-medium">
                 Location history is erased after Logging In
               </span>
-              <span className="font-medium text-muted-foreground text-xs">
+              <span className="text-muted-foreground text-xs font-medium">
                 Due Date: 15 May, 2024
               </span>
             </div>

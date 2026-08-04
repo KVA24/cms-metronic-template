@@ -49,8 +49,8 @@ const CardProject = ({
 }: IProjectProps) => {
   return (
     <Card className="p-7.5">
-      <div className="flex items-center justify-between mb-3 lg:mb-6">
-        <div className="flex items-center justify-center size-[50px] rounded-lg bg-accent/60">
+      <div className="mb-3 flex items-center justify-between lg:mb-6">
+        <div className="bg-accent/60 flex size-[50px] items-center justify-center rounded-lg">
           <img
             src={toAbsoluteUrl(`/media/brand-logos/${logo}`)}
             className=""
@@ -61,31 +61,31 @@ const CardProject = ({
           {status.label}
         </Badge>
       </div>
-      <div className="flex flex-col mb-3 lg:mb-6">
+      <div className="mb-3 flex flex-col lg:mb-6">
         <Link
           to="#"
-          className="text-lg font-media/brand text-mono hover:text-primary-active mb-px"
+          className="font-media/brand text-mono hover:text-primary-active mb-px text-lg"
         >
           {name}
         </Link>
-        <span className="text-sm text-secondary-foreground">{description}</span>
+        <span className="text-secondary-foreground text-sm">{description}</span>
       </div>
-      <div className="flex items-center gap-5 mb-3.5 lg:mb-7">
-        <span className="text-sm text-secondary-foreground">
+      <div className="mb-3.5 flex items-center gap-5 lg:mb-7">
+        <span className="text-secondary-foreground text-sm">
           Start:{' '}
-          <span className="text-sm font-medium text-foreground">
+          <span className="text-foreground text-sm font-medium">
             {startDate}
           </span>
         </span>
-        <span className="text-sm text-secondary-foreground">
+        <span className="text-secondary-foreground text-sm">
           End:{' '}
-          <span className="text-sm font-medium text-foreground">{endDate}</span>
+          <span className="text-foreground text-sm font-medium">{endDate}</span>
         </span>
       </div>
       <Progress
         value={progress?.value}
         indicatorClassName={progress?.variant}
-        className="h-1.5 mb-4 lg:mb-8"
+        className="mb-4 h-1.5 lg:mb-8"
       />
       <AvatarGroup group={team.group} size={team.size} more={team.more} />
     </Card>

@@ -246,17 +246,17 @@ export function SearchDialog({ trigger }: { trigger: ReactNode }) {
   return (
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="lg:max-w-[600px] lg:top-[15%] lg:translate-y-0 p-0 [&_[data-slot=dialog-close]]:top-5.5 [&_[data-slot=dialog-close]]:end-5.5">
-        <DialogHeader className="px-4 py-1 mb-1">
+      <DialogContent className="p-0 lg:top-[15%] lg:max-w-[600px] lg:translate-y-0 [&_[data-slot=dialog-close]]:end-5.5 [&_[data-slot=dialog-close]]:top-5.5">
+        <DialogHeader className="mb-1 px-4 py-1">
           <DialogTitle></DialogTitle>
           <DialogDescription></DialogDescription>
           <div className="relative">
-            <Search className="absolute top-1/2 -translate-y-1/2 size-4" />
+            <Search className="absolute top-1/2 size-4 -translate-y-1/2" />
             <Input
               type="text"
               name="query"
               value={searchInput}
-              className="ps-6 outline-none! ring-0! shadow-none! border-0"
+              className="border-0 ps-6 shadow-none! ring-0! outline-none!"
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder="Search..."
             />
@@ -264,7 +264,7 @@ export function SearchDialog({ trigger }: { trigger: ReactNode }) {
         </DialogHeader>
         <DialogBody className="p-0 pb-5">
           <Tabs defaultValue="1">
-            <TabsList className="justify-between px-5 mb-2.5" variant="line">
+            <TabsList className="mb-2.5 justify-between px-5" variant="line">
               <div className="flex items-center gap-5">
                 <TabsTrigger value="1">Mixed</TabsTrigger>
                 <TabsTrigger value="2">Settings</TabsTrigger>
@@ -281,7 +281,7 @@ export function SearchDialog({ trigger }: { trigger: ReactNode }) {
                     variant="ghost"
                     mode="icon"
                     size="sm"
-                    className="mb-1.5 -me-2"
+                    className="-me-2 mb-1.5"
                   >
                     <Settings />
                   </Button>

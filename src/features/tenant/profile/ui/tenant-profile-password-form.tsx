@@ -68,7 +68,7 @@ export function TenantProfilePasswordForm({
     <Card>
       <CardHeader>
         <h2 className="font-semibold">{t('TENANT_PROFILE.CHANGE_PASSWORD')}</h2>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           {t('TENANT_PROFILE.PASSWORD_HELP')}
         </p>
       </CardHeader>
@@ -98,7 +98,7 @@ export function TenantProfilePasswordForm({
                   type="button"
                   variant="ghost"
                   size="icon"
-                  className="absolute right-0 top-0"
+                  className="absolute top-0 right-0"
                   aria-label={t(
                     shown
                       ? 'AUTH.SIGNIN.HIDE_PASSWORD'
@@ -115,7 +115,7 @@ export function TenantProfilePasswordForm({
                 </Button>
               </div>
               {errorText(name) && (
-                <span className="text-xs text-destructive">
+                <span className="text-destructive text-xs">
                   {errorText(name)}
                 </span>
               )}

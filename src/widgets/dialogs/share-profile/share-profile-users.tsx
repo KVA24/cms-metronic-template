@@ -31,25 +31,25 @@ export function ShareProfileUsers() {
   ];
 
   return (
-    <div className="flex flex-col px-5 gap-2.5">
+    <div className="flex flex-col gap-2.5 px-5">
       {items.map((item) => (
-        <div key={item.userName} className="flex items-center flex-wrap gap-2">
-          <div className="flex items-center grow gap-2.5">
+        <div key={item.userName} className="flex flex-wrap items-center gap-2">
+          <div className="flex grow items-center gap-2.5">
             <img
               src={toAbsoluteUrl(`/media/avatars/${item.avatar}`)}
-              className="rounded-full size-9 shrink-0"
+              className="size-9 shrink-0 rounded-full"
               alt={`${item.userName} avatar`}
             />
             <div className="flex flex-col">
               <Link
                 to="#"
-                className="text-sm font-semibold text-mono hover:text-primary-active mb-px"
+                className="text-mono hover:text-primary-active mb-px text-sm font-semibold"
               >
                 {item.userName}
               </Link>
               <Link
                 to="#"
-                className="hover:text-primary-active text-sm font-medium text-secondary-foreground"
+                className="hover:text-primary-active text-secondary-foreground text-sm font-medium"
               >
                 {item.email}
               </Link>

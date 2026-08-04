@@ -18,7 +18,7 @@ const CardAddNew = ({
   return (
     <Link to={`${path}`}>
       <Card
-        className="border-2 border-dashed border-orange-200 dark:border-orange-950 bg-center bg-[length:600px] bg-no-repeat h-full"
+        className="h-full border-2 border-dashed border-orange-200 bg-[length:600px] bg-center bg-no-repeat dark:border-orange-950"
         style={{
           backgroundImage:
             theme === 'dark'
@@ -39,10 +39,10 @@ const CardAddNew = ({
               />
             </div>
             <div className="flex flex-col text-center">
-              <span className="text-lg font-medium text-mono hover:text-primary-active mb-px">
+              <span className="text-mono hover:text-primary-active mb-px text-lg font-medium">
                 {title}
               </span>
-              <span className="text-sm text-secondary-foreground">
+              <span className="text-secondary-foreground text-sm">
                 {subTitle}
               </span>
             </div>

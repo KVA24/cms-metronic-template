@@ -1,6 +1,9 @@
 import type { Configuration } from '../../../../shared/contracts';
 import { mockData } from '../../../../shared/mocks/mock-data';
-import { hasPermission, type AdminRoleCode } from '../../../../shared/permissions';
+import {
+  hasPermission,
+  type AdminRoleCode,
+} from '../../../../shared/permissions';
 import {
   adminConfigurationCreateSchema,
   adminConfigurationUpdateSchema,
@@ -16,7 +19,10 @@ type ConfigurationPermission =
   | 'configuration.edit'
   | 'configuration.delete';
 
-function assertPermission(roleCode: AdminRoleCode, permission: ConfigurationPermission) {
+function assertPermission(
+  roleCode: AdminRoleCode,
+  permission: ConfigurationPermission,
+) {
   if (!hasPermission(roleCode, permission)) throw new Error('FORBIDDEN');
 }
 
@@ -51,9 +57,22 @@ export const adminConfigurationService = {
     const keyword = query.keyword.trim().toLowerCase();
     const items = mockData.configurations
       .filter((item) => {
-        if (keyword && !String(item.id).includes(keyword) && !item.key.toLowerCase().includes(keyword)) return false;
-        if (query.createdFrom && item.createdAt < `${query.createdFrom}T00:00:00.000Z`) return false;
-        if (query.createdTo && item.createdAt > `${query.createdTo}T23:59:59.999Z`) return false;
+        if (
+          keyword &&
+          !String(item.id).includes(keyword) &&
+          !item.key.toLowerCase().includes(keyword)
+        )
+          return false;
+        if (
+          query.createdFrom &&
+          item.createdAt < `${query.createdFrom}T00:00:00.000Z`
+        )
+          return false;
+        if (
+          query.createdTo &&
+          item.createdAt > `${query.createdTo}T23:59:59.999Z`
+        )
+          return false;
         return true;
       })
       .sort((left, right) => left.id - right.id);
@@ -73,12 +92,21 @@ export const adminConfigurationService = {
     });
   },
 
-  async create(input: AdminConfigurationCreateInput, roleCode: AdminRoleCode, actorId: string) {
+  async create(
+    input: AdminConfigurationCreateInput,
+    roleCode: AdminRoleCode,
+    actorId: string,
+  ) {
     assertPermission(roleCode, 'configuration.create');
     const parsed = adminConfigurationCreateSchema.parse(input);
-    if (mockData.configurations.some(({ key }) => key.toLowerCase() === parsed.key.toLowerCase()))
+    if (
+      mockData.configurations.some(
+        ({ key }) => key.toLowerCase() === parsed.key.toLowerCase(),
+      )
+    )
       throw new Error('KEY_DUPLICATE');
-    const id = Math.max(0, ...mockData.configurations.map((item) => item.id)) + 1;
+    const id =
+      Math.max(0, ...mockData.configurations.map((item) => item.id)) + 1;
     const now = timestamp(id);
     const next: Configuration = {
       id,
@@ -102,12 +130,20 @@ export const adminConfigurationService = {
     return structuredClone(next);
   },
 
-  async update(id: number, input: AdminConfigurationUpdateInput, expectedVersion: number, roleCode: AdminRoleCode, actorId: string) {
+  async update(
+    id: number,
+    input: AdminConfigurationUpdateInput,
+    expectedVersion: number,
+    roleCode: AdminRoleCode,
+    actorId: string,
+  ) {
     assertPermission(roleCode, 'configuration.edit');
     const current = findConfiguration(id);
     const parsed = adminConfigurationUpdateSchema.parse(input);
-    if (parsed.key !== undefined && parsed.key !== current.key) throw new Error('KEY_IMMUTABLE');
-    if (current.version !== expectedVersion) throw new Error('VERSION_CONFLICT');
+    if (parsed.key !== undefined && parsed.key !== current.key)
+      throw new Error('KEY_IMMUTABLE');
+    if (current.version !== expectedVersion)
+      throw new Error('VERSION_CONFLICT');
     const before = auditSnapshot(current);
     const now = timestamp(mockData.auditRecords.length + 1);
     current.value = parsed.value;
@@ -148,8 +184,11 @@ export const adminConfigurationService = {
 
   getActiveValue(key: string) {
     const normalizedKey = key.trim().toLowerCase();
-    return mockData.configurations.find(
-      (item) => item.key.toLowerCase() === normalizedKey && item.status === 'ACTIVE',
-    )?.value ?? null;
+    return (
+      mockData.configurations.find(
+        (item) =>
+          item.key.toLowerCase() === normalizedKey && item.status === 'ACTIVE',
+      )?.value ?? null
+    );
   },
 };

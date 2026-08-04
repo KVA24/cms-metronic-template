@@ -79,7 +79,7 @@ export function SvgText({
       {/* Hidden text for measuring */}
       <div
         ref={textRef}
-        className="opacity-0 absolute pointer-events-none font-bold whitespace-nowrap"
+        className="pointer-events-none absolute font-bold whitespace-nowrap opacity-0"
         style={{
           fontSize: typeof fontSize === 'number' ? `${fontSize}px` : fontSize,
           fontWeight,

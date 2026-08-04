@@ -1,5 +1,8 @@
-import type { EntityStatus, TenantRevenueShare } from '../../../../shared/contracts';
 import { z } from 'zod';
+import type {
+  EntityStatus,
+  TenantRevenueShare,
+} from '../../../../shared/contracts';
 
 export type RevenueConfigFilter = 'ALL' | 'CONFIGURED' | 'UNCONFIGURED';
 export interface AdminTenantRevenueQuery {

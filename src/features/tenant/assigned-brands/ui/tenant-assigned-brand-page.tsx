@@ -108,7 +108,7 @@ export function TenantAssignedBrandPage() {
           <h1 className="text-2xl font-semibold">
             {t('TENANT_ASSIGNED_BRANDS.TITLE')}
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             {t('TENANT_ASSIGNED_BRANDS.DESCRIPTION')}
           </p>
         </div>
@@ -125,7 +125,7 @@ export function TenantAssignedBrandPage() {
         ].map(([key, value]) => (
           <Card key={key}>
             <CardContent className="pt-5">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 {t(`TENANT_ASSIGNED_BRANDS.METRICS.${key}`)}
               </p>
               <p className="mt-2 text-3xl font-semibold">{value}</p>
@@ -343,7 +343,7 @@ export function TenantAssignedBrandPage() {
                       </TableCell>
                       <TableCell>
                         <p>{dateTime.format(new Date(brand.updatedAt))}</p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           {brand.updatedBy}
                         </p>
                       </TableCell>
@@ -360,7 +360,7 @@ export function TenantAssignedBrandPage() {
                 onTabChange={(tab) => setExpanded({ ...expanded, tab })}
               />
             )}
-            <div className="flex items-center justify-between text-sm text-muted-foreground">
+            <div className="text-muted-foreground flex items-center justify-between text-sm">
               <span>
                 {t('TENANT_ASSIGNED_BRANDS.PAGE', {
                   page: result.data.page,

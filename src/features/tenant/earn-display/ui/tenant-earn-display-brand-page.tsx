@@ -177,7 +177,7 @@ export function TenantEarnDisplayBrandPage() {
             {t('TENANT_EARN_DISPLAY.BACK')}
           </Button>
           <h1 className="text-2xl font-semibold">{context.data.brand.name}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             {context.data.brand.code} ·{' '}
             {t(`COMMON.STATUS.${context.data.brand.brandStatus}`)}
           </p>
@@ -187,7 +187,7 @@ export function TenantEarnDisplayBrandPage() {
             {t('TENANT_EARN_DISPLAY.PRIORITY')}:{' '}
           </span>
           <strong>{context.data.resolutionPriority.join(' > ')}</strong>
-          <p className="mt-1 text-xs text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-xs">
             {t('TENANT_EARN_DISPLAY.LOCALE_NOTE')}
           </p>
         </div>

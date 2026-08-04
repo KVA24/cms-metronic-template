@@ -19,9 +19,9 @@ import {
   useUpdateAdminTenantAccount,
 } from '../hooks/use-admin-tenant-accounts';
 import {
-  TENANT_ACCOUNT_ROLES,
   adminTenantAccountCreateSchema,
   adminTenantAccountEditSchema,
+  TENANT_ACCOUNT_ROLES,
   type AdminTenantAccountCreateInput,
   type AdminTenantAccountView,
 } from '../model/admin-tenant-account';
@@ -63,7 +63,11 @@ export function AdminTenantAccountDialog({
   const create = useCreateAdminTenantAccount(tenantId);
   const update = useUpdateAdminTenantAccount(tenantId);
   const initial = useMemo<AccountForm>(() => {
-    if (!account) return { ...emptyForm, roleCode: requiresFirstAdmin ? 'TENANT_ADMIN' : 'TENANT_VIEWER' };
+    if (!account)
+      return {
+        ...emptyForm,
+        roleCode: requiresFirstAdmin ? 'TENANT_ADMIN' : 'TENANT_VIEWER',
+      };
     return {
       username: account.username,
       fullName: account.fullName,
@@ -92,22 +96,27 @@ export function AdminTenantAccountDialog({
   };
   const setField = (field: keyof AccountForm, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
-    setErrors((current) => ({ ...current, [field]: undefined, root: undefined }));
+    setErrors((current) => ({
+      ...current,
+      [field]: undefined,
+      root: undefined,
+    }));
   };
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     if (readOnly || !session || pending) return;
-    const parsed = mode === 'create'
-      ? adminTenantAccountCreateSchema.safeParse(form)
-      : adminTenantAccountEditSchema.safeParse({
-          fullName: form.fullName,
-          email: form.email,
-          phone: form.phone,
-          roleCode: form.roleCode,
-          status: form.status,
-          password: form.password,
-          confirmPassword: form.confirmPassword,
-        });
+    const parsed =
+      mode === 'create'
+        ? adminTenantAccountCreateSchema.safeParse(form)
+        : adminTenantAccountEditSchema.safeParse({
+            fullName: form.fullName,
+            email: form.email,
+            phone: form.phone,
+            roleCode: form.roleCode,
+            status: form.status,
+            password: form.password,
+            confirmPassword: form.confirmPassword,
+          });
     if (!parsed.success) {
       const next: AccountErrors = {};
       parsed.error.issues.forEach((issue) => {
@@ -115,7 +124,11 @@ export function AdminTenantAccountDialog({
         next[field] ??= issue.message;
       });
       setErrors(next);
-      window.setTimeout(() => document.getElementById(`account-${String(parsed.error.issues[0]?.path[0])}`)?.focus());
+      window.setTimeout(() =>
+        document
+          .getElementById(`account-${String(parsed.error.issues[0]?.path[0])}`)
+          ?.focus(),
+      );
       return;
     }
     try {
@@ -141,7 +154,13 @@ export function AdminTenantAccountDialog({
           roleCode: session.roleCode as AdminRoleCode,
           actorId: session.user.id,
         });
-      toast.success(t(mode === 'create' ? 'ADMIN_TENANT_ACCOUNTS.CREATE_SUCCESS' : 'ADMIN_TENANT_ACCOUNTS.UPDATE_SUCCESS'));
+      toast.success(
+        t(
+          mode === 'create'
+            ? 'ADMIN_TENANT_ACCOUNTS.CREATE_SUCCESS'
+            : 'ADMIN_TENANT_ACCOUNTS.UPDATE_SUCCESS',
+        ),
+      );
       onModeChange(null);
     } catch (error) {
       const message = error instanceof Error ? error.message : 'SAVE_ERROR';
@@ -160,7 +179,10 @@ export function AdminTenantAccountDialog({
     },
   ) => (
     <label className="space-y-1">
-      <span className="text-sm font-medium">{label}{options?.required && ' *'}</span>
+      <span className="text-sm font-medium">
+        {label}
+        {options?.required && ' *'}
+      </span>
       <Input
         id={`account-${name}`}
         name={name}
@@ -170,7 +192,11 @@ export function AdminTenantAccountDialog({
         value={String(form[name])}
         onChange={(event) => setField(name, event.target.value)}
       />
-      {errors[name] && <p className="text-xs text-destructive" role="alert">{t(`ADMIN_TENANT_ACCOUNTS.ERRORS.${errors[name]}`)}</p>}
+      {errors[name] && (
+        <p className="text-destructive text-xs" role="alert">
+          {t(`ADMIN_TENANT_ACCOUNTS.ERRORS.${errors[name]}`)}
+        </p>
+      )}
     </label>
   );
 
@@ -178,50 +204,179 @@ export function AdminTenantAccountDialog({
     <Dialog open={Boolean(mode)} onOpenChange={(open) => !open && close()}>
       <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{t(`ADMIN_TENANT_ACCOUNTS.${mode === 'create' ? 'CREATE_TITLE' : mode === 'edit' ? 'EDIT_TITLE' : 'VIEW_TITLE'}`)}</DialogTitle>
+          <DialogTitle>
+            {t(
+              `ADMIN_TENANT_ACCOUNTS.${mode === 'create' ? 'CREATE_TITLE' : mode === 'edit' ? 'EDIT_TITLE' : 'VIEW_TITLE'}`,
+            )}
+          </DialogTitle>
           <DialogDescription>
-            {t(`ADMIN_TENANT_ACCOUNTS.${mode === 'create' ? 'CREATE_DESCRIPTION' : mode === 'edit' ? 'EDIT_DESCRIPTION' : 'VIEW_DESCRIPTION'}`)}
+            {t(
+              `ADMIN_TENANT_ACCOUNTS.${mode === 'create' ? 'CREATE_DESCRIPTION' : mode === 'edit' ? 'EDIT_DESCRIPTION' : 'VIEW_DESCRIPTION'}`,
+            )}
           </DialogDescription>
         </DialogHeader>
         <form className="space-y-4" onSubmit={submit} noValidate>
           <div className="grid gap-4 md:grid-cols-2">
-            {field('username', t('ADMIN_TENANT_ACCOUNTS.USERNAME'), { required: mode === 'create', disabled: mode === 'edit', autoComplete: 'username' })}
-            {field('fullName', t('ADMIN_TENANT_ACCOUNTS.FULL_NAME'), { required: !readOnly, autoComplete: 'name' })}
-            {field('email', t('ADMIN_TENANT_ACCOUNTS.EMAIL'), { required: mode === 'create', type: 'email', autoComplete: 'email' })}
-            {field('phone', t('ADMIN_TENANT_ACCOUNTS.PHONE'), { type: 'tel', autoComplete: 'tel' })}
+            {field('username', t('ADMIN_TENANT_ACCOUNTS.USERNAME'), {
+              required: mode === 'create',
+              disabled: mode === 'edit',
+              autoComplete: 'username',
+            })}
+            {field('fullName', t('ADMIN_TENANT_ACCOUNTS.FULL_NAME'), {
+              required: !readOnly,
+              autoComplete: 'name',
+            })}
+            {field('email', t('ADMIN_TENANT_ACCOUNTS.EMAIL'), {
+              required: mode === 'create',
+              type: 'email',
+              autoComplete: 'email',
+            })}
+            {field('phone', t('ADMIN_TENANT_ACCOUNTS.PHONE'), {
+              type: 'tel',
+              autoComplete: 'tel',
+            })}
             <label className="space-y-1">
-              <span className="text-sm font-medium">{t('ADMIN_TENANT_ACCOUNTS.ROLE')} *</span>
-              <select id="account-roleCode" name="roleCode" className={selectClassName} disabled={readOnly || (mode === 'create' && requiresFirstAdmin)} value={form.roleCode} onChange={(event) => setField('roleCode', event.target.value)}>
-                {TENANT_ACCOUNT_ROLES.map((role) => <option key={role} value={role}>{t(`ADMIN_TENANT_ACCOUNTS.ROLES.${role}`)}</option>)}
+              <span className="text-sm font-medium">
+                {t('ADMIN_TENANT_ACCOUNTS.ROLE')} *
+              </span>
+              <select
+                id="account-roleCode"
+                name="roleCode"
+                className={selectClassName}
+                disabled={readOnly || (mode === 'create' && requiresFirstAdmin)}
+                value={form.roleCode}
+                onChange={(event) => setField('roleCode', event.target.value)}
+              >
+                {TENANT_ACCOUNT_ROLES.map((role) => (
+                  <option key={role} value={role}>
+                    {t(`ADMIN_TENANT_ACCOUNTS.ROLES.${role}`)}
+                  </option>
+                ))}
               </select>
             </label>
             <label className="space-y-1">
-              <span className="text-sm font-medium">{t('COMMON.STATUS_1')} *</span>
-              <select id="account-status" name="status" className={selectClassName} disabled={readOnly || mode === 'create'} value={form.status} onChange={(event) => setField('status', event.target.value)}>
+              <span className="text-sm font-medium">
+                {t('COMMON.STATUS_1')} *
+              </span>
+              <select
+                id="account-status"
+                name="status"
+                className={selectClassName}
+                disabled={readOnly || mode === 'create'}
+                value={form.status}
+                onChange={(event) => setField('status', event.target.value)}
+              >
                 <option value="ACTIVE">{t('COMMON.STATUS.ACTIVE')}</option>
                 <option value="INACTIVE">{t('COMMON.STATUS.INACTIVE')}</option>
-                <option value="LOCKED">{t('ADMIN_TENANT_ACCOUNTS.LOCKED')}</option>
+                <option value="LOCKED">
+                  {t('ADMIN_TENANT_ACCOUNTS.LOCKED')}
+                </option>
               </select>
             </label>
             {readOnly ? (
-              <label className="space-y-1 md:col-span-2"><span className="text-sm font-medium">{t('ADMIN_TENANT_ACCOUNTS.PASSWORD')}</span><Input id="account-password-masked" name="passwordMasked" autoComplete="off" disabled value="••••••••" /></label>
+              <label className="space-y-1 md:col-span-2">
+                <span className="text-sm font-medium">
+                  {t('ADMIN_TENANT_ACCOUNTS.PASSWORD')}
+                </span>
+                <Input
+                  id="account-password-masked"
+                  name="passwordMasked"
+                  autoComplete="off"
+                  disabled
+                  value="••••••••"
+                />
+              </label>
             ) : (
               <>
                 <label className="space-y-1">
-                  <span className="text-sm font-medium">{t(mode === 'create' ? 'ADMIN_TENANT_ACCOUNTS.INITIAL_PASSWORD' : 'ADMIN_TENANT_ACCOUNTS.NEW_PASSWORD')}{mode === 'create' && ' *'}</span>
-                  <div className="relative"><Input id="account-password" name="password" autoComplete="new-password" type={showPassword ? 'text' : 'password'} value={form.password} onChange={(event) => setField('password', event.target.value)} /><Button className="absolute right-0 top-0" type="button" size="icon" variant="ghost" aria-label={t('ADMIN_TENANT_ACCOUNTS.TOGGLE_PASSWORD')} onClick={() => setShowPassword((value) => !value)}>{showPassword ? <EyeOff /> : <Eye />}</Button></div>
-                  {errors.password && <p className="text-xs text-destructive" role="alert">{t(`ADMIN_TENANT_ACCOUNTS.ERRORS.${errors.password}`)}</p>}
+                  <span className="text-sm font-medium">
+                    {t(
+                      mode === 'create'
+                        ? 'ADMIN_TENANT_ACCOUNTS.INITIAL_PASSWORD'
+                        : 'ADMIN_TENANT_ACCOUNTS.NEW_PASSWORD',
+                    )}
+                    {mode === 'create' && ' *'}
+                  </span>
+                  <div className="relative">
+                    <Input
+                      id="account-password"
+                      name="password"
+                      autoComplete="new-password"
+                      type={showPassword ? 'text' : 'password'}
+                      value={form.password}
+                      onChange={(event) =>
+                        setField('password', event.target.value)
+                      }
+                    />
+                    <Button
+                      className="absolute top-0 right-0"
+                      type="button"
+                      size="icon"
+                      variant="ghost"
+                      aria-label={t('ADMIN_TENANT_ACCOUNTS.TOGGLE_PASSWORD')}
+                      onClick={() => setShowPassword((value) => !value)}
+                    >
+                      {showPassword ? <EyeOff /> : <Eye />}
+                    </Button>
+                  </div>
+                  {errors.password && (
+                    <p className="text-destructive text-xs" role="alert">
+                      {t(`ADMIN_TENANT_ACCOUNTS.ERRORS.${errors.password}`)}
+                    </p>
+                  )}
                 </label>
-                {field('confirmPassword', t('ADMIN_TENANT_ACCOUNTS.CONFIRM_PASSWORD'), { required: mode === 'create', type: showPassword ? 'text' : 'password', autoComplete: 'new-password' })}
+                {field(
+                  'confirmPassword',
+                  t('ADMIN_TENANT_ACCOUNTS.CONFIRM_PASSWORD'),
+                  {
+                    required: mode === 'create',
+                    type: showPassword ? 'text' : 'password',
+                    autoComplete: 'new-password',
+                  },
+                )}
               </>
             )}
           </div>
-          {mode === 'view' && account && <div className="rounded-md border p-3 text-sm"><p className="font-medium">{t('ADMIN_TENANT_ACCOUNTS.EFFECTIVE_PERMISSIONS')}</p><p className="mt-1 text-muted-foreground">{account.effectivePermissions.join(', ') || '-'}</p></div>}
-          {errors.root && <p className="text-sm text-destructive" role="alert">{t(`ADMIN_TENANT_ACCOUNTS.ERRORS.${errors.root}`)}</p>}
+          {mode === 'view' && account && (
+            <div className="rounded-md border p-3 text-sm">
+              <p className="font-medium">
+                {t('ADMIN_TENANT_ACCOUNTS.EFFECTIVE_PERMISSIONS')}
+              </p>
+              <p className="text-muted-foreground mt-1">
+                {account.effectivePermissions.join(', ') || '-'}
+              </p>
+            </div>
+          )}
+          {errors.root && (
+            <p className="text-destructive text-sm" role="alert">
+              {t(`ADMIN_TENANT_ACCOUNTS.ERRORS.${errors.root}`)}
+            </p>
+          )}
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={close}>{t(mode === 'view' ? 'COMMON.CLOSE' : 'COMMON.CANCEL')}</Button>
-            {mode === 'view' && canEdit && <Button type="button" variant="mono" onClick={() => onModeChange('edit')}>{t('ADMIN_TENANT_ACCOUNTS.EDIT_USER')}</Button>}
-            {mode !== 'view' && <Button type="submit" variant="mono" disabled={pending}><Save />{pending ? t('COMMON.LOADING') : t(mode === 'create' ? 'ADMIN_TENANT_ACCOUNTS.CREATE_ACCOUNT' : 'ADMIN_TENANT_ACCOUNTS.SAVE')}</Button>}
+            <Button type="button" variant="outline" onClick={close}>
+              {t(mode === 'view' ? 'COMMON.CLOSE' : 'COMMON.CANCEL')}
+            </Button>
+            {mode === 'view' && canEdit && (
+              <Button
+                type="button"
+                variant="mono"
+                onClick={() => onModeChange('edit')}
+              >
+                {t('ADMIN_TENANT_ACCOUNTS.EDIT_USER')}
+              </Button>
+            )}
+            {mode !== 'view' && (
+              <Button type="submit" variant="mono" disabled={pending}>
+                <Save />
+                {pending
+                  ? t('COMMON.LOADING')
+                  : t(
+                      mode === 'create'
+                        ? 'ADMIN_TENANT_ACCOUNTS.CREATE_ACCOUNT'
+                        : 'ADMIN_TENANT_ACCOUNTS.SAVE',
+                    )}
+              </Button>
+            )}
           </DialogFooter>
         </form>
       </DialogContent>

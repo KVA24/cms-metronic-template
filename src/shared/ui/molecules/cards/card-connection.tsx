@@ -48,7 +48,7 @@ const CardConnection = ({
     return (
       <div
         key={statistic.description}
-        className="grid grid-cols-1 gap-1.5 border-[0.5px] border-dashed border-input rounded-md px-2.5 py-2 shrink-0 min-w-24 max-w-auto"
+        className="border-input max-w-auto grid min-w-24 shrink-0 grid-cols-1 gap-1.5 rounded-md border-[0.5px] border-dashed px-2.5 py-2"
       >
         <span className="text-mono text-sm leading-none font-medium">
           {statistic.total}
@@ -63,7 +63,7 @@ const CardConnection = ({
   return (
     <Card>
       <CardContent className="lg:pt-9 lg:pb-7.5">
-        <div className="flex justify-center mb-2.5">
+        <div className="mb-2.5 flex justify-center">
           {avatar && (
             <AvatarSingle
               image={avatar.image}
@@ -74,10 +74,10 @@ const CardConnection = ({
             />
           )}
         </div>
-        <div className="flex items-center justify-center gap-1.5 mb-2.5">
+        <div className="mb-2.5 flex items-center justify-center gap-1.5">
           <Link
             to="#"
-            className="hover:text-primary-active text-base leading-5 font-medium text-mono"
+            className="hover:text-primary-active text-mono text-base leading-5 font-medium"
           >
             {name}
           </Link>
@@ -95,13 +95,13 @@ const CardConnection = ({
             />
           </svg>
         </div>
-        <div className="flex flex-wrap justify-center items-center gap-4 mb-7">
-          <div className="flex items-center text-sm text-secondary-foreground">
-            <BadgeCheck size={16} className="me-1 text-muted-foreground" />
+        <div className="mb-7 flex flex-wrap items-center justify-center gap-4">
+          <div className="text-secondary-foreground flex items-center text-sm">
+            <BadgeCheck size={16} className="text-muted-foreground me-1" />
             {info}
           </div>
           <div className="flex items-center text-sm">
-            <Mail size={16} className="me-1 text-muted-foreground" />
+            <Mail size={16} className="text-muted-foreground me-1" />
             <Link
               to="#"
               className="text-secondary-foreground hover:text-primary-active"
@@ -110,13 +110,13 @@ const CardConnection = ({
             </Link>
           </div>
         </div>
-        <div className="grid justify-center gap-1.5 mb-7.5">
-          <span className="text-xs uppercase text-secondary-foreground text-center">
+        <div className="mb-7.5 grid justify-center gap-1.5">
+          <span className="text-secondary-foreground text-center text-xs uppercase">
             team
           </span>
           <AvatarGroup group={team.group} more={team.more} size={team.size} />
         </div>
-        <div className="flex items-center justify-center flex-wrap gap-2 lg:gap-5">
+        <div className="flex flex-wrap items-center justify-center gap-2 lg:gap-5">
           {statistics.map((statistic) => {
             return renderItem(statistic);
           })}

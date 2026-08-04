@@ -13,8 +13,14 @@ export function useAdminTenantRevenueList(
   roleCode: AdminRoleCode,
 ) {
   return useQuery({
-    queryKey: [...adminTenantKeys.detail(tenantId), 'revenue-list', query, roleCode],
-    queryFn: () => adminTenantRevenueService.listRevenueShares(tenantId, query, roleCode),
+    queryKey: [
+      ...adminTenantKeys.detail(tenantId),
+      'revenue-list',
+      query,
+      roleCode,
+    ],
+    queryFn: () =>
+      adminTenantRevenueService.listRevenueShares(tenantId, query, roleCode),
     retry: false,
   });
 }
@@ -25,8 +31,14 @@ export function useAdminTenantRevenue(
   roleCode: AdminRoleCode,
 ) {
   return useQuery({
-    queryKey: [...adminTenantKeys.detail(tenantId), 'revenue', brandId, roleCode],
-    queryFn: () => adminTenantRevenueService.getRevenueShare(tenantId, brandId, roleCode),
+    queryKey: [
+      ...adminTenantKeys.detail(tenantId),
+      'revenue',
+      brandId,
+      roleCode,
+    ],
+    queryFn: () =>
+      adminTenantRevenueService.getRevenueShare(tenantId, brandId, roleCode),
     enabled: Boolean(tenantId && brandId),
     retry: false,
   });
@@ -35,19 +47,26 @@ export function useAdminTenantRevenue(
 export function useSaveAdminTenantRevenue(tenantId: string, brandId: string) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ input, expectedVersion, roleCode, actorId }: {
-      input: AdminTenantRevenueInput;
-      expectedVersion: number | null;
-      roleCode: AdminRoleCode;
-      actorId: string;
-    }) => adminTenantRevenueService.saveRevenueShare(
-      tenantId,
-      brandId,
+    mutationFn: ({
       input,
       expectedVersion,
       roleCode,
       actorId,
-    ),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: adminTenantKeys.all }),
+    }: {
+      input: AdminTenantRevenueInput;
+      expectedVersion: number | null;
+      roleCode: AdminRoleCode;
+      actorId: string;
+    }) =>
+      adminTenantRevenueService.saveRevenueShare(
+        tenantId,
+        brandId,
+        input,
+        expectedVersion,
+        roleCode,
+        actorId,
+      ),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: adminTenantKeys.all }),
   });
 }

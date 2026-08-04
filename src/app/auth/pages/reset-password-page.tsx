@@ -60,14 +60,14 @@ export function ResetPasswordPage() {
   }
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="mx-auto max-w-md">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-          <div className="text-center space-y-2">
+          <div className="space-y-2 text-center">
             <h1 className="text-2xl font-bold tracking-tight">
               Reset Password
             </h1>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               Enter your email to receive a password reset link
             </p>
           </div>
@@ -125,7 +125,7 @@ export function ResetPasswordPage() {
           <div className="text-center text-sm">
             <Link
               to="/auth/signin"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-accent-foreground hover:underline hover:underline-offset-2"
+              className="text-accent-foreground inline-flex items-center gap-2 text-sm font-semibold hover:underline hover:underline-offset-2"
             >
               <MoveLeft className="size-3.5 opacity-70" /> Back to Sign In
             </Link>

@@ -48,13 +48,13 @@ function DashboardChart({
     if (!active || !payload?.[0]) return null;
     const point = payload[0].payload;
     return (
-      <div className="rounded-md border bg-background p-3 text-sm shadow-md">
+      <div className="bg-background rounded-md border p-3 text-sm shadow-md">
         <p className="font-medium">{point.bucket}</p>
         <p>
           {title}: {format(payload[0].value)}
         </p>
         {dataKey === 'orders' && (
-          <p className="mt-1 text-xs text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-xs">
             Pending {point.pending} · Confirmed {point.confirmed} · Cancelled{' '}
             {point.cancelled}
           </p>
@@ -156,7 +156,7 @@ export function TenantDashboardPage() {
           <h1 className="text-2xl font-semibold">
             {t('TENANT_DASHBOARD.TITLE')}
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             {t('TENANT_DASHBOARD.DESCRIPTION')}
           </p>
         </div>
@@ -230,7 +230,7 @@ export function TenantDashboardPage() {
             {metricCards.map(([label, value]) => (
               <Card key={label}>
                 <CardContent className="pt-5">
-                  <p className="text-sm text-muted-foreground">{label}</p>
+                  <p className="text-muted-foreground text-sm">{label}</p>
                   <p className="mt-2 text-2xl font-semibold">{value}</p>
                 </CardContent>
               </Card>
@@ -239,7 +239,7 @@ export function TenantDashboardPage() {
 
           {view.trend.length === 0 ? (
             <Card>
-              <CardContent className="py-12 text-center text-muted-foreground">
+              <CardContent className="text-muted-foreground py-12 text-center">
                 {t('TENANT_DASHBOARD.EMPTY')}
               </CardContent>
             </Card>
@@ -279,7 +279,7 @@ export function TenantDashboardPage() {
               </CardHeader>
               <CardContent>
                 {view.topBrands.length === 0 ? (
-                  <p className="py-8 text-center text-muted-foreground">
+                  <p className="text-muted-foreground py-8 text-center">
                     {t('TENANT_DASHBOARD.EMPTY')}
                   </p>
                 ) : (
@@ -341,22 +341,22 @@ export function TenantDashboardPage() {
                           {money.format(item.amount)} · {item.percentage}%
                         </span>
                       </div>
-                      <div className="h-2 overflow-hidden rounded bg-muted">
+                      <div className="bg-muted h-2 overflow-hidden rounded">
                         <div
-                          className="h-full bg-primary"
+                          className="bg-primary h-full"
                           style={{ width: `${item.percentage}%` }}
                         />
                       </div>
                     </div>
                   ))}
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     {t('TENANT_DASHBOARD.COMMISSION_NOTE')}
                   </p>
                 </CardContent>
               </Card>
             )}
           </div>
-          <p className="text-right text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-right text-xs">
             {t('TENANT_DASHBOARD.LAST_REFRESHED', {
               value: dateTime.format(new Date(view.generatedAt)),
             })}

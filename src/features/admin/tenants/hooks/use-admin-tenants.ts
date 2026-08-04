@@ -1,10 +1,7 @@
 import type { AdminRoleCode } from '@/shared/permissions';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { adminTenantService } from '../api/admin-tenant-service';
-import type {
-  AdminTenantInput,
-  AdminTenantQuery,
-} from '../model/admin-tenant';
+import type { AdminTenantInput, AdminTenantQuery } from '../model/admin-tenant';
 
 export const adminTenantKeys = {
   all: ['admin-tenants'] as const,

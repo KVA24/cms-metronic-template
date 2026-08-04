@@ -2,11 +2,10 @@ import assert from 'node:assert/strict';
 import { beforeEach, describe, it } from 'node:test';
 import { adminCategoryService } from '../src/features/admin/categories/api/admin-category-service';
 import {
-  adminCategorySchema,
   ADMIN_CATEGORY_DEFAULT_QUERY,
+  adminCategorySchema,
 } from '../src/features/admin/categories/model/admin-category';
-import { mockData } from '../src/shared/mocks/mock-data';
-import { resetMockData } from '../src/shared/mocks/mock-data';
+import { mockData, resetMockData } from '../src/shared/mocks/mock-data';
 
 describe('ADMIN category list service', () => {
   beforeEach(() => resetMockData());
@@ -22,7 +21,10 @@ describe('ADMIN category list service', () => {
     assert.equal(result.pageSize, 5);
     assert.equal(result.items.length, 5);
     assert.equal(result.totalItems > result.items.length, true);
-    assert.equal(result.items.every(({ canEdit }) => canEdit), true);
+    assert.equal(
+      result.items.every(({ canEdit }) => canEdit),
+      true,
+    );
   });
 
   it('filters by trimmed code/name keyword, status and landing visibility', async () => {
@@ -37,7 +39,10 @@ describe('ADMIN category list service', () => {
       'en-US',
     );
 
-    assert.deepEqual(result.items.map(({ code }) => code), ['TRAVEL']);
+    assert.deepEqual(
+      result.items.map(({ code }) => code),
+      ['TRAVEL'],
+    );
   });
 
   it('falls back to vi-VN when the selected locale is missing', async () => {
@@ -97,7 +102,10 @@ describe('ADMIN category CRUD service', () => {
   beforeEach(() => resetMockData());
 
   it('validates code, required vi-VN content and field limits with Zod', () => {
-    assert.equal(adminCategorySchema.safeParse(validCategoryInput).success, true);
+    assert.equal(
+      adminCategorySchema.safeParse(validCategoryInput).success,
+      true,
+    );
     assert.equal(
       adminCategorySchema.safeParse({ ...validCategoryInput, code: 'a!' })
         .success,
@@ -125,7 +133,10 @@ describe('ADMIN category CRUD service', () => {
     );
 
     assert.equal(created.code, 'HEALTH_WELLNESS');
-    assert.equal(mockData.categories.some(({ id }) => id === created.id), true);
+    assert.equal(
+      mockData.categories.some(({ id }) => id === created.id),
+      true,
+    );
     assert.equal(mockData.auditRecords.at(-1)?.action, 'CREATE_CATEGORY');
   });
 
@@ -178,7 +189,10 @@ describe('ADMIN category CRUD service', () => {
 
     assert.equal(result.category.status, 'INACTIVE');
     assert.equal(result.dependency.canHardDelete, false);
-    assert.equal(mockData.categories.some(({ id }) => id === result.category.id), true);
+    assert.equal(
+      mockData.categories.some(({ id }) => id === result.category.id),
+      true,
+    );
     assert.equal(mockData.auditRecords.at(-1)?.action, 'INACTIVATE_CATEGORY');
   });
 

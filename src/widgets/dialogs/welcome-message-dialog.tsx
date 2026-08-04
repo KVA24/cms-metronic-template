@@ -27,7 +27,7 @@ export function WelcomeMessageDialog({
           <div className="mb-10">
             <img
               src={toAbsoluteUrl('/media/illustrations/21.svg')}
-              className="dark:hidden max-h-[140px]"
+              className="max-h-[140px] dark:hidden"
               alt=""
             />
             <img
@@ -37,16 +37,16 @@ export function WelcomeMessageDialog({
             />
           </div>
 
-          <h3 className="text-lg font-medium text-mono text-center mb-3">
+          <h3 className="text-mono mb-3 text-center text-lg font-medium">
             Welcome to Dashboard
           </h3>
 
-          <div className="text-sm text-center text-secondary-foreground mb-7">
+          <div className="text-secondary-foreground mb-7 text-center text-sm">
             We're thrilled to have you on board and excited for <br />
             the journey ahead together.
           </div>
 
-          <div className="flex justify-center mb-2">
+          <div className="mb-2 flex justify-center">
             <Link to="/" className="btn btn-primary flex justify-center">
               Show me around
             </Link>
@@ -54,7 +54,7 @@ export function WelcomeMessageDialog({
 
           <Link
             to="/"
-            className="text-sm font-medium text-secondary-foreground hover:text-primary py-3"
+            className="text-secondary-foreground hover:text-primary py-3 text-sm font-medium"
           >
             Skip the tour
           </Link>

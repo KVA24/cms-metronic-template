@@ -26,26 +26,26 @@ const CardTeamRow = ({
 
   return (
     <Card className="p-7.5">
-      <div className="flex flex-wrap justify-between items-center gap-7">
+      <div className="flex flex-wrap items-center justify-between gap-7">
         <div className="flex items-center gap-4">
-          <div className="flex justify-center items-center size-14 shrink-0 rounded-full ring-1 ring-input bg-accent/60">
-            <Icon size={16} className="text-2xl text-secondary-foreground" />
+          <div className="ring-input bg-accent/60 flex size-14 shrink-0 items-center justify-center rounded-full ring-1">
+            <Icon size={16} className="text-secondary-foreground text-2xl" />
           </div>
-          <div className="grid grid-col gap-1">
+          <div className="grid-col grid gap-1">
             <Link
               to="#"
-              className="text-base font-medium text-mono hover:text-primary-active mb-px"
+              className="text-mono hover:text-primary-active mb-px text-base font-medium"
             >
               {title}
             </Link>
-            <span className="text-sm text-secondary-foreground">
+            <span className="text-secondary-foreground text-sm">
               {description}
             </span>
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-6 lg:gap-12">
-          <div className="grid gap-5 justify-end lg:text-end">
-            <span className="text-xs font-normal text-muted-foreground uppercase">
+          <div className="grid justify-end gap-5 lg:text-end">
+            <span className="text-muted-foreground text-xs font-normal uppercase">
               skills
             </span>
             <div className="flex gap-1.5">
@@ -55,13 +55,13 @@ const CardTeamRow = ({
             </div>
           </div>
           <div className="grid justify-end gap-6 lg:text-end">
-            <div className="text-xs text-secondary-foreground uppercase">
+            <div className="text-secondary-foreground text-xs uppercase">
               rating
             </div>
             <Rating rating={rating.value} round={rating.round} />
           </div>
-          <div className="grid justify-end gap-3.5 lg:text-end lg:min-w-24 shrink-0 max-w-auto">
-            <span className="text-xs text-secondary-foreground uppercase">
+          <div className="max-w-auto grid shrink-0 justify-end gap-3.5 lg:min-w-24 lg:text-end">
+            <span className="text-secondary-foreground text-xs uppercase">
               memebers
             </span>
             <AvatarGroup
@@ -71,7 +71,7 @@ const CardTeamRow = ({
               size={team.size}
             />
           </div>
-          <div className="grid justify-end min-w-20">
+          <div className="grid min-w-20 justify-end">
             {connected ? (
               <Button variant="outline">
                 <Link to="#">

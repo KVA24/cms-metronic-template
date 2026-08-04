@@ -106,7 +106,7 @@ export function TenantTransactionListPage() {
           <h1 className="text-2xl font-semibold">
             {t('TENANT_TRANSACTIONS.TITLE')}
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             {t('TENANT_TRANSACTIONS.DESCRIPTION')}
           </p>
         </div>
@@ -152,7 +152,7 @@ export function TenantTransactionListPage() {
               }
             />
             {dateError && (
-              <p className="text-xs text-destructive">
+              <p className="text-destructive text-xs">
                 {t('TENANT_TRANSACTIONS.DATE_ERROR')}
               </p>
             )}
@@ -172,7 +172,7 @@ export function TenantTransactionListPage() {
             <span>{t('TENANT_TRANSACTIONS.BRAND')}</span>
             <select
               name="transactionBrand"
-              className="h-9 w-full rounded-md border border-input bg-background px-3"
+              className="border-input bg-background h-9 w-full rounded-md border px-3"
               value={draft.brandId ?? ''}
               onChange={(event) =>
                 setField('brandId', event.target.value || undefined)
@@ -190,7 +190,7 @@ export function TenantTransactionListPage() {
             <span>{t('TENANT_TRANSACTIONS.STATUS')}</span>
             <select
               name="transactionStatus"
-              className="h-9 w-full rounded-md border border-input bg-background px-3"
+              className="border-input bg-background h-9 w-full rounded-md border px-3"
               value={draft.status ?? ''}
               onChange={(event) =>
                 setField(
@@ -212,7 +212,7 @@ export function TenantTransactionListPage() {
       <Card>
         <CardContent className="space-y-4 overflow-x-auto pt-5">
           {result.data.items.length === 0 ? (
-            <p className="py-12 text-center text-muted-foreground">
+            <p className="text-muted-foreground py-12 text-center">
               {t('TENANT_TRANSACTIONS.EMPTY')}
             </p>
           ) : (
@@ -285,7 +285,7 @@ export function TenantTransactionListPage() {
               </TableBody>
             </Table>
           )}
-          <div className="flex items-center justify-between text-sm text-muted-foreground">
+          <div className="text-muted-foreground flex items-center justify-between text-sm">
             <span>
               {t('TENANT_TRANSACTIONS.RANGE', {
                 from: result.data.totalItems

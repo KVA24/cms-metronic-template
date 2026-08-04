@@ -18,9 +18,21 @@ import {
   TableRow,
 } from '@/shared/ui/atoms/table';
 import { Container } from '@/shared/ui/molecules/container';
-import { AlertCircle, ChevronLeft, ChevronRight, Eye, Pencil, Plus, RotateCcw, Search } from 'lucide-react';
+import {
+  AlertCircle,
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  Pencil,
+  Plus,
+  RotateCcw,
+  Search,
+} from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useAdminBrandFilterOptions, useAdminBrands } from '../hooks/use-admin-brands';
+import {
+  useAdminBrandFilterOptions,
+  useAdminBrands,
+} from '../hooks/use-admin-brands';
 import {
   ADMIN_BRAND_DEFAULT_QUERY,
   readAdminBrandQuery,
@@ -35,7 +47,13 @@ function BrandStatus({ status }: { status: EntityStatus }) {
   const { t } = useTranslations();
   return (
     <Badge
-      variant={status === 'ACTIVE' ? 'success' : status === 'DRAFT' ? 'warning' : 'secondary'}
+      variant={
+        status === 'ACTIVE'
+          ? 'success'
+          : status === 'DRAFT'
+            ? 'warning'
+            : 'secondary'
+      }
       appearance="light"
     >
       {t(`COMMON.STATUS.${status}`)}
@@ -47,7 +65,10 @@ export function AdminBrandListPage() {
   const session = useAuthSession();
   const { t, language } = useTranslations();
   const [searchParams, setSearchParams] = useSearchParams();
-  const query = useMemo(() => readAdminBrandQuery(searchParams), [searchParams]);
+  const query = useMemo(
+    () => readAdminBrandQuery(searchParams),
+    [searchParams],
+  );
   const [draft, setDraft] = useState(query);
   const roleCode = session?.roleCode as AdminRoleCode;
   const locale: ContentLocale = language === 'vi' ? 'vi-VN' : 'en-US';
@@ -67,68 +88,143 @@ export function AdminBrandListPage() {
     <Container className="space-y-6 py-6 lg:py-8">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">{t('ADMIN_BRANDS.TITLE')}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">{t('ADMIN_BRANDS.DESCRIPTION')}</p>
+          <h1 className="text-2xl font-semibold tracking-tight">
+            {t('ADMIN_BRANDS.TITLE')}
+          </h1>
+          <p className="text-muted-foreground mt-1 text-sm">
+            {t('ADMIN_BRANDS.DESCRIPTION')}
+          </p>
         </div>
         {canCreate && (
           <Button variant="mono" asChild>
-            <Link to="/admin/brands/new"><Plus />{t('ADMIN_BRANDS.CREATE')}</Link>
+            <Link to="/admin/brands/new">
+              <Plus />
+              {t('ADMIN_BRANDS.CREATE')}
+            </Link>
           </Button>
         )}
       </div>
 
       <Card>
         <CardContent className="pt-6">
-          <form className="grid gap-4 md:grid-cols-2 xl:grid-cols-6" onSubmit={apply}>
+          <form
+            className="grid gap-4 md:grid-cols-2 xl:grid-cols-6"
+            onSubmit={apply}
+          >
             <label className="space-y-1.5 xl:col-span-2">
-              <span className="text-sm font-medium">{t('ADMIN_BRANDS.KEYWORD')}</span>
+              <span className="text-sm font-medium">
+                {t('ADMIN_BRANDS.KEYWORD')}
+              </span>
               <Input
                 id="brand-keyword"
                 name="keyword"
                 maxLength={100}
                 value={draft.keyword}
                 placeholder={t('ADMIN_BRANDS.KEYWORD_PLACEHOLDER')}
-                onChange={(event) => setDraft((current) => ({ ...current, keyword: event.target.value }))}
+                onChange={(event) =>
+                  setDraft((current) => ({
+                    ...current,
+                    keyword: event.target.value,
+                  }))
+                }
               />
             </label>
             <label className="space-y-1.5">
-              <span className="text-sm font-medium">{t('COMMON.STATUS_1')}</span>
+              <span className="text-sm font-medium">
+                {t('COMMON.STATUS_1')}
+              </span>
               <select
                 id="brand-status"
                 name="status"
                 className={selectClassName}
                 value={draft.status}
-                onChange={(event) => setDraft((current) => ({ ...current, status: event.target.value as AdminBrandQuery['status'] }))}
+                onChange={(event) =>
+                  setDraft((current) => ({
+                    ...current,
+                    status: event.target.value as AdminBrandQuery['status'],
+                  }))
+                }
               >
                 {['ALL', 'ACTIVE', 'INACTIVE', 'DRAFT'].map((status) => (
-                  <option key={status} value={status}>{status === 'ALL' ? t('COMMON.ALL') : t(`COMMON.STATUS.${status}`)}</option>
+                  <option key={status} value={status}>
+                    {status === 'ALL'
+                      ? t('COMMON.ALL')
+                      : t(`COMMON.STATUS.${status}`)}
+                  </option>
                 ))}
               </select>
             </label>
             <label className="space-y-1.5">
-              <span className="text-sm font-medium">{t('ADMIN_BRANDS.CATEGORY')}</span>
+              <span className="text-sm font-medium">
+                {t('ADMIN_BRANDS.CATEGORY')}
+              </span>
               <select
                 id="brand-category"
                 name="categoryId"
                 className={selectClassName}
                 value={draft.categoryId}
-                onChange={(event) => setDraft((current) => ({ ...current, categoryId: event.target.value }))}
+                onChange={(event) =>
+                  setDraft((current) => ({
+                    ...current,
+                    categoryId: event.target.value,
+                  }))
+                }
               >
                 <option value="">{t('COMMON.ALL')}</option>
-                {options.data?.categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
+                {options.data?.categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
             </label>
             <label className="space-y-1.5">
-              <span className="text-sm font-medium">{t('ADMIN_BRANDS.CREATED_FROM')}</span>
-              <Input id="brand-created-from" name="createdFrom" type="date" value={draft.createdFrom} onChange={(event) => setDraft((current) => ({ ...current, createdFrom: event.target.value }))} />
+              <span className="text-sm font-medium">
+                {t('ADMIN_BRANDS.CREATED_FROM')}
+              </span>
+              <Input
+                id="brand-created-from"
+                name="createdFrom"
+                type="date"
+                value={draft.createdFrom}
+                onChange={(event) =>
+                  setDraft((current) => ({
+                    ...current,
+                    createdFrom: event.target.value,
+                  }))
+                }
+              />
             </label>
             <label className="space-y-1.5">
-              <span className="text-sm font-medium">{t('ADMIN_BRANDS.CREATED_TO')}</span>
-              <Input id="brand-created-to" name="createdTo" type="date" value={draft.createdTo} onChange={(event) => setDraft((current) => ({ ...current, createdTo: event.target.value }))} />
+              <span className="text-sm font-medium">
+                {t('ADMIN_BRANDS.CREATED_TO')}
+              </span>
+              <Input
+                id="brand-created-to"
+                name="createdTo"
+                type="date"
+                value={draft.createdTo}
+                onChange={(event) =>
+                  setDraft((current) => ({
+                    ...current,
+                    createdTo: event.target.value,
+                  }))
+                }
+              />
             </label>
             <div className="flex items-end gap-2 xl:col-span-6">
-              <Button type="submit" variant="mono"><Search />{t('COMMON.APPLY')}</Button>
-              <Button type="button" variant="outline" onClick={() => updateQuery(ADMIN_BRAND_DEFAULT_QUERY)}><RotateCcw />{t('COMMON.RESET')}</Button>
+              <Button type="submit" variant="mono">
+                <Search />
+                {t('COMMON.APPLY')}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => updateQuery(ADMIN_BRAND_DEFAULT_QUERY)}
+              >
+                <RotateCcw />
+                {t('COMMON.RESET')}
+              </Button>
             </div>
           </form>
         </CardContent>
@@ -137,7 +233,11 @@ export function AdminBrandListPage() {
       <Card>
         <CardContent className="space-y-4 pt-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-sm text-muted-foreground">{t('ADMIN_BRANDS.RESULT_COUNT', { count: brands.data?.totalItems ?? 0 })}</p>
+            <p className="text-muted-foreground text-sm">
+              {t('ADMIN_BRANDS.RESULT_COUNT', {
+                count: brands.data?.totalItems ?? 0,
+              })}
+            </p>
             <div className="flex gap-2">
               <select
                 id="brand-sort"
@@ -145,9 +245,19 @@ export function AdminBrandListPage() {
                 className={selectClassName}
                 aria-label={t('ADMIN_BRANDS.SORT_BY')}
                 value={query.sortBy}
-                onChange={(event) => updateQuery({ ...query, page: 1, sortBy: event.target.value as AdminBrandQuery['sortBy'] })}
+                onChange={(event) =>
+                  updateQuery({
+                    ...query,
+                    page: 1,
+                    sortBy: event.target.value as AdminBrandQuery['sortBy'],
+                  })
+                }
               >
-                {['updatedAt', 'createdAt', 'code', 'name'].map((sort) => <option key={sort} value={sort}>{t(`ADMIN_BRANDS.SORT.${sort}`)}</option>)}
+                {['updatedAt', 'createdAt', 'code', 'name'].map((sort) => (
+                  <option key={sort} value={sort}>
+                    {t(`ADMIN_BRANDS.SORT.${sort}`)}
+                  </option>
+                ))}
               </select>
               <select
                 id="brand-sort-direction"
@@ -155,7 +265,13 @@ export function AdminBrandListPage() {
                 className={selectClassName}
                 aria-label={t('ADMIN_BRANDS.SORT_DIRECTION')}
                 value={query.sortDirection}
-                onChange={(event) => updateQuery({ ...query, page: 1, sortDirection: event.target.value as 'asc' | 'desc' })}
+                onChange={(event) =>
+                  updateQuery({
+                    ...query,
+                    page: 1,
+                    sortDirection: event.target.value as 'asc' | 'desc',
+                  })
+                }
               >
                 <option value="desc">{t('ADMIN_BRANDS.DESC')}</option>
                 <option value="asc">{t('ADMIN_BRANDS.ASC')}</option>
@@ -164,44 +280,104 @@ export function AdminBrandListPage() {
           </div>
 
           {brands.isLoading ? (
-            <Skeleton className="h-80 w-full" aria-label={t('COMMON.LOADING')} />
+            <Skeleton
+              className="h-80 w-full"
+              aria-label={t('COMMON.LOADING')}
+            />
           ) : brands.error ? (
             <Alert variant="destructive" appearance="light">
-              <AlertIcon><AlertCircle /></AlertIcon>
+              <AlertIcon>
+                <AlertCircle />
+              </AlertIcon>
               <AlertDescription className="flex items-center justify-between gap-4">
                 {t('ADMIN_BRANDS.ERROR')}
-                <Button variant="outline" onClick={() => brands.refetch()}>{t('COMMON.RETRY')}</Button>
+                <Button variant="outline" onClick={() => brands.refetch()}>
+                  {t('COMMON.RETRY')}
+                </Button>
               </AlertDescription>
             </Alert>
           ) : brands.data?.items.length === 0 ? (
-            <div className="py-16 text-center text-sm text-muted-foreground">{t('ADMIN_BRANDS.EMPTY')}</div>
+            <div className="text-muted-foreground py-16 text-center text-sm">
+              {t('ADMIN_BRANDS.EMPTY')}
+            </div>
           ) : (
             <Table>
-              <TableHeader><TableRow>
-                <TableHead>{t('ADMIN_BRANDS.BRAND')}</TableHead>
-                <TableHead>{t('ADMIN_BRANDS.CATEGORY')}</TableHead>
-                <TableHead>{t('COMMON.STATUS_1')}</TableHead>
-                <TableHead>{t('ADMIN_BRANDS.OFFERS')}</TableHead>
-                <TableHead>{t('ADMIN_BRANDS.TENANTS')}</TableHead>
-                <TableHead className="text-right">{t('COMMON.ACTIONS')}</TableHead>
-              </TableRow></TableHeader>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>{t('ADMIN_BRANDS.BRAND')}</TableHead>
+                  <TableHead>{t('ADMIN_BRANDS.CATEGORY')}</TableHead>
+                  <TableHead>{t('COMMON.STATUS_1')}</TableHead>
+                  <TableHead>{t('ADMIN_BRANDS.OFFERS')}</TableHead>
+                  <TableHead>{t('ADMIN_BRANDS.TENANTS')}</TableHead>
+                  <TableHead className="text-right">
+                    {t('COMMON.ACTIONS')}
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
               <TableBody>
                 {brands.data?.items.map((brand) => (
                   <TableRow key={brand.id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
-                        <img src={brand.logo?.url ?? '/media/app/mini-logo.svg'} alt="" className="size-10 rounded-md border bg-muted object-contain p-1.5" />
-                        <div><p className="font-medium">{brand.name || t('ADMIN_BRANDS.NO_NAME')}</p><p className="font-mono text-xs text-muted-foreground">{brand.code}</p></div>
+                        <img
+                          src={brand.logo?.url ?? '/media/app/mini-logo.svg'}
+                          alt=""
+                          className="bg-muted size-10 rounded-md border object-contain p-1.5"
+                        />
+                        <div>
+                          <p className="font-medium">
+                            {brand.name || t('ADMIN_BRANDS.NO_NAME')}
+                          </p>
+                          <p className="text-muted-foreground font-mono text-xs">
+                            {brand.code}
+                          </p>
+                        </div>
                       </div>
                     </TableCell>
-                    <TableCell><div className="flex max-w-56 flex-wrap gap-1">{brand.categories.length ? brand.categories.map((category) => <Badge key={category.id} variant="outline">{category.name}</Badge>) : <span>-</span>}</div></TableCell>
-                    <TableCell><BrandStatus status={brand.status} /></TableCell>
+                    <TableCell>
+                      <div className="flex max-w-56 flex-wrap gap-1">
+                        {brand.categories.length ? (
+                          brand.categories.map((category) => (
+                            <Badge key={category.id} variant="outline">
+                              {category.name}
+                            </Badge>
+                          ))
+                        ) : (
+                          <span>-</span>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <BrandStatus status={brand.status} />
+                    </TableCell>
                     <TableCell>{brand.offerCount}</TableCell>
                     <TableCell>{brand.tenantAssignmentCount}</TableCell>
-                    <TableCell><div className="flex justify-end gap-2">
-                      <Button variant="outline" size="icon" asChild><Link to={`/admin/brands/${brand.id}`} aria-label={t('ADMIN_BRANDS.VIEW_BRAND', { name: brand.name })}><Eye /></Link></Button>
-                      {brand.canEdit && <Button variant="outline" size="icon" asChild><Link to={`/admin/brands/${brand.id}?edit=true`} aria-label={t('ADMIN_BRANDS.EDIT_BRAND', { name: brand.name })}><Pencil /></Link></Button>}
-                    </div></TableCell>
+                    <TableCell>
+                      <div className="flex justify-end gap-2">
+                        <Button variant="outline" size="icon" asChild>
+                          <Link
+                            to={`/admin/brands/${brand.id}`}
+                            aria-label={t('ADMIN_BRANDS.VIEW_BRAND', {
+                              name: brand.name,
+                            })}
+                          >
+                            <Eye />
+                          </Link>
+                        </Button>
+                        {brand.canEdit && (
+                          <Button variant="outline" size="icon" asChild>
+                            <Link
+                              to={`/admin/brands/${brand.id}?edit=true`}
+                              aria-label={t('ADMIN_BRANDS.EDIT_BRAND', {
+                                name: brand.name,
+                              })}
+                            >
+                              <Pencil />
+                            </Link>
+                          </Button>
+                        )}
+                      </div>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -210,9 +386,30 @@ export function AdminBrandListPage() {
 
           {brands.data && brands.data.totalItems > 0 && (
             <div className="flex items-center justify-end gap-2 border-t pt-4">
-              <span className="text-sm text-muted-foreground">{t('ADMIN_BRANDS.PAGE', { page: brands.data.page, total: brands.data.totalPages })}</span>
-              <Button variant="outline" size="icon" disabled={brands.data.page <= 1} aria-label={t('COMMON.PREVIOUS')} onClick={() => updateQuery({ ...query, page: query.page - 1 })}><ChevronLeft /></Button>
-              <Button variant="outline" size="icon" disabled={brands.data.page >= brands.data.totalPages} aria-label={t('COMMON.NEXT')} onClick={() => updateQuery({ ...query, page: query.page + 1 })}><ChevronRight /></Button>
+              <span className="text-muted-foreground text-sm">
+                {t('ADMIN_BRANDS.PAGE', {
+                  page: brands.data.page,
+                  total: brands.data.totalPages,
+                })}
+              </span>
+              <Button
+                variant="outline"
+                size="icon"
+                disabled={brands.data.page <= 1}
+                aria-label={t('COMMON.PREVIOUS')}
+                onClick={() => updateQuery({ ...query, page: query.page - 1 })}
+              >
+                <ChevronLeft />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                disabled={brands.data.page >= brands.data.totalPages}
+                aria-label={t('COMMON.NEXT')}
+                onClick={() => updateQuery({ ...query, page: query.page + 1 })}
+              >
+                <ChevronRight />
+              </Button>
             </div>
           )}
         </CardContent>

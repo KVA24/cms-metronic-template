@@ -7,13 +7,13 @@ const ActivitiesLogin = () => {
   return (
     <TimelineItem icon={LogIn} line={true}>
       <div className="flex flex-col">
-        <div className="text-sm text-foreground">
+        <div className="text-foreground text-sm">
           Jenny's last login to the{' '}
           <Button mode="link" asChild>
             <Link to="#">Customer Portal</Link>
           </Button>
         </div>
-        <span className="text-xs text-secondary-foreground">
+        <span className="text-secondary-foreground text-xs">
           5 days ago, 4:07 PM
         </span>
       </div>

@@ -94,8 +94,8 @@ export function TenantProfileInformationForm({
       </CardHeader>
       <CardContent className="space-y-5">
         <div className="flex flex-wrap items-center gap-4 rounded-lg border p-4">
-          <div className="flex size-16 items-center justify-center rounded-full bg-muted">
-            <UserRound className="size-8 text-muted-foreground" />
+          <div className="bg-muted flex size-16 items-center justify-center rounded-full">
+            <UserRound className="text-muted-foreground size-8" />
           </div>
           <div className="min-w-0 flex-1">
             <p className="font-medium">
@@ -103,11 +103,11 @@ export function TenantProfileInformationForm({
                 profile.avatarFileName ??
                 t('TENANT_PROFILE.NO_AVATAR')}
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {t('TENANT_PROFILE.AVATAR_HELP')}
             </p>
           </div>
-          <label className="inline-flex cursor-pointer items-center gap-2 rounded-md border px-3 py-2 text-sm font-medium hover:bg-accent">
+          <label className="hover:bg-accent inline-flex cursor-pointer items-center gap-2 rounded-md border px-3 py-2 text-sm font-medium">
             <ImageUp className="size-4" /> {t('TENANT_PROFILE.UPLOAD_AVATAR')}
             <input
               className="sr-only"
@@ -145,7 +145,7 @@ export function TenantProfileInformationForm({
             {...form.register('fullName')}
           />
           {errorText('fullName') && (
-            <span className="text-xs text-destructive">
+            <span className="text-destructive text-xs">
               {errorText('fullName')}
             </span>
           )}
@@ -160,7 +160,7 @@ export function TenantProfileInformationForm({
               {...form.register('email')}
             />
             {errorText('email') && (
-              <span className="text-xs text-destructive">
+              <span className="text-destructive text-xs">
                 {errorText('email')}
               </span>
             )}
@@ -173,7 +173,7 @@ export function TenantProfileInformationForm({
               {...form.register('phone')}
             />
             {errorText('phone') && (
-              <span className="text-xs text-destructive">
+              <span className="text-destructive text-xs">
                 {errorText('phone')}
               </span>
             )}

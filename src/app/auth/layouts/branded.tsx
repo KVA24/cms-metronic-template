@@ -38,7 +38,7 @@ export function BrandedLayout() {
     <main className="relative min-h-svh w-full grow overflow-hidden bg-[#f5f7fa]">
       {isLoginPage && (
         <div
-          className="absolute left-1/2 top-5 z-30 flex -translate-x-1/2 rounded-xl border border-white/70 bg-white/95 p-1.5 shadow-lg shadow-slate-950/10 backdrop-blur lg:top-8"
+          className="absolute top-5 left-1/2 z-30 flex -translate-x-1/2 rounded-xl border border-white/70 bg-white/95 p-1.5 shadow-lg shadow-slate-950/10 backdrop-blur lg:top-8"
           role="tablist"
           aria-label={t('AUTH.SIGNIN.PORTAL')}
         >
@@ -49,7 +49,7 @@ export function BrandedLayout() {
               role="tab"
               aria-selected={portalType === portal}
               className={cn(
-                'flex min-w-28 items-center justify-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:min-w-32 cursor-pointer',
+                'focus-visible:ring-primary flex min-w-28 cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold tracking-wide transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none sm:min-w-32',
                 portalType === portal
                   ? 'bg-[#095f78] text-white shadow-sm'
                   : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900',
@@ -69,7 +69,7 @@ export function BrandedLayout() {
 
       <section
         className={cn(
-          'relative z-10 flex min-h-svh items-center justify-center px-5 pb-10 pt-24 transition-transform duration-700 ease-in-out motion-reduce:transition-none sm:px-8 lg:absolute lg:inset-y-0 lg:left-0 lg:w-1/2 lg:px-12 lg:py-24',
+          'relative z-10 flex min-h-svh items-center justify-center px-5 pt-24 pb-10 transition-transform duration-700 ease-in-out motion-reduce:transition-none sm:px-8 lg:absolute lg:inset-y-0 lg:left-0 lg:w-1/2 lg:px-12 lg:py-24',
           portalType === 'TENANT' && 'lg:translate-x-full',
         )}
         aria-label={t('AUTH.SIGNIN.FORM_REGION')}
@@ -91,12 +91,12 @@ export function BrandedLayout() {
         }}
         aria-label={t(`${portalKey}.EYEBROW`)}
       >
-        <div className="pointer-events-none absolute -left-56 -bottom-56 size-110 rounded-full border border-white/10" />
-        <div className="pointer-events-none absolute -right-28 top-28 size-72 rounded-full border border-white/10" />
+        <div className="pointer-events-none absolute -bottom-56 -left-56 size-110 rounded-full border border-white/10" />
+        <div className="pointer-events-none absolute top-28 -right-28 size-72 rounded-full border border-white/10" />
 
         <Link
           to="/"
-          className="relative z-10 flex w-fit items-center gap-3 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          className="relative z-10 flex w-fit items-center gap-3 rounded-md focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
           aria-label={t('AUTH.SIGNIN.HOME')}
         >
           <span className="grid size-11 place-items-center rounded-lg border border-white/20 bg-[#095f78] shadow-lg shadow-black/20">
@@ -146,7 +146,7 @@ export function BrandedLayout() {
           <span>{t('AUTH.SIGNIN.COPYRIGHT')}</span>
           <img
             src={toAbsoluteUrl('/media/app/auth-screen.png')}
-            className="pointer-events-none absolute -bottom-20 right-0 hidden w-[44%] opacity-20 xl:block"
+            className="pointer-events-none absolute right-0 -bottom-20 hidden w-[44%] opacity-20 xl:block"
             alt=""
           />
         </div>

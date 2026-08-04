@@ -31,10 +31,10 @@ const CardUserSocial = ({
             badgeClass={avatar?.badgeClass}
           />
         </div>
-        <div className="flex items-center justify-center gap-1.5 mb-3">
+        <div className="mb-3 flex items-center justify-center gap-1.5">
           <Link
             to="#"
-            className="hover:text-primary-active text-base leading-5 font-medium text-mono"
+            className="hover:text-primary-active text-mono text-base leading-5 font-medium"
           >
             {name}
           </Link>
@@ -54,7 +54,7 @@ const CardUserSocial = ({
             </svg>
           )}
         </div>
-        <span className="text-secondary-foreground text-sm mb-4">
+        <span className="text-secondary-foreground mb-4 text-sm">
           {description}
         </span>
         <div className="flex items-center gap-2.5">
@@ -65,7 +65,7 @@ const CardUserSocial = ({
             />
           </Link>
           <Link to="#">
-            <Dribbble size={20} className="text-secondary-foreground " />
+            <Dribbble size={20} className="text-secondary-foreground" />
           </Link>
           <Link to="#">
             <RiInstagramLine

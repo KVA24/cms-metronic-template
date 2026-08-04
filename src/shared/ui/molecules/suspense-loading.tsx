@@ -11,13 +11,13 @@ export function SuspenseLoading() {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+    <div className="bg-background/80 fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
       <div className="flex flex-col items-center gap-4">
         <div className="relative h-16 w-16">
-          <div className="absolute inset-0 rounded-full border-4 border-primary/20"></div>
-          <div className="absolute inset-0 animate-spin rounded-full border-4 border-transparent border-t-primary"></div>
+          <div className="border-primary/20 absolute inset-0 rounded-full border-4"></div>
+          <div className="border-t-primary absolute inset-0 animate-spin rounded-full border-4 border-transparent"></div>
         </div>
-        <p className="text-sm text-muted-foreground">Loading...</p>
+        <p className="text-muted-foreground text-sm">Loading...</p>
       </div>
     </div>
   );

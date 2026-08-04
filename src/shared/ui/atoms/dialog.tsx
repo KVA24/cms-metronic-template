@@ -54,7 +54,7 @@ function DialogOverlay({
     <DialogPrimitive.Overlay
       data-slot="dialog-overlay"
       className={cn(
-        'fixed inset-0 z-50 bg-black/30 [backdrop-filter:blur(4px)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+        'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/30 [backdrop-filter:blur(4px)]',
         className,
       )}
       {...props}
@@ -84,7 +84,7 @@ function DialogContent({
       >
         {children}
         {showCloseButton && (
-          <DialogClose className="cursor-pointer outline-0 absolute end-5 top-5 rounded-sm opacity-60 ring-offset-background transition-opacity hover:opacity-100 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+          <DialogClose className="ring-offset-background data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute end-5 top-5 cursor-pointer rounded-sm opacity-60 outline-0 transition-opacity hover:opacity-100 focus:outline-hidden disabled:pointer-events-none">
             <X className="size-4" />
             <span className="sr-only">Close</span>
           </DialogClose>
@@ -103,7 +103,7 @@ const DialogHeader = ({
   <div
     data-slot="dialog-header"
     className={cn(
-      'flex flex-col space-y-1 text-center sm:text-start mb-5',
+      'mb-5 flex flex-col space-y-1 text-center sm:text-start',
       className,
     )}
     {...props}
@@ -117,7 +117,7 @@ const DialogFooter = ({
   <div
     data-slot="dialog-footer"
     className={cn(
-      'flex flex-col-reverse sm:flex-row sm:justify-end pt-5 sm:space-x-2.5',
+      'flex flex-col-reverse pt-5 sm:flex-row sm:justify-end sm:space-x-2.5',
       className,
     )}
     {...props}
@@ -132,7 +132,7 @@ function DialogTitle({
     <DialogPrimitive.Title
       data-slot="dialog-title"
       className={cn(
-        'text-lg font-semibold leading-none tracking-tight',
+        'text-lg leading-none font-semibold tracking-tight',
         className,
       )}
       {...props}
@@ -154,7 +154,7 @@ function DialogDescription({
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"
-      className={cn('text-sm text-muted-foreground', className)}
+      className={cn('text-muted-foreground text-sm', className)}
       {...props}
     />
   );

@@ -175,7 +175,7 @@ function AccordionContent(
       className={cn(accordionContentVariants({ variant }), className)}
       {...rest}
     >
-      <div className={cn('pb-5 pt-0', className)}>{children}</div>
+      <div className={cn('pt-0 pb-5', className)}>{children}</div>
     </AccordionPrimitive.Content>
   );
 }

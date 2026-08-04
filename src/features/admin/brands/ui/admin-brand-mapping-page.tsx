@@ -209,7 +209,7 @@ function MappingEditor({
                 ))}
               </select>
               {errors[index]?.categoryId && (
-                <p role="alert" className="text-xs text-destructive">
+                <p role="alert" className="text-destructive text-xs">
                   {t(`ADMIN_BRAND_MAPPINGS.ERRORS.${errors[index].categoryId}`)}
                 </p>
               )}
@@ -225,7 +225,7 @@ function MappingEditor({
                 }
               />
               {errors[index]?.brandCategoryCode && (
-                <p role="alert" className="text-xs text-destructive">
+                <p role="alert" className="text-destructive text-xs">
                   {t(
                     `ADMIN_BRAND_MAPPINGS.ERRORS.${errors[index].brandCategoryCode}`,
                   )}
@@ -292,7 +292,7 @@ function MappingEditor({
                 }
               />
               {errors[index]?.commissionValue && (
-                <p role="alert" className="text-xs text-destructive">
+                <p role="alert" className="text-destructive text-xs">
                   {t(
                     `ADMIN_BRAND_MAPPINGS.ERRORS.${errors[index].commissionValue}`,
                   )}
@@ -311,7 +311,7 @@ function MappingEditor({
                 }
               />
               {errors[index]?.effectiveFrom && (
-                <p role="alert" className="text-xs text-destructive">
+                <p role="alert" className="text-destructive text-xs">
                   {t(
                     `ADMIN_BRAND_MAPPINGS.ERRORS.${errors[index].effectiveFrom}`,
                   )}
@@ -330,7 +330,7 @@ function MappingEditor({
                 }
               />
               {errors[index]?.effectiveTo && (
-                <p role="alert" className="text-xs text-destructive">
+                <p role="alert" className="text-destructive text-xs">
                   {t(
                     `ADMIN_BRAND_MAPPINGS.ERRORS.${errors[index].effectiveTo}`,
                   )}
@@ -362,11 +362,7 @@ function MappingEditor({
       ))}
       <div className="flex flex-wrap justify-between gap-2">
         {!initialRows[0]?.id && (
-          <Button
-            type="button"
-            variant="outline"
-            onClick={addRow}
-          >
+          <Button type="button" variant="outline" onClick={addRow}>
             <Plus />
             {t('ADMIN_BRAND_MAPPINGS.ADD_ROW')}
           </Button>
@@ -457,7 +453,7 @@ export function AdminBrandMappingPage() {
           <h1 className="mt-4 text-2xl font-semibold">
             {data.brandName}: {t('ADMIN_BRAND_MAPPINGS.TITLE')}
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             {t('ADMIN_BRAND_MAPPINGS.DESCRIPTION')}
           </p>
         </div>
@@ -624,7 +620,7 @@ export function AdminBrandMappingPage() {
                           {item.brandCategoryCode}
                         </span>
                         <br />
-                        <span className="text-xs text-muted-foreground">
+                        <span className="text-muted-foreground text-xs">
                           {item.brandCategoryName || '-'}
                         </span>
                       </TableCell>
@@ -680,7 +676,7 @@ export function AdminBrandMappingPage() {
                     <TableRow>
                       <TableCell
                         colSpan={7}
-                        className="h-28 text-center text-muted-foreground"
+                        className="text-muted-foreground h-28 text-center"
                       >
                         {t('ADMIN_BRAND_MAPPINGS.EMPTY')}
                       </TableCell>

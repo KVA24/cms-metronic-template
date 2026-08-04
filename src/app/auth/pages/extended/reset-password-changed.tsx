@@ -8,10 +8,10 @@ const ResetPasswordChanged = () => {
 
   return (
     <div className="px-4 py-8">
-      <div className="flex justify-center mb-5">
+      <div className="mb-5 flex justify-center">
         <img
           src={toAbsoluteUrl('/media/illustrations/32.svg')}
-          className="dark:hidden max-h-[180px]"
+          className="max-h-[180px] dark:hidden"
           alt=""
         />
         <img
@@ -21,10 +21,10 @@ const ResetPasswordChanged = () => {
         />
       </div>
 
-      <h3 className="text-lg font-medium text-mono text-center mb-4">
+      <h3 className="text-mono mb-4 text-center text-lg font-medium">
         Your password is changed
       </h3>
-      <div className="text-sm text-center text-secondary-foreground mb-7.5">
+      <div className="text-secondary-foreground mb-7.5 text-center text-sm">
         Your password has been successfully updated. Your account's security is
         our priority.
       </div>

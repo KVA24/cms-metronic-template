@@ -7,7 +7,7 @@ const ActivitiesNewArticle = () => {
   return (
     <TimelineItem icon={Users} line={true}>
       <div className="flex flex-col">
-        <div className="text-sm text-foreground">
+        <div className="text-foreground text-sm">
           Posted a new article{' '}
           <Button mode="link" asChild>
             <Link to="/public-profile/profiles/blogger">
@@ -15,7 +15,7 @@ const ActivitiesNewArticle = () => {
             </Link>
           </Button>
         </div>
-        <span className="text-xs text-secondary-foreground">
+        <span className="text-secondary-foreground text-xs">
           Today, 9:00 AM
         </span>
       </div>

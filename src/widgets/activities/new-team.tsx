@@ -11,27 +11,27 @@ const ActivitiesNewTeam = () => {
     <TimelineItem icon={SquareDashedBottomCode} line={true}>
       <div className="grow">
         <div className="flex flex-col pb-2.5">
-          <div className="text-sm text-foreground">
+          <div className="text-foreground text-sm">
             A new team{' '}
             <Button
               mode="link"
               asChild
-              className="text-sm font-medium text-mono hover:text-primary-active"
+              className="text-mono hover:text-primary-active text-sm font-medium"
             >
               <Link to="#">Market Mavericks</Link>
             </Button>{' '}
             joined community
           </div>
-          <span className="text-xs text-secondary-foreground">
+          <span className="text-secondary-foreground text-xs">
             1 month ago, 11:45 AM
           </span>
         </div>
-        <Card className="shadow-none p-4">
-          <div className="flex flex-wrap justify-between items-center gap-7">
+        <Card className="p-4 shadow-none">
+          <div className="flex flex-wrap items-center justify-between gap-7">
             <div className="flex items-center gap-4">
               <div className="relative size-[50px] shrink-0">
                 <svg
-                  className="w-full h-full stroke-blue-200 fill-blue-100 dark:stroke-blue-950 dark:fill-blue-950/30"
+                  className="h-full w-full fill-blue-100 stroke-blue-200 dark:fill-blue-950/30 dark:stroke-blue-950"
                   width="44"
                   height="48"
                   viewBox="0 0 44 48"
@@ -52,32 +52,32 @@ const ActivitiesNewTeam = () => {
                     strokeOpacity="1"
                   />
                 </svg>
-                <div className="absolute leading-none start-2/4 top-2/4 -translate-y-2/4 -translate-x-2/4 rtl:translate-x-2/4">
-                  <Volleyball className="text-xl ps-px text-blue-500" />
+                <div className="absolute start-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 leading-none rtl:translate-x-2/4">
+                  <Volleyball className="ps-px text-xl text-blue-500" />
                 </div>
               </div>
               <div className="flex flex-col items-start gap-1.5">
                 <Button
                   mode="link"
                   asChild
-                  className="text-base font-medium hover:text-primary text-mono"
+                  className="hover:text-primary text-mono text-base font-medium"
                 >
                   <Link to="#">Market Mavericks</Link>
                 </Button>
-                <p className="text-sm text-secondary-foreground">
+                <p className="text-secondary-foreground text-sm">
                   Navigating markets with strategic solutions
                 </p>
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-6 lg:gap-12">
               <div className="flex flex-col items-end gap-5">
-                <span className="text-xs text-secondary-foreground uppercase">
+                <span className="text-secondary-foreground text-xs uppercase">
                   rating
                 </span>
                 <Rating rating={4} round={0.5} />
               </div>
-              <div className="flex flex-col items-end gap-3 lg:min-w-24 shrink-0 max-w-auto">
-                <span className="text-xs text-secondary-foreground uppercase">
+              <div className="max-w-auto flex shrink-0 flex-col items-end gap-3 lg:min-w-24">
+                <span className="text-secondary-foreground text-xs uppercase">
                   members
                 </span>
                 <AvatarGroup
@@ -94,7 +94,7 @@ const ActivitiesNewTeam = () => {
                   ]}
                 />
               </div>
-              <div className="grid justify-end min-w-20">
+              <div className="grid min-w-20 justify-end">
                 <Button variant="primary">
                   <Link to="#">
                     <Users />

@@ -121,7 +121,7 @@ function DefaultErrorFallback({ error }: DefaultErrorFallbackProps) {
             <p className="mb-2 text-sm font-semibold text-red-900">
               Error Details:
             </p>
-            <p className="break-words text-xs text-red-800">
+            <p className="text-xs break-words text-red-800">
               {error.toString()}
             </p>
             {error.stack && (

@@ -23,7 +23,7 @@ const CardIntegration = ({
   return (
     <Card>
       <CardContent className="p-5 lg:p-7.5">
-        <div className="flex items-center justify-between mb-3 lg:mb-5">
+        <div className="mb-3 flex items-center justify-between lg:mb-5">
           <div className="flex items-center justify-center">
             <img
               src={toAbsoluteUrl(`/media/brand-logos/${logo}`)}
@@ -38,16 +38,16 @@ const CardIntegration = ({
         <div className="flex flex-col gap-1 lg:gap-2.5">
           <Link
             to={path}
-            className="text-base font-medium text-mono hover:text-primary-active"
+            className="text-mono hover:text-primary-active text-base font-medium"
           >
             {name}
           </Link>
-          <span className="text-sm text-secondary-foreground">
+          <span className="text-secondary-foreground text-sm">
             {description}
           </span>
         </div>
       </CardContent>
-      <CardFooter className="justify-between items-center py-3.5">
+      <CardFooter className="items-center justify-between py-3.5">
         <Button variant="outline">
           <Link to="#">
             <SquareDashedMousePointer size={16} />

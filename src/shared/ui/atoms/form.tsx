@@ -99,7 +99,7 @@ function FormLabel({
   return (
     <Label
       data-slot="form-label"
-      className={cn('font-medium text-foreground', className)}
+      className={cn('text-foreground font-medium', className)}
       htmlFor={formItemId}
       {...props}
     />
@@ -139,7 +139,7 @@ function FormDescription({
     <div
       data-slot="form-description"
       id={formDescriptionId}
-      className={cn('text-xs text-muted-foreground -mt-0.5', className)}
+      className={cn('text-muted-foreground -mt-0.5 text-xs', className)}
       {...props}
     />
   );
@@ -161,7 +161,7 @@ function FormMessage({
     <div
       data-slot="form-message"
       id={formMessageId}
-      className={cn('-mt-0.5 text-xs font-normal text-destructive', className)}
+      className={cn('text-destructive -mt-0.5 text-xs font-normal', className)}
       {...props}
     >
       {body}

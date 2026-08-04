@@ -111,7 +111,7 @@ const Select = ({
         </SelectPrimitive.Root>
       </SelectContext.Provider>
 
-      {error && <p className="mt-1 text-xs text-destructive">{error}</p>}
+      {error && <p className="text-destructive mt-1 text-xs">{error}</p>}
     </div>
   );
 };
@@ -217,28 +217,28 @@ function SelectTrigger({
       >
         <div
           className={cn(
-            'flex-1 text-left truncate',
+            'flex-1 truncate text-left',
             clearable && hasValue && 'pr-4',
           )}
         >
           {children}
         </div>
         <SelectPrimitive.Icon asChild>
-          <ChevronDown className="h-4 w-4 opacity-60 -me-0.5" />
+          <ChevronDown className="-me-0.5 h-4 w-4 opacity-60" />
         </SelectPrimitive.Icon>
       </SelectPrimitive.Trigger>
 
       {clearable && hasValue && !disabled && (
         <button
           type="button"
-          className="absolute right-7 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-muted text-muted-foreground hover:text-destructive"
+          className="hover:bg-muted text-muted-foreground hover:text-destructive absolute top-1/2 right-7 -translate-y-1/2 rounded p-0.5"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             onValueChange?.('');
           }}
         >
-          <XIcon className="h-4 w-4 opacity-60 -me-0.5" />
+          <XIcon className="-me-0.5 h-4 w-4 opacity-60" />
         </button>
       )}
     </div>
@@ -310,7 +310,7 @@ function SelectContent({
       <SelectPrimitive.Content
         data-slot="select-content"
         className={cn(
-          'max-w-(--radix-select-trigger-width) relative z-50 max-h-96 min-w-32 overflow-hidden rounded-md border border-border bg-popover shadow-md shadow-black/5 text-secondary-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+          'border-border bg-popover text-secondary-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-96 max-w-(--radix-select-trigger-width) min-w-32 overflow-hidden rounded-md border shadow-md shadow-black/5',
           position === 'popper' &&
             'data-[side=bottom]:translate-y-1.5 data-[side=left]:-translate-x-1.5 data-[side=right]:translate-x-1.5 data-[side=top]:-translate-y-1.5',
           className,
@@ -320,13 +320,13 @@ function SelectContent({
       >
         <SelectScrollUpButton />
         {searchable && (
-          <div className="border-b border-border p-2">
+          <div className="border-border border-b p-2">
             <input
               type="text"
               placeholder={finalSearchPlaceholder}
               value={searchValue}
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="w-full px-2 py-1.5 text-sm rounded-md border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-0"
+              className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-md border px-2 py-1.5 text-sm focus:ring-2 focus:ring-offset-0 focus:outline-none"
             />
           </div>
         )}
@@ -353,7 +353,7 @@ function SelectLabel({
     <SelectPrimitive.Label
       data-slot="select-label"
       className={cn(
-        'py-1.5 ps-8 pe-2 text-xs text-muted-foreground font-medium',
+        'text-muted-foreground py-1.5 ps-8 pe-2 text-xs font-medium',
         className,
       )}
       {...props}
@@ -373,8 +373,8 @@ function SelectItem({
     <SelectPrimitive.Item
       data-slot="select-item"
       className={cn(
-        'relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 text-sm outline-hidden text-foreground hover:bg-accent focus:bg-accent data-disabled:pointer-events-none data-disabled:opacity-50 whitespace-normal break-all',
-        indicatorPosition === 'left' ? 'ps-8 pe-2' : 'pe-8 ps-2',
+        'text-foreground hover:bg-accent focus:bg-accent relative flex w-full cursor-default items-center rounded-sm py-1.5 text-sm break-all whitespace-normal outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50',
+        indicatorPosition === 'left' ? 'ps-8 pe-2' : 'ps-2 pe-8',
         className,
       )}
       {...props}
@@ -390,7 +390,7 @@ function SelectItem({
             )}
           >
             <SelectPrimitive.ItemIndicator>
-              <Check className="h-4 w-4 text-primary" />
+              <Check className="text-primary h-4 w-4" />
             </SelectPrimitive.ItemIndicator>
           </span>
         ))}
@@ -410,7 +410,7 @@ function SelectIndicator({
     <span
       data-slot="select-indicator"
       className={cn(
-        'absolute flex top-1/2 -translate-y-1/2 items-center justify-center',
+        'absolute top-1/2 flex -translate-y-1/2 items-center justify-center',
         indicatorPosition === 'left' ? 'start-2' : 'end-2',
         className,
       )}
@@ -428,7 +428,7 @@ function SelectSeparator({
   return (
     <SelectPrimitive.Separator
       data-slot="select-separator"
-      className={cn('-mx-1.5 my-1.5 h-px bg-border', className)}
+      className={cn('bg-border -mx-1.5 my-1.5 h-px', className)}
       {...props}
     />
   );

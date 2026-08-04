@@ -26,8 +26,7 @@ export function useAdminCategories(
 ) {
   return useQuery({
     queryKey: adminCategoryKeys.list(query, roleCode, locale),
-    queryFn: () =>
-      adminCategoryService.listCategories(query, roleCode, locale),
+    queryFn: () => adminCategoryService.listCategories(query, roleCode, locale),
     retry: false,
   });
 }
@@ -75,12 +74,7 @@ export function useUpdateAdminCategory() {
       roleCode: AdminRoleCode;
       actorId: string;
     }) =>
-      adminCategoryService.updateCategory(
-        categoryId,
-        input,
-        roleCode,
-        actorId,
-      ),
+      adminCategoryService.updateCategory(categoryId, input, roleCode, actorId),
     onSuccess: (_, { categoryId }) =>
       Promise.all([
         queryClient.invalidateQueries({ queryKey: adminCategoryKeys.all }),
@@ -103,11 +97,7 @@ export function useInactivateAdminCategory() {
       roleCode: AdminRoleCode;
       actorId: string;
     }) =>
-      adminCategoryService.inactivateCategory(
-        categoryId,
-        roleCode,
-        actorId,
-      ),
+      adminCategoryService.inactivateCategory(categoryId, roleCode, actorId),
     onSuccess: (_, { categoryId }) =>
       Promise.all([
         queryClient.invalidateQueries({ queryKey: adminCategoryKeys.all }),

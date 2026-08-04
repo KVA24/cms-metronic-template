@@ -173,7 +173,7 @@ export function TypingText({
             variants={cursorVariants}
             animate="blinking"
             className={cn(
-              'inline-block ms-1 font-normal text-foreground select-none w-px',
+              'text-foreground ms-1 inline-block w-px font-normal select-none',
               cursorClassName,
             )}
           >

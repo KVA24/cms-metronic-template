@@ -1,10 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import type { ContentLocale, EntityStatus } from '@/shared/contracts';
 import { useTranslations } from '@/shared/hooks/use-translations';
-import {
-  hasPermission,
-  type AdminRoleCode,
-} from '@/shared/permissions';
+import { hasPermission, type AdminRoleCode } from '@/shared/permissions';
 import { useAuthSession } from '@/shared/stores/auth-store';
 import { Alert, AlertDescription, AlertIcon } from '@/shared/ui/atoms/alert';
 import { Badge } from '@/shared/ui/atoms/badge';
@@ -93,7 +90,7 @@ export function AdminCategoryListPage() {
           <h1 className="text-2xl font-semibold tracking-tight">
             {t('ADMIN_CATEGORIES.TITLE')}
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             {t('ADMIN_CATEGORIES.DESCRIPTION')}
           </p>
         </div>
@@ -109,21 +106,31 @@ export function AdminCategoryListPage() {
 
       <Card>
         <CardContent className="pt-6">
-          <form className="grid gap-4 md:grid-cols-2 xl:grid-cols-6" onSubmit={apply}>
+          <form
+            className="grid gap-4 md:grid-cols-2 xl:grid-cols-6"
+            onSubmit={apply}
+          >
             <label className="space-y-1.5 xl:col-span-2">
-              <span className="text-sm font-medium">{t('ADMIN_CATEGORIES.FILTERS.KEYWORD')}</span>
+              <span className="text-sm font-medium">
+                {t('ADMIN_CATEGORIES.FILTERS.KEYWORD')}
+              </span>
               <Input
                 id="category-keyword"
                 name="keyword"
                 value={draft.keyword}
                 onChange={(event) =>
-                  setDraft((current) => ({ ...current, keyword: event.target.value }))
+                  setDraft((current) => ({
+                    ...current,
+                    keyword: event.target.value,
+                  }))
                 }
                 placeholder={t('ADMIN_CATEGORIES.FILTERS.KEYWORD_PLACEHOLDER')}
               />
             </label>
             <label className="space-y-1.5">
-              <span className="text-sm font-medium">{t('COMMON.STATUS_1')}</span>
+              <span className="text-sm font-medium">
+                {t('COMMON.STATUS_1')}
+              </span>
               <select
                 id="category-status"
                 name="status"
@@ -138,13 +145,17 @@ export function AdminCategoryListPage() {
               >
                 {['ALL', 'ACTIVE', 'INACTIVE', 'DRAFT'].map((status) => (
                   <option key={status} value={status}>
-                    {status === 'ALL' ? t('COMMON.ALL') : t(`COMMON.STATUS.${status}`)}
+                    {status === 'ALL'
+                      ? t('COMMON.ALL')
+                      : t(`COMMON.STATUS.${status}`)}
                   </option>
                 ))}
               </select>
             </label>
             <label className="space-y-1.5">
-              <span className="text-sm font-medium">{t('ADMIN_CATEGORIES.LANDING')}</span>
+              <span className="text-sm font-medium">
+                {t('ADMIN_CATEGORIES.LANDING')}
+              </span>
               <select
                 id="category-landing"
                 name="landing"
@@ -153,7 +164,8 @@ export function AdminCategoryListPage() {
                 onChange={(event) =>
                   setDraft((current) => ({
                     ...current,
-                    landing: event.target.value as AdminCategoryQuery['landing'],
+                    landing: event.target
+                      .value as AdminCategoryQuery['landing'],
                   }))
                 }
               >
@@ -164,14 +176,16 @@ export function AdminCategoryListPage() {
             </label>
             <div className="flex items-end gap-2 xl:col-span-2">
               <Button type="submit" variant="mono">
-                <Search />{t('COMMON.APPLY')}
+                <Search />
+                {t('COMMON.APPLY')}
               </Button>
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => updateQuery(ADMIN_CATEGORY_DEFAULT_QUERY)}
               >
-                <RotateCcw />{t('COMMON.RESET')}
+                <RotateCcw />
+                {t('COMMON.RESET')}
               </Button>
             </div>
           </form>
@@ -181,7 +195,7 @@ export function AdminCategoryListPage() {
       <Card>
         <CardContent className="space-y-4 pt-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               {t('ADMIN_CATEGORIES.RESULT_COUNT', {
                 count: categories.data?.totalItems ?? 0,
               })}
@@ -228,10 +242,15 @@ export function AdminCategoryListPage() {
           </div>
 
           {categories.isLoading ? (
-            <Skeleton className="h-96 w-full" aria-label={t('COMMON.LOADING')} />
+            <Skeleton
+              className="h-96 w-full"
+              aria-label={t('COMMON.LOADING')}
+            />
           ) : categories.error ? (
             <Alert variant="destructive" appearance="light">
-              <AlertIcon><AlertCircle /></AlertIcon>
+              <AlertIcon>
+                <AlertCircle />
+              </AlertIcon>
               <AlertDescription className="flex items-center justify-between gap-4">
                 {t('ADMIN_CATEGORIES.ERROR')}
                 <Button variant="outline" onClick={() => categories.refetch()}>
@@ -240,7 +259,7 @@ export function AdminCategoryListPage() {
               </AlertDescription>
             </Alert>
           ) : categories.data?.items.length === 0 ? (
-            <div className="py-16 text-center text-sm text-muted-foreground">
+            <div className="text-muted-foreground py-16 text-center text-sm">
               {t('ADMIN_CATEGORIES.EMPTY')}
             </div>
           ) : (
@@ -252,38 +271,50 @@ export function AdminCategoryListPage() {
                   <TableHead>{t('COMMON.STATUS_1')}</TableHead>
                   <TableHead>{t('ADMIN_CATEGORIES.UPDATED')}</TableHead>
                   <TableHead>{t('ADMIN_CATEGORIES.LANDING')}</TableHead>
-                  <TableHead className="text-right">{t('COMMON.ACTIONS')}</TableHead>
+                  <TableHead className="text-right">
+                    {t('COMMON.ACTIONS')}
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {categories.data?.items.map((category) => (
                   <TableRow key={category.id}>
-                    <TableCell className="font-mono font-medium">{category.code}</TableCell>
+                    <TableCell className="font-mono font-medium">
+                      {category.code}
+                    </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <img
                           src={category.icon?.url ?? '/media/app/mini-logo.svg'}
                           alt=""
-                          className="size-9 rounded-md border bg-muted object-contain p-1.5"
+                          className="bg-muted size-9 rounded-md border object-contain p-1.5"
                         />
                         <div>
                           <p className="font-medium">{category.name}</p>
                           {category.resolvedLocale !== locale && (
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-muted-foreground text-xs">
                               {t('ADMIN_CATEGORIES.FALLBACK_VI')}
                             </p>
                           )}
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell><StatusBadge status={category.status} /></TableCell>
                     <TableCell>
-                      <p>{dateFormatter.format(new Date(category.updatedAt))}</p>
-                      <p className="text-xs text-muted-foreground">{category.updatedBy}</p>
+                      <StatusBadge status={category.status} />
+                    </TableCell>
+                    <TableCell>
+                      <p>
+                        {dateFormatter.format(new Date(category.updatedAt))}
+                      </p>
+                      <p className="text-muted-foreground text-xs">
+                        {category.updatedBy}
+                      </p>
                     </TableCell>
                     <TableCell>
                       <Badge
-                        variant={category.landingVisible ? 'success' : 'secondary'}
+                        variant={
+                          category.landingVisible ? 'success' : 'secondary'
+                        }
                         appearance="light"
                       >
                         {category.landingVisible
@@ -296,7 +327,9 @@ export function AdminCategoryListPage() {
                         <Button variant="outline" size="icon" asChild>
                           <Link
                             to={`/admin/categories/${category.id}`}
-                            aria-label={t('ADMIN_CATEGORIES.VIEW_CATEGORY', { name: category.name })}
+                            aria-label={t('ADMIN_CATEGORIES.VIEW_CATEGORY', {
+                              name: category.name,
+                            })}
                           >
                             <Eye />
                           </Link>
@@ -305,7 +338,9 @@ export function AdminCategoryListPage() {
                           <Button variant="outline" size="icon" asChild>
                             <Link
                               to={`/admin/categories/${category.id}/edit`}
-                              aria-label={t('ADMIN_CATEGORIES.EDIT_CATEGORY', { name: category.name })}
+                              aria-label={t('ADMIN_CATEGORIES.EDIT_CATEGORY', {
+                                name: category.name,
+                              })}
                             >
                               <Pencil />
                             </Link>
@@ -329,14 +364,20 @@ export function AdminCategoryListPage() {
                   className={selectClassName}
                   value={query.pageSize}
                   onChange={(event) =>
-                    updateQuery({ ...query, page: 1, pageSize: Number(event.target.value) })
+                    updateQuery({
+                      ...query,
+                      page: 1,
+                      pageSize: Number(event.target.value),
+                    })
                   }
                 >
-                  {[5, 10, 20].map((size) => <option key={size}>{size}</option>)}
+                  {[5, 10, 20].map((size) => (
+                    <option key={size}>{size}</option>
+                  ))}
                 </select>
               </label>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">
+                <span className="text-muted-foreground text-sm">
                   {t('ADMIN_CATEGORIES.PAGE', {
                     page: categories.data.page,
                     total: categories.data.totalPages,
@@ -347,7 +388,9 @@ export function AdminCategoryListPage() {
                   size="icon"
                   disabled={categories.data.page <= 1}
                   aria-label={t('COMMON.PREVIOUS')}
-                  onClick={() => updateQuery({ ...query, page: query.page - 1 })}
+                  onClick={() =>
+                    updateQuery({ ...query, page: query.page - 1 })
+                  }
                 >
                   <ChevronLeft />
                 </Button>
@@ -356,7 +399,9 @@ export function AdminCategoryListPage() {
                   size="icon"
                   disabled={categories.data.page >= categories.data.totalPages}
                   aria-label={t('COMMON.NEXT')}
-                  onClick={() => updateQuery({ ...query, page: query.page + 1 })}
+                  onClick={() =>
+                    updateQuery({ ...query, page: query.page + 1 })
+                  }
                 >
                   <ChevronRight />
                 </Button>

@@ -21,10 +21,10 @@ export function Starter({ image, title, subTitle, engage }: StarterProps) {
         <div className="flex justify-center p-7.5 py-9">{image}</div>
         <div className="flex flex-col gap-5 lg:gap-7.5">
           <div className="flex flex-col gap-3 text-center">
-            <h2 className="text-xl font-semibold text-mono">{title}</h2>
-            <p className="text-sm text-foreground">{subTitle}</p>
+            <h2 className="text-mono text-xl font-semibold">{title}</h2>
+            <p className="text-foreground text-sm">{subTitle}</p>
           </div>
-          <div className="flex justify-center mb-5">
+          <div className="mb-5 flex justify-center">
             <Button size="md" className={engage.btnColor}>
               <Link to={engage.path}>{engage.label}</Link>
             </Button>

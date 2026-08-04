@@ -7,7 +7,7 @@ const ActivitiesInterview = () => {
   return (
     <TimelineItem icon={LogIn} line={true}>
       <div className="flex flex-col">
-        <div className="text-sm text-foreground">
+        <div className="text-foreground text-sm">
           I had the privilege of interviewing an industry expert for an{' '}
           <Button mode="link" asChild>
             <Link to="/public-profile/profiles/blogger">
@@ -15,7 +15,7 @@ const ActivitiesInterview = () => {
             </Link>
           </Button>
         </div>
-        <span className="text-xs text-secondary-foreground">
+        <span className="text-secondary-foreground text-xs">
           2 days ago, 4:07 PM
         </span>
       </div>

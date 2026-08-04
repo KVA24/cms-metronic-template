@@ -60,14 +60,41 @@ describe('portal menu permissions', () => {
 
   it('derives the approved menu and landing route for every TENANT system role', () => {
     const expected = {
-      TENANT_ADMIN: ['/tenant/dashboard', '/tenant/assigned-brands', '/tenant/earn-display', '/tenant/transactions', '/tenant/account/roles', '/tenant/account/users', '/tenant/account/profile'],
-      TENANT_MARKETING_OPS: ['/tenant/assigned-brands', '/tenant/earn-display', '/tenant/account/profile'],
-      TENANT_VIEWER: ['/tenant/dashboard', '/tenant/assigned-brands', '/tenant/earn-display', '/tenant/transactions', '/tenant/account/profile'],
-      TENANT_FINANCE: ['/tenant/dashboard', '/tenant/transactions', '/tenant/account/profile'],
+      TENANT_ADMIN: [
+        '/tenant/dashboard',
+        '/tenant/assigned-brands',
+        '/tenant/earn-display',
+        '/tenant/transactions',
+        '/tenant/account/roles',
+        '/tenant/account/users',
+        '/tenant/account/profile',
+      ],
+      TENANT_MARKETING_OPS: [
+        '/tenant/assigned-brands',
+        '/tenant/earn-display',
+        '/tenant/account/profile',
+      ],
+      TENANT_VIEWER: [
+        '/tenant/dashboard',
+        '/tenant/assigned-brands',
+        '/tenant/earn-display',
+        '/tenant/transactions',
+        '/tenant/account/profile',
+      ],
+      TENANT_FINANCE: [
+        '/tenant/dashboard',
+        '/tenant/transactions',
+        '/tenant/account/profile',
+      ],
     } as const;
     for (const [role, paths] of Object.entries(expected)) {
       const permissions = getPermissionsForRole(role as keyof typeof expected);
-      assert.deepEqual(flattenPaths(filterMenuByPermissions(getPortalMenu('TENANT'), permissions)), paths);
+      assert.deepEqual(
+        flattenPaths(
+          filterMenuByPermissions(getPortalMenu('TENANT'), permissions),
+        ),
+        paths,
+      );
       assert.equal(getFirstPermittedPath('TENANT', permissions), paths[0]);
     }
   });

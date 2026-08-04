@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import type {
   AssetMetadata,
   Category,
@@ -6,7 +7,6 @@ import type {
   EntityStatus,
   PageResult,
 } from '../../../../shared/contracts';
-import { z } from 'zod';
 
 export type CategoryStatusFilter = EntityStatus | 'ALL';
 export type CategoryLandingFilter = 'ALL' | 'VISIBLE' | 'HIDDEN';
@@ -176,14 +176,15 @@ export function readAdminCategoryQuery(
       : ADMIN_CATEGORY_DEFAULT_QUERY.pageSize,
     keyword: params.get('keyword')?.trim() ?? '',
     status: status && statusValues.includes(status) ? status : 'ALL',
-    landing:
-      landing && landingValues.includes(landing) ? landing : 'ALL',
+    landing: landing && landingValues.includes(landing) ? landing : 'ALL',
     sortBy: sortBy && sortValues.includes(sortBy) ? sortBy : 'displayOrder',
     sortDirection: sortDirection === 'desc' ? 'desc' : 'asc',
   };
 }
 
-export function writeAdminCategoryQuery(query: AdminCategoryQuery): URLSearchParams {
+export function writeAdminCategoryQuery(
+  query: AdminCategoryQuery,
+): URLSearchParams {
   const params = new URLSearchParams();
   if (query.page !== 1) params.set('page', String(query.page));
   if (query.pageSize !== 5) params.set('pageSize', String(query.pageSize));

@@ -146,15 +146,15 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
         <Button
           id="date"
           variant="outline"
-          className="w-full justify-start text-left font-normal text-foreground overflow-hidden"
+          className="text-foreground w-full justify-start overflow-hidden text-left font-normal"
           disabled={disabled}
         >
           <CalendarDays size={16} className="mr-2 shrink-0" />
-          <span className="truncate flex-1 min-w-0">{formatDateRange()}</span>
+          <span className="min-w-0 flex-1 truncate">{formatDateRange()}</span>
           {dateRange && !disabled && clearable && (
             <X
               size={16}
-              className="ml-2 shrink-0 hover:text-destructive"
+              className="hover:text-destructive ml-2 shrink-0"
               onClick={handleReset}
             />
           )}
@@ -170,11 +170,11 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
           disabled={disabled}
         />
         {rangeError && (
-          <div className="text-sm text-destructive bg-destructive/10 border-t border-destructive/20 px-3 py-2">
+          <div className="text-destructive bg-destructive/10 border-destructive/20 border-t px-3 py-2 text-sm">
             {rangeError}
           </div>
         )}
-        <div className="flex items-center justify-end gap-1.5 border-t border-border p-3">
+        <div className="border-border flex items-center justify-end gap-1.5 border-t p-3">
           <Button
             variant="outline"
             onClick={handleResetTemp}

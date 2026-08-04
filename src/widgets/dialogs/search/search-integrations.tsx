@@ -29,9 +29,9 @@ export function SearchIntegrations({
           {items.map((item) => (
             <AccordionMenuItem key={item.name} value={item.name} asChild>
               <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center grow gap-2">
+                <div className="flex grow items-center gap-2">
                   {/* Logo */}
-                  <div className="flex items-center justify-center size-10 shrink-0 rounded-full border border-border bg-accent/60">
+                  <div className="border-border bg-accent/60 flex size-10 shrink-0 items-center justify-center rounded-full border">
                     <img
                       src={toAbsoluteUrl(`/media/brand-logos/${item.logo}`)}
                       className="size-6 shrink-0"
@@ -43,18 +43,18 @@ export function SearchIntegrations({
                   <div className="flex flex-col gap-0.5">
                     <Link
                       to="#"
-                      className="text-sm font-semibold text-mono hover:text-primary-active"
+                      className="text-mono hover:text-primary-active text-sm font-semibold"
                     >
                       {item.name}
                     </Link>
-                    <span className="text-xs font-medium text-secondary-foreground">
+                    <span className="text-secondary-foreground text-xs font-medium">
                       {item.description}
                     </span>
                   </div>
                 </div>
 
                 {/* Team avatars */}
-                <div className="flex justify-end shrink-0">
+                <div className="flex shrink-0 justify-end">
                   <AvatarGroup group={item.team} />
                 </div>
               </div>

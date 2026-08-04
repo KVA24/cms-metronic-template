@@ -35,10 +35,10 @@ export default function Item18() {
     return (
       <Card
         key={item.id}
-        className="shadow-none flex flex-col gap-3.5 bg-muted/70 w-40 overflow-hidden"
+        className="bg-muted/70 flex w-40 flex-col gap-3.5 overflow-hidden shadow-none"
       >
         <div
-          className="bg-cover bg-no-repeat kt-card-rounded-t shrink-0 h-24"
+          className="kt-card-rounded-t h-24 shrink-0 bg-cover bg-no-repeat"
           style={{
             backgroundImage: `url(${toAbsoluteUrl(`/media/images/600x600/${item.image}`)})`,
           }}
@@ -47,13 +47,13 @@ export default function Item18() {
         <div className="px-2.5 pb-2">
           <Link
             to="#"
-            className="font-medium block text-secondary-foreground hover:text-primary text-xs leading-4 mb-0.5"
+            className="text-secondary-foreground hover:text-primary mb-0.5 block text-xs leading-4 font-medium"
           >
             {item.title}
           </Link>
-          <div className="text-xs font-medium text-muted-foreground">
+          <div className="text-muted-foreground text-xs font-medium">
             Token ID:
-            <span className="text-xs font-medium text-secondary-foreground">
+            <span className="text-secondary-foreground text-xs font-medium">
               {item.id}
             </span>
           </div>
@@ -72,9 +72,9 @@ export default function Item18() {
         </AvatarIndicator>
       </Avatar>
 
-      <div className="flex flex-col gap-2.5 grow">
-        <div className="flex flex-col gap-1 mb-1">
-          <div className="text-sm font-medium mb-px">
+      <div className="flex grow flex-col gap-2.5">
+        <div className="mb-1 flex flex-col gap-1">
+          <div className="mb-px text-sm font-medium">
             <Link to="#" className="hover:text-primary text-mono font-semibold">
               Jane Perez
             </Link>
@@ -90,9 +90,9 @@ export default function Item18() {
             </Link>
           </div>
 
-          <span className="flex items-center text-xs font-medium text-muted-foreground">
+          <span className="text-muted-foreground flex items-center text-xs font-medium">
             23 hours ago
-            <span className="rounded-full size-1 bg-mono/30 mx-1.5"></span>
+            <span className="bg-mono/30 mx-1.5 size-1 rounded-full"></span>
             Craftwork Design
           </span>
         </div>

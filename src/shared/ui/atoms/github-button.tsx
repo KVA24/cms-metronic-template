@@ -285,8 +285,8 @@ function GithubButton({
       {showGithubIcon && (
         <div
           className={cn(
-            'h-full relative flex items-center justify-center',
-            separator && 'w-9 bg-muted/60 border-e border-input',
+            'relative flex h-full items-center justify-center',
+            separator && 'bg-muted/60 border-input w-9 border-e',
           )}
         >
           <svg role="img" viewBox="0 0 24 24" fill="currentColor">
@@ -305,7 +305,7 @@ function GithubButton({
             aria-hidden="true"
           />
           <Star
-            className="absolute top-0 start-0 text-yellow-400 fill-yellow-400"
+            className="absolute start-0 top-0 fill-yellow-400 text-yellow-400"
             size={18}
             aria-hidden="true"
             style={{
@@ -318,7 +318,7 @@ function GithubButton({
       {/* Animated Number Counter with Ticker Effect */}
       <div
         className={cn(
-          'flex flex-col font-semibold relative overflow-hidden',
+          'relative flex flex-col overflow-hidden font-semibold',
           starsClass,
         )}
       >
@@ -335,7 +335,7 @@ function GithubButton({
           <span>{currentStars > 0 && formatNumber(currentStars)}</span>
         </motion.div>
         {fixedWidth && (
-          <span className="opacity-0 h-0 overflow-hidden tabular-nums">
+          <span className="h-0 overflow-hidden tabular-nums opacity-0">
             {formatNumber(targetStars)}
           </span>
         )}

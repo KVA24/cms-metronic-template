@@ -49,22 +49,22 @@ export function NotificationsSheet({ trigger }: { trigger: ReactNode }) {
   return (
     <Sheet>
       <SheetTrigger asChild>{trigger}</SheetTrigger>
-      <SheetContent className="p-0 gap-0 sm:w-[500px] sm:max-w-none inset-5 start-auto h-auto rounded-lg p-0 sm:max-w-none [&_[data-slot=sheet-close]]:top-4.5 [&_[data-slot=sheet-close]]:end-5">
+      <SheetContent className="inset-5 start-auto h-auto gap-0 rounded-lg p-0 sm:w-[500px] sm:max-w-none [&_[data-slot=sheet-close]]:end-5 [&_[data-slot=sheet-close]]:top-4.5">
         <SheetHeader className="mb-0">
           <SheetTitle className="p-3">Notifications</SheetTitle>
         </SheetHeader>
         <SheetBody className="grow p-0">
           <ScrollArea className="h-[calc(100vh-10.5rem)]">
-            <Tabs defaultValue="all" className="w-full relative">
-              <TabsList variant="line" className="w-full px-5 mb-5">
+            <Tabs defaultValue="all" className="relative w-full">
+              <TabsList variant="line" className="mb-5 w-full px-5">
                 <TabsTrigger value="all">All</TabsTrigger>
                 <TabsTrigger value="inbox" className="relative">
                   Inbox
-                  <div className="w-1.5 h-1.5 rounded-full bg-green-500 absolute top-1 -end-1" />
+                  <div className="absolute -end-1 top-1 h-1.5 w-1.5 rounded-full bg-green-500" />
                 </TabsTrigger>
                 <TabsTrigger value="team">Team</TabsTrigger>
                 <TabsTrigger value="following">Following</TabsTrigger>
-                <div className="grow flex items-center justify-end">
+                <div className="flex grow items-center justify-end">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button
@@ -135,9 +135,9 @@ export function NotificationsSheet({ trigger }: { trigger: ReactNode }) {
                     specialist="Web Design 2024"
                     text="For an expert opinion, check out what Mike has to say on this topic!"
                   />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item2 />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item3
                     userName="Guy Hawkins"
                     avatar="300-27.png"
@@ -148,9 +148,9 @@ export function NotificationsSheet({ trigger }: { trigger: ReactNode }) {
                     date="14 hours ago"
                     info="Dev Team"
                   />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item4 />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item5
                     userName="Raymond Pawell"
                     avatar="300-11.png"
@@ -161,7 +161,7 @@ export function NotificationsSheet({ trigger }: { trigger: ReactNode }) {
                     date="1 hour ago"
                     info="Roadmap"
                   />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item6 />
                 </div>
               </TabsContent>
@@ -170,13 +170,13 @@ export function NotificationsSheet({ trigger }: { trigger: ReactNode }) {
               <TabsContent value="inbox" className="mt-0">
                 <div className="flex flex-col gap-5">
                   <Item13 />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item14 />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item15 />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item16 />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item3
                     userName="Benjamin Harris"
                     avatar="300-30.png"
@@ -187,7 +187,7 @@ export function NotificationsSheet({ trigger }: { trigger: ReactNode }) {
                     date="4 days ago"
                     info="Marketing"
                   />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item5
                     userName="Isaac Morgan"
                     avatar="300-24.png"
@@ -205,7 +205,7 @@ export function NotificationsSheet({ trigger }: { trigger: ReactNode }) {
               <TabsContent value="team" className="mt-0">
                 <div className="flex flex-col gap-5">
                   <Item10 />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item5
                     userName="Adrian Vale"
                     avatar="300-6.png"
@@ -216,9 +216,9 @@ export function NotificationsSheet({ trigger }: { trigger: ReactNode }) {
                     date="2 days ago"
                     info="Marketing"
                   />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item11 />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item1
                     userName="Selene Silverleaf"
                     avatar="300-21.png"
@@ -229,7 +229,7 @@ export function NotificationsSheet({ trigger }: { trigger: ReactNode }) {
                     specialist="Manager"
                     text="This design is simply stunning! From layout to color, it's a work of art!"
                   />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item3
                     userName="Thalia Fox"
                     avatar="300-13.png"
@@ -247,11 +247,11 @@ export function NotificationsSheet({ trigger }: { trigger: ReactNode }) {
               <TabsContent value="following" className="mt-0">
                 <div className="flex flex-col gap-5">
                   <Item18 />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item17 />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item19 />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item5
                     userName="Chloe Morgan"
                     avatar="300-34.png"
@@ -262,9 +262,9 @@ export function NotificationsSheet({ trigger }: { trigger: ReactNode }) {
                     date="1 day ago"
                     info="Nexus"
                   />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item20 />
-                  <div className="border-b border-b-border"></div>
+                  <div className="border-b-border border-b"></div>
                   <Item3
                     userName="Thalia Fox"
                     avatar="300-13.png"
@@ -280,7 +280,7 @@ export function NotificationsSheet({ trigger }: { trigger: ReactNode }) {
             </Tabs>
           </ScrollArea>
         </SheetBody>
-        <SheetFooter className="border-t border-border p-5 grid grid-cols-2 gap-2.5">
+        <SheetFooter className="border-border grid grid-cols-2 gap-2.5 border-t p-5">
           <Button variant="outline">Archive all</Button>
           <Button variant="outline">Mark all as read</Button>
         </SheetFooter>

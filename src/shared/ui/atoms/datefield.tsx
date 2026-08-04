@@ -57,13 +57,7 @@ function DateSegment({ className, ...props }: DateSegmentProps) {
     <DateSegmentRa
       className={composeRenderProps(className, (className) =>
         cn(
-          `
-            text-foreground inline-flex rounded px-0.5 caret-transparent outline-hidden data-[type=literal]:text-muted-foreground/70 data-[type=literal]:px-0
-            data-placeholder:text-muted-foreground/70
-            data-invalid:data-focused:bg-destructive data-invalid:data-placeholder:text-destructive data-invalid:text-destructive data-invalid:data-focused:data-placeholder:text-destructive-foreground data-invalid:data-focused:text-destructive-foreground 
-            data-focused:bg-primary data-focused:data-placeholder:text-foreground data-focused:text-white
-            data-disabled:cursor-not-allowed data-disabled:opacity-50
-          `,
+          `text-foreground data-[type=literal]:text-muted-foreground/70 data-placeholder:text-muted-foreground/70 data-invalid:data-focused:bg-destructive data-invalid:data-placeholder:text-destructive data-invalid:text-destructive data-invalid:data-focused:data-placeholder:text-destructive-foreground data-invalid:data-focused:text-destructive-foreground data-focused:bg-primary data-focused:data-placeholder:text-foreground inline-flex rounded px-0.5 caret-transparent outline-hidden data-disabled:cursor-not-allowed data-disabled:opacity-50 data-focused:text-white data-[type=literal]:px-0`,
           className,
         ),
       )}

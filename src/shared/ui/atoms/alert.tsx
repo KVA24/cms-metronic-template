@@ -240,9 +240,9 @@ function Alert({
           onClick={onClose}
           aria-label="Dismiss"
           data-slot="alert-close"
-          className={cn('group shrink-0 size-4')}
+          className={cn('group size-4 shrink-0')}
         >
-          <X className="opacity-60 group-hover:opacity-100 size-4" />
+          <X className="size-4 opacity-60 group-hover:opacity-100" />
         </Button>
       )}
     </div>
@@ -289,7 +289,7 @@ function AlertDescription({
   return (
     <div
       data-slot="alert-description"
-      className={cn('text-sm [&_p]:leading-relaxed [&_p]:mb-2', className)}
+      className={cn('text-sm [&_p]:mb-2 [&_p]:leading-relaxed', className)}
       {...props}
     />
   );

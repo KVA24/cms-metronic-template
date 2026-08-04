@@ -20,9 +20,9 @@ export default function Item17() {
         </AvatarIndicator>
       </Avatar>
 
-      <div className="flex flex-col gap-2.5 grow">
-        <div className="flex flex-col gap-1 mb-1">
-          <div className="text-sm font-medium mb-px">
+      <div className="flex grow flex-col gap-2.5">
+        <div className="mb-1 flex flex-col gap-1">
+          <div className="mb-px text-sm font-medium">
             <Link to="#" className="hover:text-primary text-mono font-semibold">
               Natalie Wood
             </Link>
@@ -31,15 +31,15 @@ export default function Item17() {
               wants to edit marketing project{' '}
             </span>
           </div>
-          <span className="flex items-center text-xs font-medium text-muted-foreground">
+          <span className="text-muted-foreground flex items-center text-xs font-medium">
             1 day ago
-            <span className="rounded-full size-1 bg-mono/30 mx-1.5"></span>
+            <span className="bg-mono/30 mx-1.5 size-1 rounded-full"></span>
             Designer
           </span>
         </div>
 
-        <div className="kt-card shadow-none flex items-center flex-row gap-1.5 p-2.5 rounded-lg bg-muted/70">
-          <div className="flex items-center justify-center w-[26px] h-[30px] shrink-0 bg-white rounded-sm border border-border">
+        <div className="kt-card bg-muted/70 flex flex-row items-center gap-1.5 rounded-lg p-2.5 shadow-none">
+          <div className="border-border flex h-[30px] w-[26px] shrink-0 items-center justify-center rounded-sm border bg-white">
             <img
               src={toAbsoluteUrl('/media/brand-logos/jira.svg')}
               className="h-5"
@@ -49,11 +49,11 @@ export default function Item17() {
 
           <Link
             to="#"
-            className="hover:text-primary font-medium text-secondary-foreground text-xs me-1"
+            className="hover:text-primary text-secondary-foreground me-1 text-xs font-medium"
           >
             User-feedback.jira
           </Link>
-          <span className="font-medium text-muted-foreground text-xs">
+          <span className="text-muted-foreground text-xs font-medium">
             Edited 1 hour ago
           </span>
         </div>

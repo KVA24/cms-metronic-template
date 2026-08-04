@@ -23,19 +23,19 @@ export function ShareProfileDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="p-0 space-y-0 max-w-[500px]">
-        <DialogHeader className="p-5 m-0">
+      <DialogContent className="max-w-[500px] space-y-0 p-0">
+        <DialogHeader className="m-0 p-5">
           <DialogTitle>Share Profile</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <div className="grid gap-5 px-0 pt-1 pb-5">
           <ShareProfileViaLink />
 
-          <div className="border-b border-b-border"></div>
+          <div className="border-b-border border-b"></div>
 
           <ShareProfileViaEmail />
 
-          <div className="border-b border-b-border"></div>
+          <div className="border-b-border border-b"></div>
 
           <div
             className="scrollable-y-auto"
@@ -44,7 +44,7 @@ export function ShareProfileDialog({
             <ShareProfileUsers />
           </div>
 
-          <div className="border-b border-b-border"></div>
+          <div className="border-b-border border-b"></div>
 
           <ShareProfileSettings />
         </div>

@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 
 const Toolbar = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+    <div className="flex flex-wrap items-center justify-between gap-5 pb-7.5 lg:items-end">
       {children}
     </div>
   );
@@ -25,7 +25,7 @@ const ToolbarPageTitle = ({ text }: { text?: string }) => {
   const itemTitle = item?.translationKey ? t(item.translationKey) : item?.title;
 
   return (
-    <h1 className="text-xl font-medium leading-none text-mono">
+    <h1 className="text-mono text-xl leading-none font-medium">
       {text ?? itemTitle}
     </h1>
   );
@@ -33,7 +33,7 @@ const ToolbarPageTitle = ({ text }: { text?: string }) => {
 
 const ToolbarDescription = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex items-center gap-2 text-sm font-normal text-secondary-foreground">
+    <div className="text-secondary-foreground flex items-center gap-2 text-sm font-normal">
       {children}
     </div>
   );

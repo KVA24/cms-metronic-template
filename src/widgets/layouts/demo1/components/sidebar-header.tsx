@@ -27,7 +27,7 @@ export function SidebarHeader() {
   };
 
   return (
-    <div className="sidebar-header hidden lg:flex items-center relative justify-between px-3 lg:px-6 shrink-0">
+    <div className="sidebar-header relative hidden shrink-0 items-center justify-between px-3 lg:flex lg:px-6">
       <Link to="/">
         <div className="dark:hidden">
           <img
@@ -61,7 +61,7 @@ export function SidebarHeader() {
         variant="outline"
         aria-label={t('SIDEBAR.TOGGLE')}
         className={cn(
-          'size-7 absolute start-full top-2/4 rtl:translate-x-2/4 -translate-x-2/4 -translate-y-2/4',
+          'absolute start-full top-2/4 size-7 -translate-x-2/4 -translate-y-2/4 rtl:translate-x-2/4',
           settings.layouts.demo1.sidebarCollapse
             ? 'ltr:rotate-180'
             : 'rtl:rotate-180',

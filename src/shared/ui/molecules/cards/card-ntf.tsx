@@ -13,9 +13,9 @@ interface INFTProps {
 
 const CardNFT = ({ image, id, title, info, date }: INFTProps) => {
   return (
-    <Card className="shadow-none mb-5">
+    <Card className="mb-5 shadow-none">
       <div
-        className="rounded-t-xl w-[280px] h-[240px] bg-cover bg-center"
+        className="h-[240px] w-[280px] rounded-t-xl bg-cover bg-center"
         style={{
           backgroundImage: `url(${toAbsoluteUrl(`/media/images/600x600/${image}`)})`,
         }}
@@ -24,33 +24,33 @@ const CardNFT = ({ image, id, title, info, date }: INFTProps) => {
         <div className="pb-6">
           <Link
             to="#"
-            className="block font-medium text-mono hover:text-primary text-base leading-4 mb-2"
+            className="text-mono hover:text-primary mb-2 block text-base leading-4 font-medium"
           >
             {title}
           </Link>
-          <div className="text-sm text-secondary-foreground">
+          <div className="text-secondary-foreground text-sm">
             Token ID:
-            <span className="text-sm font-medium text-foreground"> {id}</span>
+            <span className="text-foreground text-sm font-medium"> {id}</span>
           </div>
         </div>
         <div className="grid grid-cols-2 items-center">
           <div className="flex flex-col gap-2">
-            <span className="text-sm text-secondary-foreground">
+            <span className="text-secondary-foreground text-sm">
               Current bid
             </span>
             <div className="flex items-center gap-1">
               <SquareSigma
                 size={16}
-                className="text-lg text-orange-400 leading-none"
+                className="text-lg leading-none text-orange-400"
               />
-              <span className="text-sm font-semibold text-mono leading-none tracking-tight">
+              <span className="text-mono text-sm leading-none font-semibold tracking-tight">
                 {info}
               </span>
             </div>
           </div>
-          <div className="flex flex-col justify-self-end text-end gap-2">
-            <span className="text-sm text-secondary-foreground">Ending in</span>
-            <span className="text-sm font-semibold text-mono leading-none tracking-tight">
+          <div className="flex flex-col gap-2 justify-self-end text-end">
+            <span className="text-secondary-foreground text-sm">Ending in</span>
+            <span className="text-mono text-sm leading-none font-semibold tracking-tight">
               {date}
             </span>
           </div>

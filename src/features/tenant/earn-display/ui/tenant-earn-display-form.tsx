@@ -27,9 +27,9 @@ export function TenantEarnDisplayForm({
       ? t(`TENANT_EARN_DISPLAY.ERRORS.${errorCode}`)
       : null;
   return (
-    <div className="mt-5 space-y-5 rounded-lg border bg-muted/20 p-5">
+    <div className="bg-muted/20 mt-5 space-y-5 rounded-lg border p-5">
       <div>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           {t('TENANT_EARN_DISPLAY.TARGET')}
         </p>
         <p className="font-semibold">{targetLabel}</p>
@@ -46,11 +46,11 @@ export function TenantEarnDisplayForm({
               onChange({ ...draft, textEn: event.target.value })
             }
           />
-          <span className="text-xs text-muted-foreground">
+          <span className="text-muted-foreground text-xs">
             {t('TENANT_EARN_DISPLAY.FORM.MAX_LENGTH')}
           </span>
           {fieldError('TEXT_EN') && (
-            <p className="text-xs text-destructive">{fieldError('TEXT_EN')}</p>
+            <p className="text-destructive text-xs">{fieldError('TEXT_EN')}</p>
           )}
         </label>
         <label className="space-y-1 text-sm">
@@ -64,17 +64,17 @@ export function TenantEarnDisplayForm({
               onChange({ ...draft, textVi: event.target.value })
             }
           />
-          <span className="text-xs text-muted-foreground">
+          <span className="text-muted-foreground text-xs">
             {t('TENANT_EARN_DISPLAY.FORM.MAX_LENGTH')}
           </span>
           {fieldError('TEXT_VI') && (
-            <p className="text-xs text-destructive">{fieldError('TEXT_VI')}</p>
+            <p className="text-destructive text-xs">{fieldError('TEXT_VI')}</p>
           )}
         </label>
         <label className="space-y-1 text-sm">
           <span>{t('TENANT_EARN_DISPLAY.FORM.STATUS')} *</span>
           <select
-            className="h-9 w-full rounded-md border border-input bg-background px-3"
+            className="border-input bg-background h-9 w-full rounded-md border px-3"
             value={draft.displayStatus}
             onChange={(event) =>
               onChange({
@@ -112,7 +112,7 @@ export function TenantEarnDisplayForm({
             }
           />
           {fieldError('EFFECTIVE') && (
-            <p className="text-xs text-destructive">
+            <p className="text-destructive text-xs">
               {fieldError('EFFECTIVE')}
             </p>
           )}
@@ -122,7 +122,7 @@ export function TenantEarnDisplayForm({
         !fieldError('TEXT_EN') &&
         !fieldError('TEXT_VI') &&
         !fieldError('EFFECTIVE') && (
-          <p className="text-sm text-destructive">
+          <p className="text-destructive text-sm">
             {t(`TENANT_EARN_DISPLAY.ERRORS.${errorCode}`)}
           </p>
         )}

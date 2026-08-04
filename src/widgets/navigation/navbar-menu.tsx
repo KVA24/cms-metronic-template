@@ -25,11 +25,11 @@ const NavbarMenu = ({ items }: { items: MenuConfig }) => {
           <MenubarMenu key={item.path || item.title}>
             <MenubarTrigger
               className={cn(
-                'flex items-center gap-1.5 px-3 py-3.5 text-sm text-secondary-foreground',
+                'text-secondary-foreground flex items-center gap-1.5 px-3 py-3.5 text-sm',
                 'rounded-none border-b-2 border-transparent bg-transparent!',
                 'hover:text-primary hover:bg-transparent',
                 'focus:text-primary focus:bg-transparent',
-                'data-[state=open]:bg-transparent data-[state=open]:text-primary',
+                'data-[state=open]:text-primary data-[state=open]:bg-transparent',
                 'data-[here=true]:text-primary data-[here=true]:border-primary',
               )}
               data-active={isActive(item.path) || undefined}
@@ -49,7 +49,7 @@ const NavbarMenu = ({ items }: { items: MenuConfig }) => {
             <MenubarTrigger
               asChild
               className={cn(
-                'flex items-center px-2 py-3.5 text-sm text-secondary-foreground px-3',
+                'text-secondary-foreground flex items-center px-2 px-3 py-3.5 text-sm',
                 'rounded-none border-b-2 border-transparent bg-transparent!',
                 'hover:text-primary hover:bg-transparent',
                 'focus:text-primary focus:bg-transparent',
@@ -104,7 +104,7 @@ const NavbarMenu = ({ items }: { items: MenuConfig }) => {
   return (
     <div className="grid">
       <div className="kt-scrollable-x-auto">
-        <Menubar className="flex items-stretch gap-3 border-none bg-transparent p-0 h-auto">
+        <Menubar className="flex h-auto items-stretch gap-3 border-none bg-transparent p-0">
           {buildMenu(items)}
         </Menubar>
       </div>

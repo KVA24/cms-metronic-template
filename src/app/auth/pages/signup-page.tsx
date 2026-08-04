@@ -82,9 +82,9 @@ export function SignUpPage() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="block w-full space-y-5"
       >
-        <div className="text-center space-y-1 pb-3">
+        <div className="space-y-1 pb-3 text-center">
           <h1 className="text-2xl font-semibold tracking-tight">Sign Up</h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Create your account to get started
           </p>
         </div>
@@ -174,12 +174,12 @@ export function SignUpPage() {
                   variant="ghost"
                   mode="icon"
                   onClick={() => setPasswordVisible(!passwordVisible)}
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                  className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
                 >
                   {passwordVisible ? (
-                    <EyeOff className="h-4 w-4 text-muted-foreground" />
+                    <EyeOff className="text-muted-foreground h-4 w-4" />
                   ) : (
-                    <Eye className="h-4 w-4 text-muted-foreground" />
+                    <Eye className="text-muted-foreground h-4 w-4" />
                   )}
                 </Button>
               </div>
@@ -207,12 +207,12 @@ export function SignUpPage() {
                   onClick={() =>
                     setConfirmPasswordVisible(!confirmPasswordVisible)
                   }
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                  className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
                 >
                   {confirmPasswordVisible ? (
-                    <EyeOff className="h-4 w-4 text-muted-foreground" />
+                    <EyeOff className="text-muted-foreground h-4 w-4" />
                   ) : (
-                    <Eye className="h-4 w-4 text-muted-foreground" />
+                    <Eye className="text-muted-foreground h-4 w-4" />
                   )}
                 </Button>
               </div>
@@ -225,7 +225,7 @@ export function SignUpPage() {
           control={form.control}
           name="terms"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-0.5 space-y-0 rounded-md">
+            <FormItem className="flex flex-row items-start space-y-0 space-x-0.5 rounded-md">
               <FormControl>
                 <Checkbox
                   checked={field.value}
@@ -233,11 +233,11 @@ export function SignUpPage() {
                 />
               </FormControl>
               <div className="space-y-1 leading-none">
-                <FormLabel className="text-sm text-muted-foreground">
+                <FormLabel className="text-muted-foreground text-sm">
                   I agree to the and{' '}
                   <Link
                     to="#"
-                    className="text-sm font-semibold text-foreground hover:text-primary"
+                    className="text-foreground hover:text-primary text-sm font-semibold"
                   >
                     Privacy Policy
                   </Link>
@@ -263,11 +263,11 @@ export function SignUpPage() {
           )}
         </Button>
 
-        <div className="text-center text-sm text-muted-foreground">
+        <div className="text-muted-foreground text-center text-sm">
           Already have an account?{' '}
           <Link
             to="/auth/signin"
-            className="text-sm font-semibold text-foreground hover:text-primary"
+            className="text-foreground hover:text-primary text-sm font-semibold"
           >
             Sign In
           </Link>

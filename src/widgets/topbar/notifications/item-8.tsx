@@ -21,9 +21,9 @@ export default function Item8() {
         </AvatarIndicator>
       </Avatar>
 
-      <div className="flex flex-col gap-3.5 grow">
+      <div className="flex grow flex-col gap-3.5">
         <div className="flex flex-col gap-1">
-          <div className="text-sm font-medium mb-px">
+          <div className="mb-px text-sm font-medium">
             <Link to="#" className="hover:text-primary text-mono font-semibold">
               Skylar Frost
             </Link>
@@ -32,14 +32,14 @@ export default function Item8() {
               uploaded 2 attachments{' '}
             </span>
           </div>
-          <span className="flex items-center text-xs font-medium text-muted-foreground">
+          <span className="text-muted-foreground flex items-center text-xs font-medium">
             3 days ago
-            <span className="rounded-full size-1 bg-mono/30 mx-1.5"></span>
+            <span className="bg-mono/30 mx-1.5 size-1 rounded-full"></span>
             Web Design
           </span>
         </div>
 
-        <Card className="shadow-none flex items-center justify-between flex-row gap-1.5 p-2.5 rounded-lg bg-muted/70">
+        <Card className="bg-muted/70 flex flex-row items-center justify-between gap-1.5 rounded-lg p-2.5 shadow-none">
           <div className="flex items-center gap-1.5">
             <img
               src={toAbsoluteUrl('/media/file-types/word.svg')}
@@ -47,17 +47,17 @@ export default function Item8() {
               alt=""
             />
 
-            <span className="font-medium text-secondary-foreground text-xs me-1">
+            <span className="text-secondary-foreground me-1 text-xs font-medium">
               landing-page-ver1.docx
             </span>
-            <span className="font-medium text-muted-foreground text-xs">
+            <span className="text-muted-foreground text-xs font-medium">
               Upload 3 days ago
             </span>
           </div>
           <Download size={16} className="text-muted-foreground text-md" />
         </Card>
 
-        <Card className="shadow-none flex items-center justify-between flex-row gap-1.5 p-2.5 rounded-lg bg-muted/70">
+        <Card className="bg-muted/70 flex flex-row items-center justify-between gap-1.5 rounded-lg p-2.5 shadow-none">
           <div className="flex items-center gap-1.5">
             <img
               src={toAbsoluteUrl('/media/file-types/word.svg')}
@@ -65,10 +65,10 @@ export default function Item8() {
               alt=""
             />
 
-            <span className="font-medium hover:text-primary text-secondary-foreground text-xs me-1">
+            <span className="hover:text-primary text-secondary-foreground me-1 text-xs font-medium">
               landing-page-ver2.docx
             </span>
-            <span className="font-medium text-muted-foreground text-xs">
+            <span className="text-muted-foreground text-xs font-medium">
               Upload 3 days ago
             </span>
           </div>

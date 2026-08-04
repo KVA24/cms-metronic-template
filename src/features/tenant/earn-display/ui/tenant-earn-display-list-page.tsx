@@ -39,7 +39,7 @@ export function TenantEarnDisplayListPage() {
           <h1 className="text-2xl font-semibold">
             {t('TENANT_EARN_DISPLAY.TITLE')}
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             {t('TENANT_EARN_DISPLAY.DESCRIPTION')}
           </p>
         </div>
@@ -65,7 +65,7 @@ export function TenantEarnDisplayListPage() {
           <label className="space-y-1 text-sm">
             <span>{t('TENANT_EARN_DISPLAY.CONFIGURATION')}</span>
             <select
-              className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+              className="border-input bg-background h-9 w-full rounded-md border px-3 text-sm"
               value={draft.configurationStatus ?? ''}
               onChange={(event) =>
                 setDraft({
@@ -92,7 +92,7 @@ export function TenantEarnDisplayListPage() {
       {result.isLoading ? (
         <Skeleton className="h-72 w-full" />
       ) : result.isError || !result.data ? (
-        <p className="rounded-lg border border-destructive/30 p-6 text-destructive">
+        <p className="border-destructive/30 text-destructive rounded-lg border p-6">
           {t('TENANT_EARN_DISPLAY.ERROR')}
         </p>
       ) : (
@@ -125,7 +125,7 @@ export function TenantEarnDisplayListPage() {
                       <TableCell className="font-medium">{item.code}</TableCell>
                       <TableCell>
                         <span className="inline-flex items-center gap-2">
-                          <span className="flex size-8 items-center justify-center rounded-full bg-muted font-semibold">
+                          <span className="bg-muted flex size-8 items-center justify-center rounded-full font-semibold">
                             {item.name.slice(0, 1)}
                           </span>
                           {item.name}
@@ -179,7 +179,7 @@ export function TenantEarnDisplayListPage() {
                 )}
               </TableBody>
             </Table>
-            <div className="flex items-center justify-between text-sm text-muted-foreground">
+            <div className="text-muted-foreground flex items-center justify-between text-sm">
               <span>
                 {t('TENANT_EARN_DISPLAY.PAGE', {
                   page: result.data.page,

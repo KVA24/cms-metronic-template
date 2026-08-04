@@ -10,12 +10,12 @@ export function Error403() {
       <div className="mb-10">
         <img
           src={toAbsoluteUrl('/media/illustrations/22.svg')}
-          className="dark:hidden max-h-[160px]"
+          className="max-h-[160px] dark:hidden"
           alt=""
         />
         <img
           src={toAbsoluteUrl('/media/illustrations/22-dark.svg')}
-          className="hidden dark:block max-h-[160px]"
+          className="hidden max-h-[160px] dark:block"
           alt=""
         />
       </div>
@@ -24,15 +24,15 @@ export function Error403() {
         {t('ERROR.403.BADGE')}
       </span>
 
-      <h3 className="text-2xl font-semibold text-mono text-center mb-2">
+      <h3 className="text-mono mb-2 text-center text-2xl font-semibold">
         {t('ERROR.403.TITLE')}
       </h3>
 
-      <div className="text-base text-center text-secondary-foreground mb-10">
+      <div className="text-secondary-foreground mb-10 text-center text-base">
         {t('ERROR.403.DESCRIPTION')}&nbsp;
         <Link
           to="/"
-          className="text-primary font-medium hover:text-primary-active"
+          className="text-primary hover:text-primary-active font-medium"
         >
           {t('ERROR.403.RETURN_HOME')}
         </Link>

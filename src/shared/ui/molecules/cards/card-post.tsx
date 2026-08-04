@@ -12,9 +12,9 @@ interface IPostProps {
 
 const CardPost = ({ image, label, description, time }: IPostProps) => {
   return (
-    <Card className="shadow-none w-[280px] mb-5">
+    <Card className="mb-5 w-[280px] shadow-none">
       <div
-        className="rounded-t-xl w-[280px] h-[240px] bg-cover bg-center"
+        className="h-[240px] w-[280px] rounded-t-xl bg-cover bg-center"
         style={{
           backgroundImage: `url(${toAbsoluteUrl(`/media/images/600x400/${image}`)})`,
         }}
@@ -22,18 +22,18 @@ const CardPost = ({ image, label, description, time }: IPostProps) => {
       <div className="card-border card-rounded-b grid gap-1.5 px-5 py-4">
         <Link
           to="#"
-          className="font-medium text-orange-400 text-sm hover:text-primary"
+          className="hover:text-primary text-sm font-medium text-orange-400"
         >
           {label}
         </Link>
         <Link
           to="#"
-          className="font-medium text-mono text-lg leading-6 mb-1.5 hover:text-primary"
+          className="text-mono hover:text-primary mb-1.5 text-lg leading-6 font-medium"
         >
           {description}
         </Link>
-        <time className="flex items-center gap-1.5 text-sm font-medium text-secondary-foreground leading-none">
-          <Clock9 size={16} className="text-lg text-muted-foreground" /> {time}
+        <time className="text-secondary-foreground flex items-center gap-1.5 text-sm leading-none font-medium">
+          <Clock9 size={16} className="text-muted-foreground text-lg" /> {time}
         </time>
       </div>
     </Card>

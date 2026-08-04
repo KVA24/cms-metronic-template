@@ -22,7 +22,7 @@ export default function Item9() {
 
       <div className="flex flex-col gap-3.5">
         <div className="flex flex-col gap-1">
-          <div className="text-sm font-medium mb-px">
+          <div className="mb-px text-sm font-medium">
             <Link to="#" className="hover:text-primary text-mono font-semibold">
               Selene Silverleaf
             </Link>
@@ -35,9 +35,9 @@ export default function Item9() {
             </Link>
           </div>
 
-          <span className="flex items-center text-xs font-medium text-muted-foreground">
+          <span className="text-muted-foreground flex items-center text-xs font-medium">
             4 days ago
-            <span className="rounded-full size-1 bg-mono/30 mx-1.5"></span>
+            <span className="bg-mono/30 mx-1.5 size-1 rounded-full"></span>
             Manager
           </span>
         </div>
@@ -47,7 +47,7 @@ export default function Item9() {
             size="sm"
             variant="success"
             appearance="light"
-            className="text-green-500 me-1 text-xs"
+            className="me-1 text-xs text-green-500"
           >
             <CircleCheck /> Feature Prioritization
           </Badge>

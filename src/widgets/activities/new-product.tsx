@@ -7,7 +7,7 @@ const ActivitiesNewProduct = () => {
   return (
     <TimelineItem icon={Users} line={true}>
       <div className="flex flex-col">
-        <div className="text-sm text-foreground">
+        <div className="text-foreground text-sm">
           Jenny sent an{' '}
           <Button mode="link" asChild>
             <Link to="#">inquiry</Link>
@@ -18,7 +18,7 @@ const ActivitiesNewProduct = () => {
           </Button>{' '}
           .
         </div>
-        <span className="text-xs text-secondary-foreground">
+        <span className="text-secondary-foreground text-xs">
           Today, 9:00 AM
         </span>
       </div>

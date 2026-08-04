@@ -4,7 +4,10 @@ import { safeRedirect } from '../src/shared/lib/safe-redirect';
 
 describe('safeRedirect', () => {
   it('allows same-origin application paths', () => {
-    assert.equal(safeRedirect('/account?tab=security#password'), '/account?tab=security#password');
+    assert.equal(
+      safeRedirect('/account?tab=security#password'),
+      '/account?tab=security#password',
+    );
   });
 
   it('rejects protocol-relative and absolute URLs', () => {

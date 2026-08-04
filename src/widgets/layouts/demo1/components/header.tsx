@@ -43,13 +43,13 @@ export function Header() {
   return (
     <header
       className={cn(
-        'header fixed top-0 z-10 start-0 flex items-stretch shrink-0 border-b border-transparent bg-background end-0 pe-[var(--removed-body-scroll-bar-size,0px)]',
-        headerSticky && 'border-b border-border',
+        'header bg-background fixed start-0 end-0 top-0 z-10 flex shrink-0 items-stretch border-b border-transparent pe-[var(--removed-body-scroll-bar-size,0px)]',
+        headerSticky && 'border-border border-b',
       )}
     >
-      <Container className="flex justify-between items-stretch lg:gap-4 border-b shadow-xs">
+      <Container className="flex items-stretch justify-between border-b shadow-xs lg:gap-4">
         {/* HeaderLogo */}
-        <div className="flex lg:hidden items-center gap-2.5">
+        <div className="flex items-center gap-2.5 lg:hidden">
           <Link to="/" className="shrink-0">
             <img
               src={toAbsoluteUrl('/media/app/mini-logo.svg')}
@@ -69,12 +69,12 @@ export function Header() {
                   </Button>
                 </SheetTrigger>
                 <SheetContent
-                  className="p-0 gap-0 w-[275px]"
+                  className="w-[275px] gap-0 p-0"
                   side="left"
                   close={false}
                 >
-                  <SheetHeader className="p-0 space-y-0" />
-                  <SheetBody className="p-0 overflow-y-auto">
+                  <SheetHeader className="space-y-0 p-0" />
+                  <SheetBody className="overflow-y-auto p-0">
                     <SidebarMenu />
                   </SheetBody>
                 </SheetContent>
@@ -176,7 +176,7 @@ export function Header() {
               <UserDropdownMenu
                 trigger={
                   <img
-                    className="size-9 rounded-full border-2 border-green-500 shrink-0 cursor-pointer"
+                    className="size-9 shrink-0 cursor-pointer rounded-full border-2 border-green-500"
                     src={toAbsoluteUrl('/media/avatars/300-2.png')}
                     alt="User Avatar"
                   />

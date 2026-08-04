@@ -194,7 +194,7 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({
         key={`${year}-${monthIndex}`}
         variant="ghost"
         className={cn(
-          'size-8 w-10 text-xs font-medium rounded-sm px-0',
+          'size-8 w-10 rounded-sm px-0 text-xs font-medium',
           !isMonthInRange(year, monthIndex) &&
             'bg-muted hover:bg-muted/80 text-muted-foreground',
           isMonthInRange(year, monthIndex) &&
@@ -226,15 +226,15 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({
         <Button
           id="month-range"
           variant="outline"
-          className="w-full justify-start text-left font-normal text-foreground overflow-hidden"
+          className="text-foreground w-full justify-start overflow-hidden text-left font-normal"
           disabled={disabled}
         >
           <CalendarDays size={16} className="mr-2 flex-shrink-0" />
-          <span className="truncate flex-1 min-w-0">{formatDateRange()}</span>
+          <span className="min-w-0 flex-1 truncate">{formatDateRange()}</span>
           {dateRange && !disabled && clearable && (
             <X
               size={16}
-              className="ml-2 flex-shrink-0 hover:text-destructive"
+              className="hover:text-destructive ml-2 flex-shrink-0"
               onClick={handleReset}
             />
           )}
@@ -245,7 +245,7 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({
           {/* Month Grid */}
           <div className="p-3">
             {/* Year Navigation */}
-            <div className="flex items-center justify-center gap-6 mb-3">
+            <div className="mb-3 flex items-center justify-center gap-6">
               <Button
                 variant="ghost"
                 size="icon"
@@ -255,11 +255,11 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({
                 <ChevronLeft className="h-3.5 w-3.5" />
               </Button>
 
-              <div className="flex gap-12 w-full justify-between">
-                <span className="font-semibold text-sm w-10 text-center">
+              <div className="flex w-full justify-between gap-12">
+                <span className="w-10 text-center text-sm font-semibold">
                   {currentYear}
                 </span>
-                <span className="font-semibold text-sm w-10 text-center">
+                <span className="w-10 text-center text-sm font-semibold">
                   {currentYear + 1}
                 </span>
               </div>
@@ -290,14 +290,14 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({
           </div>
 
           {/* Quick Ranges */}
-          <div className="p-3 space-y-1 w-[120px] border-l">
+          <div className="w-[120px] space-y-1 border-l p-3">
             {QUICK_RANGES.map((range) => (
               <Button
                 key={range.label}
                 variant={
                   isQuickRangeActive(range.getValue) ? 'primary' : 'outline'
                 }
-                className="w-full justify-start text-xs font-normal h-8 px-2"
+                className="h-8 w-full justify-start px-2 text-xs font-normal"
                 onClick={() => handleQuickRange(range.getValue())}
               >
                 {range.label}
@@ -307,7 +307,7 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-end gap-1.5 border-t border-border p-3">
+        <div className="border-border flex items-center justify-end gap-1.5 border-t p-3">
           <Button
             variant="outline"
             size="sm"

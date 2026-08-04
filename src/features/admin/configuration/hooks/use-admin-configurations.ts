@@ -7,9 +7,14 @@ import type {
   AdminConfigurationUpdateInput,
 } from '../model/admin-configuration';
 
-export const adminConfigurationKeys = { all: ['admin-configurations'] as const };
+export const adminConfigurationKeys = {
+  all: ['admin-configurations'] as const,
+};
 
-export function useAdminConfigurations(query: AdminConfigurationQuery, roleCode: AdminRoleCode) {
+export function useAdminConfigurations(
+  query: AdminConfigurationQuery,
+  roleCode: AdminRoleCode,
+) {
   return useQuery({
     queryKey: [...adminConfigurationKeys.all, query, roleCode],
     queryFn: () => adminConfigurationService.list(query, roleCode),
@@ -20,26 +25,61 @@ export function useAdminConfigurations(query: AdminConfigurationQuery, roleCode:
 export function useCreateAdminConfiguration() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ input, roleCode, actorId }: { input: AdminConfigurationCreateInput; roleCode: AdminRoleCode; actorId: string }) =>
-      adminConfigurationService.create(input, roleCode, actorId),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: adminConfigurationKeys.all }),
+    mutationFn: ({
+      input,
+      roleCode,
+      actorId,
+    }: {
+      input: AdminConfigurationCreateInput;
+      roleCode: AdminRoleCode;
+      actorId: string;
+    }) => adminConfigurationService.create(input, roleCode, actorId),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: adminConfigurationKeys.all }),
   });
 }
 
 export function useUpdateAdminConfiguration() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, input, expectedVersion, roleCode, actorId }: { id: number; input: AdminConfigurationUpdateInput; expectedVersion: number; roleCode: AdminRoleCode; actorId: string }) =>
-      adminConfigurationService.update(id, input, expectedVersion, roleCode, actorId),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: adminConfigurationKeys.all }),
+    mutationFn: ({
+      id,
+      input,
+      expectedVersion,
+      roleCode,
+      actorId,
+    }: {
+      id: number;
+      input: AdminConfigurationUpdateInput;
+      expectedVersion: number;
+      roleCode: AdminRoleCode;
+      actorId: string;
+    }) =>
+      adminConfigurationService.update(
+        id,
+        input,
+        expectedVersion,
+        roleCode,
+        actorId,
+      ),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: adminConfigurationKeys.all }),
   });
 }
 
 export function useDeleteAdminConfiguration() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, roleCode, actorId }: { id: number; roleCode: AdminRoleCode; actorId: string }) =>
-      adminConfigurationService.remove(id, roleCode, actorId),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: adminConfigurationKeys.all }),
+    mutationFn: ({
+      id,
+      roleCode,
+      actorId,
+    }: {
+      id: number;
+      roleCode: AdminRoleCode;
+      actorId: string;
+    }) => adminConfigurationService.remove(id, roleCode, actorId),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: adminConfigurationKeys.all }),
   });
 }

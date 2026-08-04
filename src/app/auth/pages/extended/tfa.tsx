@@ -30,24 +30,24 @@ const TwoFactorAuth = () => {
     <div className="flex flex-col gap-5 p-10">
       <img
         src={toAbsoluteUrl('/media/illustrations/34.svg')}
-        className="dark:hidden h-20 mb-2"
+        className="mb-2 h-20 dark:hidden"
         alt=""
       />
       <img
         src={toAbsoluteUrl('/media/illustrations/34-dark.svg')}
-        className="light:hidden h-20 mb-2"
+        className="light:hidden mb-2 h-20"
         alt=""
       />
 
-      <div className="text-center mb-2">
-        <h3 className="text-lg font-medium text-mono mb-5">
+      <div className="mb-2 text-center">
+        <h3 className="text-mono mb-5 text-lg font-medium">
           Verify your phone
         </h3>
         <div className="flex flex-col">
-          <span className="text-sm text-secondary-foreground mb-1.5">
+          <span className="text-secondary-foreground mb-1.5 text-sm">
             Enter the verification code we sent to
           </span>
-          <span className="text-sm font-medium text-mono">****** 7859</span>
+          <span className="text-mono text-sm font-medium">****** 7859</span>
         </div>
       </div>
 
@@ -64,13 +64,13 @@ const TwoFactorAuth = () => {
         ))}
       </div>
 
-      <div className="flex items-center justify-center mb-2">
-        <span className="text-sm text-secondary-foreground me-1.5">
+      <div className="mb-2 flex items-center justify-center">
+        <span className="text-secondary-foreground me-1.5 text-sm">
           Didn’t receive a code? (37s)
         </span>
         <Link
           to="/auth/classic/login"
-          className="font-semibold text-foreground hover:text-primary"
+          className="text-foreground hover:text-primary font-semibold"
         >
           Resend
         </Link>
@@ -80,7 +80,7 @@ const TwoFactorAuth = () => {
 
       <Link
         to="/auth/signin"
-        className="gap-2.5 flex items-center justify-center text-sm font-semibold text-foreground hover:text-primary"
+        className="text-foreground hover:text-primary flex items-center justify-center gap-2.5 text-sm font-semibold"
       >
         <MoveLeft className="size-3.5 opacity-70" />
         Back to Login

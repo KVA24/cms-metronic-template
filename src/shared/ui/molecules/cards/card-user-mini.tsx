@@ -24,10 +24,10 @@ const CardUserMini = ({ avatar, verify, name, email }: IUserMiniProps) => {
           />
         )}
       </div>
-      <div className="flex items-center justify-center gap-1.5 mb-2">
+      <div className="mb-2 flex items-center justify-center gap-1.5">
         <Link
           to="#"
-          className="hover:text-primary-active text-base leading-5 font-medium text-mono"
+          className="hover:text-primary-active text-mono text-base leading-5 font-medium"
         >
           {name}
         </Link>
@@ -49,7 +49,7 @@ const CardUserMini = ({ avatar, verify, name, email }: IUserMiniProps) => {
       </div>
       <Link
         to="#"
-        className="text-secondary-foreground text-sm hover:text-primary-active"
+        className="text-secondary-foreground hover:text-primary-active text-sm"
       >
         {email}
       </Link>

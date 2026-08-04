@@ -6,13 +6,13 @@ import { Info } from 'lucide-react';
 export function ShareProfileViaEmail() {
   const [emailInput, setEmailInput] = useState('');
   return (
-    <div className="flex flex-col px-5 gap-2.5">
-      <div className="flex flex-center gap-1">
-        <h2 className="text-mono font-semibold text-sm">Share via email</h2>
+    <div className="flex flex-col gap-2.5 px-5">
+      <div className="flex-center flex gap-1">
+        <h2 className="text-mono text-sm font-semibold">Share via email</h2>
         <Info size={16} className="text-muted-foreground text-sm" />
       </div>
 
-      <div className="flex flex-center gap-2.5">
+      <div className="flex-center flex gap-2.5">
         <Input
           type="email"
           placeholder="miles.turner@gmail.com"

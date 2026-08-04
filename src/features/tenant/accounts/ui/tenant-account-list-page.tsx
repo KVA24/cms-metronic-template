@@ -46,7 +46,7 @@ export function TenantAccountListPage() {
           <h1 className="text-2xl font-semibold">
             {t('TENANT_ACCOUNTS.TITLE')}
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             {t('TENANT_ACCOUNTS.DESCRIPTION')}
           </p>
         </div>
@@ -141,7 +141,7 @@ export function TenantAccountListPage() {
                   <TableRow>
                     <TableCell
                       colSpan={6}
-                      className="py-12 text-center text-muted-foreground"
+                      className="text-muted-foreground py-12 text-center"
                     >
                       {t('TENANT_ACCOUNTS.EMPTY')}
                     </TableCell>
@@ -199,7 +199,7 @@ export function TenantAccountListPage() {
                 )}
               </TableBody>
             </Table>
-            <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
+            <div className="text-muted-foreground mt-4 flex items-center justify-between text-sm">
               <span>
                 {t('TENANT_ACCOUNTS.PAGE', {
                   page: accounts.data.page,

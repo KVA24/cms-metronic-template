@@ -23,9 +23,10 @@ export interface AdminTenantAssignmentDraft {
   offerIds: string[];
 }
 
-export const ADMIN_TENANT_ASSIGNMENT_DEFAULT_QUERY: AdminTenantAssignmentQuery = {
-  keyword: '',
-  brandStatus: 'ALL',
-  categoryId: '',
-  assignment: 'ALL',
-};
+export const ADMIN_TENANT_ASSIGNMENT_DEFAULT_QUERY: AdminTenantAssignmentQuery =
+  {
+    keyword: '',
+    brandStatus: 'ALL',
+    categoryId: '',
+    assignment: 'ALL',
+  };

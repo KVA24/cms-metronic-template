@@ -30,9 +30,9 @@ export default function Item7() {
         </AvatarIndicator>
       </Avatar>
 
-      <div className="flex flex-col gap-3.5 grow">
+      <div className="flex grow flex-col gap-3.5">
         <div className="flex flex-col gap-1">
-          <div className="text-sm font-medium mb-px">
+          <div className="mb-px text-sm font-medium">
             <Link to="#" className="hover:text-primary text-mono font-semibold">
               Nova Hawthorne
             </Link>
@@ -41,16 +41,16 @@ export default function Item7() {
               sent you an meeting invation{' '}
             </span>
           </div>
-          <span className="flex items-center text-xs font-medium text-muted-foreground">
+          <span className="text-muted-foreground flex items-center text-xs font-medium">
             2 days ago
-            <span className="rounded-full size-1 bg-mono/30 mx-1.5"></span>
+            <span className="bg-mono/30 mx-1.5 size-1 rounded-full"></span>
             Dev Team
           </span>
         </div>
 
-        <Card className="shadow-none gap-1.5 py-2.5 rounded-lg bg-muted/70">
-          <div className="flex flex-col gap-2.5 px-2.5 mb-0.5">
-            <span className="font-medium text-secondary-foreground text-xs">
+        <Card className="bg-muted/70 gap-1.5 rounded-lg py-2.5 shadow-none">
+          <div className="mb-0.5 flex flex-col gap-2.5 px-2.5">
+            <span className="text-secondary-foreground text-xs font-medium">
               Peparation for Release
               <Lock size={16} />
             </span>
@@ -60,7 +60,7 @@ export default function Item7() {
                 size="sm"
                 variant="warning"
                 appearance="light"
-                className="text-yellow-400 me-1"
+                className="me-1 text-yellow-400"
               >
                 <NotepadText /> Project
               </Badge>
@@ -75,9 +75,9 @@ export default function Item7() {
             </div>
           </div>
 
-          <div className="border-b border-b-border my-1.5"></div>
+          <div className="border-b-border my-1.5 border-b"></div>
 
-          <div className="flex items-center justify-between flex-wrap gap-2.5 px-2.5">
+          <div className="flex flex-wrap items-center justify-between gap-2.5 px-2.5">
             <div className="flex flex-col gap-2.5">
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-0.5">
@@ -85,14 +85,14 @@ export default function Item7() {
                     size={16}
                     className="text-muted-foreground me-0.5 text-xs"
                   />
-                  <span className="font-medium text-muted-foreground text-xs">
+                  <span className="text-muted-foreground text-xs font-medium">
                     22 April 2024
                   </span>
                 </div>
 
                 <div className="flex items-center gap-0.5">
                   <Timer size={16} className="text-muted-foreground text-xs" />
-                  <span className="font-medium text-muted-foreground text-xs">
+                  <span className="text-muted-foreground text-xs font-medium">
                     12:00 PM - 14:00 PM
                   </span>
                 </div>
@@ -100,7 +100,7 @@ export default function Item7() {
 
               <div className="flex items-center gap-0.5">
                 <MapPin size={16} className="text-muted-foreground text-xs" />
-                <div className="font-medium text-muted-foreground text-xs">
+                <div className="text-muted-foreground text-xs font-medium">
                   Online
                   <Link
                     to="#"

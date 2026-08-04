@@ -1,9 +1,9 @@
+import { z } from 'zod';
 import type {
   EntityStatus,
   PageResult,
   Tenant,
 } from '../../../../shared/contracts';
-import { z } from 'zod';
 
 export type AdminTenantStatusFilter = EntityStatus | 'ALL';
 export type AdminTenantUpdatedPeriod = 'ALL' | '7_DAYS' | '30_DAYS';

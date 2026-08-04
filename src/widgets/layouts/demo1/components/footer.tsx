@@ -6,8 +6,8 @@ export function Footer() {
   return (
     <footer className="footer">
       <Container>
-        <div className="flex flex-col md:flex-row justify-center md:justify-between items-center gap-3 py-5">
-          <div className="flex order-2 md:order-1  gap-2 font-normal text-sm">
+        <div className="flex flex-col items-center justify-center gap-3 py-5 md:flex-row md:justify-between">
+          <div className="order-2 flex gap-2 text-sm font-normal md:order-1">
             <span className="text-muted-foreground">{currentYear} &copy;</span>
             <a
               href="https://wiinvent.tv/"
@@ -17,7 +17,7 @@ export function Footer() {
               Wiinvent
             </a>
           </div>
-          <nav className="flex order-1 md:order-2 gap-4 font-normal text-sm text-muted-foreground">
+          <nav className="text-muted-foreground order-1 flex gap-4 text-sm font-normal md:order-2">
             {/*<a*/}
             {/*  href={generalSettings.docsLink}*/}
             {/*  target="_blank"*/}

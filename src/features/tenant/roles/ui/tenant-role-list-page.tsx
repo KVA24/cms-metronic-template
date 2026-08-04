@@ -73,7 +73,7 @@ export function TenantRoleListPage() {
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold">{t('TENANT_ROLES.TITLE')}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             {t('TENANT_ROLES.DESCRIPTION')}
           </p>
         </div>
@@ -151,7 +151,7 @@ export function TenantRoleListPage() {
                   <TableRow>
                     <TableCell
                       colSpan={7}
-                      className="py-12 text-center text-muted-foreground"
+                      className="text-muted-foreground py-12 text-center"
                     >
                       {t('TENANT_ROLES.EMPTY')}
                     </TableCell>
@@ -217,7 +217,7 @@ export function TenantRoleListPage() {
                 )}
               </TableBody>
             </Table>
-            <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
+            <div className="text-muted-foreground mt-4 flex items-center justify-between text-sm">
               <span>
                 {t('TENANT_ROLES.PAGE', {
                   page: roles.data.page,

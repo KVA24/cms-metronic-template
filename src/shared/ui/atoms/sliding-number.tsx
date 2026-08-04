@@ -32,7 +32,7 @@ function Digit({
   return (
     <div
       style={{ height: digitHeight }}
-      className="relative w-[1ch] tabular-nums overflow-hidden"
+      className="relative w-[1ch] overflow-hidden tabular-nums"
     >
       {Array.from({ length: 10 }, (_, i) => (
         <Number

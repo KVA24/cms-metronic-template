@@ -14,7 +14,7 @@ const CardUserSocialRow = ({
 }: IUserSocialProps) => {
   return (
     <Card className="p-7.5">
-      <div className="flex items-center flex-wrap justify-between gap-5">
+      <div className="flex flex-wrap items-center justify-between gap-5">
         <div className="flex items-center gap-3.5">
           <AvatarSingle
             className={avatar?.className}
@@ -24,10 +24,10 @@ const CardUserSocialRow = ({
             fallback={avatar?.fallback}
           />
           <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-1.5 mb-px">
+            <div className="mb-px flex items-center gap-1.5">
               <Link
                 to="#"
-                className="hover:text-primary-active text-base leading-5 font-medium text-mono"
+                className="hover:text-primary-active text-mono text-base leading-5 font-medium"
               >
                 {name}
               </Link>
@@ -49,13 +49,13 @@ const CardUserSocialRow = ({
             </div>
             <div className="flex flex-wrap items-center gap-1.5">
               <MapPin size={16} className="text-muted-foreground text-base" />
-              <Link to="#" className="text-sm text-secondary-foreground">
+              <Link to="#" className="text-secondary-foreground text-sm">
                 {description}
               </Link>
             </div>
           </div>
         </div>
-        <div className="flex items-center flex-wrap gap-5 lg:gap-12">
+        <div className="flex flex-wrap items-center gap-5 lg:gap-12">
           <div className="flex items-center gap-2.5">
             <Link to="#">
               <RiFacebookBoxLine
@@ -64,7 +64,7 @@ const CardUserSocialRow = ({
               />
             </Link>
             <Link to="#">
-              <Dribbble size={20} className="text-secondary-foreground " />
+              <Dribbble size={20} className="text-secondary-foreground" />
             </Link>
             <Link to="#">
               <RiInstagramLine

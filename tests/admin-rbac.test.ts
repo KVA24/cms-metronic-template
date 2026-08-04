@@ -10,8 +10,14 @@ describe('ADMIN read-only system-role matrix', () => {
       roles.map(({ code }) => code),
       ['CMS_ADMIN', 'CMS_FINANCE', 'CMS_CSKH', 'CMS_OPERATION'],
     );
-    assert.equal(roles.every(({ status }) => status === 'ACTIVE'), true);
-    assert.equal(roles.every(({ readOnly }) => readOnly), true);
+    assert.equal(
+      roles.every(({ status }) => status === 'ACTIVE'),
+      true,
+    );
+    assert.equal(
+      roles.every(({ readOnly }) => readOnly),
+      true,
+    );
   });
 
   it('returns the approved seven-module merged matrix', async () => {
@@ -41,7 +47,10 @@ describe('ADMIN read-only system-role matrix', () => {
       'CMS_OPERATION',
     );
 
-    assert.equal(admin.modules.every(({ full }) => full), true);
+    assert.equal(
+      admin.modules.every(({ full }) => full),
+      true,
+    );
     assert.equal(
       operation.modules.find(({ code }) => code === 'CATEGORIES')?.full,
       true,

@@ -23,16 +23,16 @@ export function SearchDocs({ items }: { items: SearchDocsItem[] }) {
           {items.map((item) => (
             <AccordionMenuItem key={item.desc} value={item.desc} asChild>
               <div className="flex items-center justify-between">
-                <div className="flex items-center grow gap-2.5">
+                <div className="flex grow items-center gap-2.5">
                   <img
                     src={toAbsoluteUrl(`/media/file-types/${item.image}`)}
                     alt={item.desc}
                   />
                   <div className="flex flex-col">
-                    <span className="text-sm font-semibold text-mono cursor-pointer hover:text-primary mb-px">
+                    <span className="text-mono hover:text-primary mb-px cursor-pointer text-sm font-semibold">
                       {item.desc}
                     </span>
-                    <span className="text-xs font-medium text-muted-foreground">
+                    <span className="text-muted-foreground text-xs font-medium">
                       {item.date}
                     </span>
                   </div>

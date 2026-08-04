@@ -128,7 +128,7 @@ export function TenantRoleFormPage({ mode }: { mode: 'create' | 'edit' }) {
   return (
     <Container width="fluid" className="max-w-3xl space-y-5 pb-8">
       <header>
-        <Button asChild variant="ghost" className="-ml-3 mb-2">
+        <Button asChild variant="ghost" className="mb-2 -ml-3">
           <Link to="/tenant/account/roles">
             <ArrowLeft /> {t('COMMON.BACK')}
           </Link>
@@ -153,7 +153,7 @@ export function TenantRoleFormPage({ mode }: { mode: 'create' | 'edit' }) {
               aria-invalid={Boolean(errors.code)}
             />
             {errors.code && (
-              <span className="text-xs text-destructive">{errors.code}</span>
+              <span className="text-destructive text-xs">{errors.code}</span>
             )}
           </label>
           <label className="block space-y-1 text-sm">
@@ -168,7 +168,7 @@ export function TenantRoleFormPage({ mode }: { mode: 'create' | 'edit' }) {
               aria-invalid={Boolean(errors.name)}
             />
             {errors.name && (
-              <span className="text-xs text-destructive">{errors.name}</span>
+              <span className="text-destructive text-xs">{errors.name}</span>
             )}
           </label>
           <label className="block space-y-1 text-sm">
@@ -182,11 +182,11 @@ export function TenantRoleFormPage({ mode }: { mode: 'create' | 'edit' }) {
               }
               aria-invalid={Boolean(errors.description)}
             />
-            <span className="text-xs text-muted-foreground">
+            <span className="text-muted-foreground text-xs">
               {form.description.length}/500
             </span>
             {errors.description && (
-              <span className="block text-xs text-destructive">
+              <span className="text-destructive block text-xs">
                 {errors.description}
               </span>
             )}
@@ -194,7 +194,7 @@ export function TenantRoleFormPage({ mode }: { mode: 'create' | 'edit' }) {
           <label className="block space-y-1 text-sm">
             <span>{t('COMMON.STATUS_1')} *</span>
             <select
-              className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+              className="border-input bg-background h-9 w-full rounded-md border px-3 text-sm"
               name="status"
               value={form.status}
               onChange={(event) =>

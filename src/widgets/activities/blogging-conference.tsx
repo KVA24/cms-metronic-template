@@ -22,11 +22,11 @@ const ActivitiesBloggingConference = ({
   return (
     <TimelineItem icon={Printer} line={true}>
       <div className="flex flex-col pb-2.5">
-        <span className="text-sm text-foreground">
+        <span className="text-foreground text-sm">
           {heading ??
             'Attending the virtual blogging conference was an enriching experience'}
         </span>
-        <span className="text-xs text-secondary-foreground">
+        <span className="text-secondary-foreground text-xs">
           {datetime ?? '2 days ago, 4:07 PM'}
         </span>
       </div>
@@ -34,7 +34,7 @@ const ActivitiesBloggingConference = ({
         <CardContent className="lg:py-4">
           <div className="flex justify-center py-4">{image}</div>
           <div className="flex flex-col gap-1">
-            <div className="text-base font-medium text-mono text-center">
+            <div className="text-mono text-center text-base font-medium">
               {title ?? 'Blogging Conference'}
             </div>
             <div className="flex items-center justify-center gap-1">
@@ -43,7 +43,7 @@ const ActivitiesBloggingConference = ({
                   Axio new release
                 </Link>
               </Button>
-              <span className="text-sm text-secondary-foreground me-2">
+              <span className="text-secondary-foreground me-2 text-sm">
                 email campaign
               </span>
               <Badge size="md" variant="success" appearance="light">

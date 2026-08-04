@@ -48,24 +48,24 @@ const CardTeam = ({
     <Card>
       <CardContent className="grid gap-7 py-7.5">
         <div className="grid place-items-center gap-4">
-          <div className="flex justify-center items-center size-14 rounded-full ring-1 ring-input bg-accent/60">
-            <Icon size={16} className="text-2xl text-secondary-foreground" />
+          <div className="ring-input bg-accent/60 flex size-14 items-center justify-center rounded-full ring-1">
+            <Icon size={16} className="text-secondary-foreground text-2xl" />
           </div>
           <div className="grid place-items-center">
             <Link
               to="#"
-              className="text-base font-medium text-mono hover:text-primary-active mb-px"
+              className="text-mono hover:text-primary-active mb-px text-base font-medium"
             >
               {title}
             </Link>
-            <span className="text-sm text-secondary-foreground text-center">
+            <span className="text-secondary-foreground text-center text-sm">
               {description}
             </span>
           </div>
         </div>
         <div className="grid">
-          <div className="flex items-center justify-between flex-wrap mb-3.5 gap-2">
-            <span className="text-xs text-secondary-foreground uppercase">
+          <div className="mb-3.5 flex flex-wrap items-center justify-between gap-2">
+            <span className="text-secondary-foreground text-xs uppercase">
               skills
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -74,16 +74,16 @@ const CardTeam = ({
               })}
             </div>
           </div>
-          <div className="border-t border-input border-dashed"></div>
-          <div className="flex items-center justify-between flex-wrap my-2.5 gap-2">
-            <span className="text-xs text-secondary-foreground uppercase">
+          <div className="border-input border-t border-dashed"></div>
+          <div className="my-2.5 flex flex-wrap items-center justify-between gap-2">
+            <span className="text-secondary-foreground text-xs uppercase">
               rating
             </span>
             <Rating rating={rating.value} round={rating.round} />
           </div>
-          <div className="border-t border-input border-dashed mb-3.5"></div>
-          <div className="flex items-center justify-between flex-wrap gap-2">
-            <span className="text-xs text-secondary-foreground uppercase">
+          <div className="border-input mb-3.5 border-t border-dashed"></div>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <span className="text-secondary-foreground text-xs uppercase">
               members
             </span>
             <AvatarGroup
