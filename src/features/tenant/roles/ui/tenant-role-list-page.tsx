@@ -14,6 +14,13 @@ import {
   DialogTitle,
 } from '@/shared/ui/atoms/dialog';
 import { Input } from '@/shared/ui/atoms/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
   Table,
@@ -50,8 +57,6 @@ export function TenantRoleListPage() {
   const canCreate = session?.permissions.includes('roles.create');
 
   const apply = () => setQuery({ ...draft, page: 1 });
-  const selectClassName =
-    'h-9 w-full rounded-md border border-input bg-background px-3 text-sm';
   const confirmDelete = async () => {
     if (!selectedRole) return;
     try {
@@ -88,36 +93,36 @@ export function TenantRoleListPage() {
 
       <Card>
         <CardContent className="grid gap-4 pt-5 md:grid-cols-[2fr_1fr_auto] md:items-end">
-          <label className="space-y-1 text-sm">
-            <span>{t('TENANT_ROLES.KEYWORD')}</span>
-            <Input
-              value={draft.search ?? ''}
-              placeholder={t('TENANT_ROLES.KEYWORD_PLACEHOLDER')}
-              onChange={(event) =>
-                setDraft({ ...draft, search: event.target.value || undefined })
-              }
-              onKeyDown={(event) => event.key === 'Enter' && apply()}
-            />
-          </label>
-          <label className="space-y-1 text-sm">
-            <span>{t('COMMON.STATUS_1')}</span>
-            <select
-              className={selectClassName}
-              value={draft.status ?? ''}
-              onChange={(event) =>
-                setDraft({
-                  ...draft,
-                  status:
-                    (event.target.value as TenantRoleQuery['status']) ||
-                    undefined,
-                })
-              }
-            >
-              <option value="">{t('TENANT_ROLES.ALL_STATUSES')}</option>
-              <option value="ACTIVE">{t('COMMON.STATUS.ACTIVE')}</option>
-              <option value="INACTIVE">{t('COMMON.STATUS.INACTIVE')}</option>
-            </select>
-          </label>
+          <Input
+            aria-label={t('TENANT_ROLES.KEYWORD')}
+            value={draft.search ?? ''}
+            placeholder={t('TENANT_ROLES.KEYWORD_PLACEHOLDER')}
+            onChange={(event) =>
+              setDraft({ ...draft, search: event.target.value || undefined })
+            }
+            onKeyDown={(event) => event.key === 'Enter' && apply()}
+          />
+          <Select
+            value={draft.status ?? ''}
+            onValueChange={(value) =>
+              setDraft({
+                ...draft,
+                status: (value as TenantRoleQuery['status']) || undefined,
+              })
+            }
+          >
+            <SelectTrigger size="lg" aria-label={t('COMMON.STATUS_1')}>
+              <SelectValue placeholder={t('TENANT_ROLES.ALL_STATUSES')} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ACTIVE">
+                {t('COMMON.STATUS.ACTIVE')}
+              </SelectItem>
+              <SelectItem value="INACTIVE">
+                {t('COMMON.STATUS.INACTIVE')}
+              </SelectItem>
+            </SelectContent>
+          </Select>
           <Button onClick={apply}>{t('COMMON.APPLY')}</Button>
         </CardContent>
       </Card>

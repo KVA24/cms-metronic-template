@@ -1,12 +1,21 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useTranslations } from '@/shared/hooks/use-translations';
+import { formatDateOnly, parseDateOnly } from '@/shared/lib/date-utils';
 import type { AdminRoleCode } from '@/shared/permissions';
 import { useAuthSession } from '@/shared/stores/auth-store';
 import { Alert, AlertDescription, AlertIcon } from '@/shared/ui/atoms/alert';
 import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent, CardHeader } from '@/shared/ui/atoms/card';
+import { DatePicker } from '@/shared/ui/atoms/date-picker';
 import { Input } from '@/shared/ui/atoms/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
   Table,
@@ -303,11 +312,14 @@ function MappingEditor({
               <span className="text-sm font-medium">
                 {t('ADMIN_BRAND_MAPPINGS.EFFECTIVE_FROM')} *
               </span>
-              <Input
-                type="date"
-                value={row.effectiveFrom}
-                onChange={(event) =>
-                  setField(index, 'effectiveFrom', event.target.value)
+              <DatePicker
+                value={parseDateOnly(row.effectiveFrom)}
+                placeholder={t('ADMIN_BRAND_MAPPINGS.EFFECTIVE_FROM')}
+                ariaLabel={t('ADMIN_BRAND_MAPPINGS.EFFECTIVE_FROM')}
+                showClearButton={false}
+                error={Boolean(errors[index]?.effectiveFrom)}
+                onChange={(date) =>
+                  setField(index, 'effectiveFrom', formatDateOnly(date))
                 }
               />
               {errors[index]?.effectiveFrom && (
@@ -322,11 +334,12 @@ function MappingEditor({
               <span className="text-sm font-medium">
                 {t('ADMIN_BRAND_MAPPINGS.EFFECTIVE_TO')}
               </span>
-              <Input
-                type="date"
-                value={row.effectiveTo}
-                onChange={(event) =>
-                  setField(index, 'effectiveTo', event.target.value)
+              <DatePicker
+                value={parseDateOnly(row.effectiveTo)}
+                placeholder={t('ADMIN_BRAND_MAPPINGS.EFFECTIVE_TO')}
+                ariaLabel={t('ADMIN_BRAND_MAPPINGS.EFFECTIVE_TO')}
+                onChange={(date) =>
+                  setField(index, 'effectiveTo', formatDateOnly(date))
                 }
               />
               {errors[index]?.effectiveTo && (
@@ -478,89 +491,97 @@ export function AdminBrandMappingPage() {
                 className="grid gap-4 md:grid-cols-2 xl:grid-cols-5"
                 onSubmit={applyFilters}
               >
-                <label className="space-y-1">
-                  <span className="text-sm font-medium">
-                    {t('ADMIN_BRAND_MAPPINGS.KEYWORD')}
-                  </span>
-                  <Input
-                    value={filters.keyword}
-                    onChange={(event) =>
-                      setFilters((current) => ({
-                        ...current,
-                        keyword: event.target.value,
-                      }))
-                    }
-                  />
-                </label>
-                <label className="space-y-1">
-                  <span className="text-sm font-medium">
-                    {t('ADMIN_BRAND_MAPPINGS.CATEGORY')}
-                  </span>
-                  <select
-                    className={selectClassName}
-                    value={filters.categoryId}
-                    onChange={(event) =>
-                      setFilters((current) => ({
-                        ...current,
-                        categoryId: event.target.value,
-                      }))
-                    }
+                <Input
+                  aria-label={t('ADMIN_BRAND_MAPPINGS.KEYWORD')}
+                  placeholder={t('ADMIN_BRAND_MAPPINGS.KEYWORD')}
+                  value={filters.keyword}
+                  onChange={(event) =>
+                    setFilters((current) => ({
+                      ...current,
+                      keyword: event.target.value,
+                    }))
+                  }
+                />
+                <Select
+                  value={filters.categoryId || ''}
+                  onValueChange={(value) =>
+                    setFilters((current) => ({
+                      ...current,
+                      categoryId: value,
+                    }))
+                  }
+                >
+                  <SelectTrigger
+                    size="lg"
+                    aria-label={t('ADMIN_BRAND_MAPPINGS.CATEGORY')}
                   >
-                    <option value="">{t('ADMIN_BRAND_MAPPINGS.ALL')}</option>
+                    <SelectValue placeholder={t('ADMIN_BRAND_MAPPINGS.ALL')} />
+                  </SelectTrigger>
+                  <SelectContent>
                     {data.categories.map((category) => (
-                      <option key={category.id} value={category.id}>
+                      <SelectItem key={category.id} value={category.id}>
                         {category.name}
-                      </option>
+                      </SelectItem>
                     ))}
-                  </select>
-                </label>
-                <label className="space-y-1">
-                  <span className="text-sm font-medium">
-                    {t('ADMIN_BRAND_MAPPINGS.COMMISSION_TYPE')}
-                  </span>
-                  <select
-                    className={selectClassName}
-                    value={filters.commissionType}
-                    onChange={(event) =>
-                      setFilters((current) => ({
-                        ...current,
-                        commissionType: event.target
-                          .value as AdminBrandMappingQuery['commissionType'],
-                      }))
-                    }
+                  </SelectContent>
+                </Select>
+                <Select
+                  value={
+                    filters.commissionType === 'ALL'
+                      ? ''
+                      : filters.commissionType
+                  }
+                  onValueChange={(value) =>
+                    setFilters((current) => ({
+                      ...current,
+                      commissionType: (value ||
+                        'ALL') as AdminBrandMappingQuery['commissionType'],
+                    }))
+                  }
+                >
+                  <SelectTrigger
+                    size="lg"
+                    aria-label={t('ADMIN_BRAND_MAPPINGS.COMMISSION_TYPE')}
                   >
-                    <option value="ALL">{t('ADMIN_BRAND_MAPPINGS.ALL')}</option>
-                    <option value="PERCENTAGE">
+                    <SelectValue placeholder={t('ADMIN_BRAND_MAPPINGS.ALL')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="PERCENTAGE">
                       {t('ADMIN_BRAND_MAPPINGS.PERCENTAGE')}
-                    </option>
-                    <option value="FIXED_AMOUNT">
+                    </SelectItem>
+                    <SelectItem value="FIXED_AMOUNT">
                       {t('ADMIN_BRAND_MAPPINGS.FIXED_AMOUNT')}
-                    </option>
-                  </select>
-                </label>
-                <label className="space-y-1">
-                  <span className="text-sm font-medium">
-                    {t('ADMIN_BRAND_MAPPINGS.STATUS')}
-                  </span>
-                  <select
-                    className={selectClassName}
-                    value={filters.status}
-                    onChange={(event) =>
-                      setFilters((current) => ({
-                        ...current,
-                        status: event.target
-                          .value as AdminBrandMappingQuery['status'],
-                      }))
-                    }
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select
+                  value={filters.status === 'ALL' ? '' : filters.status}
+                  onValueChange={(value) =>
+                    setFilters((current) => ({
+                      ...current,
+                      status: (value ||
+                        'ALL') as AdminBrandMappingQuery['status'],
+                    }))
+                  }
+                >
+                  <SelectTrigger
+                    size="lg"
+                    aria-label={t('ADMIN_BRAND_MAPPINGS.STATUS')}
                   >
-                    <option value="ALL">{t('ADMIN_BRAND_MAPPINGS.ALL')}</option>
-                    <option value="ACTIVE">{t('COMMON.STATUS.ACTIVE')}</option>
-                    <option value="DRAFT">{t('COMMON.STATUS.DRAFT')}</option>
-                    <option value="INACTIVE">
+                    <SelectValue placeholder={t('ADMIN_BRAND_MAPPINGS.ALL')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ACTIVE">
+                      {t('COMMON.STATUS.ACTIVE')}
+                    </SelectItem>
+                    <SelectItem value="DRAFT">
+                      {t('COMMON.STATUS.DRAFT')}
+                    </SelectItem>
+                    <SelectItem value="INACTIVE">
                       {t('COMMON.STATUS.INACTIVE')}
-                    </option>
-                  </select>
-                </label>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
                 <div className="flex items-end">
                   <Button type="submit" variant="mono">
                     <Search />

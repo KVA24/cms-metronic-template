@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react';
 import type { Configuration } from '@/shared/contracts';
 import { useTranslations } from '@/shared/hooks/use-translations';
+import { formatDateOnly, parseDateOnly } from '@/shared/lib/date-utils';
 import type { AdminRoleCode } from '@/shared/permissions';
 import { useAuthSession } from '@/shared/stores/auth-store';
 import {
@@ -16,6 +17,7 @@ import {
 import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent } from '@/shared/ui/atoms/card';
+import DateRangePicker from '@/shared/ui/atoms/date-range-picker';
 import { Input } from '@/shared/ui/atoms/input';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
@@ -131,61 +133,43 @@ export function AdminConfigurationPage() {
       <Card>
         <CardContent className="pt-6">
           <form className="grid gap-4 md:grid-cols-3" onSubmit={apply}>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_CONFIGURATION.SEARCH')}
-              </span>
-              <Input
-                id="configuration-keyword"
-                name="keyword"
-                value={filters.keyword}
-                onChange={(event) =>
+            <Input
+              id="configuration-keyword"
+              name="keyword"
+              aria-label={t('ADMIN_CONFIGURATION.SEARCH')}
+              placeholder={t('ADMIN_CONFIGURATION.SEARCH')}
+              value={filters.keyword}
+              onChange={(event) =>
+                setFilters((current) => ({
+                  ...current,
+                  keyword: event.target.value,
+                }))
+              }
+            />
+            <div className="space-y-1 md:col-span-2">
+              <DateRangePicker
+                start={parseDateOnly(filters.createdFrom)}
+                end={parseDateOnly(filters.createdTo)}
+                clearable
+                ariaLabel={`${t('ADMIN_CONFIGURATION.CREATED_FROM')} - ${t('ADMIN_CONFIGURATION.CREATED_TO')}`}
+                placeholder={`${t('ADMIN_CONFIGURATION.CREATED_FROM')} - ${t('ADMIN_CONFIGURATION.CREATED_TO')}`}
+                resetLabel={t('COMMON.RESET')}
+                applyLabel={t('COMMON.APPLY')}
+                onApply={(range) => {
                   setFilters((current) => ({
                     ...current,
-                    keyword: event.target.value,
-                  }))
-                }
-              />
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_CONFIGURATION.CREATED_FROM')}
-              </span>
-              <Input
-                id="configuration-created-from"
-                name="createdFrom"
-                type="date"
-                value={filters.createdFrom}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    createdFrom: event.target.value,
-                  }))
-                }
-              />
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_CONFIGURATION.CREATED_TO')}
-              </span>
-              <Input
-                id="configuration-created-to"
-                name="createdTo"
-                type="date"
-                value={filters.createdTo}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    createdTo: event.target.value,
-                  }))
-                }
+                    createdFrom: formatDateOnly(range?.from),
+                    createdTo: formatDateOnly(range?.to),
+                  }));
+                  setDateError('');
+                }}
               />
               {dateError && (
                 <p className="text-destructive text-xs" role="alert">
                   {t(`ADMIN_CONFIGURATION.ERRORS.${dateError}`)}
                 </p>
               )}
-            </label>
+            </div>
             <Button
               className="w-fit md:col-span-3"
               type="submit"

@@ -73,3 +73,21 @@ export function formatDate(
       return `${day}/${month}/${year}`;
   }
 }
+
+export function parseDateOnly(value?: string | null): Date | undefined {
+  if (!value) return undefined;
+
+  const [year, month, day] = value.split('-').map(Number);
+  if (!year || !month || !day) return undefined;
+
+  const date = new Date(year, month - 1, day);
+  return date.getFullYear() === year &&
+    date.getMonth() === month - 1 &&
+    date.getDate() === day
+    ? date
+    : undefined;
+}
+
+export function formatDateOnly(date?: Date): string {
+  return date ? formatDate(date, 'yyyy-MM-dd') : '';
+}

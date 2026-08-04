@@ -17,6 +17,10 @@ interface DateRangePickerProps {
   disabled?: boolean;
   clearable?: boolean;
   maxMonths?: number;
+  placeholder?: string;
+  ariaLabel?: string;
+  resetLabel?: string;
+  applyLabel?: string;
 }
 
 const DateRangePicker: React.FC<DateRangePickerProps> = ({
@@ -26,6 +30,10 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   disabled,
   clearable,
   maxMonths,
+  placeholder = 'Pick a date range',
+  ariaLabel,
+  resetLabel = 'Reset',
+  applyLabel = 'Apply',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [dateRange, setDateRange] = useState<DateRange | undefined>(
@@ -123,7 +131,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
 
   const formatDateRange = () => {
     if (!dateRange?.from) {
-      return <span className="text-muted-foreground">Pick a date range</span>;
+      return <span className="text-muted-foreground">{placeholder}</span>;
     }
 
     if (dateRange.to) {
@@ -145,6 +153,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
       <PopoverTrigger asChild>
         <Button
           id="date"
+          aria-label={ariaLabel ?? placeholder}
           variant="outline"
           className="text-foreground w-full justify-start overflow-hidden text-left font-normal"
           disabled={disabled}
@@ -181,10 +190,10 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
             className="text-foreground"
             disabled={!dateRange || !clearable}
           >
-            Reset
+            {resetLabel}
           </Button>
           <Button onClick={handleApply} disabled={!!rangeError}>
-            Apply
+            {applyLabel}
           </Button>
         </div>
       </PopoverContent>

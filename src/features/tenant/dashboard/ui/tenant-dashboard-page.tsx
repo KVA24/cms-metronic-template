@@ -4,6 +4,13 @@ import { useAuthSession } from '@/shared/stores/auth-store';
 import { Alert, AlertDescription, AlertIcon } from '@/shared/ui/atoms/alert';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent, CardHeader } from '@/shared/ui/atoms/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import { Container } from '@/shared/ui/molecules/container';
 import { AlertCircle, RefreshCw } from 'lucide-react';
@@ -23,9 +30,6 @@ import {
   type TenantDashboardQuery,
   type TenantDashboardTrendPoint,
 } from '../model/tenant-dashboard';
-
-const selectClassName =
-  'h-9 w-full rounded-md border border-input bg-background px-3 text-sm';
 
 function DashboardChart({
   data,
@@ -172,42 +176,46 @@ export function TenantDashboardPage() {
 
       <Card>
         <CardContent className="grid gap-4 pt-5 md:grid-cols-[1fr_1fr_auto] md:items-end">
-          <label className="space-y-1 text-sm">
-            <span>{t('TENANT_DASHBOARD.DATE_RANGE')}</span>
-            <select
-              className={selectClassName}
-              value={draft.range}
-              onChange={(event) =>
-                setDraft({
-                  ...draft,
-                  range: event.target.value as TenantDashboardQuery['range'],
-                })
-              }
+          <Select
+            value={draft.range}
+            onValueChange={(value) =>
+              setDraft({
+                ...draft,
+                range: value as TenantDashboardQuery['range'],
+              })
+            }
+          >
+            <SelectTrigger
+              size="lg"
+              aria-label={t('TENANT_DASHBOARD.DATE_RANGE')}
             >
+              <SelectValue placeholder={t('TENANT_DASHBOARD.DATE_RANGE')} />
+            </SelectTrigger>
+            <SelectContent>
               {TENANT_DASHBOARD_RANGES.map((range) => (
-                <option key={range} value={range}>
+                <SelectItem key={range} value={range}>
                   {t(`TENANT_DASHBOARD.RANGES.${range}`)}
-                </option>
+                </SelectItem>
               ))}
-            </select>
-          </label>
-          <label className="space-y-1 text-sm">
-            <span>{t('TENANT_DASHBOARD.BRAND')}</span>
-            <select
-              className={selectClassName}
-              value={draft.brandId ?? ''}
-              onChange={(event) =>
-                setDraft({ ...draft, brandId: event.target.value || undefined })
-              }
-            >
-              <option value="">{t('TENANT_DASHBOARD.ALL_BRANDS')}</option>
+            </SelectContent>
+          </Select>
+          <Select
+            value={draft.brandId ?? ''}
+            onValueChange={(value) =>
+              setDraft({ ...draft, brandId: value || undefined })
+            }
+          >
+            <SelectTrigger size="lg" aria-label={t('TENANT_DASHBOARD.BRAND')}>
+              <SelectValue placeholder={t('TENANT_DASHBOARD.ALL_BRANDS')} />
+            </SelectTrigger>
+            <SelectContent>
               {view?.brandOptions.map((brand) => (
-                <option key={brand.id} value={brand.id}>
+                <SelectItem key={brand.id} value={brand.id}>
                   {brand.name}
-                </option>
+                </SelectItem>
               ))}
-            </select>
-          </label>
+            </SelectContent>
+          </Select>
           <Button onClick={() => setQuery(draft)}>{t('COMMON.APPLY')}</Button>
         </CardContent>
       </Card>

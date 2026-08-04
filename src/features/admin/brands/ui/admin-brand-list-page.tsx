@@ -1,13 +1,22 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import type { ContentLocale, EntityStatus } from '@/shared/contracts';
 import { useTranslations } from '@/shared/hooks/use-translations';
+import { formatDateOnly, parseDateOnly } from '@/shared/lib/date-utils';
 import { hasPermission, type AdminRoleCode } from '@/shared/permissions';
 import { useAuthSession } from '@/shared/stores/auth-store';
 import { Alert, AlertDescription, AlertIcon } from '@/shared/ui/atoms/alert';
 import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent } from '@/shared/ui/atoms/card';
+import DateRangePicker from '@/shared/ui/atoms/date-range-picker';
 import { Input } from '@/shared/ui/atoms/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
   Table,
@@ -111,107 +120,79 @@ export function AdminBrandListPage() {
             className="grid gap-4 md:grid-cols-2 xl:grid-cols-6"
             onSubmit={apply}
           >
-            <label className="space-y-1.5 xl:col-span-2">
-              <span className="text-sm font-medium">
-                {t('ADMIN_BRANDS.KEYWORD')}
-              </span>
-              <Input
-                id="brand-keyword"
-                name="keyword"
-                maxLength={100}
-                value={draft.keyword}
-                placeholder={t('ADMIN_BRANDS.KEYWORD_PLACEHOLDER')}
-                onChange={(event) =>
-                  setDraft((current) => ({
-                    ...current,
-                    keyword: event.target.value,
-                  }))
-                }
-              />
-            </label>
-            <label className="space-y-1.5">
-              <span className="text-sm font-medium">
-                {t('COMMON.STATUS_1')}
-              </span>
-              <select
-                id="brand-status"
-                name="status"
-                className={selectClassName}
-                value={draft.status}
-                onChange={(event) =>
-                  setDraft((current) => ({
-                    ...current,
-                    status: event.target.value as AdminBrandQuery['status'],
-                  }))
-                }
-              >
-                {['ALL', 'ACTIVE', 'INACTIVE', 'DRAFT'].map((status) => (
-                  <option key={status} value={status}>
-                    {status === 'ALL'
-                      ? t('COMMON.ALL')
-                      : t(`COMMON.STATUS.${status}`)}
-                  </option>
+            <Input
+              className="xl:col-span-2"
+              id="brand-keyword"
+              name="keyword"
+              aria-label={t('ADMIN_BRANDS.KEYWORD')}
+              maxLength={100}
+              value={draft.keyword}
+              placeholder={t('ADMIN_BRANDS.KEYWORD_PLACEHOLDER')}
+              onChange={(event) =>
+                setDraft((current) => ({
+                  ...current,
+                  keyword: event.target.value,
+                }))
+              }
+            />
+            <Select
+              value={draft.status === 'ALL' ? '' : draft.status}
+              onValueChange={(value) =>
+                setDraft((current) => ({
+                  ...current,
+                  status: (value || 'ALL') as AdminBrandQuery['status'],
+                }))
+              }
+            >
+              <SelectTrigger size="lg" aria-label={t('COMMON.STATUS_1')}>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
+                {['ACTIVE', 'INACTIVE', 'DRAFT'].map((status) => (
+                  <SelectItem key={status} value={status}>
+                    {t(`COMMON.STATUS.${status}`)}
+                  </SelectItem>
                 ))}
-              </select>
-            </label>
-            <label className="space-y-1.5">
-              <span className="text-sm font-medium">
-                {t('ADMIN_BRANDS.CATEGORY')}
-              </span>
-              <select
-                id="brand-category"
-                name="categoryId"
-                className={selectClassName}
-                value={draft.categoryId}
-                onChange={(event) =>
-                  setDraft((current) => ({
-                    ...current,
-                    categoryId: event.target.value,
-                  }))
-                }
-              >
-                <option value="">{t('COMMON.ALL')}</option>
+              </SelectContent>
+            </Select>
+            <Select
+              value={draft.categoryId || ''}
+              onValueChange={(value) =>
+                setDraft((current) => ({
+                  ...current,
+                  categoryId: value,
+                }))
+              }
+            >
+              <SelectTrigger size="lg" aria-label={t('ADMIN_BRANDS.CATEGORY')}>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
                 {options.data?.categories.map((category) => (
-                  <option key={category.id} value={category.id}>
+                  <SelectItem key={category.id} value={category.id}>
                     {category.name}
-                  </option>
+                  </SelectItem>
                 ))}
-              </select>
-            </label>
-            <label className="space-y-1.5">
-              <span className="text-sm font-medium">
-                {t('ADMIN_BRANDS.CREATED_FROM')}
-              </span>
-              <Input
-                id="brand-created-from"
-                name="createdFrom"
-                type="date"
-                value={draft.createdFrom}
-                onChange={(event) =>
+              </SelectContent>
+            </Select>
+            <div className="xl:col-span-2">
+              <DateRangePicker
+                start={parseDateOnly(draft.createdFrom)}
+                end={parseDateOnly(draft.createdTo)}
+                clearable
+                ariaLabel={`${t('ADMIN_BRANDS.CREATED_FROM')} - ${t('ADMIN_BRANDS.CREATED_TO')}`}
+                placeholder={`${t('ADMIN_BRANDS.CREATED_FROM')} - ${t('ADMIN_BRANDS.CREATED_TO')}`}
+                resetLabel={t('COMMON.RESET')}
+                applyLabel={t('COMMON.APPLY')}
+                onApply={(range) =>
                   setDraft((current) => ({
                     ...current,
-                    createdFrom: event.target.value,
+                    createdFrom: formatDateOnly(range?.from),
+                    createdTo: formatDateOnly(range?.to),
                   }))
                 }
               />
-            </label>
-            <label className="space-y-1.5">
-              <span className="text-sm font-medium">
-                {t('ADMIN_BRANDS.CREATED_TO')}
-              </span>
-              <Input
-                id="brand-created-to"
-                name="createdTo"
-                type="date"
-                value={draft.createdTo}
-                onChange={(event) =>
-                  setDraft((current) => ({
-                    ...current,
-                    createdTo: event.target.value,
-                  }))
-                }
-              />
-            </label>
+            </div>
             <div className="flex items-end gap-2 xl:col-span-6">
               <Button type="submit" variant="mono">
                 <Search />

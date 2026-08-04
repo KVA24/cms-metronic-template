@@ -6,6 +6,13 @@ import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent } from '@/shared/ui/atoms/card';
 import { Input } from '@/shared/ui/atoms/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
   Table,
@@ -24,8 +31,6 @@ import {
   type AdminTenantRevenueQuery,
 } from '../model/admin-tenant-revenue';
 
-const selectClassName =
-  'h-10 w-full rounded-md border border-input bg-background px-3 text-sm';
 const dateFormatter = new Intl.DateTimeFormat('vi-VN', {
   dateStyle: 'short',
   timeStyle: 'short',
@@ -78,95 +83,87 @@ export function AdminTenantRevenueListPage() {
             className="grid gap-4 md:grid-cols-2 xl:grid-cols-4"
             onSubmit={apply}
           >
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TENANT_REVENUE.KEYWORD')}
-              </span>
-              <Input
-                id="revenue-keyword"
-                name="keyword"
-                value={filters.keyword}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    keyword: event.target.value,
-                  }))
-                }
-              />
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TENANT_REVENUE.BRAND')}
-              </span>
-              <select
-                id="revenue-brand"
-                name="brandId"
-                className={selectClassName}
-                value={filters.brandId}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    brandId: event.target.value,
-                  }))
-                }
+            <Input
+              id="revenue-keyword"
+              name="keyword"
+              aria-label={t('ADMIN_TENANT_REVENUE.KEYWORD')}
+              placeholder={t('ADMIN_TENANT_REVENUE.KEYWORD')}
+              value={filters.keyword}
+              onChange={(event) =>
+                setFilters((current) => ({
+                  ...current,
+                  keyword: event.target.value,
+                }))
+              }
+            />
+            <Select
+              value={filters.brandId || ''}
+              onValueChange={(value) =>
+                setFilters((current) => ({ ...current, brandId: value }))
+              }
+            >
+              <SelectTrigger
+                size="lg"
+                aria-label={t('ADMIN_TENANT_REVENUE.BRAND')}
               >
-                <option value="">{t('COMMON.ALL')}</option>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
                 {result.data.items.map(({ brand }) => (
-                  <option key={brand.id} value={brand.id}>
+                  <SelectItem key={brand.id} value={brand.id}>
                     {brand.name}
-                  </option>
+                  </SelectItem>
                 ))}
-              </select>
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TENANT_REVENUE.CONFIG_STATUS')}
-              </span>
-              <select
-                id="revenue-config"
-                name="config"
-                className={selectClassName}
-                value={filters.config}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    config: event.target
-                      .value as AdminTenantRevenueQuery['config'],
-                  }))
-                }
+              </SelectContent>
+            </Select>
+            <Select
+              value={filters.config === 'ALL' ? '' : filters.config}
+              onValueChange={(value) =>
+                setFilters((current) => ({
+                  ...current,
+                  config: (value || 'ALL') as AdminTenantRevenueQuery['config'],
+                }))
+              }
+            >
+              <SelectTrigger
+                size="lg"
+                aria-label={t('ADMIN_TENANT_REVENUE.CONFIG_STATUS')}
               >
-                <option value="ALL">{t('COMMON.ALL')}</option>
-                <option value="CONFIGURED">
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="CONFIGURED">
                   {t('ADMIN_TENANT_REVENUE.CONFIGURED')}
-                </option>
-                <option value="UNCONFIGURED">
+                </SelectItem>
+                <SelectItem value="UNCONFIGURED">
                   {t('ADMIN_TENANT_REVENUE.UNCONFIGURED')}
-                </option>
-              </select>
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('COMMON.STATUS_1')}
-              </span>
-              <select
-                id="revenue-status"
-                name="status"
-                className={selectClassName}
-                value={filters.status}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    status: event.target
-                      .value as AdminTenantRevenueQuery['status'],
-                  }))
-                }
-              >
-                <option value="ALL">{t('COMMON.ALL')}</option>
-                <option value="ACTIVE">{t('COMMON.STATUS.ACTIVE')}</option>
-                <option value="DRAFT">{t('COMMON.STATUS.DRAFT')}</option>
-                <option value="INACTIVE">{t('COMMON.STATUS.INACTIVE')}</option>
-              </select>
-            </label>
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <Select
+              value={filters.status === 'ALL' ? '' : filters.status}
+              onValueChange={(value) =>
+                setFilters((current) => ({
+                  ...current,
+                  status: (value || 'ALL') as AdminTenantRevenueQuery['status'],
+                }))
+              }
+            >
+              <SelectTrigger size="lg" aria-label={t('COMMON.STATUS_1')}>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="ACTIVE">
+                  {t('COMMON.STATUS.ACTIVE')}
+                </SelectItem>
+                <SelectItem value="DRAFT">
+                  {t('COMMON.STATUS.DRAFT')}
+                </SelectItem>
+                <SelectItem value="INACTIVE">
+                  {t('COMMON.STATUS.INACTIVE')}
+                </SelectItem>
+              </SelectContent>
+            </Select>
             <div className="flex gap-2 xl:col-span-4">
               <Button type="submit" variant="mono">
                 <Search />

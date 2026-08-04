@@ -5,6 +5,13 @@ import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent } from '@/shared/ui/atoms/card';
 import { Input } from '@/shared/ui/atoms/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
   Table,
@@ -50,42 +57,44 @@ export function TenantEarnDisplayListPage() {
       </header>
       <Card>
         <CardContent className="grid gap-4 pt-5 md:grid-cols-[2fr_1fr_auto] md:items-end">
-          <label className="space-y-1 text-sm">
-            <span>{t('TENANT_EARN_DISPLAY.KEYWORD')}</span>
-            <Input
-              maxLength={100}
-              value={draft.search ?? ''}
-              placeholder={t('TENANT_EARN_DISPLAY.KEYWORD_PLACEHOLDER')}
-              onChange={(event) =>
-                setDraft({ ...draft, search: event.target.value || undefined })
-              }
-              onKeyDown={(event) => event.key === 'Enter' && apply()}
-            />
-          </label>
-          <label className="space-y-1 text-sm">
-            <span>{t('TENANT_EARN_DISPLAY.CONFIGURATION')}</span>
-            <select
-              className="border-input bg-background h-9 w-full rounded-md border px-3 text-sm"
-              value={draft.configurationStatus ?? ''}
-              onChange={(event) =>
-                setDraft({
-                  ...draft,
-                  configurationStatus:
-                    (event.target
-                      .value as TenantEarnDisplayQuery['configurationStatus']) ||
-                    undefined,
-                })
-              }
+          <Input
+            aria-label={t('TENANT_EARN_DISPLAY.KEYWORD')}
+            maxLength={100}
+            value={draft.search ?? ''}
+            placeholder={t('TENANT_EARN_DISPLAY.KEYWORD_PLACEHOLDER')}
+            onChange={(event) =>
+              setDraft({ ...draft, search: event.target.value || undefined })
+            }
+            onKeyDown={(event) => event.key === 'Enter' && apply()}
+          />
+          <Select
+            value={draft.configurationStatus ?? ''}
+            onValueChange={(value) =>
+              setDraft({
+                ...draft,
+                configurationStatus:
+                  (value as TenantEarnDisplayQuery['configurationStatus']) ||
+                  undefined,
+              })
+            }
+          >
+            <SelectTrigger
+              size="lg"
+              aria-label={t('TENANT_EARN_DISPLAY.CONFIGURATION')}
             >
-              <option value="">{t('TENANT_EARN_DISPLAY.ALL_STATUSES')}</option>
-              <option value="CONFIGURED">
+              <SelectValue
+                placeholder={t('TENANT_EARN_DISPLAY.ALL_STATUSES')}
+              />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="CONFIGURED">
                 {t('TENANT_EARN_DISPLAY.CONFIGURED')}
-              </option>
-              <option value="NOT_CONFIGURED">
+              </SelectItem>
+              <SelectItem value="NOT_CONFIGURED">
                 {t('TENANT_EARN_DISPLAY.NOT_CONFIGURED')}
-              </option>
-            </select>
-          </label>
+              </SelectItem>
+            </SelectContent>
+          </Select>
           <Button onClick={apply}>{t('COMMON.APPLY')}</Button>
         </CardContent>
       </Card>

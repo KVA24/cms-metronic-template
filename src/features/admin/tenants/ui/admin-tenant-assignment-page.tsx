@@ -15,6 +15,13 @@ import {
   DialogTitle,
 } from '@/shared/ui/atoms/dialog';
 import { Input } from '@/shared/ui/atoms/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
   Table,
@@ -38,9 +45,6 @@ import {
   type AdminTenantAssignmentQuery,
   type AdminTenantAssignmentRow,
 } from '../model/admin-tenant-assignment';
-
-const selectClassName =
-  'h-10 w-full rounded-md border border-input bg-background px-3 text-sm';
 
 export function AdminTenantAssignmentPage() {
   const { tenantId = '' } = useParams();
@@ -188,98 +192,98 @@ export function AdminTenantAssignmentPage() {
             className="grid gap-4 md:grid-cols-2 xl:grid-cols-4"
             onSubmit={apply}
           >
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TENANT_ASSIGNMENTS.KEYWORD')}
-              </span>
-              <Input
-                id="assignment-keyword"
-                name="keyword"
-                value={filters.keyword}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    keyword: event.target.value,
-                  }))
-                }
-              />
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TENANT_ASSIGNMENTS.BRAND_STATUS')}
-              </span>
-              <select
-                id="assignment-brand-status"
-                name="brandStatus"
-                className={selectClassName}
-                value={filters.brandStatus}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    brandStatus: event.target
-                      .value as AdminTenantAssignmentQuery['brandStatus'],
-                  }))
-                }
+            <Input
+              id="assignment-keyword"
+              name="keyword"
+              aria-label={t('ADMIN_TENANT_ASSIGNMENTS.KEYWORD')}
+              placeholder={t('ADMIN_TENANT_ASSIGNMENTS.KEYWORD')}
+              value={filters.keyword}
+              onChange={(event) =>
+                setFilters((current) => ({
+                  ...current,
+                  keyword: event.target.value,
+                }))
+              }
+            />
+            <Select
+              value={filters.brandStatus === 'ALL' ? '' : filters.brandStatus}
+              onValueChange={(value) =>
+                setFilters((current) => ({
+                  ...current,
+                  brandStatus: (value ||
+                    'ALL') as AdminTenantAssignmentQuery['brandStatus'],
+                }))
+              }
+            >
+              <SelectTrigger
+                size="lg"
+                aria-label={t('ADMIN_TENANT_ASSIGNMENTS.BRAND_STATUS')}
               >
-                <option value="ALL">{t('COMMON.ALL')}</option>
-                <option value="ACTIVE">{t('COMMON.STATUS.ACTIVE')}</option>
-                <option value="INACTIVE">{t('COMMON.STATUS.INACTIVE')}</option>
-                <option value="DRAFT">{t('COMMON.STATUS.DRAFT')}</option>
-              </select>
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TENANT_ASSIGNMENTS.CATEGORY')}
-              </span>
-              <select
-                id="assignment-category"
-                name="categoryId"
-                className={selectClassName}
-                value={filters.categoryId}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    categoryId: event.target.value,
-                  }))
-                }
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="ACTIVE">
+                  {t('COMMON.STATUS.ACTIVE')}
+                </SelectItem>
+                <SelectItem value="INACTIVE">
+                  {t('COMMON.STATUS.INACTIVE')}
+                </SelectItem>
+                <SelectItem value="DRAFT">
+                  {t('COMMON.STATUS.DRAFT')}
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <Select
+              value={filters.categoryId || ''}
+              onValueChange={(value) =>
+                setFilters((current) => ({
+                  ...current,
+                  categoryId: value,
+                }))
+              }
+            >
+              <SelectTrigger
+                size="lg"
+                aria-label={t('ADMIN_TENANT_ASSIGNMENTS.CATEGORY')}
               >
-                <option value="">{t('COMMON.ALL')}</option>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
                 {result.data.categories.map((category) => (
-                  <option key={category.id} value={category.id}>
+                  <SelectItem key={category.id} value={category.id}>
                     {category.name}
-                  </option>
+                  </SelectItem>
                 ))}
-              </select>
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TENANT_ASSIGNMENTS.ASSIGNMENT_STATUS')}
-              </span>
-              <select
-                id="assignment-status"
-                name="assignment"
-                className={selectClassName}
-                value={filters.assignment}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    assignment: event.target
-                      .value as AdminTenantAssignmentQuery['assignment'],
-                  }))
-                }
+              </SelectContent>
+            </Select>
+            <Select
+              value={filters.assignment === 'ALL' ? '' : filters.assignment}
+              onValueChange={(value) =>
+                setFilters((current) => ({
+                  ...current,
+                  assignment: (value ||
+                    'ALL') as AdminTenantAssignmentQuery['assignment'],
+                }))
+              }
+            >
+              <SelectTrigger
+                size="lg"
+                aria-label={t('ADMIN_TENANT_ASSIGNMENTS.ASSIGNMENT_STATUS')}
               >
-                <option value="ALL">{t('COMMON.ALL')}</option>
-                <option value="ASSIGNED">
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="ASSIGNED">
                   {t('ADMIN_TENANT_ASSIGNMENTS.ASSIGNED')}
-                </option>
-                <option value="UNASSIGNED">
+                </SelectItem>
+                <SelectItem value="UNASSIGNED">
                   {t('ADMIN_TENANT_ASSIGNMENTS.UNASSIGNED')}
-                </option>
-                <option value="CUSTOM">
+                </SelectItem>
+                <SelectItem value="CUSTOM">
                   {t('ADMIN_TENANT_ASSIGNMENTS.CUSTOM')}
-                </option>
-              </select>
-            </label>
+                </SelectItem>
+              </SelectContent>
+            </Select>
             <div className="flex gap-2 xl:col-span-4">
               <Button type="submit" variant="mono">
                 <Search />

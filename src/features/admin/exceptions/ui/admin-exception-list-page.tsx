@@ -1,10 +1,12 @@
 import { FormEvent, useState } from 'react';
 import { useTranslations } from '@/shared/hooks/use-translations';
+import { formatDateOnly, parseDateOnly } from '@/shared/lib/date-utils';
 import type { AdminRoleCode } from '@/shared/permissions';
 import { useAuthSession } from '@/shared/stores/auth-store';
 import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent } from '@/shared/ui/atoms/card';
+import DateRangePicker from '@/shared/ui/atoms/date-range-picker';
 import {
   Dialog,
   DialogClose,
@@ -15,6 +17,13 @@ import {
   DialogTitle,
 } from '@/shared/ui/atoms/dialog';
 import { Input } from '@/shared/ui/atoms/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
   Table,
@@ -48,8 +57,6 @@ import {
   type AdminExceptionQuery,
 } from '../model/admin-exception';
 
-const selectClassName =
-  'h-10 w-full rounded-md border border-input bg-background px-3 text-sm';
 const dateFormatter = new Intl.DateTimeFormat('vi-VN', {
   dateStyle: 'short',
   timeStyle: 'medium',
@@ -158,133 +165,112 @@ export function AdminExceptionListPage() {
       <Card>
         <CardContent className="pt-6">
           <form className="grid gap-4 lg:grid-cols-5" onSubmit={apply}>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_EXCEPTIONS.KEYWORD')}
-              </span>
-              <Input
-                id="exception-keyword"
-                name="keyword"
-                value={filters.keyword}
-                onChange={(event) => setFilter('keyword', event.target.value)}
-              />
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_EXCEPTIONS.TENANT')}
-              </span>
-              <select
-                id="exception-tenant"
-                name="tenantId"
-                className={selectClassName}
-                value={filters.tenantId}
-                onChange={(event) => setFilter('tenantId', event.target.value)}
+            <Input
+              id="exception-keyword"
+              name="keyword"
+              aria-label={t('ADMIN_EXCEPTIONS.KEYWORD')}
+              placeholder={t('ADMIN_EXCEPTIONS.KEYWORD')}
+              value={filters.keyword}
+              onChange={(event) => setFilter('keyword', event.target.value)}
+            />
+            <Select
+              value={filters.tenantId || ''}
+              onValueChange={(value) => setFilter('tenantId', value)}
+            >
+              <SelectTrigger
+                size="lg"
+                aria-label={t('ADMIN_EXCEPTIONS.TENANT')}
               >
-                <option value="">{t('COMMON.ALL')}</option>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
                 {options.data.tenants.map((item) => (
-                  <option key={item.id} value={item.id}>
+                  <SelectItem key={item.id} value={item.id}>
                     {item.name}
-                  </option>
+                  </SelectItem>
                 ))}
-              </select>
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_EXCEPTIONS.BRAND')}
-              </span>
-              <select
-                id="exception-brand"
-                name="brandId"
-                className={selectClassName}
-                value={filters.brandId}
-                onChange={(event) => setFilter('brandId', event.target.value)}
-              >
-                <option value="">{t('COMMON.ALL')}</option>
+              </SelectContent>
+            </Select>
+            <Select
+              value={filters.brandId || ''}
+              onValueChange={(value) => setFilter('brandId', value)}
+            >
+              <SelectTrigger size="lg" aria-label={t('ADMIN_EXCEPTIONS.BRAND')}>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
                 {options.data.brands.map((item) => (
-                  <option key={item.id} value={item.id}>
+                  <SelectItem key={item.id} value={item.id}>
                     {item.name}
-                  </option>
+                  </SelectItem>
                 ))}
-              </select>
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_EXCEPTIONS.GROUP')}
-              </span>
-              <select
-                id="exception-group"
-                name="group"
-                className={selectClassName}
-                value={filters.group}
-                onChange={(event) =>
-                  setFilter(
-                    'group',
-                    event.target.value as AdminExceptionQuery['group'],
-                  )
-                }
-              >
-                <option value="ALL">{t('COMMON.ALL')}</option>
+              </SelectContent>
+            </Select>
+            <Select
+              value={filters.group === 'ALL' ? '' : filters.group}
+              onValueChange={(value) =>
+                setFilter(
+                  'group',
+                  (value || 'ALL') as AdminExceptionQuery['group'],
+                )
+              }
+            >
+              <SelectTrigger size="lg" aria-label={t('ADMIN_EXCEPTIONS.GROUP')}>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
                 {EXCEPTION_GROUPS.map((group) => (
-                  <option key={group} value={group}>
+                  <SelectItem key={group} value={group}>
                     {t(`ADMIN_EXCEPTIONS.GROUPS.${group}`)}
-                  </option>
+                  </SelectItem>
                 ))}
-              </select>
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('COMMON.STATUS_1')}
-              </span>
-              <select
-                id="exception-status"
-                name="status"
-                className={selectClassName}
-                value={filters.status}
-                onChange={(event) =>
-                  setFilter(
-                    'status',
-                    event.target.value as AdminExceptionQuery['status'],
-                  )
-                }
-              >
-                <option value="ALL">{t('COMMON.ALL')}</option>
-                <option value="OPEN">
+              </SelectContent>
+            </Select>
+            <Select
+              value={filters.status === 'ALL' ? '' : filters.status}
+              onValueChange={(value) =>
+                setFilter(
+                  'status',
+                  (value || 'ALL') as AdminExceptionQuery['status'],
+                )
+              }
+            >
+              <SelectTrigger size="lg" aria-label={t('COMMON.STATUS_1')}>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="OPEN">
                   {t('ADMIN_EXCEPTIONS.STATUS.OPEN')}
-                </option>
-                <option value="RESOLVED">
+                </SelectItem>
+                <SelectItem value="RESOLVED">
                   {t('ADMIN_EXCEPTIONS.STATUS.RESOLVED')}
-                </option>
-              </select>
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_EXCEPTIONS.DATE_FROM')}
-              </span>
-              <Input
-                id="exception-date-from"
-                name="dateFrom"
-                type="date"
-                value={filters.dateFrom}
-                onChange={(event) => setFilter('dateFrom', event.target.value)}
-              />
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_EXCEPTIONS.DATE_TO')}
-              </span>
-              <Input
-                id="exception-date-to"
-                name="dateTo"
-                type="date"
-                value={filters.dateTo}
-                onChange={(event) => setFilter('dateTo', event.target.value)}
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <div className="space-y-1 lg:col-span-2">
+              <DateRangePicker
+                start={parseDateOnly(filters.dateFrom)}
+                end={parseDateOnly(filters.dateTo)}
+                clearable
+                ariaLabel={`${t('ADMIN_EXCEPTIONS.DATE_FROM')} - ${t('ADMIN_EXCEPTIONS.DATE_TO')}`}
+                placeholder={`${t('ADMIN_EXCEPTIONS.DATE_FROM')} - ${t('ADMIN_EXCEPTIONS.DATE_TO')}`}
+                resetLabel={t('COMMON.RESET')}
+                applyLabel={t('COMMON.APPLY')}
+                onApply={(range) => {
+                  setFilters((current) => ({
+                    ...current,
+                    dateFrom: formatDateOnly(range?.from),
+                    dateTo: formatDateOnly(range?.to),
+                  }));
+                  setDateError('');
+                }}
               />
               {dateError && (
                 <p className="text-destructive text-xs" role="alert">
                   {t(`ADMIN_EXCEPTIONS.ERRORS.${dateError}`)}
                 </p>
               )}
-            </label>
+            </div>
             <div className="flex items-end gap-2 lg:col-span-3">
               <Button type="submit" variant="mono">
                 <Search />

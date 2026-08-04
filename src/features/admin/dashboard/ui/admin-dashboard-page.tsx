@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from '@/shared/hooks/use-translations';
+import { formatDateOnly, parseDateOnly } from '@/shared/lib/date-utils';
 import type { AdminRoleCode } from '@/shared/permissions';
 import { useAuthSession } from '@/shared/stores/auth-store';
 import { Alert, AlertDescription, AlertIcon } from '@/shared/ui/atoms/alert';
@@ -10,7 +11,14 @@ import {
   CardDescription,
   CardHeader,
 } from '@/shared/ui/atoms/card';
-import { Input } from '@/shared/ui/atoms/input';
+import DateRangePicker from '@/shared/ui/atoms/date-range-picker';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import { Container } from '@/shared/ui/molecules/container';
 import {
@@ -150,9 +158,6 @@ export function AdminDashboardPage() {
     t,
   } = model;
 
-  const selectClassName =
-    'h-9 w-full rounded-md border border-input bg-background px-3 text-sm';
-
   return (
     <Container width="fluid" className="space-y-5 pb-8">
       <header className="flex flex-wrap items-start justify-between gap-4">
@@ -188,78 +193,83 @@ export function AdminDashboardPage() {
 
       <Card>
         <CardContent className="grid gap-4 pt-5 md:grid-cols-2 xl:grid-cols-4">
-          <label className="space-y-1 text-sm">
-            <span>{t('ADMIN_DASHBOARD.FILTERS.FROM_DATE')}</span>
-            <Input
-              type="date"
-              value={draft.fromDate}
-              onChange={(event) =>
-                setDraft({ ...draft, fromDate: event.target.value })
+          <div className="md:col-span-2">
+            <DateRangePicker
+              start={parseDateOnly(draft.fromDate)}
+              end={parseDateOnly(draft.toDate)}
+              clearable
+              ariaLabel={`${t('ADMIN_DASHBOARD.FILTERS.FROM_DATE')} - ${t('ADMIN_DASHBOARD.FILTERS.TO_DATE')}`}
+              placeholder={`${t('ADMIN_DASHBOARD.FILTERS.FROM_DATE')} - ${t('ADMIN_DASHBOARD.FILTERS.TO_DATE')}`}
+              resetLabel={t('COMMON.RESET')}
+              applyLabel={t('COMMON.APPLY')}
+              onApply={(range) =>
+                setDraft({
+                  ...draft,
+                  fromDate: formatDateOnly(range?.from),
+                  toDate: formatDateOnly(range?.to),
+                })
               }
             />
-          </label>
-          <label className="space-y-1 text-sm">
-            <span>{t('ADMIN_DASHBOARD.FILTERS.TO_DATE')}</span>
-            <Input
-              type="date"
-              value={draft.toDate}
-              onChange={(event) =>
-                setDraft({ ...draft, toDate: event.target.value })
-              }
-            />
-          </label>
+          </div>
           {[
             ['tenantId', 'TENANT', filterOptions.data?.tenants],
             ['brandId', 'BRAND', filterOptions.data?.brands],
             ['categoryId', 'CATEGORY', filterOptions.data?.categories],
             ['offerId', 'OFFER', filterOptions.data?.offers],
           ].map(([field, label, options]) => (
-            <label key={field as string} className="space-y-1 text-sm">
-              <span>{t(`ADMIN_DASHBOARD.FILTERS.${label}`)}</span>
-              <select
-                className={selectClassName}
-                value={draft[field as keyof AdminDashboardQuery] ?? ''}
-                onChange={(event) =>
-                  setDraft({
-                    ...draft,
-                    [field as string]: event.target.value || undefined,
-                  })
-                }
-              >
-                <option value="">{t('COMMON.ALL')}</option>
-                {(
-                  options as Array<{ id: string; name: string }> | undefined
-                )?.map((option) => (
-                  <option key={option.id} value={option.id}>
-                    {option.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-          ))}
-          <label className="space-y-1 text-sm">
-            <span>{t('ADMIN_DASHBOARD.FILTERS.ORDER_STATUS')}</span>
-            <select
-              className={selectClassName}
-              value={draft.orderStatus ?? ''}
-              onChange={(event) =>
+            <Select
+              key={field as string}
+              value={
+                (draft[field as keyof AdminDashboardQuery] as string) ?? ''
+              }
+              onValueChange={(value) =>
                 setDraft({
                   ...draft,
-                  orderStatus:
-                    (event.target
-                      .value as AdminDashboardQuery['orderStatus']) ||
-                    undefined,
+                  [field as string]: value || undefined,
                 })
               }
             >
-              <option value="">{t('COMMON.ALL')}</option>
+              <SelectTrigger
+                size="lg"
+                aria-label={t(`ADMIN_DASHBOARD.FILTERS.${label}`)}
+              >
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
+                {(
+                  options as Array<{ id: string; name: string }> | undefined
+                )?.map((option) => (
+                  <SelectItem key={option.id} value={option.id}>
+                    {option.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          ))}
+          <Select
+            value={draft.orderStatus ?? ''}
+            onValueChange={(value) =>
+              setDraft({
+                ...draft,
+                orderStatus:
+                  (value as AdminDashboardQuery['orderStatus']) || undefined,
+              })
+            }
+          >
+            <SelectTrigger
+              size="lg"
+              aria-label={t('ADMIN_DASHBOARD.FILTERS.ORDER_STATUS')}
+            >
+              <SelectValue placeholder={t('COMMON.ALL')} />
+            </SelectTrigger>
+            <SelectContent>
               {['PENDING', 'CONFIRMED', 'CANCELLED'].map((status) => (
-                <option key={status} value={status}>
+                <SelectItem key={status} value={status}>
                   {t(`COMMON.STATUS.${status}`)}
-                </option>
+                </SelectItem>
               ))}
-            </select>
-          </label>
+            </SelectContent>
+          </Select>
           <div className="flex items-end gap-2">
             <Button variant="mono" onClick={apply}>
               <Search />

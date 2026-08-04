@@ -1,11 +1,20 @@
 import { FormEvent, useState } from 'react';
 import { useTranslations } from '@/shared/hooks/use-translations';
+import { formatDateOnly, parseDateOnly } from '@/shared/lib/date-utils';
 import type { AdminRoleCode } from '@/shared/permissions';
 import { useAuthSession } from '@/shared/stores/auth-store';
 import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent } from '@/shared/ui/atoms/card';
+import DateRangePicker from '@/shared/ui/atoms/date-range-picker';
 import { Input } from '@/shared/ui/atoms/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
   Table,
@@ -37,8 +46,6 @@ import {
   type AdminTransactionQuery,
 } from '../model/admin-transaction';
 
-const selectClassName =
-  'h-10 w-full rounded-md border border-input bg-background px-3 text-sm';
 const moneyFormatter = new Intl.NumberFormat('vi-VN', {
   style: 'currency',
   currency: 'VND',
@@ -138,144 +145,134 @@ export function AdminTransactionListPage() {
       <Card>
         <CardContent className="pt-6">
           <form className="grid gap-4 lg:grid-cols-5" onSubmit={apply}>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TRANSACTIONS.KEYWORD')}
-              </span>
-              <Input
-                id="transaction-keyword"
-                name="keyword"
-                value={filters.keyword}
-                onChange={(event) => setFilter('keyword', event.target.value)}
-              />
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TRANSACTIONS.TENANT')}
-              </span>
-              <select
-                id="transaction-tenant"
-                name="tenantId"
-                className={selectClassName}
-                value={filters.tenantId}
-                onChange={(event) => setFilter('tenantId', event.target.value)}
+            <Input
+              id="transaction-keyword"
+              name="keyword"
+              aria-label={t('ADMIN_TRANSACTIONS.KEYWORD')}
+              placeholder={t('ADMIN_TRANSACTIONS.KEYWORD')}
+              value={filters.keyword}
+              onChange={(event) => setFilter('keyword', event.target.value)}
+            />
+            <Select
+              value={filters.tenantId || ''}
+              onValueChange={(value) => setFilter('tenantId', value)}
+            >
+              <SelectTrigger
+                size="lg"
+                aria-label={t('ADMIN_TRANSACTIONS.TENANT')}
               >
-                <option value="">{t('COMMON.ALL')}</option>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
                 {options.data.tenants.map((item) => (
-                  <option key={item.id} value={item.id}>
+                  <SelectItem key={item.id} value={item.id}>
                     {item.name}
-                  </option>
+                  </SelectItem>
                 ))}
-              </select>
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TRANSACTIONS.BRAND')}
-              </span>
-              <select
-                id="transaction-brand"
-                name="brandId"
-                className={selectClassName}
-                value={filters.brandId}
-                onChange={(event) => setFilter('brandId', event.target.value)}
+              </SelectContent>
+            </Select>
+            <Select
+              value={filters.brandId || ''}
+              onValueChange={(value) => setFilter('brandId', value)}
+            >
+              <SelectTrigger
+                size="lg"
+                aria-label={t('ADMIN_TRANSACTIONS.BRAND')}
               >
-                <option value="">{t('COMMON.ALL')}</option>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
                 {options.data.brands.map((item) => (
-                  <option key={item.id} value={item.id}>
+                  <SelectItem key={item.id} value={item.id}>
                     {item.name}
-                  </option>
+                  </SelectItem>
                 ))}
-              </select>
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TRANSACTIONS.ORDER_STATUS')}
-              </span>
-              <select
-                id="transaction-status"
-                name="status"
-                className={selectClassName}
-                value={filters.status}
-                onChange={(event) =>
-                  setFilter(
-                    'status',
-                    event.target.value as AdminTransactionQuery['status'],
-                  )
-                }
+              </SelectContent>
+            </Select>
+            <Select
+              value={filters.status === 'ALL' ? '' : filters.status}
+              onValueChange={(value) =>
+                setFilter(
+                  'status',
+                  (value || 'ALL') as AdminTransactionQuery['status'],
+                )
+              }
+            >
+              <SelectTrigger
+                size="lg"
+                aria-label={t('ADMIN_TRANSACTIONS.ORDER_STATUS')}
               >
-                <option value="ALL">{t('COMMON.ALL')}</option>
-                <option value="PENDING">{t('COMMON.STATUS.PENDING')}</option>
-                <option value="CONFIRMED">
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="PENDING">
+                  {t('COMMON.STATUS.PENDING')}
+                </SelectItem>
+                <SelectItem value="CONFIRMED">
                   {t('ADMIN_TRANSACTIONS.STATUS.CONFIRMED')}
-                </option>
-                <option value="CANCELLED">
+                </SelectItem>
+                <SelectItem value="CANCELLED">
                   {t('ADMIN_TRANSACTIONS.STATUS.CANCELLED')}
-                </option>
-              </select>
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TRANSACTIONS.SORT')}
-              </span>
-              <select
-                id="transaction-sort"
-                name="sort"
-                className={selectClassName}
-                value={`${filters.sortBy}:${filters.sortDirection}`}
-                onChange={(event) => {
-                  const [sortBy, sortDirection] = event.target.value.split(
-                    ':',
-                  ) as [
-                    AdminTransactionQuery['sortBy'],
-                    AdminTransactionQuery['sortDirection'],
-                  ];
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <Select
+              value={`${filters.sortBy}:${filters.sortDirection}`}
+              onValueChange={(value) => {
+                const [sortBy, sortDirection] = value.split(':') as [
+                  AdminTransactionQuery['sortBy'],
+                  AdminTransactionQuery['sortDirection'],
+                ];
+                setFilters((current) => ({
+                  ...current,
+                  sortBy,
+                  sortDirection,
+                }));
+              }}
+            >
+              <SelectTrigger
+                size="lg"
+                clearable={false}
+                aria-label={t('ADMIN_TRANSACTIONS.SORT')}
+              >
+                <SelectValue placeholder={t('ADMIN_TRANSACTIONS.SORT')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="updatedAt:desc">
+                  {t('ADMIN_TRANSACTIONS.LATEST_UPDATED')}
+                </SelectItem>
+                <SelectItem value="createdAt:desc">
+                  {t('ADMIN_TRANSACTIONS.NEWEST_CREATED')}
+                </SelectItem>
+                <SelectItem value="id:asc">
+                  {t('ADMIN_TRANSACTIONS.ORDER_ID_ASC')}
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <div className="space-y-1 lg:col-span-2">
+              <DateRangePicker
+                start={parseDateOnly(filters.dateFrom)}
+                end={parseDateOnly(filters.dateTo)}
+                clearable
+                ariaLabel={`${t('ADMIN_TRANSACTIONS.DATE_FROM')} - ${t('ADMIN_TRANSACTIONS.DATE_TO')}`}
+                placeholder={`${t('ADMIN_TRANSACTIONS.DATE_FROM')} - ${t('ADMIN_TRANSACTIONS.DATE_TO')}`}
+                resetLabel={t('COMMON.RESET')}
+                applyLabel={t('COMMON.APPLY')}
+                onApply={(range) => {
                   setFilters((current) => ({
                     ...current,
-                    sortBy,
-                    sortDirection,
+                    dateFrom: formatDateOnly(range?.from),
+                    dateTo: formatDateOnly(range?.to),
                   }));
+                  setDateError('');
                 }}
-              >
-                <option value="updatedAt:desc">
-                  {t('ADMIN_TRANSACTIONS.LATEST_UPDATED')}
-                </option>
-                <option value="createdAt:desc">
-                  {t('ADMIN_TRANSACTIONS.NEWEST_CREATED')}
-                </option>
-                <option value="id:asc">
-                  {t('ADMIN_TRANSACTIONS.ORDER_ID_ASC')}
-                </option>
-              </select>
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TRANSACTIONS.DATE_FROM')}
-              </span>
-              <Input
-                id="transaction-date-from"
-                name="dateFrom"
-                type="date"
-                value={filters.dateFrom}
-                onChange={(event) => setFilter('dateFrom', event.target.value)}
-              />
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TRANSACTIONS.DATE_TO')}
-              </span>
-              <Input
-                id="transaction-date-to"
-                name="dateTo"
-                type="date"
-                value={filters.dateTo}
-                onChange={(event) => setFilter('dateTo', event.target.value)}
               />
               {dateError && (
                 <p className="text-destructive text-xs" role="alert">
                   {t(`ADMIN_TRANSACTIONS.ERRORS.${dateError}`)}
                 </p>
               )}
-            </label>
+            </div>
             <div className="flex items-end gap-2 lg:col-span-3">
               <Button type="submit" variant="mono">
                 <Search />

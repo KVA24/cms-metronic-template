@@ -6,6 +6,13 @@ import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent } from '@/shared/ui/atoms/card';
 import { Input } from '@/shared/ui/atoms/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
   Table,
@@ -35,8 +42,6 @@ export function TenantAccountListPage() {
   const accounts = useTenantAccounts(session, query);
   const roles = useTenantAccountRoles(session);
   const canCreate = session?.permissions.includes('users.create');
-  const selectClassName =
-    'h-9 w-full rounded-md border border-input bg-background px-3 text-sm';
   const apply = () => setQuery({ ...draft, page: 1 });
 
   return (
@@ -61,54 +66,56 @@ export function TenantAccountListPage() {
 
       <Card>
         <CardContent className="grid gap-4 pt-5 lg:grid-cols-[2fr_1fr_1fr_auto] lg:items-end">
-          <label className="space-y-1 text-sm">
-            <span>{t('TENANT_ACCOUNTS.KEYWORD')}</span>
-            <Input
-              value={draft.search ?? ''}
-              placeholder={t('TENANT_ACCOUNTS.KEYWORD_PLACEHOLDER')}
-              onChange={(event) =>
-                setDraft({ ...draft, search: event.target.value || undefined })
-              }
-              onKeyDown={(event) => event.key === 'Enter' && apply()}
-            />
-          </label>
-          <label className="space-y-1 text-sm">
-            <span>{t('TENANT_ACCOUNTS.ROLE')}</span>
-            <select
-              className={selectClassName}
-              value={draft.roleId ?? ''}
-              onChange={(event) =>
-                setDraft({ ...draft, roleId: event.target.value || undefined })
-              }
-            >
-              <option value="">{t('TENANT_ACCOUNTS.ALL_ROLES')}</option>
+          <Input
+            aria-label={t('TENANT_ACCOUNTS.KEYWORD')}
+            value={draft.search ?? ''}
+            placeholder={t('TENANT_ACCOUNTS.KEYWORD_PLACEHOLDER')}
+            onChange={(event) =>
+              setDraft({ ...draft, search: event.target.value || undefined })
+            }
+            onKeyDown={(event) => event.key === 'Enter' && apply()}
+          />
+          <Select
+            value={draft.roleId ?? ''}
+            onValueChange={(value) =>
+              setDraft({ ...draft, roleId: value || undefined })
+            }
+          >
+            <SelectTrigger size="lg" aria-label={t('TENANT_ACCOUNTS.ROLE')}>
+              <SelectValue placeholder={t('TENANT_ACCOUNTS.ALL_ROLES')} />
+            </SelectTrigger>
+            <SelectContent>
               {roles.data?.map((role) => (
-                <option key={role.id} value={role.id}>
+                <SelectItem key={role.id} value={role.id}>
                   {role.name}
-                </option>
+                </SelectItem>
               ))}
-            </select>
-          </label>
-          <label className="space-y-1 text-sm">
-            <span>{t('COMMON.STATUS_1')}</span>
-            <select
-              className={selectClassName}
-              value={draft.status ?? ''}
-              onChange={(event) =>
-                setDraft({
-                  ...draft,
-                  status:
-                    (event.target.value as TenantAccountQuery['status']) ||
-                    undefined,
-                })
-              }
-            >
-              <option value="">{t('TENANT_ACCOUNTS.ALL_STATUSES')}</option>
-              <option value="ACTIVE">{t('COMMON.STATUS.ACTIVE')}</option>
-              <option value="INACTIVE">{t('COMMON.STATUS.INACTIVE')}</option>
-              <option value="LOCKED">{t('COMMON.STATUS.LOCKED')}</option>
-            </select>
-          </label>
+            </SelectContent>
+          </Select>
+          <Select
+            value={draft.status ?? ''}
+            onValueChange={(value) =>
+              setDraft({
+                ...draft,
+                status: (value as TenantAccountQuery['status']) || undefined,
+              })
+            }
+          >
+            <SelectTrigger size="lg" aria-label={t('COMMON.STATUS_1')}>
+              <SelectValue placeholder={t('TENANT_ACCOUNTS.ALL_STATUSES')} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ACTIVE">
+                {t('COMMON.STATUS.ACTIVE')}
+              </SelectItem>
+              <SelectItem value="INACTIVE">
+                {t('COMMON.STATUS.INACTIVE')}
+              </SelectItem>
+              <SelectItem value="LOCKED">
+                {t('COMMON.STATUS.LOCKED')}
+              </SelectItem>
+            </SelectContent>
+          </Select>
           <Button onClick={apply}>{t('COMMON.APPLY')}</Button>
         </CardContent>
       </Card>

@@ -7,6 +7,13 @@ import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent } from '@/shared/ui/atoms/card';
 import { Input } from '@/shared/ui/atoms/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
   Table,
@@ -39,8 +46,6 @@ import {
   type AdminTenantQuery,
 } from '../model/admin-tenant';
 
-const selectClassName =
-  'h-10 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 const dateFormatter = new Intl.DateTimeFormat('vi-VN', {
   dateStyle: 'short',
   timeStyle: 'short',
@@ -105,96 +110,87 @@ export function AdminTenantListPage() {
             className="grid gap-4 md:grid-cols-2 xl:grid-cols-4"
             onSubmit={apply}
           >
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TENANTS.KEYWORD')}
-              </span>
-              <Input
-                id="tenant-keyword"
-                name="keyword"
-                maxLength={100}
-                value={filters.keyword}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    keyword: event.target.value,
-                  }))
-                }
-              />
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('COMMON.STATUS_1')}
-              </span>
-              <select
-                id="tenant-status"
-                name="status"
-                className={selectClassName}
-                value={filters.status}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    status: event.target.value as AdminTenantQuery['status'],
-                  }))
-                }
-              >
-                {['ALL', 'DRAFT', 'ACTIVE', 'INACTIVE'].map((status) => (
-                  <option key={status} value={status}>
-                    {status === 'ALL'
-                      ? t('COMMON.ALL')
-                      : t(`COMMON.STATUS.${status}`)}
-                  </option>
+            <Input
+              id="tenant-keyword"
+              name="keyword"
+              aria-label={t('ADMIN_TENANTS.KEYWORD')}
+              placeholder={t('ADMIN_TENANTS.KEYWORD')}
+              maxLength={100}
+              value={filters.keyword}
+              onChange={(event) =>
+                setFilters((current) => ({
+                  ...current,
+                  keyword: event.target.value,
+                }))
+              }
+            />
+            <Select
+              value={filters.status === 'ALL' ? '' : filters.status}
+              onValueChange={(value) =>
+                setFilters((current) => ({
+                  ...current,
+                  status: (value || 'ALL') as AdminTenantQuery['status'],
+                }))
+              }
+            >
+              <SelectTrigger size="lg" aria-label={t('COMMON.STATUS_1')}>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
+                {['DRAFT', 'ACTIVE', 'INACTIVE'].map((status) => (
+                  <SelectItem key={status} value={status}>
+                    {t(`COMMON.STATUS.${status}`)}
+                  </SelectItem>
                 ))}
-              </select>
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TENANTS.OWNER')}
-              </span>
-              <select
-                id="tenant-owner"
-                name="accountOwner"
-                className={selectClassName}
-                value={filters.accountOwner}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    accountOwner: event.target.value,
-                  }))
-                }
-              >
-                <option value="">{t('COMMON.ALL')}</option>
+              </SelectContent>
+            </Select>
+            <Select
+              value={filters.accountOwner || ''}
+              onValueChange={(value) =>
+                setFilters((current) => ({
+                  ...current,
+                  accountOwner: value,
+                }))
+              }
+            >
+              <SelectTrigger size="lg" aria-label={t('ADMIN_TENANTS.OWNER')}>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
                 {options.data?.accountOwners.map((owner) => (
-                  <option key={owner} value={owner}>
+                  <SelectItem key={owner} value={owner}>
                     {owner}
-                  </option>
+                  </SelectItem>
                 ))}
-              </select>
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TENANTS.UPDATED_PERIOD')}
-              </span>
-              <select
-                id="tenant-updated-period"
-                name="updatedPeriod"
-                className={selectClassName}
-                value={filters.updatedPeriod}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    updatedPeriod: event.target
-                      .value as AdminTenantQuery['updatedPeriod'],
-                  }))
-                }
+              </SelectContent>
+            </Select>
+            <Select
+              value={
+                filters.updatedPeriod === 'ALL' ? '' : filters.updatedPeriod
+              }
+              onValueChange={(value) =>
+                setFilters((current) => ({
+                  ...current,
+                  updatedPeriod: (value ||
+                    'ALL') as AdminTenantQuery['updatedPeriod'],
+                }))
+              }
+            >
+              <SelectTrigger
+                size="lg"
+                aria-label={t('ADMIN_TENANTS.UPDATED_PERIOD')}
               >
-                <option value="ALL">{t('COMMON.ALL')}</option>
-                <option value="7_DAYS">{t('ADMIN_TENANTS.LAST_7_DAYS')}</option>
-                <option value="30_DAYS">
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="7_DAYS">
+                  {t('ADMIN_TENANTS.LAST_7_DAYS')}
+                </SelectItem>
+                <SelectItem value="30_DAYS">
                   {t('ADMIN_TENANTS.LAST_30_DAYS')}
-                </option>
-              </select>
-            </label>
+                </SelectItem>
+              </SelectContent>
+            </Select>
             <div className="flex gap-2 md:col-span-2 xl:col-span-4">
               <Button type="submit" variant="mono">
                 <Search />

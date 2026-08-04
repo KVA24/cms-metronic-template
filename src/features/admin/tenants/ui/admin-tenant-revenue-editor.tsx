@@ -1,11 +1,13 @@
 import { FormEvent, useMemo, useState } from 'react';
 import type { Brand, Tenant, TenantRevenueShare } from '@/shared/contracts';
 import { useTranslations } from '@/shared/hooks/use-translations';
+import { formatDateOnly, parseDateOnly } from '@/shared/lib/date-utils';
 import type { AdminRoleCode } from '@/shared/permissions';
 import { useAuthSession } from '@/shared/stores/auth-store';
 import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent, CardHeader } from '@/shared/ui/atoms/card';
+import { DatePicker } from '@/shared/ui/atoms/date-picker';
 import { Input } from '@/shared/ui/atoms/input';
 import { Container } from '@/shared/ui/molecules/container';
 import { ArrowLeft, Plus, Save, Trash2 } from 'lucide-react';
@@ -173,13 +175,13 @@ export function AdminTenantRevenueEditor({ data }: { data: RevenueContext }) {
               <span className="text-sm font-medium">
                 {t('ADMIN_TENANT_REVENUE.EFFECTIVE_FROM')}
               </span>
-              <Input
-                id="effectiveFrom"
-                name="effectiveFrom"
-                type="date"
-                value={form.effectiveFrom}
-                onChange={(event) =>
-                  setRoot('effectiveFrom', event.target.value)
+              <DatePicker
+                value={parseDateOnly(form.effectiveFrom)}
+                placeholder={t('ADMIN_TENANT_REVENUE.EFFECTIVE_FROM')}
+                ariaLabel={t('ADMIN_TENANT_REVENUE.EFFECTIVE_FROM')}
+                showClearButton={false}
+                onChange={(date) =>
+                  setRoot('effectiveFrom', formatDateOnly(date))
                 }
               />
             </label>

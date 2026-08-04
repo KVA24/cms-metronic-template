@@ -189,6 +189,7 @@ function SelectTrigger({
 }: SelectTriggerProps & {
   ref?: React.Ref<React.ElementRef<typeof SelectPrimitive.Trigger>>;
 }) {
+  const { t } = useTranslations();
   const {
     value: ctxValue,
     onValueChange,
@@ -231,6 +232,7 @@ function SelectTrigger({
       {clearable && hasValue && !disabled && (
         <button
           type="button"
+          aria-label={t('COMMON.CLEAR')}
           className="hover:bg-muted text-muted-foreground hover:text-destructive absolute top-1/2 right-7 -translate-y-1/2 rounded p-0.5"
           onClick={(e) => {
             e.preventDefault();

@@ -14,6 +14,13 @@ import {
   DialogTitle,
 } from '@/shared/ui/atoms/dialog';
 import { Input } from '@/shared/ui/atoms/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
   Table,
@@ -65,8 +72,6 @@ export function TenantAssignedBrandPage() {
   );
   const result = useTenantAssignedBrands(session, query);
   const mutations = useTenantAssignedBrandMutations(session);
-  const selectClassName =
-    'h-9 w-full rounded-md border border-input bg-background px-3 text-sm';
   const apply = () => setQuery({ ...draft, page: 1 });
   const expand = (brandId: string, tab: 'categories' | 'offers') =>
     setExpanded((current) =>
@@ -136,62 +141,66 @@ export function TenantAssignedBrandPage() {
 
       <Card>
         <CardContent className="grid gap-4 pt-5 lg:grid-cols-[2fr_1fr_1fr_auto] lg:items-end">
-          <label className="space-y-1 text-sm">
-            <span>{t('TENANT_ASSIGNED_BRANDS.KEYWORD')}</span>
-            <Input
-              maxLength={100}
-              value={draft.search ?? ''}
-              placeholder={t('TENANT_ASSIGNED_BRANDS.KEYWORD_PLACEHOLDER')}
-              onChange={(event) =>
-                setDraft({ ...draft, search: event.target.value || undefined })
-              }
-              onKeyDown={(event) => event.key === 'Enter' && apply()}
-            />
-          </label>
-          <label className="space-y-1 text-sm">
-            <span>{t('TENANT_ASSIGNED_BRANDS.CATEGORY')}</span>
-            <select
-              className={selectClassName}
-              value={draft.categoryId ?? ''}
-              onChange={(event) =>
-                setDraft({
-                  ...draft,
-                  categoryId: event.target.value || undefined,
-                })
-              }
+          <Input
+            aria-label={t('TENANT_ASSIGNED_BRANDS.KEYWORD')}
+            maxLength={100}
+            value={draft.search ?? ''}
+            placeholder={t('TENANT_ASSIGNED_BRANDS.KEYWORD_PLACEHOLDER')}
+            onChange={(event) =>
+              setDraft({ ...draft, search: event.target.value || undefined })
+            }
+            onKeyDown={(event) => event.key === 'Enter' && apply()}
+          />
+          <Select
+            value={draft.categoryId ?? ''}
+            onValueChange={(value) =>
+              setDraft({ ...draft, categoryId: value || undefined })
+            }
+          >
+            <SelectTrigger
+              size="lg"
+              aria-label={t('TENANT_ASSIGNED_BRANDS.CATEGORY')}
             >
-              <option value="">
-                {t('TENANT_ASSIGNED_BRANDS.ALL_CATEGORIES')}
-              </option>
+              <SelectValue
+                placeholder={t('TENANT_ASSIGNED_BRANDS.ALL_CATEGORIES')}
+              />
+            </SelectTrigger>
+            <SelectContent>
               {result.data?.categoryOptions.map((category) => (
-                <option key={category.id} value={category.id}>
+                <SelectItem key={category.id} value={category.id}>
                   {category.name}
-                </option>
+                </SelectItem>
               ))}
-            </select>
-          </label>
-          <label className="space-y-1 text-sm">
-            <span>{t('TENANT_ASSIGNED_BRANDS.BRAND_STATUS')}</span>
-            <select
-              className={selectClassName}
-              value={draft.brandStatus ?? ''}
-              onChange={(event) =>
-                setDraft({
-                  ...draft,
-                  brandStatus:
-                    (event.target
-                      .value as TenantAssignedBrandQuery['brandStatus']) ||
-                    undefined,
-                })
-              }
+            </SelectContent>
+          </Select>
+          <Select
+            value={draft.brandStatus ?? ''}
+            onValueChange={(value) =>
+              setDraft({
+                ...draft,
+                brandStatus:
+                  (value as TenantAssignedBrandQuery['brandStatus']) ||
+                  undefined,
+              })
+            }
+          >
+            <SelectTrigger
+              size="lg"
+              aria-label={t('TENANT_ASSIGNED_BRANDS.BRAND_STATUS')}
             >
-              <option value="">
-                {t('TENANT_ASSIGNED_BRANDS.ALL_STATUSES')}
-              </option>
-              <option value="ACTIVE">{t('COMMON.STATUS.ACTIVE')}</option>
-              <option value="INACTIVE">{t('COMMON.STATUS.INACTIVE')}</option>
-            </select>
-          </label>
+              <SelectValue
+                placeholder={t('TENANT_ASSIGNED_BRANDS.ALL_STATUSES')}
+              />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ACTIVE">
+                {t('COMMON.STATUS.ACTIVE')}
+              </SelectItem>
+              <SelectItem value="INACTIVE">
+                {t('COMMON.STATUS.INACTIVE')}
+              </SelectItem>
+            </SelectContent>
+          </Select>
           <Button onClick={apply}>{t('COMMON.APPLY')}</Button>
         </CardContent>
       </Card>

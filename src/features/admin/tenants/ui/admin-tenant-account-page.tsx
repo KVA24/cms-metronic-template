@@ -16,6 +16,13 @@ import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent } from '@/shared/ui/atoms/card';
 import { Input } from '@/shared/ui/atoms/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
   Table,
@@ -53,8 +60,6 @@ import {
   type AccountDialogMode,
 } from './admin-tenant-account-dialog';
 
-const selectClassName =
-  'h-10 w-full rounded-md border border-input bg-background px-3 text-sm';
 const dateFormatter = new Intl.DateTimeFormat('vi-VN', {
   dateStyle: 'short',
   timeStyle: 'medium',
@@ -149,72 +154,67 @@ export function AdminTenantAccountPage() {
       <Card>
         <CardContent className="pt-6">
           <form className="grid gap-4 md:grid-cols-3" onSubmit={apply}>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TENANT_ACCOUNTS.KEYWORD')}
-              </span>
-              <Input
-                id="account-keyword"
-                name="keyword"
-                value={filters.keyword}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    keyword: event.target.value,
-                  }))
-                }
-              />
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_TENANT_ACCOUNTS.ROLE')}
-              </span>
-              <select
-                id="account-role-filter"
-                name="roleCode"
-                className={selectClassName}
-                value={filters.roleCode}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    roleCode: event.target
-                      .value as AdminTenantAccountQuery['roleCode'],
-                  }))
-                }
+            <Input
+              id="account-keyword"
+              name="keyword"
+              aria-label={t('ADMIN_TENANT_ACCOUNTS.KEYWORD')}
+              placeholder={t('ADMIN_TENANT_ACCOUNTS.KEYWORD')}
+              value={filters.keyword}
+              onChange={(event) =>
+                setFilters((current) => ({
+                  ...current,
+                  keyword: event.target.value,
+                }))
+              }
+            />
+            <Select
+              value={filters.roleCode === 'ALL' ? '' : filters.roleCode}
+              onValueChange={(value) =>
+                setFilters((current) => ({
+                  ...current,
+                  roleCode: (value ||
+                    'ALL') as AdminTenantAccountQuery['roleCode'],
+                }))
+              }
+            >
+              <SelectTrigger
+                size="lg"
+                aria-label={t('ADMIN_TENANT_ACCOUNTS.ROLE')}
               >
-                <option value="ALL">{t('COMMON.ALL')}</option>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
                 {TENANT_ACCOUNT_ROLES.map((role) => (
-                  <option key={role} value={role}>
+                  <SelectItem key={role} value={role}>
                     {t(`ADMIN_TENANT_ACCOUNTS.ROLES.${role}`)}
-                  </option>
+                  </SelectItem>
                 ))}
-              </select>
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('COMMON.STATUS_1')}
-              </span>
-              <select
-                id="account-status-filter"
-                name="status"
-                className={selectClassName}
-                value={filters.status}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    status: event.target
-                      .value as AdminTenantAccountQuery['status'],
-                  }))
-                }
-              >
-                <option value="ALL">{t('COMMON.ALL')}</option>
-                <option value="ACTIVE">{t('COMMON.STATUS.ACTIVE')}</option>
-                <option value="INACTIVE">{t('COMMON.STATUS.INACTIVE')}</option>
-                <option value="LOCKED">
+              </SelectContent>
+            </Select>
+            <Select
+              value={filters.status === 'ALL' ? '' : filters.status}
+              onValueChange={(value) =>
+                setFilters((current) => ({
+                  ...current,
+                  status: (value || 'ALL') as AdminTenantAccountQuery['status'],
+                }))
+              }
+            >
+              <SelectTrigger size="lg" aria-label={t('COMMON.STATUS_1')}>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="ACTIVE">
+                  {t('COMMON.STATUS.ACTIVE')}
+                </SelectItem>
+                <SelectItem value="INACTIVE">
+                  {t('COMMON.STATUS.INACTIVE')}
+                </SelectItem>
+                <SelectItem value="LOCKED">
                   {t('ADMIN_TENANT_ACCOUNTS.LOCKED')}
-                </option>
-              </select>
-            </label>
+                </SelectItem>
+              </SelectContent>
+            </Select>
             <div className="flex gap-2 md:col-span-3">
               <Button type="submit" variant="mono">
                 <Search />

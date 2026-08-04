@@ -8,6 +8,13 @@ import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent } from '@/shared/ui/atoms/card';
 import { Input } from '@/shared/ui/atoms/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
   Table,
@@ -110,70 +117,64 @@ export function AdminCategoryListPage() {
             className="grid gap-4 md:grid-cols-2 xl:grid-cols-6"
             onSubmit={apply}
           >
-            <label className="space-y-1.5 xl:col-span-2">
-              <span className="text-sm font-medium">
-                {t('ADMIN_CATEGORIES.FILTERS.KEYWORD')}
-              </span>
-              <Input
-                id="category-keyword"
-                name="keyword"
-                value={draft.keyword}
-                onChange={(event) =>
-                  setDraft((current) => ({
-                    ...current,
-                    keyword: event.target.value,
-                  }))
-                }
-                placeholder={t('ADMIN_CATEGORIES.FILTERS.KEYWORD_PLACEHOLDER')}
-              />
-            </label>
-            <label className="space-y-1.5">
-              <span className="text-sm font-medium">
-                {t('COMMON.STATUS_1')}
-              </span>
-              <select
-                id="category-status"
-                name="status"
-                className={selectClassName}
-                value={draft.status}
-                onChange={(event) =>
-                  setDraft((current) => ({
-                    ...current,
-                    status: event.target.value as AdminCategoryQuery['status'],
-                  }))
-                }
-              >
-                {['ALL', 'ACTIVE', 'INACTIVE', 'DRAFT'].map((status) => (
-                  <option key={status} value={status}>
-                    {status === 'ALL'
-                      ? t('COMMON.ALL')
-                      : t(`COMMON.STATUS.${status}`)}
-                  </option>
+            <Input
+              className="xl:col-span-2"
+              id="category-keyword"
+              name="keyword"
+              aria-label={t('ADMIN_CATEGORIES.FILTERS.KEYWORD')}
+              value={draft.keyword}
+              onChange={(event) =>
+                setDraft((current) => ({
+                  ...current,
+                  keyword: event.target.value,
+                }))
+              }
+              placeholder={t('ADMIN_CATEGORIES.FILTERS.KEYWORD_PLACEHOLDER')}
+            />
+            <Select
+              value={draft.status === 'ALL' ? '' : draft.status}
+              onValueChange={(value) =>
+                setDraft((current) => ({
+                  ...current,
+                  status: (value || 'ALL') as AdminCategoryQuery['status'],
+                }))
+              }
+            >
+              <SelectTrigger size="lg" aria-label={t('COMMON.STATUS_1')}>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
+                {['ACTIVE', 'INACTIVE', 'DRAFT'].map((status) => (
+                  <SelectItem key={status} value={status}>
+                    {t(`COMMON.STATUS.${status}`)}
+                  </SelectItem>
                 ))}
-              </select>
-            </label>
-            <label className="space-y-1.5">
-              <span className="text-sm font-medium">
-                {t('ADMIN_CATEGORIES.LANDING')}
-              </span>
-              <select
-                id="category-landing"
-                name="landing"
-                className={selectClassName}
-                value={draft.landing}
-                onChange={(event) =>
-                  setDraft((current) => ({
-                    ...current,
-                    landing: event.target
-                      .value as AdminCategoryQuery['landing'],
-                  }))
-                }
+              </SelectContent>
+            </Select>
+            <Select
+              value={draft.landing === 'ALL' ? '' : draft.landing}
+              onValueChange={(value) =>
+                setDraft((current) => ({
+                  ...current,
+                  landing: (value || 'ALL') as AdminCategoryQuery['landing'],
+                }))
+              }
+            >
+              <SelectTrigger
+                size="lg"
+                aria-label={t('ADMIN_CATEGORIES.LANDING')}
               >
-                <option value="ALL">{t('COMMON.ALL')}</option>
-                <option value="VISIBLE">{t('ADMIN_CATEGORIES.VISIBLE')}</option>
-                <option value="HIDDEN">{t('ADMIN_CATEGORIES.HIDDEN')}</option>
-              </select>
-            </label>
+                <SelectValue placeholder={t('COMMON.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="VISIBLE">
+                  {t('ADMIN_CATEGORIES.VISIBLE')}
+                </SelectItem>
+                <SelectItem value="HIDDEN">
+                  {t('ADMIN_CATEGORIES.HIDDEN')}
+                </SelectItem>
+              </SelectContent>
+            </Select>
             <div className="flex items-end gap-2 xl:col-span-2">
               <Button type="submit" variant="mono">
                 <Search />

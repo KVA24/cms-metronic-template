@@ -1,6 +1,7 @@
 import { useTranslations } from '@/shared/hooks/use-translations';
+import { formatDateOnly, parseDateOnly } from '@/shared/lib/date-utils';
 import { Button } from '@/shared/ui/atoms/button';
-import { Input } from '@/shared/ui/atoms/input';
+import { DatePicker } from '@/shared/ui/atoms/date-picker';
 import { Textarea } from '@/shared/ui/atoms/textarea';
 import type { TenantEarnDisplayDraft } from '../model/tenant-earn-display';
 
@@ -91,24 +92,27 @@ export function TenantEarnDisplayForm({
         <div />
         <label className="space-y-1 text-sm">
           <span>{t('TENANT_EARN_DISPLAY.FORM.FROM')}</span>
-          <Input
-            type="date"
-            name="effectiveFrom"
-            value={draft.effectiveFrom ?? ''}
-            onChange={(event) =>
-              onChange({ ...draft, effectiveFrom: event.target.value || null })
+          <DatePicker
+            value={parseDateOnly(draft.effectiveFrom)}
+            placeholder={t('TENANT_EARN_DISPLAY.FORM.FROM')}
+            ariaLabel={t('TENANT_EARN_DISPLAY.FORM.FROM')}
+            onChange={(date) =>
+              onChange({
+                ...draft,
+                effectiveFrom: formatDateOnly(date) || null,
+              })
             }
           />
         </label>
         <label className="space-y-1 text-sm">
           <span>{t('TENANT_EARN_DISPLAY.FORM.TO')}</span>
-          <Input
-            type="date"
-            name="effectiveTo"
-            aria-invalid={Boolean(fieldError('EFFECTIVE'))}
-            value={draft.effectiveTo ?? ''}
-            onChange={(event) =>
-              onChange({ ...draft, effectiveTo: event.target.value || null })
+          <DatePicker
+            value={parseDateOnly(draft.effectiveTo)}
+            placeholder={t('TENANT_EARN_DISPLAY.FORM.TO')}
+            ariaLabel={t('TENANT_EARN_DISPLAY.FORM.TO')}
+            error={Boolean(fieldError('EFFECTIVE'))}
+            onChange={(date) =>
+              onChange({ ...draft, effectiveTo: formatDateOnly(date) || null })
             }
           />
           {fieldError('EFFECTIVE') && (

@@ -1,10 +1,19 @@
 import { useMemo, useState } from 'react';
 import { useTranslations } from '@/shared/hooks/use-translations';
+import { formatDateOnly, parseDateOnly } from '@/shared/lib/date-utils';
 import { useAuthSession } from '@/shared/stores/auth-store';
 import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent } from '@/shared/ui/atoms/card';
+import DateRangePicker from '@/shared/ui/atoms/date-range-picker';
 import { Input } from '@/shared/ui/atoms/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import {
   Table,
@@ -129,83 +138,85 @@ export function TenantTransactionListPage() {
       </header>
       <Card>
         <CardContent className="grid gap-4 pt-5 md:grid-cols-2 xl:grid-cols-5 xl:items-end">
-          <label className="space-y-1 text-sm">
-            <span>{t('TENANT_TRANSACTIONS.DATE_FROM')}</span>
-            <Input
-              name="transactionDateFrom"
-              type="date"
-              value={draft.dateFrom ?? ''}
-              onChange={(event) =>
-                setField('dateFrom', event.target.value || undefined)
-              }
-            />
-          </label>
-          <label className="space-y-1 text-sm">
-            <span>{t('TENANT_TRANSACTIONS.DATE_TO')}</span>
-            <Input
-              name="transactionDateTo"
-              type="date"
-              aria-invalid={dateError}
-              value={draft.dateTo ?? ''}
-              onChange={(event) =>
-                setField('dateTo', event.target.value || undefined)
-              }
+          <div className="space-y-1">
+            <DateRangePicker
+              start={parseDateOnly(draft.dateFrom)}
+              end={parseDateOnly(draft.dateTo)}
+              clearable
+              ariaLabel={`${t('TENANT_TRANSACTIONS.DATE_FROM')} - ${t('TENANT_TRANSACTIONS.DATE_TO')}`}
+              placeholder={`${t('TENANT_TRANSACTIONS.DATE_FROM')} - ${t('TENANT_TRANSACTIONS.DATE_TO')}`}
+              resetLabel={t('COMMON.RESET')}
+              applyLabel={t('COMMON.APPLY')}
+              onApply={(range) => {
+                setDraft((current) => ({
+                  ...current,
+                  dateFrom: formatDateOnly(range?.from) || undefined,
+                  dateTo: formatDateOnly(range?.to) || undefined,
+                }));
+                setDateError(false);
+              }}
             />
             {dateError && (
               <p className="text-destructive text-xs">
                 {t('TENANT_TRANSACTIONS.DATE_ERROR')}
               </p>
             )}
-          </label>
-          <label className="space-y-1 text-sm">
-            <span>{t('TENANT_TRANSACTIONS.KEYWORD')}</span>
-            <Input
-              name="transactionKeyword"
-              maxLength={100}
-              value={draft.search ?? ''}
-              onChange={(event) =>
-                setField('search', event.target.value || undefined)
-              }
-            />
-          </label>
-          <label className="space-y-1 text-sm">
-            <span>{t('TENANT_TRANSACTIONS.BRAND')}</span>
-            <select
-              name="transactionBrand"
-              className="border-input bg-background h-9 w-full rounded-md border px-3"
-              value={draft.brandId ?? ''}
-              onChange={(event) =>
-                setField('brandId', event.target.value || undefined)
-              }
+          </div>
+          <Input
+            aria-label={t('TENANT_TRANSACTIONS.KEYWORD')}
+            name="transactionKeyword"
+            maxLength={100}
+            placeholder={t('TENANT_TRANSACTIONS.KEYWORD')}
+            value={draft.search ?? ''}
+            onChange={(event) =>
+              setField('search', event.target.value || undefined)
+            }
+          />
+          <Select
+            value={draft.brandId ?? ''}
+            onValueChange={(value) => setField('brandId', value || undefined)}
+          >
+            <SelectTrigger
+              size="lg"
+              aria-label={t('TENANT_TRANSACTIONS.BRAND')}
             >
-              <option value="">{t('COMMON.ALL')}</option>
+              <SelectValue placeholder={t('COMMON.ALL')} />
+            </SelectTrigger>
+            <SelectContent>
               {result.data.brands.map((brand) => (
-                <option key={brand.id} value={brand.id}>
+                <SelectItem key={brand.id} value={brand.id}>
                   {brand.name}
-                </option>
+                </SelectItem>
               ))}
-            </select>
-          </label>
-          <label className="space-y-1 text-sm">
-            <span>{t('TENANT_TRANSACTIONS.STATUS')}</span>
-            <select
-              name="transactionStatus"
-              className="border-input bg-background h-9 w-full rounded-md border px-3"
-              value={draft.status ?? ''}
-              onChange={(event) =>
-                setField(
-                  'status',
-                  (event.target.value as TenantTransactionQuery['status']) ||
-                    undefined,
-                )
-              }
+            </SelectContent>
+          </Select>
+          <Select
+            value={draft.status ?? ''}
+            onValueChange={(value) =>
+              setField(
+                'status',
+                (value as TenantTransactionQuery['status']) || undefined,
+              )
+            }
+          >
+            <SelectTrigger
+              size="lg"
+              aria-label={t('TENANT_TRANSACTIONS.STATUS')}
             >
-              <option value="">{t('COMMON.ALL')}</option>
-              <option value="PENDING">{t('COMMON.STATUS.PENDING')}</option>
-              <option value="CONFIRMED">{t('COMMON.STATUS.CONFIRMED')}</option>
-              <option value="CANCELLED">{t('COMMON.STATUS.CANCELLED')}</option>
-            </select>
-          </label>
+              <SelectValue placeholder={t('COMMON.ALL')} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="PENDING">
+                {t('COMMON.STATUS.PENDING')}
+              </SelectItem>
+              <SelectItem value="CONFIRMED">
+                {t('COMMON.STATUS.CONFIRMED')}
+              </SelectItem>
+              <SelectItem value="CANCELLED">
+                {t('COMMON.STATUS.CANCELLED')}
+              </SelectItem>
+            </SelectContent>
+          </Select>
           <Button onClick={apply}>{t('COMMON.APPLY')}</Button>
         </CardContent>
       </Card>

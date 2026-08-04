@@ -7,6 +7,13 @@ import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent } from '@/shared/ui/atoms/card';
 import { Input } from '@/shared/ui/atoms/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/atoms/select';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import { Container } from '@/shared/ui/molecules/container';
 import {
@@ -28,8 +35,6 @@ import {
   type AdminOfferQuery,
 } from '../model/admin-offer';
 
-const selectClassName =
-  'h-10 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 const vndFormatter = new Intl.NumberFormat('vi-VN', {
   style: 'currency',
   currency: 'VND',
@@ -155,64 +160,70 @@ export function AdminOfferListPage() {
             className="grid gap-4 md:grid-cols-2 xl:grid-cols-[2fr_1fr_1fr_auto]"
             onSubmit={apply}
           >
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_OFFERS.KEYWORD')}
-              </span>
-              <Input
-                value={filters.keyword}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    keyword: event.target.value,
-                  }))
-                }
-              />
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_OFFERS.STATUS')}
-              </span>
-              <select
-                className={selectClassName}
-                value={filters.status}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    status: event.target.value as AdminOfferQuery['status'],
-                  }))
-                }
+            <Input
+              aria-label={t('ADMIN_OFFERS.KEYWORD')}
+              placeholder={t('ADMIN_OFFERS.KEYWORD')}
+              value={filters.keyword}
+              onChange={(event) =>
+                setFilters((current) => ({
+                  ...current,
+                  keyword: event.target.value,
+                }))
+              }
+            />
+            <Select
+              value={filters.status === 'ALL' ? '' : filters.status}
+              onValueChange={(value) =>
+                setFilters((current) => ({
+                  ...current,
+                  status: (value || 'ALL') as AdminOfferQuery['status'],
+                }))
+              }
+            >
+              <SelectTrigger size="lg" aria-label={t('ADMIN_OFFERS.STATUS')}>
+                <SelectValue placeholder={t('ADMIN_OFFERS.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="ACTIVE">
+                  {t('COMMON.STATUS.ACTIVE')}
+                </SelectItem>
+                <SelectItem value="DRAFT">
+                  {t('COMMON.STATUS.DRAFT')}
+                </SelectItem>
+                <SelectItem value="INACTIVE">
+                  {t('COMMON.STATUS.INACTIVE')}
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <Select
+              value={
+                filters.commissionStatus === 'ALL'
+                  ? ''
+                  : filters.commissionStatus
+              }
+              onValueChange={(value) =>
+                setFilters((current) => ({
+                  ...current,
+                  commissionStatus: (value ||
+                    'ALL') as AdminOfferQuery['commissionStatus'],
+                }))
+              }
+            >
+              <SelectTrigger
+                size="lg"
+                aria-label={t('ADMIN_OFFERS.COMMISSION_STATUS')}
               >
-                <option value="ALL">{t('ADMIN_OFFERS.ALL')}</option>
-                <option value="ACTIVE">{t('COMMON.STATUS.ACTIVE')}</option>
-                <option value="DRAFT">{t('COMMON.STATUS.DRAFT')}</option>
-                <option value="INACTIVE">{t('COMMON.STATUS.INACTIVE')}</option>
-              </select>
-            </label>
-            <label className="space-y-1">
-              <span className="text-sm font-medium">
-                {t('ADMIN_OFFERS.COMMISSION_STATUS')}
-              </span>
-              <select
-                className={selectClassName}
-                value={filters.commissionStatus}
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    commissionStatus: event.target
-                      .value as AdminOfferQuery['commissionStatus'],
-                  }))
-                }
-              >
-                <option value="ALL">{t('ADMIN_OFFERS.ALL')}</option>
-                <option value="CONFIGURED">
+                <SelectValue placeholder={t('ADMIN_OFFERS.ALL')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="CONFIGURED">
                   {t('ADMIN_OFFERS.CONFIGURED')}
-                </option>
-                <option value="NOT_CONFIGURED">
+                </SelectItem>
+                <SelectItem value="NOT_CONFIGURED">
                   {t('ADMIN_OFFERS.NOT_CONFIGURED')}
-                </option>
-              </select>
-            </label>
+                </SelectItem>
+              </SelectContent>
+            </Select>
             <div className="flex items-end gap-2">
               <Button type="submit" variant="mono">
                 <Search />
