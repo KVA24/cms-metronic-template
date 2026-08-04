@@ -19,6 +19,12 @@ describe('portal route permissions', () => {
       getRequiredPermissionsForPath('/tenant/account/roles/role-1/permissions'),
       ['roles.permissions'],
     );
+    assert.deepEqual(
+      getRequiredPermissionsForPath(
+        '/admin/tenants/tenant-1/accounts/account-1/edit',
+      ),
+      ['tenants.accounts.edit'],
+    );
   });
 
   it('denies direct feature routes before feature components mount', () => {

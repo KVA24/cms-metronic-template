@@ -9,7 +9,21 @@ import type {
 
 export const adminConfigurationKeys = {
   all: ['admin-configurations'] as const,
+  detail: (id: number, roleCode: AdminRoleCode) =>
+    [...adminConfigurationKeys.all, 'detail', id, roleCode] as const,
 };
+
+export function useAdminConfigurationDetail(
+  id: number | null,
+  roleCode: AdminRoleCode,
+) {
+  return useQuery({
+    queryKey: adminConfigurationKeys.detail(id ?? 0, roleCode),
+    queryFn: () => adminConfigurationService.getDetail(id!, roleCode),
+    enabled: id !== null,
+    retry: false,
+  });
+}
 
 export function useAdminConfigurations(
   query: AdminConfigurationQuery,

@@ -54,7 +54,12 @@ export function TenantForgotPasswordPage() {
               <FormItem>
                 <FormLabel>{t('TENANT_RECOVERY.EMAIL')}</FormLabel>
                 <FormControl>
-                  <Input type="email" autoComplete="email" {...field} />
+                  <Input
+                    type="email"
+                    autoComplete="email"
+                    placeholder={t('TENANT_RECOVERY.EMAIL')}
+                    {...field}
+                  />
                 </FormControl>
                 {fieldState.error && (
                   <p className="text-destructive text-xs">

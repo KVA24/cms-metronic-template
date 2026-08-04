@@ -129,11 +129,21 @@ export function TenantProfileInformationForm({
         <div className="grid gap-5 sm:grid-cols-2">
           <label className="block space-y-1 text-sm">
             <span>{t('TENANT_PROFILE.USERNAME')}</span>
-            <Input name="username" value={profile.username} disabled />
+            <Input
+              name="username"
+              value={profile.username}
+              placeholder={t('TENANT_PROFILE.USERNAME')}
+              disabled
+            />
           </label>
           <label className="block space-y-1 text-sm">
             <span>{t('TENANT_PROFILE.ROLE')}</span>
-            <Input name="role" value={profile.roleName} disabled />
+            <Input
+              name="role"
+              value={profile.roleName}
+              placeholder={t('TENANT_PROFILE.ROLE')}
+              disabled
+            />
           </label>
         </div>
         <label className="block space-y-1 text-sm">
@@ -141,6 +151,7 @@ export function TenantProfileInformationForm({
           <Input
             maxLength={150}
             autoComplete="name"
+            placeholder={t('TENANT_PROFILE.FULL_NAME')}
             aria-invalid={Boolean(errorText('fullName'))}
             {...form.register('fullName')}
           />
@@ -156,6 +167,7 @@ export function TenantProfileInformationForm({
             <Input
               type="email"
               autoComplete="email"
+              placeholder={t('TENANT_PROFILE.EMAIL')}
               aria-invalid={Boolean(errorText('email'))}
               {...form.register('email')}
             />
@@ -169,6 +181,7 @@ export function TenantProfileInformationForm({
             <span>{t('TENANT_PROFILE.PHONE')}</span>
             <Input
               autoComplete="tel"
+              placeholder={t('TENANT_PROFILE.PHONE')}
               aria-invalid={Boolean(errorText('phone'))}
               {...form.register('phone')}
             />
@@ -184,6 +197,7 @@ export function TenantProfileInformationForm({
           <Input
             name="status"
             value={t(`COMMON.STATUS.${profile.status}`)}
+            placeholder={t('COMMON.STATUS_1')}
             disabled
           />
         </label>

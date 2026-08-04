@@ -44,6 +44,14 @@ const portalRoutePermissions: readonly PortalRoutePermission[] = [
   { path: '/admin/brands', permissions: ['brands.view'] },
   { path: '/admin/tenants/new', permissions: ['tenants.create'] },
   {
+    path: '/admin/tenants/:tenantId/accounts/new',
+    permissions: ['tenants.accounts.create'],
+  },
+  {
+    path: '/admin/tenants/:tenantId/accounts/:accountId/edit',
+    permissions: ['tenants.accounts.edit'],
+  },
+  {
     path: '/admin/tenants/:tenantId/accounts',
     permissions: ['tenants.accounts.view'],
   },

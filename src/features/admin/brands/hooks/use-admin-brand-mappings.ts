@@ -15,7 +15,23 @@ const mappingKeys = {
     query: AdminBrandMappingQuery,
     roleCode: AdminRoleCode,
   ) => [...mappingKeys.all(brandId), query, roleCode] as const,
+  detail: (brandId: string, mappingId: string, roleCode: AdminRoleCode) =>
+    [...mappingKeys.all(brandId), 'detail', mappingId, roleCode] as const,
 };
+
+export function useAdminBrandMapping(
+  brandId: string | undefined,
+  mappingId: string | undefined,
+  roleCode: AdminRoleCode,
+) {
+  return useQuery({
+    queryKey: mappingKeys.detail(brandId ?? '', mappingId ?? '', roleCode),
+    queryFn: () =>
+      adminBrandMappingService.getMapping(brandId!, mappingId!, roleCode),
+    enabled: Boolean(brandId && mappingId),
+    retry: false,
+  });
+}
 
 export function useAdminBrandMappings(
   brandId: string | undefined,

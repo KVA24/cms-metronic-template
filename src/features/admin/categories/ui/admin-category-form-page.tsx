@@ -310,6 +310,7 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
               <Input
                 id="code"
                 name="code"
+                placeholder={t('ADMIN_CATEGORIES.CODE')}
                 value={form.code}
                 disabled={detail.data?.codeLocked}
                 aria-invalid={Boolean(errors.code)}
@@ -329,6 +330,7 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
               <Input
                 id="displayOrder"
                 name="displayOrder"
+                placeholder={t('ADMIN_CATEGORY_FORM.DISPLAY_ORDER')}
                 type="number"
                 min={0}
                 max={9999}
@@ -434,6 +436,7 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
               <Input
                 id={localeNameField}
                 name={localeNameField}
+                placeholder={t('ADMIN_CATEGORIES.NAME')}
                 value={String(form[localeNameField])}
                 aria-invalid={Boolean(errors[localeNameField])}
                 onChange={(event) =>
@@ -449,6 +452,7 @@ export function AdminCategoryFormPage({ mode }: { mode: 'create' | 'edit' }) {
               <Textarea
                 id={localeDescriptionField}
                 name={localeDescriptionField}
+                placeholder={t('COMMON.DESCRIPTION')}
                 rows={5}
                 maxLength={500}
                 value={String(form[localeDescriptionField])}

@@ -43,6 +43,7 @@ import {
 } from 'react-router-dom';
 import { toast } from 'sonner';
 import {
+  useAdminBrandMapping,
   useAdminBrandMappings,
   useSaveAdminBrandMappings,
 } from '../hooks/use-admin-brand-mappings';
@@ -204,6 +205,7 @@ function MappingEditor({
                 {t('ADMIN_BRAND_MAPPINGS.CATEGORY')} *
               </span>
               <select
+                name={`mappings.${index}.categoryId`}
                 className={selectClassName}
                 value={row.categoryId}
                 onChange={(event) =>
@@ -228,6 +230,8 @@ function MappingEditor({
                 {t('ADMIN_BRAND_MAPPINGS.BRAND_CODE')} *
               </span>
               <Input
+                name={`mappings.${index}.brandCategoryCode`}
+                placeholder={t('ADMIN_BRAND_MAPPINGS.BRAND_CODE')}
                 value={row.brandCategoryCode}
                 onChange={(event) =>
                   setField(index, 'brandCategoryCode', event.target.value)
@@ -246,6 +250,8 @@ function MappingEditor({
                 {t('ADMIN_BRAND_MAPPINGS.BRAND_NAME')}
               </span>
               <Input
+                name={`mappings.${index}.brandCategoryName`}
+                placeholder={t('ADMIN_BRAND_MAPPINGS.BRAND_NAME')}
                 value={row.brandCategoryName}
                 onChange={(event) =>
                   setField(index, 'brandCategoryName', event.target.value)
@@ -254,6 +260,7 @@ function MappingEditor({
             </label>
             <label className="flex items-center gap-2 pt-7 text-sm font-medium">
               <input
+                name={`mappings.${index}.isDefault`}
                 type="checkbox"
                 checked={row.isDefault}
                 onChange={(event) =>
@@ -267,6 +274,7 @@ function MappingEditor({
                 {t('ADMIN_BRAND_MAPPINGS.COMMISSION_TYPE')} *
               </span>
               <select
+                name={`mappings.${index}.commissionType`}
                 className={selectClassName}
                 value={row.commissionType}
                 onChange={(event) =>
@@ -292,8 +300,10 @@ function MappingEditor({
                 {row.commissionType === 'PERCENTAGE' ? '%' : 'VND'}) *
               </span>
               <Input
+                name={`mappings.${index}.commissionValue`}
                 type="number"
                 min="0"
+                placeholder={t('ADMIN_BRAND_MAPPINGS.COMMISSION')}
                 step={row.commissionType === 'PERCENTAGE' ? '0.01' : '1'}
                 value={row.commissionValue}
                 onChange={(event) =>
@@ -355,6 +365,7 @@ function MappingEditor({
                 {t('ADMIN_BRAND_MAPPINGS.STATUS')} *
               </span>
               <select
+                name={`mappings.${index}.status`}
                 className={selectClassName}
                 value={row.status}
                 onChange={(event) =>
@@ -414,17 +425,27 @@ export function AdminBrandMappingPage() {
     editorOpen ? ADMIN_BRAND_MAPPING_DEFAULT_QUERY : query,
     roleCode,
   );
+  const mappingDetail = useAdminBrandMapping(
+    brandId,
+    editingId ?? undefined,
+    roleCode,
+  );
   const [filters, setFilters] = useState(query);
   useEffect(() => setFilters(readQuery(params)), [params]);
 
-  if (result.isLoading)
+  if (result.isLoading || (editingId && mappingDetail.isLoading))
     return (
       <Container className="space-y-4 py-6">
         <Skeleton className="h-12 w-72" />
         <Skeleton className="h-96 w-full" />
       </Container>
     );
-  if (result.error || !result.data || !brandId)
+  if (
+    result.error ||
+    !result.data ||
+    !brandId ||
+    (editingId && (mappingDetail.error || !mappingDetail.data))
+  )
     return (
       <Container className="py-6">
         <Alert variant="destructive" appearance="light">
@@ -438,9 +459,7 @@ export function AdminBrandMappingPage() {
       </Container>
     );
   const data = result.data;
-  const editing = editingId
-    ? data.items.find(({ id }) => id === editingId)
-    : undefined;
+  const editing = editingId ? mappingDetail.data : undefined;
   const initialRows = editing
     ? [mappingToInput(editing)]
     : [{ ...ADMIN_BRAND_MAPPING_EMPTY_ROW }];

@@ -160,6 +160,7 @@ export function TenantAccountFormPage({ mode }: { mode: 'create' | 'edit' }) {
             <span>{t('TENANT_ACCOUNTS.USERNAME')} *</span>
             <Input
               autoComplete="username"
+              placeholder={t('TENANT_ACCOUNTS.USERNAME')}
               disabled={mode === 'edit'}
               aria-invalid={Boolean(fieldError('username'))}
               {...form.register('username')}
@@ -174,6 +175,7 @@ export function TenantAccountFormPage({ mode }: { mode: 'create' | 'edit' }) {
             <span>{t('TENANT_ACCOUNTS.FULL_NAME')} *</span>
             <Input
               maxLength={150}
+              placeholder={t('TENANT_ACCOUNTS.FULL_NAME')}
               aria-invalid={Boolean(fieldError('fullName'))}
               {...form.register('fullName')}
             />
@@ -189,6 +191,7 @@ export function TenantAccountFormPage({ mode }: { mode: 'create' | 'edit' }) {
               <Input
                 type="email"
                 autoComplete="email"
+                placeholder={t('TENANT_ACCOUNTS.EMAIL')}
                 aria-invalid={Boolean(fieldError('email'))}
                 {...form.register('email')}
               />
@@ -202,6 +205,7 @@ export function TenantAccountFormPage({ mode }: { mode: 'create' | 'edit' }) {
               <span>{t('TENANT_ACCOUNTS.PHONE')}</span>
               <Input
                 autoComplete="tel"
+                placeholder={t('TENANT_ACCOUNTS.PHONE')}
                 aria-invalid={Boolean(fieldError('phone'))}
                 {...form.register('phone')}
               />
@@ -262,6 +266,11 @@ export function TenantAccountFormPage({ mode }: { mode: 'create' | 'edit' }) {
                   <Input
                     type={shown ? 'text' : 'password'}
                     autoComplete="new-password"
+                    placeholder={t(
+                      name === 'password'
+                        ? 'TENANT_ACCOUNTS.FORM.INITIAL_PASSWORD'
+                        : 'TENANT_ACCOUNTS.FORM.CONFIRM_PASSWORD',
+                    )}
                     className="pr-10"
                     aria-invalid={Boolean(fieldError(name))}
                     {...form.register(name)}

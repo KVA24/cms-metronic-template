@@ -50,6 +50,11 @@ function timestamp(sequence: number) {
 }
 
 export const adminConfigurationService = {
+  async getDetail(id: number, roleCode: AdminRoleCode) {
+    assertPermission(roleCode, 'configuration.view');
+    return structuredClone(findConfiguration(id));
+  },
+
   async list(query: AdminConfigurationQuery, roleCode: AdminRoleCode) {
     assertPermission(roleCode, 'configuration.view');
     const errors = validateConfigurationDateRange(query);

@@ -118,6 +118,7 @@ function GeneralFields({
           <Input
             id="startAt"
             type="datetime-local"
+            placeholder={t('ADMIN_OFFER_FORM.START_AT')}
             value={form.startAt}
             onChange={(event) => setField('startAt', event.target.value)}
           />
@@ -130,6 +131,7 @@ function GeneralFields({
           <Input
             id="endAt"
             type="datetime-local"
+            placeholder={t('ADMIN_OFFER_FORM.END_AT')}
             value={form.endAt}
             onChange={(event) => setField('endAt', event.target.value)}
           />
@@ -143,6 +145,7 @@ function GeneralFields({
           <Input
             id="destinationUrl"
             type="url"
+            placeholder={t('ADMIN_OFFER_FORM.DESTINATION_URL')}
             value={form.destinationUrl}
             onChange={(event) => setField('destinationUrl', event.target.value)}
           />
@@ -201,6 +204,7 @@ function ContentFields({
           </span>
           <Input
             id={title}
+            placeholder={t('ADMIN_OFFER_FORM.TITLE')}
             value={form[title]}
             onChange={(event) => setField(title, event.target.value)}
           />
@@ -212,6 +216,7 @@ function ContentFields({
           </span>
           <Input
             id={badge}
+            placeholder={t('ADMIN_OFFER_FORM.BADGE')}
             value={form[badge]}
             onChange={(event) => setField(badge, event.target.value)}
           />
@@ -223,6 +228,7 @@ function ContentFields({
           </span>
           <Textarea
             id={description}
+            placeholder={t('ADMIN_OFFER_FORM.DESCRIPTION_FIELD')}
             rows={4}
             value={form[description]}
             onChange={(event) => setField(description, event.target.value)}
@@ -235,6 +241,7 @@ function ContentFields({
           </span>
           <Textarea
             id={terms}
+            placeholder={t('ADMIN_OFFER_FORM.TERMS')}
             rows={4}
             value={form[terms]}
             onChange={(event) => setField(terms, event.target.value)}
@@ -273,6 +280,7 @@ function MappingFields({
           </span>
           <Input
             id="brandOfferCode"
+            placeholder={t('ADMIN_OFFER_FORM.BRAND_OFFER_CODE')}
             value={form.brandOfferCode}
             disabled={codeLocked}
             onChange={(event) => setField('brandOfferCode', event.target.value)}
@@ -290,6 +298,7 @@ function MappingFields({
           </span>
           <Input
             id="brandOfferTitle"
+            placeholder={t('ADMIN_OFFER_FORM.BRAND_OFFER_TITLE')}
             value={form.brandOfferTitle}
             onChange={(event) =>
               setField('brandOfferTitle', event.target.value)
@@ -331,6 +340,7 @@ function MappingFields({
           <Input
             id="commissionValue"
             type="number"
+            placeholder={t('ADMIN_OFFER_FORM.COMMISSION_VALUE')}
             min="0"
             step={form.commissionType === 'PERCENTAGE' ? '0.01' : '1'}
             disabled={form.commissionType === 'NONE'}

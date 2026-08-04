@@ -292,6 +292,7 @@ export function AdminBrandFormPage({ mode }: { mode: 'create' | 'edit' }) {
               <Input
                 id="code"
                 name="code"
+                placeholder={t('ADMIN_BRAND_FORM.CODE')}
                 value={form.code}
                 disabled={detail.data?.codeLocked}
                 aria-invalid={Boolean(errors.code)}
@@ -311,6 +312,7 @@ export function AdminBrandFormPage({ mode }: { mode: 'create' | 'edit' }) {
               <Input
                 id="legalName"
                 name="legalName"
+                placeholder={t('ADMIN_BRAND_FORM.LEGAL_NAME')}
                 value={form.legalName}
                 aria-invalid={Boolean(errors.legalName)}
                 onChange={(event) => setField('legalName', event.target.value)}
@@ -325,6 +327,7 @@ export function AdminBrandFormPage({ mode }: { mode: 'create' | 'edit' }) {
                 id="websiteUrl"
                 name="websiteUrl"
                 type="url"
+                placeholder={t('ADMIN_BRAND_FORM.WEBSITE')}
                 value={form.websiteUrl}
                 aria-invalid={Boolean(errors.websiteUrl)}
                 onChange={(event) => setField('websiteUrl', event.target.value)}
@@ -382,6 +385,7 @@ export function AdminBrandFormPage({ mode }: { mode: 'create' | 'edit' }) {
                 id="pendingDays"
                 name="pendingDays"
                 type="number"
+                placeholder={t('ADMIN_BRAND_FORM.PENDING_DAYS')}
                 min={0}
                 value={form.pendingDays}
                 aria-invalid={Boolean(errors.pendingDays)}
@@ -440,6 +444,7 @@ export function AdminBrandFormPage({ mode }: { mode: 'create' | 'edit' }) {
               <Input
                 id="contactName"
                 name="contactName"
+                placeholder={t('ADMIN_BRAND_FORM.CONTACT_NAME')}
                 value={form.contactName}
                 onChange={(event) =>
                   setField('contactName', event.target.value)
@@ -455,6 +460,7 @@ export function AdminBrandFormPage({ mode }: { mode: 'create' | 'edit' }) {
                 id="contactEmail"
                 name="contactEmail"
                 type="email"
+                placeholder={t('ADMIN_BRAND_FORM.CONTACT_EMAIL')}
                 value={form.contactEmail}
                 onChange={(event) =>
                   setField('contactEmail', event.target.value)
@@ -469,6 +475,7 @@ export function AdminBrandFormPage({ mode }: { mode: 'create' | 'edit' }) {
               <Input
                 id="contactPhone"
                 name="contactPhone"
+                placeholder={t('ADMIN_BRAND_FORM.CONTACT_PHONE')}
                 value={form.contactPhone}
                 onChange={(event) =>
                   setField('contactPhone', event.target.value)
@@ -483,6 +490,7 @@ export function AdminBrandFormPage({ mode }: { mode: 'create' | 'edit' }) {
               <Textarea
                 id="notes"
                 name="notes"
+                placeholder={t('ADMIN_BRAND_FORM.NOTES')}
                 rows={3}
                 value={form.notes}
                 onChange={(event) => setField('notes', event.target.value)}
@@ -524,6 +532,7 @@ export function AdminBrandFormPage({ mode }: { mode: 'create' | 'edit' }) {
               <Input
                 id={displayName}
                 name={displayName}
+                placeholder={t('ADMIN_BRAND_FORM.DISPLAY_NAME')}
                 value={form[displayName]}
                 aria-invalid={Boolean(errors[displayName])}
                 onChange={(event) => setField(displayName, event.target.value)}
@@ -537,6 +546,7 @@ export function AdminBrandFormPage({ mode }: { mode: 'create' | 'edit' }) {
               <Input
                 id={tagline}
                 name={tagline}
+                placeholder={t('ADMIN_BRAND_FORM.TAGLINE')}
                 value={form[tagline]}
                 onChange={(event) => setField(tagline, event.target.value)}
               />
@@ -549,6 +559,7 @@ export function AdminBrandFormPage({ mode }: { mode: 'create' | 'edit' }) {
               <Textarea
                 id={shortDescription}
                 name={shortDescription}
+                placeholder={t('ADMIN_BRAND_FORM.SHORT_DESCRIPTION')}
                 rows={4}
                 value={form[shortDescription]}
                 onChange={(event) =>
@@ -564,6 +575,7 @@ export function AdminBrandFormPage({ mode }: { mode: 'create' | 'edit' }) {
               <Textarea
                 id={terms}
                 name={terms}
+                placeholder={t('ADMIN_BRAND_FORM.TERMS')}
                 rows={4}
                 value={form[terms]}
                 onChange={(event) => setField(terms, event.target.value)}

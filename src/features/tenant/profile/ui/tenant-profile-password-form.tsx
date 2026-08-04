@@ -90,6 +90,11 @@ export function TenantProfilePasswordForm({
                 <Input
                   type={shown ? 'text' : 'password'}
                   autoComplete="new-password"
+                  placeholder={t(
+                    name === 'newPassword'
+                      ? 'TENANT_PROFILE.NEW_PASSWORD'
+                      : 'TENANT_PROFILE.CONFIRM_PASSWORD',
+                  )}
                   className="pr-10"
                   aria-invalid={Boolean(errorText(name))}
                   {...form.register(name)}

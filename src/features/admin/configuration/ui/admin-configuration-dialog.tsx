@@ -1,5 +1,4 @@
-import { FormEvent, useState } from 'react';
-import type { Configuration } from '@/shared/contracts';
+import { FormEvent, useEffect, useState } from 'react';
 import { useTranslations } from '@/shared/hooks/use-translations';
 import type { AdminRoleCode } from '@/shared/permissions';
 import { useAuthSession } from '@/shared/stores/auth-store';
@@ -13,9 +12,11 @@ import {
   DialogTitle,
 } from '@/shared/ui/atoms/dialog';
 import { Input } from '@/shared/ui/atoms/input';
+import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import { Save } from 'lucide-react';
 import { toast } from 'sonner';
 import {
+  useAdminConfigurationDetail,
   useCreateAdminConfiguration,
   useUpdateAdminConfiguration,
 } from '../hooks/use-admin-configurations';
@@ -33,28 +34,36 @@ const selectClassName =
   'h-10 w-full rounded-md border border-input bg-background px-3 text-sm';
 
 export function AdminConfigurationDialog({
-  configuration,
+  configurationId,
   onClose,
 }: {
-  configuration: Configuration | null;
+  configurationId: number | null;
   onClose: () => void;
 }) {
   const session = useAuthSession();
   const { t } = useTranslations();
   const create = useCreateAdminConfiguration();
   const update = useUpdateAdminConfiguration();
-  const editing = Boolean(configuration);
-  const [form, setForm] = useState<ConfigurationForm>(
-    configuration
-      ? {
-          key: configuration.key,
-          value: configuration.value,
-          status: configuration.status,
-        }
-      : { key: '', value: '', status: 'ACTIVE' },
+  const editing = configurationId !== null;
+  const detail = useAdminConfigurationDetail(
+    configurationId,
+    session?.roleCode as AdminRoleCode,
   );
+  const [form, setForm] = useState<ConfigurationForm>({
+    key: '',
+    value: '',
+    status: 'ACTIVE',
+  });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const pending = create.isPending || update.isPending;
+  useEffect(() => {
+    if (!detail.data) return;
+    setForm({
+      key: detail.data.key,
+      value: detail.data.value,
+      status: detail.data.status,
+    });
+  }, [detail.data]);
   const setField = (field: keyof ConfigurationForm, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
     setErrors((current) => ({ ...current, [field]: '', root: '' }));
@@ -75,11 +84,11 @@ export function AdminConfigurationDialog({
       return;
     }
     try {
-      if (configuration)
+      if (detail.data)
         await update.mutateAsync({
-          id: configuration.id,
+          id: detail.data.id,
           input: payload,
-          expectedVersion: configuration.version,
+          expectedVersion: detail.data.version,
           roleCode: session.roleCode as AdminRoleCode,
           actorId: session.user.id,
         });
@@ -102,6 +111,38 @@ export function AdminConfigurationDialog({
       setErrors(code === 'KEY_DUPLICATE' ? { key: code } : { root: code });
     }
   };
+  if (editing && detail.isLoading)
+    return (
+      <Dialog open onOpenChange={(open) => !open && onClose()}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t('ADMIN_CONFIGURATION.EDIT_TITLE')}</DialogTitle>
+            <DialogDescription>
+              {t('ADMIN_CONFIGURATION.EDIT_DESCRIPTION')}
+            </DialogDescription>
+          </DialogHeader>
+          <Skeleton className="h-64 w-full" />
+        </DialogContent>
+      </Dialog>
+    );
+  if (editing && (detail.isError || !detail.data))
+    return (
+      <Dialog open onOpenChange={(open) => !open && onClose()}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t('ADMIN_CONFIGURATION.EDIT_TITLE')}</DialogTitle>
+            <DialogDescription className="text-destructive">
+              {t('ADMIN_CONFIGURATION.ERRORS.LOAD_ERROR')}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={onClose}>
+              {t('COMMON.CLOSE')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
   return (
     <Dialog open onOpenChange={(open) => !open && onClose()}>
       <DialogContent>
@@ -131,6 +172,7 @@ export function AdminConfigurationDialog({
               name="key"
               readOnly={editing}
               aria-readonly={editing}
+              placeholder={t('ADMIN_CONFIGURATION.KEY')}
               value={form.key}
               onChange={(event) => setField('key', event.target.value)}
             />
@@ -147,6 +189,7 @@ export function AdminConfigurationDialog({
             <Input
               id="configuration-value"
               name="value"
+              placeholder={t('ADMIN_CONFIGURATION.VALUE')}
               value={form.value}
               onChange={(event) => setField('value', event.target.value)}
             />

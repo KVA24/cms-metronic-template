@@ -171,6 +171,7 @@ export function AdminTenantDetailPage() {
       <Input
         id={name}
         name={name}
+        placeholder={label}
         type={options?.type}
         disabled={!editing || (name === 'code' && codeLocked)}
         value={String(form[name])}
@@ -318,6 +319,7 @@ export function AdminTenantDetailPage() {
               <Textarea
                 id="notes"
                 name="notes"
+                placeholder={t('ADMIN_TENANT_FORM.NOTES')}
                 rows={4}
                 disabled={!editing}
                 value={form.notes}

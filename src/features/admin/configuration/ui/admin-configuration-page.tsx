@@ -60,7 +60,7 @@ export function AdminConfigurationPage() {
   const [query, setQuery] = useState(ADMIN_CONFIGURATION_DEFAULT_QUERY);
   const [filters, setFilters] = useState(query);
   const [dialog, setDialog] = useState<'closed' | 'create' | 'edit'>('closed');
-  const [selected, setSelected] = useState<Configuration | null>(null);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Configuration | null>(null);
   const [dateError, setDateError] = useState('');
   const result = useAdminConfigurations(query, roleCode);
@@ -121,7 +121,7 @@ export function AdminConfigurationPage() {
           <Button
             variant="mono"
             onClick={() => {
-              setSelected(null);
+              setSelectedId(null);
               setDialog('create');
             }}
           >
@@ -230,7 +230,7 @@ export function AdminConfigurationPage() {
                               key: item.key,
                             })}
                             onClick={() => {
-                              setSelected(item);
+                              setSelectedId(item.id);
                               setDialog('edit');
                             }}
                           >
@@ -304,8 +304,8 @@ export function AdminConfigurationPage() {
       </Card>
       {dialog !== 'closed' && (
         <AdminConfigurationDialog
-          key={`${dialog}-${selected?.id ?? 'new'}`}
-          configuration={dialog === 'edit' ? selected : null}
+          key={`${dialog}-${selectedId ?? 'new'}`}
+          configurationId={dialog === 'edit' ? selectedId : null}
           onClose={() => setDialog('closed')}
         />
       )}

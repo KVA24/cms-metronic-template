@@ -76,6 +76,11 @@ export function TenantForgotPasswordResetPage() {
                         <Input
                           type={shown ? 'text' : 'password'}
                           autoComplete="new-password"
+                          placeholder={t(
+                            name === 'newPassword'
+                              ? 'TENANT_RECOVERY.NEW_PASSWORD'
+                              : 'TENANT_RECOVERY.CONFIRM_PASSWORD',
+                          )}
                           className="pr-10"
                           {...field}
                         />

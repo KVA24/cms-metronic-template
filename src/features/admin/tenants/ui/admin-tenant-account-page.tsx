@@ -15,6 +15,14 @@ import {
 import { Badge } from '@/shared/ui/atoms/badge';
 import { Button } from '@/shared/ui/atoms/button';
 import { Card, CardContent } from '@/shared/ui/atoms/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/shared/ui/atoms/dialog';
 import { Input } from '@/shared/ui/atoms/input';
 import {
   Select,
@@ -42,9 +50,10 @@ import {
   RotateCcw,
   Search,
 } from 'lucide-react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import {
+  useAdminTenantAccount,
   useAdminTenantAccounts,
   useDisableAdminTenantAccount,
 } from '../hooks/use-admin-tenant-accounts';
@@ -67,6 +76,7 @@ const dateFormatter = new Intl.DateTimeFormat('vi-VN', {
 
 export function AdminTenantAccountPage() {
   const { tenantId = '' } = useParams();
+  const navigate = useNavigate();
   const session = useAuthSession();
   const { t } = useTranslations();
   const roleCode = session?.roleCode as AdminRoleCode;
@@ -79,6 +89,11 @@ export function AdminTenantAccountPage() {
   const [selected, setSelected] = useState<AdminTenantAccountView | null>(null);
   const [disableTarget, setDisableTarget] =
     useState<AdminTenantAccountView | null>(null);
+  const selectedDetail = useAdminTenantAccount(
+    tenantId,
+    mode === 'view' ? (selected?.id ?? '') : '',
+    roleCode,
+  );
   const apply = (event: FormEvent) => {
     event.preventDefault();
     setQuery({ ...filters, page: 1, keyword: filters.keyword.trim() });
@@ -140,9 +155,11 @@ export function AdminTenantAccountPage() {
           </p>
         </div>
         {accounts.data.canCreate && (
-          <Button variant="mono" onClick={() => open('create')}>
-            <Plus />
-            {t('ADMIN_TENANT_ACCOUNTS.ADD')}
+          <Button variant="mono" asChild>
+            <Link to={`/admin/tenants/${tenantId}/accounts/new`}>
+              <Plus />
+              {t('ADMIN_TENANT_ACCOUNTS.ADD')}
+            </Link>
           </Button>
         )}
       </div>
@@ -305,16 +322,16 @@ export function AdminTenantAccountPage() {
                         </Button>
                         {accounts.data.canEdit && (
                           <>
-                            <Button
-                              size="icon"
-                              variant="outline"
-                              aria-label={t(
-                                'ADMIN_TENANT_ACCOUNTS.EDIT_USER_NAMED',
-                                { name: account.username },
-                              )}
-                              onClick={() => open('edit', account)}
-                            >
-                              <Pencil />
+                            <Button size="icon" variant="outline" asChild>
+                              <Link
+                                to={`/admin/tenants/${tenantId}/accounts/${account.id}/edit`}
+                                aria-label={t(
+                                  'ADMIN_TENANT_ACCOUNTS.EDIT_USER_NAMED',
+                                  { name: account.username },
+                                )}
+                              >
+                                <Pencil />
+                              </Link>
                             </Button>
                             {account.status !== 'INACTIVE' && (
                               <Button
@@ -340,19 +357,58 @@ export function AdminTenantAccountPage() {
           )}
         </CardContent>
       </Card>
-      {mode && (
+      {mode === 'view' && selectedDetail.data && (
         <AdminTenantAccountDialog
-          key={`${mode}-${selected?.id ?? 'new'}`}
+          key={`${mode}-${selectedDetail.data.id}`}
           tenantId={tenantId}
           mode={mode}
-          account={selected}
+          account={selectedDetail.data}
           requiresFirstAdmin={accounts.data.requiresFirstAdmin}
           canEdit={accounts.data.canEdit}
           onModeChange={(next) => {
+            if (next === 'edit') {
+              navigate(
+                `/admin/tenants/${tenantId}/accounts/${selectedDetail.data.id}/edit`,
+              );
+            }
             setMode(next);
             if (!next) setSelected(null);
           }}
         />
+      )}
+      {mode === 'view' && selectedDetail.isLoading && (
+        <Dialog open onOpenChange={(open) => !open && setMode(null)}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t('ADMIN_TENANT_ACCOUNTS.VIEW_TITLE')}</DialogTitle>
+              <DialogDescription>
+                {t('ADMIN_TENANT_ACCOUNTS.VIEW_DESCRIPTION')}
+              </DialogDescription>
+            </DialogHeader>
+            <Skeleton className="h-72 w-full" />
+          </DialogContent>
+        </Dialog>
+      )}
+      {mode === 'view' && selectedDetail.isError && (
+        <Dialog open onOpenChange={(open) => !open && setMode(null)}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t('ADMIN_TENANT_ACCOUNTS.VIEW_TITLE')}</DialogTitle>
+              <DialogDescription className="text-destructive">
+                {t('ADMIN_TENANT_ACCOUNTS.LOAD_ERROR')}
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setMode(null)}
+              >
+                {t('COMMON.CLOSE')}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       )}
       <AlertDialog
         open={Boolean(disableTarget)}

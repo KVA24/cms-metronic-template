@@ -16,6 +16,8 @@ const accountKeys = {
     query: AdminTenantAccountQuery,
     roleCode: AdminRoleCode,
   ) => [...accountKeys.all(tenantId), 'list', query, roleCode] as const,
+  detail: (tenantId: string, accountId: string, roleCode: AdminRoleCode) =>
+    [...accountKeys.all(tenantId), 'detail', accountId, roleCode] as const,
 };
 
 export function useAdminTenantAccounts(
@@ -27,6 +29,20 @@ export function useAdminTenantAccounts(
     queryKey: accountKeys.list(tenantId, query, roleCode),
     queryFn: () =>
       adminTenantAccountService.listAccounts(tenantId, query, roleCode),
+    retry: false,
+  });
+}
+
+export function useAdminTenantAccount(
+  tenantId: string,
+  accountId: string,
+  roleCode: AdminRoleCode,
+) {
+  return useQuery({
+    queryKey: accountKeys.detail(tenantId, accountId, roleCode),
+    queryFn: () =>
+      adminTenantAccountService.getAccount(tenantId, accountId, roleCode),
+    enabled: Boolean(tenantId && accountId),
     retry: false,
   });
 }

@@ -76,6 +76,7 @@ export function TenantForgotPasswordOtpPage() {
                     inputMode="numeric"
                     maxLength={6}
                     autoComplete="one-time-code"
+                    placeholder={t('TENANT_RECOVERY.OTP')}
                     {...field}
                   />
                 </FormControl>

@@ -100,6 +100,7 @@ export function AdminTenantCreatePage() {
       <Input
         id={name}
         name={name}
+        placeholder={label}
         type={options?.type}
         maxLength={options?.maxLength}
         value={String(form[name])}
@@ -174,6 +175,7 @@ export function AdminTenantCreatePage() {
               <Textarea
                 id="notes"
                 name="notes"
+                placeholder={t('ADMIN_TENANT_FORM.NOTES')}
                 rows={4}
                 maxLength={2000}
                 value={form.notes}

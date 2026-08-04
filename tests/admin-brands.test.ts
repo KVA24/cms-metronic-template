@@ -330,6 +330,25 @@ const validMappingInput = {
 describe('ADMIN Brand Category Mapping & Commission service', () => {
   beforeEach(() => resetMockData());
 
+  it('loads one mapping detail in its Brand scope before edit', async () => {
+    const detail = await adminBrandMappingService.getMapping(
+      'brand-foodnest',
+      'mapping-foodnest-food',
+      'CMS_ADMIN',
+    );
+
+    assert.equal(detail.brandId, 'brand-foodnest');
+    await assert.rejects(
+      () =>
+        adminBrandMappingService.getMapping(
+          'brand-stylehub',
+          'mapping-foodnest-food',
+          'CMS_ADMIN',
+        ),
+      /MAPPING_NOT_FOUND/,
+    );
+  });
+
   it('validates code, conditional commission and effective period fields', () => {
     assert.equal(
       adminBrandMappingRowSchema.safeParse(validMappingInput).success,

@@ -149,6 +149,7 @@ export function AdminTenantRevenueEditor({ data }: { data: RevenueContext }) {
                 <Input
                   id="brandRate"
                   name="brandRate"
+                  placeholder={t('ADMIN_TENANT_REVENUE.BRAND_RATE')}
                   type="number"
                   min="0.01"
                   max="100"

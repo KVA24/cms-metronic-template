@@ -7,6 +7,22 @@ import { mockData, resetMockData } from '../src/shared/mocks/mock-data';
 beforeEach(resetMockData);
 
 describe('ADMIN Configuration service', () => {
+  it('loads one fresh detail by ID before view or edit', async () => {
+    const detail = await adminConfigurationService.getDetail(1, 'CMS_ADMIN');
+
+    assert.equal(detail.key, 'TENANT_SHARE_DEFAULT_RATE');
+    detail.value = 'changed-only-in-the-view';
+    assert.equal(mockData.configurations[0]?.value, '40');
+    await assert.rejects(
+      () => adminConfigurationService.getDetail(1, 'CMS_OPERATION'),
+      /FORBIDDEN/,
+    );
+    await assert.rejects(
+      () => adminConfigurationService.getDetail(999, 'CMS_ADMIN'),
+      /NOT_FOUND/,
+    );
+  });
+
   it('lists by ascending numeric ID and combines keyword/date filters', async () => {
     const all = await adminConfigurationService.list(
       ADMIN_CONFIGURATION_DEFAULT_QUERY,

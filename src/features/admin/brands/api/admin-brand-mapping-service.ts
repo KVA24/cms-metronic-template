@@ -103,6 +103,20 @@ function validateCandidate(
 }
 
 export const adminBrandMappingService = {
+  async getMapping(
+    brandId: string,
+    mappingId: string,
+    roleCode: AdminRoleCode,
+  ): Promise<BrandCategoryMapping> {
+    assertPermission(roleCode, 'brands.view');
+    getBrandOrThrow(brandId);
+    const mapping = mockData.brandCategoryMappings.find(
+      (item) => item.id === mappingId && item.brandId === brandId,
+    );
+    if (!mapping) throw new Error('MAPPING_NOT_FOUND');
+    return structuredClone(mapping);
+  },
+
   async listMappings(
     brandId: string,
     query: AdminBrandMappingQuery,
