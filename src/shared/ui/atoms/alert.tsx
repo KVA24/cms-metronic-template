@@ -132,7 +132,7 @@ const alertVariants = cva(
         variant: 'primary',
         appearance: 'light',
         className:
-          'text-foreground bg-[var(--color-primary-soft,var(--color-blue-50))] border border-[var(--color-primary-alpha,var(--color-blue-100))] [&_[data-slot=alert-icon]]:text-primary dark:bg-[var(--color-primary-soft,var(--color-blue-950))] dark:border-[var(--color-primary-alpha,var(--color-blue-900))]',
+          'border border-primary/20 bg-primary/5 text-foreground [&_[data-slot=alert-icon]]:text-primary dark:border-primary/60 dark:bg-primary/15 dark:[&_[data-slot=alert-icon]]:text-primary-foreground',
       },
       {
         variant: 'destructive',
