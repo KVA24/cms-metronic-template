@@ -1,9 +1,6 @@
-import type {
-  AuthSession,
-  PermissionCode,
-  TenantRole,
-} from '../../../../shared/contracts';
+import type { AuthSession, TenantRole } from '../../../../shared/contracts';
 import { mockData } from '../../../../shared/mocks/mock-data';
+import type { PermissionCode } from '../../../../shared/permissions';
 import type {
   TenantRoleCreateInput,
   TenantRoleDetail,
@@ -83,8 +80,8 @@ function writeAudit(
     entityType: 'TENANT_ROLE',
     entityId: roleId,
     occurredAt: '2026-08-03T10:00:00.000Z',
-    before: before ? structuredClone(before) : undefined,
-    after: after ? structuredClone(after) : undefined,
+    before: before ? { ...structuredClone(before) } : undefined,
+    after: after ? { ...structuredClone(after) } : undefined,
   });
 }
 

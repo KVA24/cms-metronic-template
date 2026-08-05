@@ -128,8 +128,8 @@ export const adminExceptionService = {
       entityType: 'EXCEPTION',
       entityId: exception.id,
       occurredAt: '2026-08-03T22:45:00.000Z',
-      before,
-      after: structuredClone(exception),
+      before: { ...before },
+      after: { ...structuredClone(exception) },
     });
     return structuredClone(exception);
   },

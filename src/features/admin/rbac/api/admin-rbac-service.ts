@@ -71,7 +71,7 @@ function getActionState(
 export const adminRbacService = {
   async listRoles(requesterRole: AdminRoleCode): Promise<AdminSystemRole[]> {
     assertCanViewRbac(requesterRole);
-    return structuredClone(systemRoles);
+    return structuredClone([...systemRoles]);
   },
 
   async getMatrix(

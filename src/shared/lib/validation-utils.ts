@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UseFormReturn } from 'react-hook-form';
-import { ZodSchema } from 'zod';
+import type { FieldValues, UseFormReturn } from 'react-hook-form';
+import type { ZodType, ZodTypeDef } from 'zod/v3';
 
 /**
  * Creates a Zod resolver with automatic i18n translation for error messages
@@ -24,8 +24,11 @@ import { ZodSchema } from 'zod';
  * @param t - Translation function from useTranslations hook
  * @returns Resolver function compatible with react-hook-form
  */
-export const createTranslatedZodResolver = <T extends ZodSchema>(
-  schema: T,
+export const createTranslatedZodResolver = <
+  T extends FieldValues,
+  D extends ZodTypeDef & { typeName: string },
+>(
+  schema: ZodType<T, D, T>,
   t: (key: string) => string,
 ) => {
   // Recursively translate error messages in nested error objects

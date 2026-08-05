@@ -2,9 +2,9 @@ import { z } from 'zod';
 import type {
   PageQuery,
   PageResult,
-  PermissionCode,
   TenantRole,
 } from '../../../../shared/contracts';
+import type { PermissionCode } from '../../../../shared/permissions';
 
 export interface TenantRoleQuery extends PageQuery {
   status?: TenantRole['status'];

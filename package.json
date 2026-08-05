@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc -b && vite build",
     "test": "tsx --test tests/*.test.ts",
     "lint": "eslint src && prettier --check src tests",
     "lint:fix": "eslint src --fix && prettier --write src tests",

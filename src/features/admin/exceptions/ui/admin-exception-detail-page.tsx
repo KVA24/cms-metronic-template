@@ -204,7 +204,7 @@ export function AdminExceptionDetailPage() {
         </div>
       </>
     );
-  else
+  else if (exception.group === 'TRANSACTION_PERSISTENCE')
     variantContent = (
       <>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

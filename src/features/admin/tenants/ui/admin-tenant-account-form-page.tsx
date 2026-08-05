@@ -56,7 +56,7 @@ export function AdminTenantAccountFormPage({
     <AdminTenantAccountDialog
       tenantId={tenantId}
       mode={mode}
-      account={mode === 'edit' ? account.data : null}
+      account={mode === 'edit' ? (account.data ?? null) : null}
       requiresFirstAdmin={accounts.data.requiresFirstAdmin}
       canEdit={accounts.data.canEdit}
       presentation="page"

@@ -381,7 +381,7 @@ export function AdminOfferFormPage({ mode }: { mode: 'create' | 'edit' }) {
   const [allowNavigation, setAllowNavigation] = useState(false);
   const [discardOpen, setDiscardOpen] = useState(false);
   const [removeCommissionOpen, setRemoveCommissionOpen] = useState(false);
-  const pendingNavigation = useRef<string>();
+  const pendingNavigation = useRef<string | undefined>(undefined);
   const dirty = useMemo(
     () => JSON.stringify(form) !== JSON.stringify(initialForm),
     [form, initialForm],
@@ -449,6 +449,7 @@ export function AdminOfferFormPage({ mode }: { mode: 'create' | 'edit' }) {
       window.setTimeout(() => document.getElementById(first)?.focus());
       return;
     }
+    const editDetail = detail.data;
     try {
       if (mode === 'create')
         await create.mutateAsync({
@@ -459,7 +460,7 @@ export function AdminOfferFormPage({ mode }: { mode: 'create' | 'edit' }) {
       else
         await update.mutateAsync({
           input: form,
-          expectedVersion: detail.data.offer.version,
+          expectedVersion: editDetail!.offer.version,
           roleCode,
           actorId: session.user.id,
         });

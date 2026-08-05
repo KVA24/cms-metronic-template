@@ -55,7 +55,7 @@ export function MultiSelect({
   const [visibleCount, setVisibleCount] = React.useState(value.length);
   const containerRef = React.useRef<HTMLDivElement>(null);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
-  const badgeRefs = React.useRef<(HTMLDivElement | null)[]>([]);
+  const badgeRefs = React.useRef<(HTMLSpanElement | null)[]>([]);
   const [triggerWidth, setTriggerWidth] = React.useState<number | undefined>();
   const resizeObserverRef = React.useRef<ResizeObserver | null>(null);
 

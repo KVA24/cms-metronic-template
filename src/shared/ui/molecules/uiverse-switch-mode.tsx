@@ -1,4 +1,13 @@
+import type { ChangeEvent } from 'react';
 import styled from 'styled-components';
+
+interface UiserveSwitchProps {
+  checked?: boolean;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  size?: number;
+  disabled?: boolean;
+  className?: string;
+}
 
 const UiserveSwitch = ({
   checked = false,
@@ -6,7 +15,7 @@ const UiserveSwitch = ({
   size = 30,
   disabled = false,
   className = '',
-}) => {
+}: UiserveSwitchProps) => {
   return (
     <StyledWrapper $size={size} className={className}>
       <label className="theme-switch">
@@ -48,7 +57,7 @@ const UiserveSwitch = ({
   );
 };
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.div<{ $size: number }>`
   .theme-switch {
     --toggle-size: ${(props) => props.$size}px;
     --container-width: 5.625em;

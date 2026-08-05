@@ -19,7 +19,7 @@ type HoverBackgroundProps = HTMLMotionProps<'div'> & {
   };
 };
 
-const DEFAULT_COLORS: HoverBackgroundProps['colors'] = {};
+const DEFAULT_COLORS: NonNullable<HoverBackgroundProps['colors']> = {};
 
 function HoverBackground({
   className,

@@ -224,7 +224,7 @@ export const tenantDashboardService = {
     const financial = ['TENANT_ADMIN', 'TENANT_FINANCE'].includes(
       session.roleCode,
     );
-    const seed = seeds[session.tenantId]?.[query.range];
+    const seed = seeds[session.tenantId!]?.[query.range];
     if (!seed) return emptyView(query, tenant.name, brandOptions, financial);
 
     const metrics: TenantDashboardMetrics = {

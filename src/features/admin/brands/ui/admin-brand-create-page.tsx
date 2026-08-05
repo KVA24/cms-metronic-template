@@ -78,7 +78,7 @@ export function AdminBrandFormPage({ mode }: { mode: 'create' | 'edit' }) {
   const [previewUrl, setPreviewUrl] = useState<string>();
   const [allowNavigation, setAllowNavigation] = useState(false);
   const [discardOpen, setDiscardOpen] = useState(false);
-  const pendingNavigation = useRef<string>();
+  const pendingNavigation = useRef<string | undefined>(undefined);
   const dirty = useMemo(
     () => JSON.stringify(form) !== JSON.stringify(initialForm),
     [form, initialForm],
@@ -148,7 +148,9 @@ export function AdminBrandFormPage({ mode }: { mode: 'create' | 'edit' }) {
       window.setTimeout(() => document.getElementById(first)?.focus());
       return;
     }
-    if (!session || (mode === 'edit' && (!brandId || !detail.data))) return;
+    if (!session) return;
+    const editDetail = detail.data;
+    if (mode === 'edit' && (!brandId || !editDetail)) return;
     try {
       const saved =
         mode === 'create'
@@ -158,9 +160,9 @@ export function AdminBrandFormPage({ mode }: { mode: 'create' | 'edit' }) {
               actorId: session.user.id,
             })
           : await update.mutateAsync({
-              brandId,
+              brandId: brandId!,
               input: result.data,
-              expectedVersion: detail.data.brand.version,
+              expectedVersion: editDetail!.brand.version,
               roleCode,
               actorId: session.user.id,
             });

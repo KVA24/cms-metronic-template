@@ -22,6 +22,7 @@ import {
   Tooltip,
   XAxis,
   YAxis,
+  type TooltipProps,
 } from 'recharts';
 import { useTenantDashboard } from '../hooks/use-tenant-dashboard';
 import {
@@ -42,20 +43,15 @@ function DashboardChart({
   title: string;
   format: (value: number) => string;
 }) {
-  const tooltip = ({
-    active,
-    payload,
-  }: {
-    active?: boolean;
-    payload?: Array<{ payload: TenantDashboardTrendPoint; value: number }>;
-  }) => {
-    if (!active || !payload?.[0]) return null;
-    const point = payload[0].payload;
+  const tooltip = ({ active, payload }: TooltipProps<number, string>) => {
+    const item = payload?.[0];
+    const point = item?.payload as TenantDashboardTrendPoint | undefined;
+    if (!active || !item || !point) return null;
     return (
       <div className="bg-background rounded-md border p-3 text-sm shadow-md">
         <p className="font-medium">{point.bucket}</p>
         <p>
-          {title}: {format(payload[0].value)}
+          {title}: {format(Number(item.value))}
         </p>
         {dataKey === 'orders' && (
           <p className="text-muted-foreground mt-1 text-xs">

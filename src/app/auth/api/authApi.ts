@@ -224,13 +224,13 @@ export const authApi = {
       const newRefreshToken =
         response.data.data?.refreshToken || response.data.token;
 
+      if (!accessToken || !newRefreshToken) {
+        throw new Error('INVALID_REFRESH_RESPONSE');
+      }
+
       // Update tokens
-      if (accessToken) {
-        storage.setItem('access_token', accessToken);
-      }
-      if (newRefreshToken) {
-        storage.setItem('refresh_token', newRefreshToken);
-      }
+      storage.setItem('access_token', accessToken);
+      storage.setItem('refresh_token', newRefreshToken);
 
       // Fetch updated user profile
       const user = await authApi.getProfile();

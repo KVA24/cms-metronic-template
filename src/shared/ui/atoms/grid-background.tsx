@@ -34,8 +34,8 @@ type GridBackgroundProps = HTMLMotionProps<'div'> & {
   };
 };
 
-const DEFAULT_COLORS: GridBackgroundProps['colors'] = {};
-const DEFAULT_BEAMS: GridBackgroundProps['beams'] = {};
+const DEFAULT_COLORS: NonNullable<GridBackgroundProps['colors']> = {};
+const DEFAULT_BEAMS: NonNullable<GridBackgroundProps['beams']> = {};
 
 function GridBackground({
   className,

@@ -353,8 +353,8 @@ export const tenantEarnDisplayService = {
       entityType: 'TENANT_EARN_DISPLAY',
       entityId: next.id,
       occurredAt: next.updatedAt,
-      before: existing ? structuredClone(existing) : undefined,
-      after: structuredClone(next),
+      before: existing ? { ...structuredClone(existing) } : undefined,
+      after: { ...structuredClone(next) },
     });
     return structuredClone(next);
   },

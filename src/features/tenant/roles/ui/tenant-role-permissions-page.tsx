@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { PermissionCode } from '@/shared/contracts';
 import { useTranslations } from '@/shared/hooks/use-translations';
+import type { PermissionCode } from '@/shared/permissions';
 import { useAuthSession } from '@/shared/stores/auth-store';
 import { Alert, AlertDescription, AlertIcon } from '@/shared/ui/atoms/alert';
 import { Badge } from '@/shared/ui/atoms/badge';
